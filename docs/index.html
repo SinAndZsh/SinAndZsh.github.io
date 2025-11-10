@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>想你 sin</title>
+  <!-- 引入外部资源 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  
+  <!-- 配置Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#8B5CF6',
+            secondary: '#EC4899',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .photo-frame {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+      }
+      /* 移动端菜单样式 */
+      .mobile-menu {
+        position: fixed;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        z-index: 40;
+        height: 0;
+        overflow: hidden;
+        transition: height 0.3s ease;
+      }
+      .mobile-menu.active {
+        height: auto;
+        padding: 16px 0;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-white to-purple-50 min-h-screen font-sans">
+  <!-- 导航栏 -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm transition-all duration-300">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fa fa-heart-o text-primary text-2xl"></i>
+        <span class="font-serif text-xl font-semibold text-primary">想你 sin</span>
+      </div>
+      <!-- 桌面端菜单 -->
+      <div class="hidden md:flex items-center space-x-6">
+        <a href="#about" class="text-gray-600 hover:text-primary transition-colors">关于</a>
+        <a href="#photos" class="text-gray-600 hover:text-primary transition-colors">照片</a>
+        <a href="#visualization" class="text-gray-600 hover:text-primary transition-colors">思念曲线</a>
+        <a href="#message" class="text-gray-600 hover:text-primary transition-colors">写留言</a>
+        <a href="message-wall.html" class="text-gray-600 hover:text-primary transition-colors">思念墙</a>
+      </div>
+      <!-- 移动端菜单按钮 -->
+      <button class="md:hidden text-gray-600 hover:text-primary" id="mobileMenuBtn">
+        <i class="fa fa-bars text-xl"></i>
+      </button>
+    </div>
+    <!-- 移动端菜单内容 -->
+    <div class="mobile-menu md:hidden" id="mobileMenu">
+      <div class="container mx-auto px-4 flex flex-col space-y-4">
+        <a href="#about" class="text-gray-600 hover:text-primary transition-colors py-2">关于</a>
+        <a href="#photos" class="text-gray-600 hover:text-primary transition-colors py-2">照片</a>
+        <a href="#visualization" class="text-gray-600 hover:text-primary transition-colors py-2">思念曲线</a>
+        <a href="#message" class="text-gray-600 hover:text-primary transition-colors py-2">写留言</a>
+        <a href="message-wall.html" class="text-gray-600 hover:text-primary transition-colors py-2">思念墙</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 英雄区域 -->
+  <header class="pt-32 pb-20 px-4 md:pt-40 md:pb-32 relative overflow-hidden">
+    <div class="container mx-auto relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-[clamp(2.5rem,6vw,4rem)] font-serif font-bold mb-6 leading-tight">
+          思念如<span class="text-primary">sin</span>般美好
+        </h1>
+        <p class="text-[clamp(1rem,2vw,1.25rem)] text-gray-600 mb-10 leading-relaxed">
+          春竹吐绿，思念成韵<br>
+          每一个瞬间，都是心动的证明
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a href="#photos" class="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all">
+            查看春竹照片
+          </a>
+          <!-- 修复：添加明确的点击事件 -->
+          <a href="#message" class="bg-white hover:bg-gray-50 text-primary border border-primary px-8 py-3 rounded-full shadow-md hover:shadow-lg transition-all" onclick="scrollToMessage()">
+            写下我的思念
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 关于部分 -->
+  <section id="about" class="py-20 px-4 bg-white">
+    <div class="container mx-auto max-w-5xl">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-serif font-bold mb-4">关于 <span class="text-primary">春竹</span></h2>
+        <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            蒲诗颖，苕苕的小猪，春竹中的战斗机
+          </p>
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            无论是平时的发电，还是做梦时的口水，都散发着独特的魅力。像数学中完美的正弦函数，她的每一面都和谐而美好。
+          </p>
+          <div class="flex flex-wrap gap-3 mt-8">
+            <span class="bg-purple-100 text-primary px-4 py-2 rounded-full text-sm">清新雅致</span>
+            <span class="bg-pink-100 text-secondary px-4 py-2 rounded-full text-sm">生机盎然</span>
+            <span class="bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm">坚韧挺拔</span>
+          </div>
+        </div>
+        
+        <div class="relative">
+          <div class="absolute -top-6 -left-6 w-32 h-32 bg-primary/10 rounded-full"></div>
+          <div class="absolute -bottom-6 -right-6 w-40 h-40 bg-secondary/10 rounded-full"></div>
+          <div class="relative z-10 bg-white p-4 rounded-2xl shadow-xl">
+            <canvas id="sinWave" class="w-full h-64 rounded-lg"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 照片展示部分 -->
+  <section id="photos" class="py-20 px-4 bg-gradient-to-b from-white to-purple-50">
+    <div class="container mx-auto max-w-6xl">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-serif font-bold mb-4">春竹 <span class="text-primary">瞬间</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">每一张照片都是一个珍贵的记忆</p>
+        <div class="w-20 h-1 bg-primary mx-auto rounded-full mt-4"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 照片1 -->
+        <div class="photo-frame rounded-xl overflow-hidden shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+          <img src="sin1.jpg" alt="春竹一号" class="w-full h-64 object-cover transition-transform duration-700 hover:scale-110">
+          <div class="p-4 bg-white">
+            <h3 class="font-medium text-lg mb-1">春竹一号</h3>
+            <p class="text-gray-500 text-sm">清新雅致，生机盎然</p>
+          </div>
+        </div>
+        
+        <!-- 照片2-6结构相同，省略 -->
+      </div>
+      
+      <div class="text-center mt-12">
+        <a href="photo-wall.html" class="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-md hover:shadow-lg transition-all">
+          查看完整照片墙
+          <i class="fa fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 思念曲线可视化 -->
+  <section id="visualization" class="py-20 px-4 bg-white">
+    <div class="container mx-auto max-w-5xl">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-serif font-bold mb-4">思念 <span class="text-primary">曲线</span></h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">对春竹的思念如同正弦曲线，循环往复</p>
+        <div class="w-20 h-1 bg-primary mx-auto rounded-full mt-4"></div>
+      </div>
+      
+      <div class="bg-purple-50 rounded-2xl p-6 md:p-10 shadow-lg">
+        <div class="h-80">
+          <canvas id="思念曲线"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 留言部分 -->
+ <!-- 留言部分 -->
+<section id="message" class="py-20 px-4 bg-gradient-to-br from-primary/5 to-secondary/5">
+  <div class="container mx-auto max-w-4xl">
+    <div class="text-center mb-16">
+      <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-serif font-bold mb-4">给 <span class="text-primary">春竹</span> 的留言</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">写下想对春竹说的话，每一句都是真诚的心意</p>
+      <div class="w-20 h-1 bg-primary mx-auto rounded-full mt-4"></div>
+    </div>
+    
+    <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+      <!-- 留言表单 -->
+      <form id="messageForm" class="space-y-6">
+        <div>
+          <label for="name" class="block text-gray-700 mb-2 font-medium">你的名字</label>
+          <input type="text" id="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" placeholder="请输入你的名字" required>
+        </div>
+        <div>
+          <label for="message" class="block text-gray-700 mb-2 font-medium">想对春竹说的话</label>
+          <textarea id="userMessage" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors" placeholder="写下你的思念..." required></textarea>
+        </div>
+        <!-- 提交按钮 -->
+        <button type="button" id="submitBtn" class="w-full bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+          <i class="fa fa-paper-plane-o"></i>
+          提交留言
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- 底部添加独立提交脚本 -->
+<script>
+  // 独立绑定提交事件（避免与其他脚本冲突）
+  document.addEventListener('DOMContentLoaded', function() {
+    const submitBtn = document.getElementById('submitBtn');
+    const nameInput = document.getElementById('name');
+    const messageInput = document.getElementById('userMessage'); // 注意ID修改为唯一
+    
+    // 点击提交按钮时触发
+    submitBtn.addEventListener('click', function() {
+      const name = nameInput.value.trim();
+      const content = messageInput.value.trim();
+      
+      // 验证输入
+      if (!name) {
+        alert('请输入你的名字');
+        nameInput.focus();
+        return;
+      }
+      
+      if (!content) {
+        alert('请输入想对春竹说的话');
+        messageInput.focus();
+        return;
+      }
+      
+      // 直接保存到本地存储（跳过URL传参，避免编码问题）
+      const messages = JSON.parse(localStorage.getItem('sinMessages') || '[]');
+      messages.push({
+        id: Date.now(),
+        name: name,
+        content: content,
+        time: new Date().toLocaleString()
+      });
+      localStorage.setItem('sinMessages', JSON.stringify(messages));
+      
+      // 强制跳转到思念墙
+      window.location.href = 'message-wall.html';
+    });
+
+    // 支持按Enter键提交
+    messageInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        submitBtn.click();
+      }
+    });
+  });
+</script>
+
+  <!-- 页脚 -->
+  <footer class="py-10 px-4 bg-dark text-white">
+    <div class="container mx-auto text-center">
+      <div class="flex items-center justify-center space-x-2 mb-4">
+        <i class="fa fa-heart text-secondary text-xl"></i>
+        <span class="font-serif text-xl">想你 sin</span>
+      </div>
+      <p class="text-gray-400 text-sm">
+        思念如sin般循环往复，永不消散 © 2025
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // 1. 平滑滚动到留言区
+    function scrollToMessage() {
+      const messageSection = document.getElementById('message');
+      if (messageSection) {
+        window.scrollTo({
+          top: messageSection.offsetTop - 80, // 减去导航栏高度
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // 2. 移动端菜单切换
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.classList.toggle('active');
+    });
+
+    // 3. 点击移动端菜单项后关闭菜单
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+      link.addEventListener('click', function() {
+        document.getElementById('mobileMenu').classList.remove('active');
+      });
+    });
+
+    // 4. 留言表单提交处理（核心修复）
+    document.getElementById('messageForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // 阻止默认提交行为
+      
+      const nameInput = document.getElementById('name');
+      const messageInput = document.getElementById('message');
+      
+      const name = nameInput.value.trim();
+      const content = messageInput.value.trim();
+      
+      // 验证输入
+      if (!name) {
+        alert('请输入你的名字');
+        nameInput.focus();
+        return;
+      }
+      
+      if (!content) {
+        alert('请输入想对春竹说的话');
+        messageInput.focus();
+        return;
+      }
+      
+      // 构建跳转URL
+      const url = `message-wall.html?name=${encodeURIComponent(name)}&content=${encodeURIComponent(content)}`;
+      
+      // 强制跳转（解决不跳转问题）
+      window.location.href = url;
+    });
+
+    // 5. 绘制正弦曲线
+    window.addEventListener('load', function() {
+      // 绘制关于页面的正弦曲线
+      const sinWaveCtx = document.getElementById('sinWave').getContext('2d');
+      const sinWave = document.getElementById('sinWave');
+      sinWave.width = sinWave.offsetWidth;
+      sinWave.height = sinWave.offsetHeight;
+      
+      sinWaveCtx.clearRect(0, 0, sinWave.width, sinWave.height);
+      sinWaveCtx.beginPath();
+      sinWaveCtx.strokeStyle = '#8B5CF6';
+      sinWaveCtx.lineWidth = 3;
+      
+      for (let x = 0; x < sinWave.width; x++) {
+        const y = sinWave.height/2 + Math.sin(x * 0.02) * (sinWave.height/3);
+        if (x === 0) {
+          sinWaveCtx.moveTo(x, y);
+        } else {
+          sinWaveCtx.lineTo(x, y);
+        }
+      }
+      sinWaveCtx.stroke();
+
+      // 绘制思念曲线
+      new Chart(document.getElementById('思念曲线').getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: Array.from({length: 100}, (_, i) => i),
+          datasets: [{
+            data: Array.from({length: 100}, (_, i) => 50 + Math.sin(i * 0.2) * 40),
+            borderColor: '#8B5CF6',
+            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { x: { display: false }, y: { display: false } }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
