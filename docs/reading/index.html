@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 每日外刊精读 - 考研英语备考</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 50px; }
+        .header h1 {
+            font-size: 42px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+        .header p { color: #a0a0a0; font-size: 16px; }
+        .header .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .header .back-link:hover { text-decoration: underline; }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 20px 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-number { font-size: 36px; font-weight: bold; color: #667eea; }
+        .stat-label { color: #888; margin-top: 5px; font-size: 14px; }
+        .section-title {
+            font-size: 24px;
+            margin: 40px 0 25px;
+            padding-left: 15px;
+            border-left: 4px solid #667eea;
+            color: #fff;
+        }
+        .article-list { display: grid; gap: 20px; }
+        .article-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .article-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.1);
+            border-color: #667eea;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+        }
+        .article-date {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .article-source { color: #ffd700; font-size: 13px; margin-bottom: 10px; }
+        .article-title { font-size: 20px; font-weight: 600; margin-bottom: 10px; color: #fff; }
+        .article-summary { color: #a0a0a0; font-size: 14px; line-height: 1.6; margin-bottom: 15px; }
+        .article-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+        .tag {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            color: #666;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer a { color: #667eea; text-decoration: none; }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 28px; }
+            .stats { gap: 20px; }
+            .stat-item { padding: 15px 20px; }
+            .stat-number { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <h1>📚 每日外刊精读</h1>
+            <p>考研英语备考专用 | 每天精选一篇外刊，配有详细词汇注释和长难句解析</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="article-count">1</div>
+                    <div class="stat-label">篇文章</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">大来源</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">词汇量/篇</div>
+                </div>
+            </div>
+        </div>
+        <h2 class="section-title">📅 文章列表</h2>
+        <div class="article-list" id="article-list"></div>
+        <div class="footer">
+            <p>📖 数据来源：纽约时报 | 大西洋月刊 | 基督教科学箴言报 | 经济学人 | 卫报</p>
+            <p style="margin-top: 10px;">每天早上 8:00 自动更新</p>
+        </div>
+    </div>
+    <script>
+        const articles = [
+            {
+                date: '2026年5月13日',
+                dateShort: '20260513',
+                source: 'The Atlantic',
+                sourceZh: '大西洋月刊',
+                title: 'How AI Is Reshaping the Future of Work',
+                titleZh: '人工智能如何重塑工作的未来',
+                summary: '本文探讨了人工智能如何改变现代工作场所，分析了自动化对就业市场的影响，以及人类员工如何适应这一技术变革。',
+                tags: ['人工智能', '职场', '考研核心词汇'],
+                filename: '20260513_TheAtlantic_AI_Reading.html'
+            }
+        ];
+        function renderArticles() {
+            const container = document.getElementById('article-list');
+            if (articles.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:60px;color:#666;"><h3>📭 暂无文章</h3><p>明天早上8点将会更新第一篇文章</p></div>';
+                return;
+            }
+            const sorted = [...articles].sort((a, b) => b.dateShort.localeCompare(a.dateShort));
+            container.innerHTML = sorted.map(a => `
+                <a href="${a.filename}" class="article-card">
+                    <div class="article-date">📅 ${a.date}</div>
+                    <div class="article-source">📰 ${a.sourceZh} (${a.source})</div>
+                    <div class="article-title">${a.titleZh}</div>
+                    <div class="article-title" style="font-size:16px;color:#aaa;">${a.title}</div>
+                    <div class="article-summary">${a.summary}</div>
+                    <div class="article-tags">${a.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                </a>
+            `).join('');
+            document.getElementById('article-count').textContent = articles.length;
+        }
+        renderArticles();
+    </script>
+</body>
+</html>
