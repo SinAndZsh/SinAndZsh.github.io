@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日外刊精读 - The Guardian</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 { font-size: 28px; margin-bottom: 10px; }
+        .header .meta { opacity: 0.9; font-size: 14px; }
+        .header .back-link {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .header .back-link:hover { color: white; text-decoration: underline; }
+        .content { padding: 30px; }
+        .summary-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 10px 10px 0;
+        }
+        .summary-box h3 { color: #667eea; margin-bottom: 10px; }
+        .article-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .article-content {
+            font-size: 17px;
+            line-height: 1.9;
+            color: #444;
+            margin-bottom: 30px;
+        }
+        .article-content p { margin-bottom: 18px; }
+        .word {
+            color: #667eea;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px dotted #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .word:hover {
+            background: #667eea;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-bottom: none;
+        }
+        .tooltip {
+            position: fixed;
+            background: #333;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            max-width: 300px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            line-height: 1.6;
+        }
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #333;
+        }
+        .tooltip .word-title { font-size: 16px; font-weight: bold; color: #ffd700; margin-bottom: 5px; }
+        .tooltip .phonetic { color: #aaa; font-style: italic; margin-bottom: 5px; }
+        .tooltip .meaning { color: #fff; margin-bottom: 5px; }
+        .tooltip .example { color: #ccc; font-size: 12px; border-top: 1px solid #555; padding-top: 5px; margin-top: 5px; }
+        .vocab-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .vocab-section h3 { color: #667eea; margin-bottom: 20px; font-size: 20px; }
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        .vocab-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        .vocab-card:hover { transform: translateY(-3px); box-shadow: 0 5px 20px rgba(0,0,0,0.12); }
+        .vocab-card .v-word { font-weight: bold; color: #667eea; font-size: 16px; }
+        .vocab-card .v-phonetic { color: #888; font-size: 13px; margin: 3px 0; }
+        .vocab-card .v-meaning { color: #333; font-size: 14px; }
+        .difficult-sentences { margin-top: 30px; }
+        .difficult-sentences h3 { color: #667eea; margin-bottom: 20px; }
+        .sentence-card {
+            background: #fff5f5;
+            border-left: 4px solid #e53e3e;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+        .sentence-card .original { font-style: italic; color: #444; margin-bottom: 10px; }
+        .sentence-card .analysis { color: #666; font-size: 14px; line-height: 1.7; }
+        .practice-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+        }
+        .practice-section h3 { color: #667eea; margin-bottom: 20px; }
+        .question { margin-bottom: 20px; }
+        .question p { font-weight: 600; margin-bottom: 10px; color: #333; }
+        .options label {
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .options label:hover { background: #667eea; color: white; }
+        .tips-box {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e6fffa;
+            border-left: 4px solid #38b2ac;
+            border-radius: 0 10px 10px 0;
+        }
+        .tips-box h4 { color: #38b2ac; margin-bottom: 10px; }
+        .tips-box ul { margin-left: 20px; color: #444; }
+        .tips-box li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-link">← 返回文章列表</a>
+            <h1>📚 每日外刊精读</h1>
+            <div class="meta">来源：The Guardian（卫报）| 日期：2026年5月13日 | 考研词汇专项训练</div>
+        </div>
+
+        <div class="content">
+            <div class="summary-box">
+                <h3>📋 文章大意</h3>
+                <p>本文是卫报社论，讨论了学校中屏幕使用的问题以及大型科技公司对儿童教育的影响。文章指出，英国新立法禁止学校使用手机，挪威和瑞典在阅读成绩下降后回归纸质教学，全球范围内对儿童屏幕时间的监管正在加强。作者认为，儿童和青少年有特定的需求和脆弱性，科技公司针对这些特征进行商业利用时可能对他们造成伤害，因此需要采取更具预防性的监管措施。</p>
+            </div>
+
+            <h2 class="article-title">The Guardian View on Screens in Schools: Big Tech Is Finally Under the Microscope</h2>
+
+            <div class="article-content">
+                <p>
+                <span class="word" data-word="Scrutiny" data-phonetic="/ˈskruːtəni/" data-meaning="n. 仔细审查，监视" data-example="The company's financial records are under scrutiny.">Scrutiny</span> of the impact of technology on children's lives and education should be welcomed. A new law <span class="word" data-word="banning" data-phonetic="/ˈbænɪŋ/" data-meaning="v. 禁止，取缔" data-example="The government banned smoking in public places.">banning</span> mobile phone use in schools in England, which ministers <span class="word" data-word="reluctantly" data-phonetic="/rɪˈlʌktəntli/" data-meaning="adv. 不情愿地，勉强地" data-example="She reluctantly agreed to help with the project.">reluctantly</span> agreed to last week, is on one level the result of political <span class="word" data-word="manoeuvring" data-phonetic="/məˈnuːvərɪŋ/" data-meaning="n. 策略，操纵；机动" data-example="Political manoeuvring delayed the passage of the bill.">manoeuvring</span> by Liberal Democrat and Conservative peers — who forced their hand by threatening to <span class="word" data-word="derail" data-phonetic="/dɪˈreɪl/" data-meaning="v. 使脱轨，阻碍" data-example="The scandal threatened to derail the negotiations.">derail</span> the schools bill. Until now, the government's position has been that advice to headteachers was <span class="word" data-word="sufficient" data-phonetic="/səˈfɪʃnt/" data-meaning="adj. 足够的，充分的" data-example="Is this amount of money sufficient for the trip?">sufficient</span>. But whether or not a ban turns out to be helpful, the campaign reflects <span class="word" data-word="deepening" data-phonetic="/ˈdiːpənɪŋ/" data-meaning="adj. 加深的，不断加深的" data-example="The deepening crisis requires immediate action.">deepening</span> public concern about the degree to which powerful tech companies can be trusted.
+                </p>
+
+                <p>
+                From messaging platforms where pupils and teachers <span class="word" data-word="interact" data-phonetic="/ˌɪntərˈækt/" data-meaning="v. 互动，交流" data-example="Students interact with each other in group discussions.">interact</span>, to appointment-booking systems and research carried out in lessons and at home, digital technology is deeply <span class="word" data-word="embedded" data-phonetic="/ɪmˈbedɪd/" data-meaning="adj. 嵌入的，根深蒂固的" data-example="Technology is embedded in every aspect of modern life.">embedded</span> in education. This should not be expected to change. Classrooms rightly reflect the wider world that they are part of. But the current push towards stronger <span class="word" data-word="scrutiny" data-phonetic="/ˈskruːtəni/" data-meaning="n. 仔细审查，监视" data-example="The proposal came under close scrutiny.">scrutiny</span> of screens in schools — and in young people's lives more broadly — is <span class="word" data-word="justified" data-phonetic="/ˈdʒʌstɪfaɪd/" data-meaning="adj. 有正当理由的，合理的" data-example="Her concerns were justified by the results.">justified</span> by <span class="word" data-word="accruing" data-phonetic="/əˈkruːɪŋ/" data-meaning="adj. 逐渐积累的，不断增加的" data-example="There is accruing evidence that the policy is working.">accruing</span> evidence about their impacts.
+                </p>
+
+                <p>
+                In Norway and Sweden, policies <span class="word" data-word="promoting" data-phonetic="/prəˈməʊtɪŋ/" data-meaning="v. 促进，推广" data-example="The government is promoting renewable energy.">promoting</span> the use of iPads and laptops have been reversed in favour of books and handwriting after both countries recorded drops in reading scores. In the UK, new guidance recommends that under-fives should spend no more than one hour on screens each day, and should not watch fast-paced, social-media style videos at all. Even in California, home of the US tech industry, the mood is <span class="word" data-word="shifting" data-phonetic="/ˈʃɪftɪŋ/" data-meaning="adj. 转变的，转移的" data-example="Public opinion is shifting on this issue.">shifting</span>: from September, elementary and middle-school students in Los Angeles will face <span class="word" data-word="restrictions" data-phonetic="/rɪˈstrɪkʃnz/" data-meaning="n. 限制，约束" data-example="New restrictions were imposed on immigration.">restrictions</span> on device use.
+                </p>
+
+                <p>
+                Whether legal age limits, advice, or a focus on what happens in classrooms is the best response is highly <span class="word" data-word="contested" data-phonetic="/kənˈtestɪd/" data-meaning="adj. 有争议的，被质疑的" data-example="The theory remains contested among scientists.">contested</span>. While some regard Australia's ban on social media use by under-16s as the start of a global <span class="word" data-word="pushback" data-phonetic="/ˈpʊʃbæk/" data-meaning="n. 反击，抵制" data-example="There has been a growing pushback against the new regulations.">pushback</span> against an <span class="word" data-word="over-mighty" data-phonetic="/ˌəʊvəˈmaɪti/" data-meaning="adj. 过于强大的，权势过大的" data-example="The public is pushing back against over-mighty corporations.">over-mighty</span> industry, others are ready to dismiss the policy as a failure four months after it was introduced.
+                </p>
+
+                <p>
+                Clearly not all tech is the same. But the point being made with growing <span class="word" data-word="confidence" data-phonetic="/ˈkɒnfɪdəns/" data-meaning="n. 信心；把握" data-example="She spoke with confidence about the results.">confidence</span> by researchers is that not all brains are the same either. Children and <span class="word" data-word="adolescents" data-phonetic="/ˌædəˈlesnts/" data-meaning="n. 青少年" data-example="Adolescents often struggle with identity issues.">adolescents</span> have specific needs and <span class="word" data-word="vulnerabilities" data-phonetic="/ˌvʌlnərəˈbɪlətiz/" data-meaning="n. 脆弱性，弱点" data-example="The system has several security vulnerabilities.">vulnerabilities</span> and are at risk of being harmed when these are <span class="word" data-word="targeted" data-phonetic="/ˈtɑːɡɪtɪd/" data-meaning="v. 把...作为目标，针对" data-example="The advertisement was targeted at young people.">targeted</span> by businesses. <span class="word" data-word="Whistleblowers" data-phonetic="/ˈwɪsəlˌbləʊəz/" data-meaning="n. 举报人，吹哨人" data-example="The whistleblower revealed the company's illegal practices.">Whistleblowers</span> including Frances Haugen have highlighted teenagers' <span class="word" data-word="susceptibility" data-phonetic="/səˌseptəˈbɪləti/" data-meaning="n. 易受影响性，敏感性" data-example="Children's susceptibility to advertising is well documented.">susceptibility</span> to the <span class="word" data-word="preoccupations" data-phonetic="/priˌɒkjuˈpeɪʃnz/" data-meaning="n. 关注，心事；当务之急" data-example="Her main preoccupation is her children's health.">preoccupations</span> with status and appearance that are used to maximise <span class="word" data-word="engagement" data-phonetic="/ɪnˈɡeɪdʒmənt/" data-meaning="n. 参与度，投入" data-example="The app is designed to maximize user engagement.">engagement</span>. Early-years experts such as Prof Sam Wass are convinced that the brain and language development of the youngest children is <span class="word" data-word="hindered" data-phonetic="/ˈhɪndəd/" data-meaning="v. 阻碍，妨碍" data-example="Progress was hindered by lack of funding.">hindered</span> by hyper-stimulating, attention-grabbing content.
+                </p>
+
+                <p>
+                From George Eliot to Martha Nussbaum, there is a long <span class="word" data-word="tradition" data-phonetic="/trəˈdɪʃn/" data-meaning="n. 传统，惯例" data-example="It is a tradition in our family to eat together.">tradition</span> in the humanities of belief in reading as socially <span class="word" data-word="beneficial" data-phonetic="/ˌbenɪˈfɪʃl/" data-meaning="adj. 有益的，有利的" data-example="Exercise is beneficial to health.">beneficial</span>, because of the curiosity and <span class="word" data-word="sympathy" data-phonetic="/ˈsɪmpəθi/" data-meaning="n. 同情心，赞同" data-example="She felt sympathy for the homeless people.">sympathy</span> for others that it <span class="word" data-word="engenders" data-phonetic="/ɪnˈdʒendəz/" data-meaning="v. 产生，引起" data-example="The policy engendered controversy.">engenders</span> — and this is another source of concern about the impact of replacing books with devices and their <span class="word" data-word="personalised" data-phonetic="/ˈpɜːsənəlaɪzd/" data-meaning="adj. 个性化的，定制的" data-example="The company offers personalised learning plans.">personalised</span>, <span class="word" data-word="algorithmic" data-phonetic="/ˌælɡəˈrɪðmɪk/" data-meaning="adj. 算法的" data-example="Algorithmic recommendations shape what we see online.">algorithmic</span> feeds.
+                </p>
+
+                <p>
+                Adults are not <span class="word" data-word="immune" data-phonetic="/ɪˈmjuːn/" data-meaning="adj. 免疫的，不受影响的" data-example="No one is immune to the effects of stress.">immune</span> to these changes. All people exist in a <span class="word" data-word="dynamic" data-phonetic="/daɪˈnæmɪk/" data-meaning="adj. 动态的，不断变化的" data-example="The situation is dynamic and requires constant attention.">dynamic</span> relationship with the tools that we use to communicate. The <span class="word" data-word="dilemma" data-phonetic="/dɪˈlemə/" data-meaning="n. 困境，进退两难" data-example="The government faces a dilemma between growth and environment.">dilemma</span> is that while public policy is meant to be evidence-based, the researchers who analyse technology's impact cannot keep up with the pace of development.
+                </p>
+
+                <p>
+                Up to now, the approach to big tech has generally been <span class="word" data-word="laissez-faire" data-phonetic="/ˌleɪseɪˈfeə/" data-meaning="adj./n. 自由放任的（政策）" data-example="The government adopted a laissez-faire approach to regulation.">laissez-faire</span>. One would need evidence from a <span class="word" data-word="counterfactual" data-phonetic="/ˌkaʊntəˈfæktʃuəl/" data-meaning="adj. 与事实相反的，假设性的" data-example="It is impossible to know what would have happened in a counterfactual scenario.">counterfactual</span> reality to state with confidence that this has been a mistake. But the case for a more <span class="word" data-word="precautionary" data-phonetic="/prɪˈkɔːʃənəri/" data-meaning="adj. 预防性的，防备的" data-example="A precautionary approach was adopted to minimize risks.">precautionary</span> style of <span class="word" data-word="regulation" data-phonetic="/ˌreɡjuˈleɪʃn/" data-meaning="n. 监管，管理" data-example="The government introduced stricter regulation of the industry.">regulation</span> is at last being taken seriously where it <span class="word" data-word="arguably" data-phonetic="/ˈɑːɡjuəbli/" data-meaning="adv. 可以说，按理说" data-example="This is arguably the most important issue of our time.">arguably</span> matters most — in relation to the growing and <span class="word" data-word="impressionable" data-phonetic="/ɪmˈpreʃənəbl/" data-meaning="adj. 易受影响的，敏感的" data-example="Young children are particularly impressionable.">impressionable</span> minds of children.
+                </p>
+            </div>
+
+            <div class="vocab-section">
+                <h3>📝 核心词汇表 (考研高频词)</h3>
+                <div class="vocab-grid">
+                    <div class="vocab-card"><div class="v-word">scrutiny</div><div class="v-phonetic">/ˈskruːtəni/</div><div class="v-meaning">n. 仔细审查，监视</div></div>
+                    <div class="vocab-card"><div class="v-word">reluctantly</div><div class="v-phonetic">/rɪˈlʌktəntli/</div><div class="v-meaning">adv. 不情愿地，勉强地</div></div>
+                    <div class="vocab-card"><div class="v-word">manoeuvring</div><div class="v-phonetic">/məˈnuːvərɪŋ/</div><div class="v-meaning">n. 策略，操纵</div></div>
+                    <div class="vocab-card"><div class="v-word">derail</div><div class="v-phonetic">/dɪˈreɪl/</div><div class="v-meaning">v. 使脱轨，阻碍</div></div>
+                    <div class="vocab-card"><div class="v-word">sufficient</div><div class="v-phonetic">/səˈfɪʃnt/</div><div class="v-meaning">adj. 足够的，充分的</div></div>
+                    <div class="vocab-card"><div class="v-word">embedded</div><div class="v-phonetic">/ɪmˈbedɪd/</div><div class="v-meaning">adj. 嵌入的，根深蒂固的</div></div>
+                    <div class="vocab-card"><div class="v-word">justified</div><div class="v-phonetic">/ˈdʒʌstɪfaɪd/</div><div class="v-meaning">adj. 有正当理由的</div></div>
+                    <div class="vocab-card"><div class="v-word">contested</div><div class="v-phonetic">/kənˈtestɪd/</div><div class="v-meaning">adj. 有争议的</div></div>
+                    <div class="vocab-card"><div class="v-word">pushback</div><div class="v-phonetic">/ˈpʊʃbæk/</div><div class="v-meaning">n. 反击，抵制</div></div>
+                    <div class="vocab-card"><div class="v-word">adolescents</div><div class="v-phonetic">/ˌædəˈlesnts/</div><div class="v-meaning">n. 青少年</div></div>
+                    <div class="vocab-card"><div class="v-word">vulnerabilities</div><div class="v-phonetic">/ˌvʌlnərəˈbɪlətiz/</div><div class="v-meaning">n. 脆弱性，弱点</div></div>
+                    <div class="vocab-card"><div class="v-word">susceptibility</div><div class="v-phonetic">/səˌseptəˈbɪləti/</div><div class="v-meaning">n. 易受影响性</div></div>
+                    <div class="vocab-card"><div class="v-word">engagement</div><div class="v-phonetic">/ɪnˈɡeɪdʒmənt/</div><div class="v-meaning">n. 参与度，投入</div></div>
+                    <div class="vocab-card"><div class="v-word">hindered</div><div class="v-phonetic">/ˈhɪndəd/</div><div class="v-meaning">v. 阻碍，妨碍</div></div>
+                    <div class="vocab-card"><div class="v-word">engenders</div><div class="v-phonetic">/ɪnˈdʒendəz/</div><div class="v-meaning">v. 产生，引起</div></div>
+                    <div class="vocab-card"><div class="v-word">algorithmic</div><div class="v-phonetic">/ˌælɡəˈrɪðmɪk/</div><div class="v-meaning">adj. 算法的</div></div>
+                    <div class="vocab-card"><div class="v-word">immune</div><div class="v-phonetic">/ɪˈmjuːn/</div><div class="v-meaning">adj. 免疫的，不受影响的</div></div>
+                    <div class="vocab-card"><div class="v-word">dilemma</div><div class="v-phonetic">/dɪˈlemə/</div><div class="v-meaning">n. 困境，进退两难</div></div>
+                    <div class="vocab-card"><div class="v-word">precautionary</div><div class="v-phonetic">/prɪˈkɔːʃənəri/</div><div class="v-meaning">adj. 预防性的</div></div>
+                    <div class="vocab-card"><div class="v-word">impressionable</div><div class="v-phonetic">/ɪmˈpreʃənəbl/</div><div class="v-meaning">adj. 易受影响的</div></div>
+                    <div class="vocab-card"><div class="v-word">regulation</div><div class="v-phonetic">/ˌreɡjuˈleɪʃn/</div><div class="v-meaning">n. 监管，管理</div></div>
+                    <div class="vocab-card"><div class="v-word">whistleblowers</div><div class="v-phonetic">/ˈwɪsəlˌbləʊəz/</div><div class="v-meaning">n. 举报人，吹哨人</div></div>
+                    <div class="vocab-card"><div class="v-word">counterfactual</div><div class="v-phonetic">/ˌkaʊntəˈfæktʃuəl/</div><div class="v-meaning">adj. 与事实相反的</div></div>
+                    <div class="vocab-card"><div class="v-word">beneficial</div><div class="v-phonetic">/ˌbenɪˈfɪʃl/</div><div class="v-meaning">adj. 有益的，有利的</div></div>
+                    <div class="vocab-card"><div class="v-word">personalised</div><div class="v-phonetic">/ˈpɜːsənəlaɪzd/</div><div class="v-meaning">adj. 个性化的</div></div>
+                </div>
+            </div>
+
+            <div class="difficult-sentences">
+                <h3>🔍 长难句解析</h3>
+                <div class="sentence-card">
+                    <div class="original">"A new law banning mobile phone use in schools in England, which ministers reluctantly agreed to last week, is on one level the result of political manoeuvring by Liberal Democrat and Conservative peers — who forced their hand by threatening to derail the schools bill."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        • 主语：A new law（禁止英格兰学校使用手机的新法律）<br>
+                        • 定语：banning mobile phone use in schools in England（修饰law）<br>
+                        • 非限制性定语从句：which ministers reluctantly agreed to last week（部长们上周勉强同意）<br>
+                        • 谓语：is<br>
+                        • 表语：the result of political manoeuvring<br>
+                        • 介词短语：by Liberal Democrat and Conservative peers<br>
+                        • 定语从句：who forced their hand by threatening to derail the schools bill<br><br>
+                        <strong>翻译：</strong>部长们上周勉强同意的这项禁止英格兰学校使用手机的新法律，在某种层面上是自由民主党和保守党贵族政治操作的结果——他们以威胁阻碍学校法案的方式迫使政府就范。
+                    </div>
+                </div>
+                <div class="sentence-card">
+                    <div class="original">"The dilemma is that while public policy is meant to be evidence-based, the researchers who analyse technology's impact cannot keep up with the pace of development."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        • 主句：The dilemma is that...（困境在于...）<br>
+                        • 表语从句：while public policy is meant to be evidence-based, the researchers...cannot keep up...<br>
+                        • 让步状语：while public policy is meant to be evidence-based（虽然公共政策本应以证据为基础）<br>
+                        • 定语从句：who analyse technology's impact（修饰researchers）<br><br>
+                        <strong>翻译：</strong>困境在于，虽然公共政策本应以证据为基础，但分析技术影响的研究人员却跟不上技术发展的步伐。
+                    </div>
+                </div>
+                <div class="sentence-card">
+                    <div class="original">"But the case for a more precautionary style of regulation is at last being taken seriously where it arguably matters most — in relation to the growing and impressionable minds of children."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        • 主语：the case for a more precautionary style of regulation<br>
+                        • 谓语：is being taken seriously（正在被认真对待）<br>
+                        • 地点状语从句：where it arguably matters most（在可以说最关键的地方）<br>
+                        • 破折号补充说明：in relation to the growing and impressionable minds of children<br><br>
+                        <strong>翻译：</strong>但是，采取更具预防性监管风格的理由，终于在最可以说最关键的地方——即关系到儿童正在成长且易受影响的头脑的地方——受到了认真对待。
+                    </div>
+                </div>
+            </div>
+
+            <div class="practice-section">
+                <h3>✏️ 阅读理解练习</h3>
+                <div class="question">
+                    <p>1. 根据文章，英国禁止学校使用手机的新法律主要源于：</p>
+                    <div class="options">
+                        <label>A. 教师和家长的一致呼吁</label>
+                        <label>B. 自由民主党和保守党贵族的政治施压</label>
+                        <label>C. 大型科技公司的主动配合</label>
+                        <label>D. 欧盟教育政策的强制要求</label>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>2. 文章提到挪威和瑞典的政策变化说明了什么？</p>
+                    <div class="options">
+                        <label>A. 数字技术对教育毫无益处</label>
+                        <label>B. 过度依赖电子设备可能对阅读能力产生负面影响</label>
+                        <label>C. 这两个国家的教师不够专业</label>
+                        <label>D. iPad和笔记本电脑的质量不够好</label>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>3. 作者在最后一段中表达的 core argument（核心论点）是：</p>
+                    <div class="options">
+                        <label>A. 应该完全禁止儿童使用所有电子设备</label>
+                        <label>B. 对大型科技公司应采取更具预防性的监管措施</label>
+                        <label>C. 研究人员需要加快研究速度</label>
+                        <label>D. 公共政策不应该以证据为基础</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tips-box">
+                <h4>💡 考研阅读技巧</h4>
+                <ul>
+                    <li><strong>关注社论类文章的论证结构：</strong>本文是典型的社论体，先描述现象（手机禁令），再列举各国证据，最后得出结论（需要预防性监管）</li>
+                    <li><strong>识别作者态度：</strong>"should be welcomed"、"is justified"、"arguably matters most" 等表达清楚表明作者支持加强监管</li>
+                    <li><strong>长难句中的插入语：</strong>注意 "— who forced their hand..." 和 "— in relation to..." 这类破折号插入语，它们往往是对前文的补充说明</li>
+                    <li><strong>词汇积累：</strong>本文中 scrutiny、vulnerabilities、susceptibility、engenders、precautionary 等是考研高频词汇</li>
+                    <li><strong>对比论证：</strong>文章多处使用对比（挪威/瑞典 vs 科技推广、成年人 vs 儿童），这是考研阅读常见的论证手法</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        const tooltip = document.getElementById('tooltip');
+        const words = document.querySelectorAll('.word');
+        words.forEach(word => {
+            word.addEventListener('click', function(e) {
+                const d = this.dataset;
+                tooltip.innerHTML = `
+                    <div class="word-title">${d.word}</div>
+                    <div class="phonetic">${d.phonetic}</div>
+                    <div class="meaning">${d.meaning}</div>
+                    <div class="example">"${d.example}"</div>
+                `;
+                const rect = this.getBoundingClientRect();
+                tooltip.style.display = 'block';
+                let left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2);
+                let top = rect.top - tooltip.offsetHeight - 10;
+                if (left < 10) left = 10;
+                if (left + tooltip.offsetWidth > window.innerWidth - 10) left = window.innerWidth - tooltip.offsetWidth - 10;
+                if (top < 10) top = rect.bottom + 10;
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+            });
+        });
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('word')) tooltip.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
