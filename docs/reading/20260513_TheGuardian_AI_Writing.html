@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日外刊精读 - The Guardian</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 { font-size: 28px; margin-bottom: 10px; }
+        .header .meta { opacity: 0.9; font-size: 14px; }
+        .header .back-link {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .header .back-link:hover { color: white; text-decoration: underline; }
+        .content { padding: 30px; }
+        .summary-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 10px 10px 0;
+        }
+        .summary-box h3 { color: #667eea; margin-bottom: 10px; }
+        .article-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .article-content {
+            font-size: 17px;
+            line-height: 1.9;
+            color: #444;
+            margin-bottom: 30px;
+        }
+        .article-content p { margin-bottom: 18px; text-indent: 2em; }
+        .word {
+            color: #667eea;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px dotted #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .word:hover {
+            background: #667eea;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-bottom: none;
+        }
+        .tooltip {
+            position: fixed;
+            background: #333;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            max-width: 300px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            line-height: 1.6;
+        }
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #333;
+        }
+        .tooltip .word-title { font-size: 16px; font-weight: bold; color: #ffd700; margin-bottom: 5px; }
+        .tooltip .phonetic { color: #aaa; font-style: italic; margin-bottom: 5px; }
+        .tooltip .meaning { color: #fff; margin-bottom: 5px; }
+        .tooltip .example { color: #ccc; font-size: 12px; border-top: 1px solid #555; padding-top: 5px; margin-top: 5px; }
+        .vocab-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        .vocab-section h3 { color: #667eea; margin-bottom: 20px; font-size: 20px; }
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        .vocab-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        .vocab-card:hover { transform: translateY(-3px); box-shadow: 0 5px 20px rgba(0,0,0,0.12); }
+        .vocab-card .v-word { font-weight: bold; color: #667eea; font-size: 16px; }
+        .vocab-card .v-phonetic { color: #888; font-size: 13px; margin: 3px 0; }
+        .vocab-card .v-meaning { color: #333; font-size: 14px; }
+        .phrase-section {
+            background: #fff8f0;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 1px solid #f0d9b5;
+        }
+        .phrase-section h3 { color: #e67e22; margin-bottom: 20px; font-size: 20px; }
+        .phrase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 15px;
+        }
+        .phrase-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border-left: 4px solid #e67e22;
+        }
+        .phrase-card .p-phrase { font-weight: bold; color: #e67e22; font-size: 16px; margin-bottom: 5px; }
+        .phrase-card .p-meaning { color: #555; font-size: 14px; margin-bottom: 8px; }
+        .phrase-card .p-example { color: #888; font-size: 13px; font-style: italic; line-height: 1.5; }
+        .difficult-sentences { margin-top: 30px; }
+        .difficult-sentences h3 { color: #667eea; margin-bottom: 20px; }
+        .sentence-card {
+            background: #fff5f5;
+            border-left: 4px solid #e53e3e;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+        .sentence-card .original { font-style: italic; color: #444; margin-bottom: 10px; }
+        .sentence-card .analysis { color: #666; font-size: 14px; line-height: 1.7; }
+        .practice-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+        }
+        .practice-section h3 { color: #667eea; margin-bottom: 20px; }
+        .question { margin-bottom: 25px; }
+        .question p { font-weight: 600; margin-bottom: 10px; color: #333; }
+        .options label {
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .options label:hover { background: #667eea; color: white; }
+        .answer-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 0 10px 10px 0;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.7;
+        }
+        .answer-box .correct-answer { font-weight: bold; color: #2e7d32; margin-bottom: 5px; }
+        .tips-box {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e6fffa;
+            border-left: 4px solid #38b2ac;
+            border-radius: 0 10px 10px 0;
+        }
+        .tips-box h4 { color: #38b2ac; margin-bottom: 10px; }
+        .tips-box ul { margin-left: 20px; color: #444; }
+        .tips-box li { margin: 8px 0; }
+        .source-note {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff3cd;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #856404;
+            border: 1px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="index.html" class="back-link">&larr; 返回文章列表</a>
+            <h1>&#128218; 每日外刊精读</h1>
+            <div class="meta">来源：The Guardian（卫报）| 日期：2026年5月10日 | 考研词汇专项训练</div>
+        </div>
+
+        <div class="content">
+            <div class="summary-box">
+                <h3>&#128203; 文章大意</h3>
+                <p>本文由MIT小说写作教授Micah Nathan撰写，讲述了他发现学生使用AI辅助写作后的一次深刻教学经历。Nathan教授注意到学生提交的作业中出现了AI生成的痕迹——语言过于流畅但缺乏个人声音。他没有选择惩罚或简单禁止，而是在课堂上发起了一次坦诚的对话。学生们承认了使用AI的行为，并分享了各自的理由和困惑。这次对话成为了他八年教学生涯中最有成效的教学时刻之一。文章深入探讨了写作的本质——将思想转化为文字的挣扎本身就是写作的核心价值，当我们放弃这种挣扎时，失去的不仅是"完美的散文"，更是思维的深度和自我认知。文章引发了关于AI时代教育应如何重新定义"学习"和"原创性"的深层思考。</p>
+            </div>
+
+            <h2 class="article-title">I Knew My Writing Students Were Using AI. Their Confessions Led to a Powerful Teaching Moment.</h2>
+            <p style="color:#888; font-size:14px; margin-bottom:20px;">By Micah Nathan | The Guardian | May 10, 2026</p>
+
+            <div class="article-content">
+                <p>
+                The first time I <span class="word" data-word="suspected" data-phonetic="/səˈspektɪd/" data-meaning="v. 怀疑，猜疑" data-example="She suspected that he was not telling the truth.">suspected</span> something was wrong with my students' writing, it wasn't because the prose was bad. It was because it was too good — or rather, too <span class="word" data-word="consistently" data-phonetic="/kənˈsɪstəntli/" data-meaning="adv. 一贯地，始终如一地" data-example="She has consistently demonstrated excellent performance.">consistently</span> <span class="word" data-word="competent" data-phonetic="/ˈkɒmpɪtənt/" data-meaning="adj. 有能力的，胜任的" data-example="He is a highly competent engineer.">competent</span>. I teach fiction writing at a <span class="word" data-word="prestigious" data-phonetic="/preˈstɪdʒəs/" data-meaning="adj. 享有声望的，著名的" data-example="She was accepted into a prestigious university.">prestigious</span> university, and over the years I had grown <span class="word" data-word="accustomed" data-phonetic="/əˈkʌstəmd/" data-meaning="adj. 习惯于……的" data-example="I am accustomed to working late hours.">accustomed</span> to the <span class="word" data-word="erratic" data-phonetic="/ɪˈrætɪk/" data-meaning="adj. 不稳定的，反复无常的" data-example="His performance has been erratic this season.">erratic</span> rhythms of undergraduate prose: brilliant flashes followed by clumsy passages, <span class="word" data-word="eloquent" data-phonetic="/ˈeləkwənt/" data-meaning="adj. 雄辩的，有说服力的" data-example="She gave an eloquent speech about climate change.">eloquent</span> sentences sitting awkwardly next to ones that <span class="word" data-word="stumbled" data-phonetic="/ˈstʌmbld/" data-meaning="v. 绊倒，犯错；蹒跚" data-example="He stumbled over his words during the presentation.">stumbled</span>. That unevenness was, in its own way, a sign of life — evidence that a real person was wrestling with real thoughts.
+                </p>
+
+                <p>
+                But the stories I was reading that autumn had a different quality. The grammar was <span class="word" data-word="impeccable" data-phonetic="/ɪmˈpekəbl/" data-meaning="adj. 无可挑剔的，完美的" data-example="Her English is impeccable.">impeccable</span>. The sentences were well-constructed but <span class="word" data-word="curiously" data-phonetic="/ˈkjʊəriəsli/" data-meaning="adv. 奇怪地，好奇地" data-example="Curiously, no one noticed the error.">curiously</span> <span class="word" data-word="devoid" data-phonetic="/dɪˈvɔɪd/" data-meaning="adj. 缺乏的，没有的" data-example="The landscape was devoid of any vegetation.">devoid</span> of personality. The metaphors were <span class="word" data-word="technically" data-phonetic="/ˈteknɪkli/" data-meaning="adv. 技术上地；严格意义上地" data-example="Technically, the procedure was flawless.">technically</span> sound but <span class="word" data-word="unremarkable" data-phonetic="/ˌʌnrɪˈmɑːkəbl/" data-meaning="adj. 平凡的，不引人注目的" data-example="The results were unremarkable.">unremarkable</span> — the kind of comparisons that an <span class="word" data-word="algorithm" data-phonetic="/ˈælɡərɪðəm/" data-meaning="n. 算法" data-example="The algorithm determines what content appears in your feed.">algorithm</span> might <span class="word" data-word="generate" data-phonetic="/ˈdʒenəreɪt/" data-meaning="v. 产生，生成" data-example="The software can generate realistic images.">generate</span> after being trained on thousands of short stories. What was missing was the <span class="word" data-word="idiosyncratic" data-phonetic="/ˌɪdiəsɪŋˈkrætɪk/" data-meaning="adj. 独特的，特有的" data-example="She has an idiosyncratic writing style.">idiosyncratic</span> quality that makes a piece of writing feel like it could only have come from one particular mind. The <span class="word" data-word="imperfections" data-phonetic="/ˌɪmpəˈfekʃnz/" data-meaning="n. 缺陷，不完美之处" data-example="The imperfections in the handmade pottery give it character.">imperfections</span> were gone, and with them, the voice.
+                </p>
+
+                <p>
+                I want to be clear about something: I am not a <span class="word" data-word="technophobe" data-phonetic="/ˈteknəfəʊb/" data-meaning="n. 技术恐惧者" data-example="He is not a technophobe; he simply prefers traditional methods.">technophobe</span>. I use AI tools in my own work — for <span class="word" data-word="brainstorming" data-phonetic="/ˈbreɪnstɔːmɪŋ/" data-meaning="n. 头脑风暴" data-example="We had a brainstorming session to generate new ideas.">brainstorming</span>, for organizing research, for overcoming the <span class="word" data-word="dreaded" data-phonetic="/ˈdredɪd/" data-meaning="adj. 令人恐惧的，可怕的" data-example="The dreaded exam results were finally released.">dreaded</span> blank page. I understand why students are <span class="word" data-word="tempted" data-phonetic="/ˈtemptɪd/" data-meaning="adj. 被诱惑的" data-example="Students are often tempted to take shortcuts.">tempted</span> to use them. Writing is hard. It is <span class="word" data-word="inherently" data-phonetic="/ɪnˈhɪərəntli/" data-meaning="adv. 本质上，固有地" data-example="The task is inherently difficult.">inherently</span> <span class="word" data-word="frustrating" data-phonetic="/frʌˈstreɪtɪŋ/" data-meaning="adj. 令人沮丧的" data-example="The process can be frustrating at times.">frustrating</span>, and the <span class="word" data-word="gap" data-phonetic="/ɡæp/" data-meaning="n. 差距，鸿沟" data-example="There is a gap between what we imagine and what we can express.">gap</span> between the story in your head and the words on the page can feel <span class="word" data-word="insurmountable" data-phonetic="/ˌɪnsəˈmaʊntəbl/" data-meaning="adj. 难以克服的，不可逾越的" data-example="The challenges seemed insurmountable at first.">insurmountable</span>. An AI tool that promises to bridge that gap is <span class="word" data-word="understandably" data-phonetic="/ˌʌndəˈstændəbli/" data-meaning="adv. 可以理解地" data-example="She was understandably upset by the news.">understandably</span> <span class="word" data-word="appealing" data-phonetic="/əˈpiːlɪŋ/" data-meaning="adj. 有吸引力的，引人入胜的" data-example="The idea of a quick solution is appealing.">appealing</span>. But in a creative writing classroom, that gap is not a bug — it is the entire point.
+                </p>
+
+                <p>
+                So I made a decision. Instead of <span class="word" data-word="confronting" data-phonetic="/kənˈfrʌntɪŋ/" data-meaning="v. 对抗，面对，当面对质" data-example="She decided to confront the issue directly.">confronting</span> individual students or <span class="word" data-word="implementing" data-phonetic="/ˈɪmplɪmentɪŋ/" data-meaning="v. 实施，执行" data-example="The school is implementing new policies.">implementing</span> stricter <span class="word" data-word="surveillance" data-phonetic="/sɜːˈveɪləns/" data-meaning="n. 监视，监控" data-example="The use of surveillance technology raises privacy concerns.">surveillance</span> tools, I brought the issue into the open. At the start of our next class, I told my students what I had <span class="word" data-word="observed" data-phonetic="/əbˈzɜːvd/" data-meaning="v. 观察，注意到" data-example="She observed a significant change in his behavior.">observed</span>. I told them I wasn't angry. I wasn't going to <span class="word" data-word="penalize" data-phonetic="/ˈpiːnəlaɪz/" data-meaning="v. 惩罚，处罚" data-example="The teacher penalized students who submitted late work.">penalize</span> anyone. I simply wanted to talk about what was happening and why it mattered.
+                </p>
+
+                <p>
+                What happened next <span class="word" data-word="astonished" data-phonetic="/əˈstɒnɪʃt/" data-meaning="v. 使惊讶，使震惊" data-example="The results astonished everyone in the room.">astonished</span> me. One by one, students began to speak. Some <span class="word" data-word="confessed" data-phonetic="/kənˈfest/" data-meaning="v. 坦白，承认" data-example="He confessed to using AI for part of his assignment.">confessed</span> freely; others spoke more <span class="word" data-word="hesitantly" data-phonetic="/ˈhezɪtəntli/" data-meaning="adv. 犹豫地，迟疑地" data-example="She hesitantly raised her hand.">hesitantly</span>. But the <span class="word" data-word="overwhelming" data-phonetic="/ˌəʊvəˈwelmɪŋ/" data-meaning="adj. 压倒性的，势不可挡的" data-example="The response was overwhelmingly positive.">overwhelming</span> majority acknowledged that they had used AI in some <span class="word" data-word="capacity" data-phonetic="/kəˈpæsəti/" data-meaning="n. 能力；身份；范围" data-example="She volunteered in her capacity as a teacher.">capacity</span> — to generate ideas, to polish sentences, to overcome writer's block, or, in some cases, to write entire passages. Their reasons were <span class="word" data-word="varied" data-phonetic="/ˈveərid/" data-meaning="adj. 各种各样的，不同的" data-example="The responses were varied and thoughtful.">varied</span> and, in many cases, <span class="word" data-word="sympathetic" data-phonetic="/ˌsɪmpəˈθetɪk/" data-meaning="adj. 令人同情的，表示同情的" data-example="Her sympathetic approach helped the students open up.">sympathetic</span>. They spoke about the pressure to <span class="word" data-word="perform" data-phonetic="/pəˈfɔːm/" data-meaning="v. 表现，执行；表演" data-example="Students feel pressure to perform well academically.">perform</span>, about <span class="word" data-word="anxiety" data-phonetic="/æŋˈzaɪəti/" data-meaning="n. 焦虑，不安" data-example="Exam anxiety is common among students.">anxiety</span> about grades, about feeling <span class="word" data-word="inadequate" data-phonetic="/ɪnˈædɪkwət/" data-meaning="adj. 不够好的，不充分的" data-example="She felt inadequate compared to her classmates.">inadequate</span> compared to their <span class="word" data-word="peers" data-phonetic="/pɪəz/" data-meaning="n. 同龄人，同行" data-example="She was highly respected by her peers.">peers</span>.
+                </p>
+
+                <p>
+                One student described the experience of using AI as "like having someone else hold your hand while you cross a busy street." It felt safe, she said, but also <span class="word" data-word="diminishing" data-phonetic="/dɪˈmɪnɪʃɪŋ/" data-meaning="adj. 逐渐减少的，贬低的" data-example="The constant criticism had a diminishing effect on her confidence.">diminishing</span> — as though she was losing something essential about herself in the process. Another student, a young man who had been <span class="word" data-word="notoriously" data-phonetic="/nəʊˈtɔːriəsli/" data-meaning="adv. 臭名昭著地，众所周知地" data-example="The exam is notoriously difficult.">notoriously</span> quiet throughout the <span class="word" data-word="semester" data-phonetic="/sɪˈmestə/" data-meaning="n. 学期" data-example="She studied abroad for one semester.">semester</span>, spoke at length about how using AI had made him feel like an <span class="word" data-word="imposter" data-phonetic="/ɪmˈpɒstə/" data-meaning="n. 冒名顶替者" data-example="Many successful people experience imposter syndrome.">imposter</span> in his own life. "I knew the words weren't mine," he said, "but I didn't think anyone would notice. And when no one did notice, I felt even worse."
+                </p>
+
+                <p>
+                That last remark hit me with particular force. It <span class="word" data-word="encapsulated" data-phonetic="/ɪnˈkæpsjuleɪtɪd/" data-meaning="v. 概括，压缩； encapsulated" data-example="Her speech encapsulated the mood of the nation.">encapsulated</span> something I had been struggling to <span class="word" data-word="articulate" data-phonetic="/ɑːˈtɪkjuleɪt/" data-meaning="v. 清楚地表达，明确说出" data-example="He found it difficult to articulate his feelings.">articulate</span> about the AI problem in education. The danger isn't just that students might cheat or produce <span class="word" data-word="mediocre" data-phonetic="/ˌmiːdiˈəʊkə/" data-meaning="adj. 平庸的，普通的" data-example="The restaurant's food was mediocre at best.">mediocre</span> work. The danger is that they might begin to <span class="word" data-word="internalize" data-phonetic="/ɪnˈtɜːnəlaɪz/" data-meaning="v. 使内化，吸收" data-example="Children internalize the values of their parents.">internalize</span> the message that their own voice is <span class="word" data-word="insufficient" data-phonetic="/ˌɪnsəˈfɪʃnt/" data-meaning="adj. 不够的，不充分的" data-example="The evidence was insufficient to support the claim.">insufficient</span> — that the <span class="word" data-word="authentic" data-phonetic="/ɔːˈθentɪk/" data-meaning="adj. 真实的，真正的" data-example="The painting was confirmed to be authentic.">authentic</span> expression of their own thoughts and feelings is somehow less <span class="word" data-word="compelling" data-phonetic="/kəmˈpelɪŋ/" data-meaning="adj. 引人注目的，令人信服的" data-example="She made a compelling argument for change.">compelling</span> than what a machine can produce.
+                </p>
+
+                <p>
+                Writing, at its core, is an act of <span class="word" data-word="translation" data-phonetic="/trænsˈleɪʃn/" data-meaning="n. 翻译；转化" data-example="The translation of ideas into words is a fundamental skill.">translation</span> — the struggle to convert the messy, <span class="word" data-word="abstract" data-phonetic="/ˈæbstrækt/" data-meaning="adj. 抽象的 n. 摘要" data-example="The concept is too abstract for young children.">abstract</span>, often <span class="word" data-word="contradictory" data-phonetic="/ˌkɒntrəˈdɪktəri/" data-meaning="adj. 矛盾的，对立的" data-example="The evidence was contradictory.">contradictory</span> material of human thought into the linear <span class="word" data-word="constraints" data-phonetic="/kənˈstreɪnts/" data-meaning="n. 限制，约束" data-example="Budget constraints limited the scope of the project.">constraints</span> of language. That struggle is not a <span class="word" data-word="deficiency" data-phonetic="/dɪˈfɪʃnsi/" data-meaning="n. 缺陷，不足" data-example="The report identified a deficiency in the current system.">deficiency</span> to be overcome. It is the very mechanism through which we discover what we actually think. When we <span class="word" data-word="outsource" data-phonetic="/aʊtˈsɔːs/" data-meaning="v. 外包，委托" data-example="Many companies outsource their customer service.">outsource</span> that struggle to a machine, we don't just produce <span class="word" data-word="simpler" data-phonetic="/ˈsɪmplə/" data-meaning="adj. 更简单的" data-example="The explanation was simpler than expected.">simpler</span> prose — we produce simpler thinking. We <span class="word" data-word="sacrifice" data-phonetic="/ˈsækrɪfaɪs/" data-meaning="v. 牺牲，献出" data-example="She sacrificed her career to raise her children.">sacrifice</span> the <span class="word" data-word="profound" data-phonetic="/prəˈfaʊnd/" data-meaning="adj. 深刻的，意义深远的" data-example="The book had a profound impact on me.">profound</span> <span class="word" data-word="discomfort" data-phonetic="/dɪsˈkʌmfət/" data-meaning="n. 不适，不安" data-example="He felt discomfort when discussing the topic.">discomfort</span> of not quite knowing what you want to say — and it is precisely in that discomfort that the best writing, and the deepest learning, occurs.
+                </p>
+
+                <p>
+                Our classroom conversation that day was, without <span class="word" data-word="exaggeration" data-phonetic="/ɪɡˌzædʒəˈreɪʃn/" data-meaning="n. 夸张，夸大" data-example="It is no exaggeration to say that this was a turning point.">exaggeration</span>, the most <span class="word" data-word="productive" data-phonetic="/prəˈdʌktɪv/" data-meaning="adj. 富有成效的，多产的" data-example="It was a productive discussion that led to real change.">productive</span> teaching moment I have experienced in eight years of <span class="word" data-word="instructing" data-phonetic="/ɪnˈstrʌktɪŋ/" data-meaning="v. 教授，指导" data-example="She has been instructing students in creative writing for years.">instructing</span> college students. Not because I <span class="word" data-word="convinced" data-phonetic="/kənˈvɪnst/" data-meaning="v. 说服，使确信" data-example="He convinced me to change my approach.">convinced</span> anyone to stop using AI — I'm not sure I did. But because we had an honest, <span class="word" data-word="nuanced" data-phonetic="/ˈnjuːɑːnst/" data-meaning="adj. 细致的，微妙的" data-example="The discussion was nuanced and thoughtful.">nuanced</span> conversation about what writing actually is and why it matters. Several students told me afterward that the discussion had changed how they thought about AI — not by making them fear it, but by helping them understand what they <span class="word" data-word="risk" data-phonetic="/rɪsk/" data-meaning="v./n. 冒险，风险" data-example="They risk losing their authentic voice.">risk</span> losing when they let a machine do their thinking for them.
+                </p>
+
+                <p>
+                I don't pretend to have all the answers. The <span class="word" data-word="integration" data-phonetic="/ˌɪntɪˈɡreɪʃn/" data-meaning="n. 整合，融合" data-example="The integration of AI into education requires careful planning.">integration</span> of AI into education is <span class="word" data-word="inevitable" data-phonetic="/ɪnˈevɪtəbl/" data-meaning="adj. 不可避免的" data-example="Technological change is inevitable.">inevitable</span>, and there are <span class="word" data-word="legitimate" data-phonetic="/lɪˈdʒɪtɪmət/" data-meaning="adj. 合法的，正当的" data-example="There are legitimate uses for AI in the classroom.">legitimate</span> applications for these tools in a writing <span class="word" data-word="curriculum" data-phonetic="/kəˈrɪkjələm/" data-meaning="n. 课程" data-example="The school has updated its curriculum to include digital literacy.">curriculum</span>. But I believe we need to be much more <span class="word" data-word="intentional" data-phonetic="/ɪnˈtenʃənl/" data-meaning="adj. 有意的，故意的" data-example="We need to be intentional about how we use technology.">intentional</span> about where we draw the line. The <span class="word" data-word="struggle" data-phonetic="/ˈstrʌɡl/" data-meaning="n./v. 奋斗，挣扎，斗争" data-example="The struggle to express oneself is part of the creative process.">struggle</span> to translate thought into words is not an <span class="word" data-word="obstacle" data-phonetic="/ˈɒbstəkl/" data-meaning="n. 障碍，阻碍" data-example="Lack of funding is a major obstacle to progress.">obstacle</span> to learning — it <span class="word" data-word="constitutes" data-phonetic="/ˈkɒnstɪtjuːts/" data-meaning="v. 构成，组成" data-example="This constitutes a fundamental change in approach.">constitutes</span> learning itself. When we give students the <span class="word" data-word="illusion" data-phonetic="/ɪˈluːʒn/" data-meaning="n. 幻觉，错觉" data-example="The policy creates an illusion of progress.">illusion</span> of <span class="word" data-word="competence" data-phonetic="/ˈkɒmpɪtəns/" data-meaning="n. 能力，胜任" data-example="True competence comes from practice and struggle.">competence</span> without the <span class="word" data-word="underlying" data-phonetic="/ˌʌndəˈlaɪɪŋ/" data-meaning="adj. 潜在的，根本的" data-example="The underlying issue has not been addressed.">underlying</span> work, we are not educating them — we are <span class="word" data-word="deceiving" data-phonetic="/dɪˈsiːvɪŋ/" data-meaning="v. 欺骗，误导" data-example="We are deceiving ourselves if we think this is real learning.">deceiving</span> them.
+                </p>
+
+                <p>
+                In the weeks that followed, something <span class="word" data-word="remarkable" data-phonetic="/rɪˈmɑːkəbl/" data-meaning="adj. 显著的，非凡的" data-example="The transformation in her writing was remarkable.">remarkable</span> happened. The writing in my class didn't get worse — it got better. Not because students stopped using AI entirely, but because they began to use it differently. Some used it to generate <span class="word" data-word="alternative" data-phonetic="/ɔːlˈtɜːnətɪv/" data-meaning="adj. 替代的 n. 替代方案" data-example="She explored alternative approaches to the problem.">alternative</span> versions of a sentence and then <span class="word" data-word="deliberately" data-phonetic="/dɪˈlɪbərətli/" data-meaning="adv. 故意地，深思熟虑地" data-example="He deliberately chose the more difficult path.">deliberately</span> chose their own words instead. Others used it as a <span class="word" data-word="sounding" data-phonetic="/ˈsaʊndɪŋ/" data-meaning="adj. 试探性的（sounding board: 倾听意见的人/物）" data-example="She used her friend as a sounding board for ideas.">sounding</span> board — a way to test whether their ideas made sense before <span class="word" data-word="committing" data-phonetic="/kəˈmɪtɪŋ/" data-meaning="v. 投入，致力于；承诺" data-example="He committed himself to finishing the project.">committing</span> them to paper. The key <span class="word" data-word="shift" data-phonetic="/ʃɪft/" data-meaning="n./v. 转变，转移" data-example="There has been a fundamental shift in attitudes.">shift</span> was not in the tools themselves but in the students' <span class="word" data-word="relationship" data-phonetic="/rɪˈleɪʃnʃɪp/" data-meaning="n. 关系" data-example="Their relationship with technology changed fundamentally.">relationship</span> to their own writing — a <span class="word" data-word="recognition" data-phonetic="/ˌrekəɡˈnɪʃn/" data-meaning="n. 认识，识别；承认" data-example="There is a growing recognition that writing is a thinking process.">recognition</span> that the <span class="word" data-word="imperfect" data-phonetic="/ɪmˈpɜːfɪkt/" data-meaning="adj. 不完美的" data-example="Her imperfect prose was more powerful than any AI-generated text.">imperfect</span>, <span class="word" data-word="ungainly" data-phonetic="/ʌnˈɡeɪnli/" data-meaning="adj. 笨拙的，不优雅的" data-example="The ungainly first draft contained the seeds of brilliance.">ungainly</span> words that come from their own minds are worth more than the <span class="word" data-word="flawless" data-phonetic="/ˈflɔːləs/" data-meaning="adj. 完美无瑕的" data-example="The performance was flawless.">flawless</span> prose of a machine.
+                </p>
+            </div>
+
+            <!-- 核心词汇表 -->
+            <div class="vocab-section">
+                <h3>&#128221; 核心词汇表（考研高频词 &middot; 30个）</h3>
+                <div class="vocab-grid">
+                    <div class="vocab-card"><div class="v-word">suspect</div><div class="v-phonetic">/səˈspekt/</div><div class="v-meaning">v. 怀疑，猜疑 n. 嫌疑人</div></div>
+                    <div class="vocab-card"><div class="v-word">consistent</div><div class="v-phonetic">/kənˈsɪstənt/</div><div class="v-meaning">adj. 一贯的，始终如一的</div></div>
+                    <div class="vocab-card"><div class="v-word">competent</div><div class="v-phonetic">/ˈkɒmpɪtənt/</div><div class="v-meaning">adj. 有能力的，胜任的</div></div>
+                    <div class="vocab-card"><div class="v-word">prestigious</div><div class="v-phonetic">/preˈstɪdʒəs/</div><div class="v-meaning">adj. 享有声望的，著名的</div></div>
+                    <div class="vocab-card"><div class="v-word">accustomed</div><div class="v-phonetic">/əˈkʌstəmd/</div><div class="v-meaning">adj. 习惯于……的</div></div>
+                    <div class="vocab-card"><div class="v-word">eloquent</div><div class="v-phonetic">/ˈeləkwənt/</div><div class="v-meaning">adj. 雄辩的，有说服力的</div></div>
+                    <div class="vocab-card"><div class="v-word">impeccable</div><div class="v-phonetic">/ɪmˈpekəbl/</div><div class="v-meaning">adj. 无可挑剔的，完美的</div></div>
+                    <div class="vocab-card"><div class="v-word">devoid</div><div class="v-phonetic">/dɪˈvɔɪd/</div><div class="v-meaning">adj. 缺乏的，没有的</div></div>
+                    <div class="vocab-card"><div class="v-word">algorithm</div><div class="v-phonetic">/ˈælɡərɪðəm/</div><div class="v-meaning">n. 算法</div></div>
+                    <div class="vocab-card"><div class="v-word">idiosyncratic</div><div class="v-phonetic">/ˌɪdiəsɪŋˈkrætɪk/</div><div class="v-meaning">adj. 独特的，特有的</div></div>
+                    <div class="vocab-card"><div class="v-word">inherent</div><div class="v-phonetic">/ɪnˈhɪərənt/</div><div class="v-meaning">adj. 固有的，内在的</div></div>
+                    <div class="vocab-card"><div class="v-word">insurmountable</div><div class="v-phonetic">/ˌɪnsəˈmaʊntəbl/</div><div class="v-meaning">adj. 难以克服的</div></div>
+                    <div class="vocab-card"><div class="v-word">confront</div><div class="v-phonetic">/kənˈfrʌnt/</div><div class="v-meaning">v. 对抗，面对</div></div>
+                    <div class="vocab-card"><div class="v-word">surveillance</div><div class="v-phonetic">/sɜːˈveɪləns/</div><div class="v-meaning">n. 监视，监控</div></div>
+                    <div class="vocab-card"><div class="v-word">penalize</div><div class="v-phonetic">/ˈpiːnəlaɪz/</div><div class="v-meaning">v. 惩罚，处罚</div></div>
+                    <div class="vocab-card"><div class="v-word">overwhelming</div><div class="v-phonetic">/ˌəʊvəˈwelmɪŋ/</div><div class="v-meaning">adj. 压倒性的，势不可挡的</div></div>
+                    <div class="vocab-card"><div class="v-word">sympathetic</div><div class="v-phonetic">/ˌsɪmpəˈθetɪk/</div><div class="v-meaning">adj. 同情的，赞同的</div></div>
+                    <div class="vocab-card"><div class="v-word">inadequate</div><div class="v-phonetic">/ɪnˈædɪkwət/</div><div class="v-meaning">adj. 不够好的，不充分的</div></div>
+                    <div class="vocab-card"><div class="v-word">encapsulate</div><div class="v-phonetic">/ɪnˈkæpsjuleɪt/</div><div class="v-meaning">v. 概括，压缩</div></div>
+                    <div class="vocab-card"><div class="v-word">articulate</div><div class="v-phonetic">/ɑːˈtɪkjuleɪt/</div><div class="v-meaning">v. 清楚地表达</div></div>
+                    <div class="vocab-card"><div class="v-word">internalize</div><div class="v-phonetic">/ɪnˈtɜːnəlaɪz/</div><div class="v-meaning">v. 使内化，吸收</div></div>
+                    <div class="vocab-card"><div class="v-word">authentic</div><div class="v-phonetic">/ɔːˈθentɪk/</div><div class="v-meaning">adj. 真实的，真正的</div></div>
+                    <div class="vocab-card"><div class="v-word">compelling</div><div class="v-phonetic">/kəmˈpelɪŋ/</div><div class="v-meaning">adj. 引人注目的，令人信服的</div></div>
+                    <div class="vocab-card"><div class="v-word">contradictory</div><div class="v-phonetic">/ˌkɒntrəˈdɪktəri/</div><div class="v-meaning">adj. 矛盾的，对立的</div></div>
+                    <div class="vocab-card"><div class="v-word">constraint</div><div class="v-phonetic">/kənˈstreɪnt/</div><div class="v-meaning">n. 限制，约束</div></div>
+                    <div class="vocab-card"><div class="v-word">deficiency</div><div class="v-phonetic">/dɪˈfɪʃnsi/</div><div class="v-meaning">n. 缺陷，不足</div></div>
+                    <div class="vocab-card"><div class="v-word">outsource</div><div class="v-phonetic">/aʊtˈsɔːs/</div><div class="v-meaning">v. 外包，委托</div></div>
+                    <div class="vocab-card"><div class="v-word">profound</div><div class="v-phonetic">/prəˈfaʊnd/</div><div class="v-meaning">adj. 深刻的，意义深远的</div></div>
+                    <div class="vocab-card"><div class="v-word">inevitable</div><div class="v-phonetic">/ɪnˈevɪtəbl/</div><div class="v-meaning">adj. 不可避免的</div></div>
+                </div>
+            </div>
+
+            <!-- 短语搭配 -->
+            <div class="phrase-section">
+                <h3>&#128279; 短语搭配（考研常考固定搭配）</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="p-phrase">accustomed to</div>
+                        <div class="p-meaning">习惯于……的</div>
+                        <div class="p-example">"...I had grown accustomed to the erratic rhythms of undergraduate prose."</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="p-phrase">devoid of</div>
+                        <div class="p-meaning">缺乏，没有</div>
+                        <div class="p-example">"...curiously devoid of personality."</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="p-phrase">in some capacity</div>
+                        <div class="p-meaning">以某种身份/方式</div>
+                        <div class="p-example">"...they had used AI in some capacity — to generate ideas, to polish sentences..."</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="p-phrase">at length</div>
+                        <div class="p-meaning">详细地，长时间地</div>
+                        <div class="p-example">"...a young man who had been notoriously quiet throughout the semester, spoke at length about how using AI had made him feel like an imposter..."</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="p-phrase">convert...into...</div>
+                        <div class="p-meaning">将……转化为……</div>
+                        <div class="p-example">"...the struggle to convert the messy, abstract, often contradictory material of human thought into the linear constraints of language."</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="p-phrase">without exaggeration</div>
+                        <div class="p-meaning">毫不夸张地说</div>
+                        <div class="p-example">"Our classroom conversation that day was, without exaggeration, the most productive teaching moment..."</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="p-phrase">draw the line</div>
+                        <div class="p-meaning">划定界限，限制</div>
+                        <div class="p-example">"But I believe we need to be much more intentional about where we draw the line."</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="p-phrase">commit to</div>
+                        <div class="p-meaning">致力于，投入</div>
+                        <div class="p-example">"...a way to test whether their ideas made sense before committing them to paper."</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 长难句解析 -->
+            <div class="difficult-sentences">
+                <h3>&#128269; 长难句解析</h3>
+                <div class="sentence-card">
+                    <div class="original">"The danger is that they might begin to internalize the message that their own voice is insufficient — that the authentic expression of their own thoughts and feelings is somehow less compelling than what a machine can produce."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        &bull; 主句：The danger is that...（危险在于……）<br>
+                        &bull; 表语从句1：they might begin to internalize the message<br>
+                        &bull; 同位语从句1：that their own voice is insufficient（解释message的内容）<br>
+                        &bull; 同位语从句2：that the authentic expression... is somehow less compelling than...（进一步解释message）<br>
+                        &bull; 比较结构：less compelling than what a machine can produce<br><br>
+                        <strong>翻译：</strong>危险在于，他们可能开始内化这样一种信息——他们自己的声音是不够好的，他们思想和感情的真实表达在某种程度上不如机器产出的内容有说服力。
+                    </div>
+                </div>
+                <div class="sentence-card">
+                    <div class="original">"Writing, at its core, is an act of translation — the struggle to convert the messy, abstract, often contradictory material of human thought into the linear constraints of language."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        &bull; 主句：Writing is an act of translation<br>
+                        &bull; 插入语：at its core（本质上）<br>
+                        &bull; 同位语：the struggle to convert... into...（解释translation）<br>
+                        &bull; 不定式：to convert A into B（将A转化为B）<br>
+                        &bull; 介词短语嵌套：of human thought / of language<br><br>
+                        <strong>翻译：</strong>写作，本质上是一种转化的行为——将人类思想中杂乱的、抽象的、常常自相矛盾的材料，转化为语言线性的约束之中。
+                    </div>
+                </div>
+                <div class="sentence-card">
+                    <div class="original">"When we outsource that struggle to a machine, we don't just produce simpler prose — we produce simpler thinking."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        &bull; 时间状语从句：When we outsource that struggle to a machine<br>
+                        &bull; 主句：we don't just produce A — we produce B<br>
+                        &bull; not just...结构：不仅……而且……（递进关系）<br>
+                        &bull; 修辞手法：parallelism（平行结构），prose与thinking形成对比<br><br>
+                        <strong>翻译：</strong>当我们把这种挣扎外包给机器时，我们不仅产出了更简单的散文——我们产出了更简单的思维。
+                    </div>
+                </div>
+                <div class="sentence-card">
+                    <div class="original">"The key shift was not in the tools themselves but in the students' relationship to their own writing — a recognition that the imperfect, ungainly words that come from their own minds are worth more than the flawless prose of a machine."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        &bull; 主句：The key shift was not in A but in B<br>
+                        &bull; not...but...结构：不是……而是……<br>
+                        &bull; 同位语：a recognition that...（解释shift的内容）<br>
+                        &bull; 同位语从句中嵌套定语从句：that come from their own minds（修饰words）<br>
+                        &bull; 比较结构：worth more than...<br><br>
+                        <strong>翻译：</strong>关键转变不在于工具本身，而在于学生与自己写作的关系——一种认识：来自自己头脑的、不完美的、笨拙的文字，比机器产出的完美散文更有价值。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 阅读理解练习 -->
+            <div class="practice-section">
+                <h3>&#9999;&#65039; 阅读理解练习（考研风格）</h3>
+
+                <div class="question">
+                    <p>1. 【主旨大意题】What is the central argument of this article?</p>
+                    <div class="options">
+                        <label>A. AI tools should be completely banned from all educational settings.</label>
+                        <label>B. The struggle of writing is essential to learning and thinking, and outsourcing it to AI risks diminishing students' authentic voices and cognitive development.</label>
+                        <label>C. Students who use AI produce better writing than those who do not.</label>
+                        <label>D. Universities should invest in more advanced AI detection software.</label>
+                    </div>
+                    <div class="answer-box">
+                        <div class="correct-answer">&#9989; 正确答案：B</div>
+                        <strong>解析：</strong>文章的核心论点是写作中的"挣扎"本身就是学习和思考的核心过程，将这一过程外包给AI不仅会简化文字表达，更会简化思维。作者并不主张完全禁止AI（A错），也不认为AI产出的写作更好（C错），更没有建议投资检测软件（D错）。文章强调的是帮助学生理解使用AI时"失去了什么"，而非简单地禁止。
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>2. 【推理判断题】What can be inferred about the author's attitude toward AI tools in education?</p>
+                    <div class="options">
+                        <label>A. He believes AI has absolutely no place in the writing classroom.</label>
+                        <label>B. He adopts a nuanced stance — acknowledging legitimate uses while warning against outsourcing the core cognitive struggle of writing.</label>
+                        <label>C. He is enthusiastic about AI and encourages students to use it freely.</label>
+                        <label>D. He is indifferent to the issue and lets students make their own choices.</label>
+                    </div>
+                    <div class="answer-box">
+                        <div class="correct-answer">&#9989; 正确答案：B</div>
+                        <strong>解析：</strong>作者明确表示自己不是"technophobe"，承认AI有合理用途（"legitimate applications"），但强调需要"intentional about where we draw the line"。这是一种审慎的、有条件的立场（nuanced stance）。A过于极端（与"I don't pretend to have all the answers"矛盾），C与文章主旨相反，D与作者主动发起课堂讨论的行为矛盾。
+                    </div>
+                </div>
+
+                <div class="question">
+                    <p>3. 【词义猜测题】In the context of the passage, what does the author mean by describing the gap between thought and written words as "not a bug — it is the entire point"?</p>
+                    <div class="options">
+                        <label>A. Writing should be made as easy and effortless as possible using technology.</label>
+                        <label>B. The difficulty of expressing thoughts in words is not a flaw to fix but the very process through which genuine learning and self-discovery occur.</label>
+                        <label>C. Students should accept poor writing as an unavoidable part of education.</label>
+                        <label>D. The gap between thought and language is impossible to bridge.</label>
+                    </div>
+                    <div class="answer-box">
+                        <div class="correct-answer">&#9989; 正确答案：B</div>
+                        <strong>解析：</strong>"not a bug — it is the entire point"是计算机领域的比喻（bug=缺陷），作者借用这一表达说明：思想与文字之间的差距不是需要修复的"缺陷"，而正是写作的核心价值所在。后文进一步解释"That struggle is not a deficiency to be overcome. It is the very mechanism through which we discover what we actually think." A与文章观点相反，C曲解了作者的意思（作者并不鼓励差写作），D过于绝对。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 考研阅读技巧 -->
+            <div class="tips-box">
+                <h4>&#128161; 考研阅读技巧</h4>
+                <ul>
+                    <li><strong>关注"not...but..."结构：</strong>本文多次使用这一对比结构（如"not a bug — it is the entire point"、"not in the tools themselves but in the students' relationship"），这是考研英语中常见的论证手法，往往包含作者的核心观点，做题时应重点关注but之后的内容</li>
+                    <li><strong>识别比喻和类比：</strong>"not a bug — it is the entire point"借用计算机术语，"like having someone else hold your hand"使用类比。考研阅读中比喻往往承载深层含义，需要结合上下文理解其真正指向</li>
+                    <li><strong>把握作者态度：</strong>文章对AI的态度是"审慎的"（nuanced/cautious）——既承认其合理用途，又警示其深层危害。考研态度题中，这种"有条件的支持/有保留的批评"是高频正确选项</li>
+                    <li><strong>词汇积累重点：</strong>本文中 idiosyncratic、devoid、encapsulate、articulate、internalize、compelling、contradictory、constraint、deficiency、outsource 等是考研高频词，需重点记忆</li>
+                    <li><strong>关注破折号的用法：</strong>破折号后的内容通常是对前文的解释、补充或转折。本文中多次使用破折号引出核心观点，阅读时应特别留意</li>
+                </ul>
+            </div>
+
+            <div class="source-note">
+                &#128196; <strong>原文来源：</strong>The Guardian, May 10, 2026. By Micah Nathan. 原文标题："I Knew My Writing Students Were Using AI. Their Confessions Led to a Powerful Teaching Moment." 本文为考研英语备考精读材料，词汇标注和练习为教学辅助内容。
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        const tooltip = document.getElementById('tooltip');
+        const words = document.querySelectorAll('.word');
+        words.forEach(word => {
+            word.addEventListener('click', function(e) {
+                const d = this.dataset;
+                tooltip.innerHTML = `
+                    <div class="word-title">${d.word}</div>
+                    <div class="phonetic">${d.phonetic}</div>
+                    <div class="meaning">${d.meaning}</div>
+                    <div class="example">"${d.example}"</div>
+                `;
+                const rect = this.getBoundingClientRect();
+                tooltip.style.display = 'block';
+                let left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2);
+                let top = rect.top - tooltip.offsetHeight - 10;
+                if (left < 10) left = 10;
+                if (left + tooltip.offsetWidth > window.innerWidth - 10) left = window.innerWidth - tooltip.offsetWidth - 10;
+                if (top < 10) top = rect.bottom + 10;
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+            });
+        });
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('word')) tooltip.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
