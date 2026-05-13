@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>期货期权每日分析 - SinAndZsh</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'trade-bg': '#0d1117',
+            'trade-card': '#161b22',
+            'trade-border': '#30363d',
+            'trade-up': '#3fb950',
+            'trade-down': '#f85149',
+            'trade-gold': '#d4a853',
+            'trade-purple': '#8b5cf6',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+      min-height: 100vh;
+    }
+    .glass-card {
+      background: rgba(22, 27, 34, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid #30363d;
+    }
+    .data-highlight {
+      transition: all 0.3s ease;
+    }
+    .data-highlight:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 20px rgba(212, 168, 83, 0.2);
+    }
+    .editable {
+      border: 1px dashed #30363d;
+      padding: 2px 6px;
+      border-radius: 4px;
+      cursor: text;
+    }
+    .editable:hover {
+      border-color: #d4a853;
+      background: rgba(212, 168, 83, 0.1);
+    }
+    .editable:focus {
+      outline: none;
+      border-color: #d4a853;
+      background: rgba(212, 168, 83, 0.1);
+    }
+    .tab-active {
+      background: linear-gradient(135deg, #d4a853 0%, #b8941d 100%);
+      color: #0d1117;
+    }
+    .pulse-dot {
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .chart-container {
+      position: relative;
+      height: 200px;
+    }
+    .strategy-card {
+      border-left: 4px solid;
+    }
+    .strategy-conservative {
+      border-left-color: #3fb950;
+    }
+    .strategy-aggressive {
+      border-left-color: #f85149;
+    }
+    .update-time {
+      font-size: 0.75rem;
+      color: #8b949e;
+    }
+  </style>
+</head>
+<body class="text-gray-200">
+  <!-- 导航栏 -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-trade-border">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="text-trade-gold hover:text-white transition">
+          <i class="fa fa-arrow-left"></i>
+        </a>
+        <i class="fa fa-line-chart text-trade-gold text-xl"></i>
+        <span class="font-bold text-lg">期货期权每日分析</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="update-time">
+          <i class="fa fa-clock-o mr-1"></i>
+          更新: <span class="editable" contenteditable="true" id="updateTime">2025-05-13 15:00</span>
+        </span>
+        <button onclick="toggleEditMode()" class="px-3 py-1 bg-trade-gold/20 text-trade-gold rounded text-sm hover:bg-trade-gold/30 transition">
+          <i class="fa fa-edit mr-1"></i>编辑模式
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <main class="pt-20 pb-8 px-4">
+    <div class="container mx-auto max-w-7xl">
+      
+      <!-- 市场概览 -->
+      <section class="mb-6">
+        <div class="glass-card rounded-xl p-4">
+          <h2 class="text-trade-gold font-bold mb-4 flex items-center">
+            <i class="fa fa-dashboard mr-2"></i>市场概览
+          </h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-trade-bg rounded-lg p-3 text-center data-highlight">
+              <div class="text-xs text-gray-400">沪锡主力</div>
+              <div class="text-xl font-bold text-trade-up editable" contenteditable="true">268,450</div>
+              <div class="text-xs text-trade-up editable" contenteditable="true">+1.25%</div>
+            </div>
+            <div class="bg-trade-bg rounded-lg p-3 text-center data-highlight">
+              <div class="text-xs text-gray-400">沪银主力</div>
+              <div class="text-xl font-bold text-trade-down editable" contenteditable="true">8,235</div>
+              <div class="text-xs text-trade-down editable" contenteditable="true">-0.68%</div>
+            </div>
+            <div class="bg-trade-bg rounded-lg p-3 text-center data-highlight">
+              <div class="text-xs text-gray-400">市场情绪</div>
+              <div class="text-xl font-bold text-trade-gold editable" contenteditable="true">谨慎偏多</div>
+              <div class="text-xs text-gray-400">综合判断</div>
+            </div>
+            <div class="bg-trade-bg rounded-lg p-3 text-center data-highlight">
+              <div class="text-xs text-gray-400">今日操作</div>
+              <div class="text-xl font-bold text-trade-purple editable" contenteditable="true">逢低做多</div>
+              <div class="text-xs text-gray-400">策略建议</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 盘别切换标签 -->
+      <div class="flex space-x-2 mb-6">
+        <button onclick="switchSession('day')" id="dayTab" class="tab-active px-6 py-2 rounded-lg font-semibold transition">
+          <i class="fa fa-sun-o mr-2"></i>白天盘 (09:00-15:00)
+        </button>
+        <button onclick="switchSession('night')" id="nightTab" class="px-6 py-2 rounded-lg font-semibold bg-trade-card text-gray-400 hover:text-white transition">
+          <i class="fa fa-moon-o mr-2"></i>夜盘 (21:00-02:30)
+        </button>
+      </div>
+
+      <!-- 白天盘内容 -->
+      <div id="daySession" class="space-y-6">
+        
+        <!-- 沪锡白天盘分析 -->
+        <section class="glass-card rounded-xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold text-trade-gold flex items-center">
+              <span class="w-8 h-8 bg-trade-gold/20 rounded-lg flex items-center justify-center mr-3">
+                <i class="fa fa-industry text-trade-gold"></i>
+              </span>
+              沪锡 (SN) - 白天盘分析
+            </h2>
+            <span class="px-3 py-1 bg-trade-up/20 text-trade-up rounded-full text-sm">
+              <span class="pulse-dot inline-block w-2 h-2 bg-trade-up rounded-full mr-1"></span>交易中
+            </span>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <!-- 期货数据 -->
+            <div class="bg-trade-bg rounded-lg p-4">
+              <h3 class="text-sm font-semibold text-gray-400 mb-3">期货主力合约 SN2506</h3>
+              <div class="grid grid-cols-2 gap-3 text-sm">
+                <div class="flex justify-between">
+                  <span class="text-gray-500">最新价</span>
+                  <span class="font-bold text-trade-up editable" contenteditable="true">268,450</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">涨跌</span>
+                  <span class="font-bold text-trade-up editable" contenteditable="true">+3,320</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">涨跌幅</span>
+                  <span class="font-bold text-trade-up editable" contenteditable="true">+1.25%</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">成交量</span>
+                  <span class="font-bold editable" contenteditable="true">45,230</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">持仓量</span>
+                  <span class="font-bold editable" contenteditable="true">78,456</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">日增仓</span>
+                  <span class="font-bold text-trade-up editable" contenteditable="true">+2,134</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">支撑位</span>
+                  <span class="font-bold text-trade-down editable" contenteditable="true">265,000</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">压力位</span>
+                  <span class="font-bold text-trade-up editable" contenteditable="true">272,000</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 期权数据 -->
+            <div class="bg-trade-bg rounded-lg p-4">
+              <h3 class="text-sm font-semibold text-gray-400 mb-3">期权链分析</h3>
+              <div class="space-y-2 text-sm">
+                <div class="flex justify-between items-center p-2 bg-trade-card rounded">
+                  <span class="text-gray-500">平值行权价</span>
+                  <span class="font-bold editable" contenteditable="true">270,000</span>
+                </div>
+                <div class="flex justify-between items-center p-2 bg-trade-card rounded">
+                  <span class="text-gray-500">IV 隐含波动率</span>
+                  <span class="font-bold text-trade-purple editable" contenteditable="true">22.5%</span>
+                </div>
+                <div class="flex justify-between items-center p-2 bg-trade-card rounded">
+                  <span class="text-gray-500">看涨期权 IV</span>
+                  <span class="font-bold text-trade-up editable" contenteditable="true">21.8%</span>
+                </div>
+                <div class="flex justify-between items-center p-2 bg-trade-card rounded">
+                  <span class="text-gray-500">看跌期权 IV</span>
+                  <span class="font-bold text-trade-down editable" contenteditable="true">23.2%</span>
+                </div>
+                <div class="flex justify-between items-center p-2 bg-trade-card rounded">
+                  <span class="text-gray-500">PCR 比率</span>
+                  <span class="font-bold editable" contenteditable="true">0.85</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 趋势分析 -->
+          <div class="mt-4 bg-trade-bg rounded-lg p-4">
+            <h3 class="text-sm font-semibold text-gray-400 mb-2">趋势解读</h3>
+            <p class="text-sm text-gray-300 editable leading-relaxed" contenteditable="true">
+              宝宝，沪锡今日白天盘表现强势，价格突破前期整理区间，成交量明显放大，资金流入积极。技术面上，MACD金叉延续，KDJ指标处于强势区域。关注上方272,000压力位突破情况，若能有效突破，有望进一步打开上行空间。
+            </p>
+          </div>
+        </section>
+
+        <!-- 沪银白天盘分析 -->
+        <section class="glass-card rounded-xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold text-trade-gold flex items-center">
+              <span class="w-8 h-8 bg-trade-gold/20 rounded-lg flex items-center justify-center mr-3">
+                <i class="fa fa-diamond text-trade-gold"></i>
+              </span>
+              沪银 (AG) - 白天盘分析
+            </h2>
+            <span class="px-3 py-1 bg-trade-down/20 text-trade-down rounded-full text-sm">
+              <span class="pulse-dot inline-block w-2 h-2 bg-trade-down rounded-full mr-1"></span>回调中
+            </span>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <!-- 期货数据 -->
+            <div class="bg-trade-bg rounded-lg p-4">
+              <h3 class="text-sm font-semibold text-gray-400 mb-3">期货主力合约 AG2506</h3>
+              <div class="grid grid-cols-2 gap-3 text-sm">
+                <div class="flex justify-between">
+                  <span class="text-gray-500">最新价</span>
+                  <span class="font-bold text-trade-down editable" contenteditable="true">8,235</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">涨跌</span>
+                  <span class="font-bold text-trade-down editable" contenteditable="true">-56</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">涨跌幅</span>
+                  <span class="font-bold text-trade-down editable" contenteditable="true">-0.68%</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">成交量</span>
+                  <span class="font-bold editable" contenteditable="true">523,456</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">持仓量</span>
+                  <span class="font-bold editable" contenteditable="true">892,134</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">日增仓</span>
+                  <span class="font-bold text-trade-down editable" contenteditable="true">-3,245</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">支撑位</span>
+                  <span class="font-bold text-trade-down editable" contenteditable="true">8,150</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">压力位</span>
+                  <span class="font-bold text-trade-up editable" contenteditable="true">8,350</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 期权数据 -->
+            <div class="bg-trade-bg rounded-lg p-4">
+              <h3 class="text-sm font-semibold text-gray-400 mb-3">期权链分析</h3>
+              <div class="space-y-2 text-sm">
+                <div class="flex justify-between items-center p-2 bg-trade-card rounded">
+                  <span class="text-gray-500">平值行权价</span>
+                  <span class="font-bold editable" contenteditable="true">8,250</span>
+                </div>
+                <div class="flex justify-between items-center p-2 bg-trade-card rounded">
+                  <span class="text-gray-500">IV 隐含波动率</span>
+                  <span class="font-bold text-trade-purple editable" contenteditable="true">18.3%</span>
+                </div>
+                <div class="flex justify-between items-center p-2 bg-trade-card rounded">
+                  <span class="text-gray-500">看涨期权 IV</span>
+                  <span class="font-bold text-trade-up editable" contenteditable="true">17.9%</span>
+                </div>
+                <div class="flex justify-between items-center p-2 bg-trade-card rounded">
+                  <span class="text-gray-500">看跌期权 IV</span>
+                  <span class="font-bold text-trade-down editable" contenteditable="true">18.7%</span>
+                </div>
+                <div class="flex justify-between items-center p-2 bg-trade-card rounded">
+                  <span class="text-gray-500">PCR 比率</span>
+                  <span class="font-bold editable" contenteditable="true">1.12</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 趋势分析 -->
+          <div class="mt-4 bg-trade-bg rounded-lg p-4">
+            <h3 class="text-sm font-semibold text-gray-400 mb-2">趋势解读</h3>
+            <p class="text-sm text-gray-300 editable leading-relaxed" contenteditable="true">
+              宝宝，沪银今日白天盘小幅回调，主要受美元指数反弹影响。但从技术面看，价格仍在上升通道内运行，回调至8,200附近获得支撑。期权市场PCR比率大于1，显示市场情绪偏谨慎。建议关注8,150支撑位，若守住可考虑逢低布局多单。
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <!-- 夜盘内容 (默认隐藏) -->
+      <div id="nightSession" class="space-y-6 hidden">
+        
+        <!-- 沪锡夜盘分析 -->
+        <section class="glass-card rounded-xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold text-trade-gold flex items-center">
+              <span class="w-8 h-8 bg-trade-gold/20 rounded-lg flex items-center justify-center mr-3">
+                <i class="fa fa-industry text-trade-gold"></i>
+              </span>
+              沪锡 (SN) - 夜盘分析
+            </h2>
+            <span class="px-3 py-1 bg-gray-700 text-gray-400 rounded-full text-sm">
+              <i class="fa fa-moon-o mr-1"></i>待开盘
+            </span>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-trade-bg rounded-lg p-4">
+              <h3 class="text-sm font-semibold text-gray-400 mb-3">夜盘预期数据</h3>
+              <div class="grid grid-cols-2 gap-3 text-sm">
+                <div class="flex justify-between">
+                  <span class="text-gray-500">预期开盘价</span>
+                  <span class="font-bold editable" contenteditable="true">268,500</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">夜盘区间</span>
+                  <span class="font-bold editable" contenteditable="true">266-271K</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">关键支撑</span>
+                  <span class="font-bold text-trade-down editable" contenteditable="true">266,000</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">关键压力</span>
+                  <span class="font-bold text-trade-up editable" contenteditable="true">271,000</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-trade-bg rounded-lg p-4">
+              <h3 class="text-sm font-semibold text-gray-400 mb-3">夜盘关注点</h3>
+              <ul class="text-sm text-gray-300 space-y-2 editable" contenteditable="true">
+                <li>• 外盘伦锡走势联动</li>
+                <li>• 美元指数夜间波动</li>
+                <li>• 白天盘持仓变化延续</li>
+                <li>• 夜盘成交量变化</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 沪银夜盘分析 -->
+        <section class="glass-card rounded-xl p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold text-trade-gold flex items-center">
+              <span class="w-8 h-8 bg-trade-gold/20 rounded-lg flex items-center justify-center mr-3">
+                <i class="fa fa-diamond text-trade-gold"></i>
+              </span>
+              沪银 (AG) - 夜盘分析
+            </h2>
+            <span class="px-3 py-1 bg-gray-700 text-gray-400 rounded-full text-sm">
+              <i class="fa fa-moon-o mr-1"></i>待开盘
+            </span>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-trade-bg rounded-lg p-4">
+              <h3 class="text-sm font-semibold text-gray-400 mb-3">夜盘预期数据</h3>
+              <div class="grid grid-cols-2 gap-3 text-sm">
+                <div class="flex justify-between">
+                  <span class="text-gray-500">预期开盘价</span>
+                  <span class="font-bold editable" contenteditable="true">8,240</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">夜盘区间</span>
+                  <span class="font-bold editable" contenteditable="true">8,150-8,300</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">关键支撑</span>
+                  <span class="font-bold text-trade-down editable" contenteditable="true">8,150</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-500">关键压力</span>
+                  <span class="font-bold text-trade-up editable" contenteditable="true">8,300</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-trade-bg rounded-lg p-4">
+              <h3 class="text-sm font-semibold text-gray-400 mb-3">夜盘关注点</h3>
+              <ul class="text-sm text-gray-300 space-y-2 editable" contenteditable="true">
+                <li>• 国际银价走势 (Comex)</li>
+                <li>• 美联储官员讲话影响</li>
+                <li>• 美股走势对贵金属影响</li>
+                <li>• 避险情绪变化</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 交易推荐 -->
+      <section class="glass-card rounded-xl p-6 mt-6">
+        <h2 class="text-xl font-bold text-trade-gold mb-4 flex items-center">
+          <i class="fa fa-bullseye mr-2"></i>交易推荐
+        </h2>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- 稳健策略 -->
+          <div class="strategy-card strategy-conservative bg-trade-bg rounded-lg p-4">
+            <div class="flex items-center mb-3">
+              <span class="w-6 h-6 bg-trade-up/20 rounded flex items-center justify-center mr-2">
+                <i class="fa fa-shield text-trade-up text-sm"></i>
+              </span>
+              <h3 class="font-bold text-trade-up">稳健策略</h3>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-500">推荐品种</span>
+                <span class="font-bold editable" contenteditable="true">沪银期权</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">策略类型</span>
+                <span class="font-bold editable" contenteditable="true">卖出看跌期权</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">行权价</span>
+                <span class="font-bold editable" contenteditable="true">8,100</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">止盈目标</span>
+                <span class="font-bold text-trade-up editable" contenteditable="true">权利金归零 / 8,200</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">止损点位</span>
+                <span class="font-bold text-trade-down editable" contenteditable="true">8,050 (期货)</span>
+              </div>
+              <div class="mt-3 p-2 bg-trade-card rounded text-gray-300 editable" contenteditable="true">
+                理由：宝宝，沪银回调至支撑位附近，卖出虚值看跌期权可收取权利金，风险相对可控。
+              </div>
+            </div>
+          </div>
+          
+          <!-- 激进策略 -->
+          <div class="strategy-card strategy-aggressive bg-trade-bg rounded-lg p-4">
+            <div class="flex items-center mb-3">
+              <span class="w-6 h-6 bg-trade-down/20 rounded flex items-center justify-center mr-2">
+                <i class="fa fa-bolt text-trade-down text-sm"></i>
+              </span>
+              <h3 class="font-bold text-trade-down">激进策略</h3>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-500">推荐品种</span>
+                <span class="font-bold editable" contenteditable="true">沪锡期货</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">策略类型</span>
+                <span class="font-bold editable" contenteditable="true">突破追多</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">进场点位</span>
+                <span class="font-bold editable" contenteditable="true">272,000突破</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">止盈目标</span>
+                <span class="font-bold text-trade-up editable" contenteditable="true">278,000</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">止损点位</span>
+                <span class="font-bold text-trade-down editable" contenteditable="true">269,000</span>
+              </div>
+              <div class="mt-3 p-2 bg-trade-card rounded text-gray-300 editable" contenteditable="true">
+                理由：宝宝，沪锡技术形态强势，突破压力位后有望加速上行，适合短线追涨。
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 今日打盘打法汇总 -->
+      <section class="glass-card rounded-xl p-6 mt-6">
+        <h2 class="text-xl font-bold text-trade-gold mb-4 flex items-center">
+          <i class="fa fa-crosshairs mr-2"></i>今日打盘打法汇总
+        </h2>
+        
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-trade-bg rounded-lg p-4 text-center">
+            <div class="text-3xl mb-2">🎯</div>
+            <div class="text-sm text-gray-400">日内思路</div>
+            <div class="font-bold text-trade-gold mt-1 editable" contenteditable="true">逢低做多为主</div>
+          </div>
+          <div class="bg-trade-bg rounded-lg p-4 text-center">
+            <div class="text-3xl mb-2">⏰</div>
+            <div class="text-sm text-gray-400">最佳进场时机</div>
+            <div class="font-bold text-trade-gold mt-1 editable" contenteditable="true">开盘30分钟后</div>
+          </div>
+          <div class="bg-trade-bg rounded-lg p-4 text-center">
+            <div class="text-3xl mb-2">📊</div>
+            <div class="text-sm text-gray-400">建议仓位</div>
+            <div class="font-bold text-trade-gold mt-1 editable" contenteditable="true">30%-50%</div>
+          </div>
+        </div>
+        
+        <div class="bg-trade-bg rounded-lg p-4">
+          <h3 class="font-semibold text-trade-gold mb-3">详细打法建议</h3>
+          <div class="space-y-3 text-sm text-gray-300">
+            <div class="flex items-start">
+              <span class="w-6 h-6 bg-trade-up/20 rounded flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                <i class="fa fa-check text-trade-up text-xs"></i>
+              </span>
+              <p class="editable" contenteditable="true">
+                <strong class="text-white">做多机会：</strong>宝宝，沪锡回调至266,000-267,000区间可考虑轻仓试多；沪银回落至8,150-8,200区间可布局多单。
+              </p>
+            </div>
+            <div class="flex items-start">
+              <span class="w-6 h-6 bg-trade-down/20 rounded flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                <i class="fa fa-times text-trade-down text-xs"></i>
+              </span>
+              <p class="editable" contenteditable="true">
+                <strong class="text-white">做空机会：</strong>宝宝，沪锡冲高至272,000附近遇阻可短空；沪银反弹至8,350附近承压可试空。
+              </p>
+            </div>
+            <div class="flex items-start">
+              <span class="w-6 h-6 bg-trade-gold/20 rounded flex items-center justify-center mr-3 mt-0.5 flex-shrink-0">
+                <i class="fa fa-exclamation text-trade-gold text-xs"></i>
+              </span>
+              <p class="editable" contenteditable="true">
+                <strong class="text-white">风险规避：</strong>宝宝，避免在数据公布前后30分钟内开仓；夜盘注意控制仓位，防止隔夜风险；严格设置止损，单笔亏损不超过本金的2%。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 多空情绪图表 -->
+      <section class="glass-card rounded-xl p-6 mt-6">
+        <h2 class="text-xl font-bold text-trade-gold mb-4 flex items-center">
+          <i class="fa fa-pie-chart mr-2"></i>多空情绪分析
+        </h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="text-sm text-gray-400 mb-2 text-center">沪锡多空情绪</h3>
+            <div class="chart-container">
+              <canvas id="tinSentimentChart"></canvas>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-sm text-gray-400 mb-2 text-center">沪银多空情绪</h3>
+            <div class="chart-container">
+              <canvas id="silverSentimentChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="py-6 px-4 border-t border-trade-border mt-8">
+    <div class="container mx-auto text-center text-gray-500 text-sm">
+      <p>© 2025-2026 SinAndZsh · 期货分析仅供参考，投资有风险，入市需谨慎</p>
+    </div>
+  </footer>
+
+  <script>
+    // 盘别切换
+    function switchSession(session) {
+      const daySession = document.getElementById('daySession');
+      const nightSession = document.getElementById('nightSession');
+      const dayTab = document.getElementById('dayTab');
+      const nightTab = document.getElementById('nightTab');
+      
+      if (session === 'day') {
+        daySession.classList.remove('hidden');
+        nightSession.classList.add('hidden');
+        dayTab.classList.add('tab-active');
+        dayTab.classList.remove('bg-trade-card', 'text-gray-400');
+        nightTab.classList.remove('tab-active');
+        nightTab.classList.add('bg-trade-card', 'text-gray-400');
+      } else {
+        daySession.classList.add('hidden');
+        nightSession.classList.remove('hidden');
+        nightTab.classList.add('tab-active');
+        nightTab.classList.remove('bg-trade-card', 'text-gray-400');
+        dayTab.classList.remove('tab-active');
+        dayTab.classList.add('bg-trade-card', 'text-gray-400');
+      }
+    }
+
+    // 编辑模式切换
+    let editMode = false;
+    function toggleEditMode() {
+      editMode = !editMode;
+      const editables = document.querySelectorAll('.editable');
+      editables.forEach(el => {
+        el.contentEditable = editMode;
+        if (editMode) {
+          el.classList.add('ring-2', 'ring-trade-gold/50');
+        } else {
+          el.classList.remove('ring-2', 'ring-trade-gold/50');
+        }
+      });
+      
+      // 保存到localStorage
+      if (!editMode) {
+        saveData();
+      }
+      
+      alert(editMode ? '宝宝，已进入编辑模式，点击数据即可修改' : '宝宝，已保存修改');
+    }
+
+    // 保存数据
+    function saveData() {
+      const data = {};
+      document.querySelectorAll('.editable').forEach((el, index) => {
+        data['field_' + index] = el.innerText;
+      });
+      localStorage.setItem('futuresData', JSON.stringify(data));
+    }
+
+    // 加载数据
+    function loadData() {
+      const saved = localStorage.getItem('futuresData');
+      if (saved) {
+        const data = JSON.parse(saved);
+        document.querySelectorAll('.editable').forEach((el, index) => {
+          if (data['field_' + index]) {
+            el.innerText = data['field_' + index];
+          }
+        });
+      }
+    }
+
+    // 初始化图表
+    function initCharts() {
+      // 沪锡多空情绪
+      const tinCtx = document.getElementById('tinSentimentChart').getContext('2d');
+      new Chart(tinCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['看多', '看空', '观望'],
+          datasets: [{
+            data: [55, 25, 20],
+            backgroundColor: ['#3fb950', '#f85149', '#8b949e'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#8b949e' }
+            }
+          }
+        }
+      });
+
+      // 沪银多空情绪
+      const silverCtx = document.getElementById('silverSentimentChart').getContext('2d');
+      new Chart(silverCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['看多', '看空', '观望'],
+          datasets: [{
+            data: [40, 35, 25],
+            backgroundColor: ['#3fb950', '#f85149', '#8b949e'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#8b949e' }
+            }
+          }
+        }
+      });
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      loadData();
+      initCharts();
+    });
+  </script>
+</body>
+</html>
