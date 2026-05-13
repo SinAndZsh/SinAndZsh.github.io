@@ -17,6 +17,7 @@
             primary: '#8B5CF6',
             secondary: '#EC4899',
             dark: '#1a1a2e',
+            'trade-gold': '#d4a853',
           }
         }
       }
@@ -55,9 +56,14 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #d4a853 0%, #f0d878 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
   </style>
 </head>
-
 <body class="hero-gradient min-h-screen">
   
   <!-- 导航栏 -->
@@ -69,7 +75,6 @@
       </div>
     </div>
   </nav>
-
   <!-- 主内容区 -->
   <main class="pt-32 pb-20 px-4">
     <div class="container mx-auto max-w-5xl">
@@ -80,17 +85,42 @@
           欢迎来到我的<span class="gradient-text">个人空间</span>
         </h1>
         <p class="text-gray-400 text-lg max-w-2xl mx-auto">
-          这里是 SinAndZsh 的个人网站，包含学习资料和私人空间
+          这里是 SinAndZsh 的个人网站，包含学习资料、投资分析和私人空间
         </p>
       </div>
       
       <!-- 功能卡片区 -->
-      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        
+        <!-- 期货分析卡片 (新增) -->
+        <a href="futures.html" class="card-hover block bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+          <div class="flex items-center mb-6">
+            <div class="w-16 h-16 bg-gradient-to-br from-yellow-500 to-amber-600 rounded-2xl flex items-center justify-center mr-5 float-animation" style="animation-delay: 0s;">
+              <i class="fa fa-line-chart text-white text-2xl"></i>
+            </div>
+            <div>
+              <h2 class="text-2xl font-bold text-white">📈 期货期权分析</h2>
+              <p class="text-trade-gold text-sm">沪锡沪银每日分析</p>
+            </div>
+          </div>
+          <p class="text-gray-300 mb-6 leading-relaxed">
+            每日更新沪锡、沪银期货行情分析，包含期权链数据、支撑压力位、交易推荐和打盘打法，助你把握市场机会。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-yellow-500/30 text-yellow-300 px-3 py-1 rounded-full text-sm">每日更新</span>
+            <span class="bg-green-500/30 text-green-300 px-3 py-1 rounded-full text-sm">交易策略</span>
+            <span class="bg-red-500/30 text-red-300 px-3 py-1 rounded-full text-sm">实时行情</span>
+          </div>
+          <div class="mt-6 flex items-center text-trade-gold">
+            <span class="font-semibold">查看分析</span>
+            <i class="fa fa-arrow-right ml-2"></i>
+          </div>
+        </a>
         
         <!-- 外刊精读卡片 -->
         <a href="reading/index.html" class="card-hover block bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
           <div class="flex items-center mb-6">
-            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center mr-5 float-animation">
+            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center mr-5 float-animation" style="animation-delay: 0.5s;">
               <i class="fa fa-book text-white text-2xl"></i>
             </div>
             <div>
@@ -113,9 +143,9 @@
         </a>
         
         <!-- 想你 sin 卡片 -->
-        <a href="sin.html" class="card-hover block bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+        <a href="sin.html" class="card-hover block bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 md:col-span-2 lg:col-span-1">
           <div class="flex items-center mb-6">
-            <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center mr-5 float-animation" style="animation-delay: 0.5s;">
+            <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center mr-5 float-animation" style="animation-delay: 1s;">
               <i class="fa fa-heart text-white text-2xl"></i>
             </div>
             <div>
@@ -140,7 +170,11 @@
       </div>
       
       <!-- 统计信息 -->
-      <div class="mt-16 grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+      <div class="mt-16 grid grid-cols-4 gap-4 max-w-3xl mx-auto">
+        <div class="text-center p-4 bg-white/5 rounded-xl border border-white/10">
+          <div class="text-3xl font-bold gold-gradient-text mb-1">2</div>
+          <div class="text-gray-500 text-sm">期货品种</div>
+        </div>
         <div class="text-center p-4 bg-white/5 rounded-xl border border-white/10">
           <div class="text-3xl font-bold gradient-text mb-1">1000+</div>
           <div class="text-gray-500 text-sm">词汇量/篇</div>
