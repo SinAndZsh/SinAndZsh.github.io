@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日外刊精读 - The Economist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header .meta {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .summary-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .summary-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .summary-box p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .article-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .article-content {
+            font-size: 17px;
+            line-height: 1.9;
+            color: #444;
+            margin-bottom: 30px;
+        }
+
+        .article-content p {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .word {
+            color: #667eea;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px dotted #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .word:hover {
+            background: #667eea;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-bottom: none;
+        }
+
+        .tooltip {
+            position: fixed;
+            background: #333;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            max-width: 300px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            line-height: 1.6;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #333;
+        }
+
+        .tooltip .word-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .tooltip .phonetic {
+            color: #aaa;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .tooltip .meaning {
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .tooltip .example {
+            color: #ccc;
+            font-size: 12px;
+            border-top: 1px solid #555;
+            padding-top: 5px;
+            margin-top: 5px;
+        }
+
+        /* 词汇表 */
+        .vocab-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .vocab-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .vocab-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .vocab-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        .vocab-card .v-word {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 16px;
+        }
+
+        .vocab-card .v-phonetic {
+            color: #888;
+            font-size: 13px;
+            margin: 3px 0;
+        }
+
+        .vocab-card .v-pos {
+            color: #e67e22;
+            font-size: 12px;
+            margin: 2px 0;
+        }
+
+        .vocab-card .v-meaning {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .vocab-card .v-example {
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+            font-style: italic;
+            border-top: 1px solid #eee;
+            padding-top: 5px;
+        }
+
+        /* 短语搭配 */
+        .phrase-section {
+            background: #fff8e1;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 1px solid #ffe082;
+        }
+
+        .phrase-section h3 {
+            color: #f57f17;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .phrase-card {
+            background: white;
+            padding: 15px 18px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 4px solid #ffc107;
+        }
+
+        .phrase-card .p-phrase {
+            font-weight: bold;
+            color: #e65100;
+            font-size: 16px;
+        }
+
+        .phrase-card .p-meaning {
+            color: #555;
+            font-size: 14px;
+            margin: 4px 0;
+        }
+
+        .phrase-card .p-example {
+            color: #777;
+            font-size: 13px;
+            font-style: italic;
+            background: #fafafa;
+            padding: 8px 10px;
+            border-radius: 6px;
+            margin-top: 6px;
+            line-height: 1.6;
+        }
+
+        /* 长难句 */
+        .difficult-sentences {
+            margin-top: 30px;
+        }
+
+        .difficult-sentences h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .sentence-card {
+            background: #fff5f5;
+            border-left: 4px solid #e53e3e;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .sentence-card .original {
+            font-style: italic;
+            color: #444;
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .sentence-card .analysis {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* 阅读理解 */
+        .practice-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+        }
+
+        .practice-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+
+        .question p {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .question .q-type {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: normal;
+            margin-bottom: 8px;
+        }
+
+        .options label {
+            display: block;
+            padding: 10px 14px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .options label:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .answer-box {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+            font-size: 14px;
+            color: #2e7d32;
+            line-height: 1.7;
+        }
+
+        /* 阅读技巧 */
+        .tips-box {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e6fffa;
+            border-left: 4px solid #38b2ac;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .tips-box h4 {
+            color: #38b2ac;
+            margin-bottom: 10px;
+        }
+
+        .tips-box ul {
+            margin-left: 20px;
+            color: #444;
+        }
+
+        .tips-box li {
+            margin: 8px 0;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container { border-radius: 12px; }
+            .content { padding: 20px; }
+            .article-title { font-size: 20px; }
+            .article-content { font-size: 15px; }
+            .vocab-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 每日外刊精读</h1>
+            <div class="meta">来源：The Economist（经济学人） | 日期：2025年2月 | 考研词汇专项训练</div>
+        </div>
+
+        <div class="content">
+            <a href="index.html" class="back-link">← 返回文章列表</a>
+
+            <div class="summary-box">
+                <h3>📋 文章大意</h3>
+                <p>本文选自《经济学人》2025年2月刊，探讨了全球范围内学校禁止使用智能手机的政策及其效果。法国自2018年起禁止中小学生在校使用手机，荷兰和匈牙利也相继效仿，英国正在考虑类似措施。然而，最新研究表明，学校手机禁令对改善学生心理健康的效果可能远不如预期。文章引用了剑桥大学和伯明翰大学的研究，指出问题远比"禁不禁"复杂——社交媒体公司拒绝向独立研究者提供数据，使得科学界难以获得准确的结论。作者呼吁采取更加精细化的、基于证据的政策，而非简单粗暴的一刀切禁令。</p>
+            </div>
+
+            <h2 class="article-title">Early Evidence Suggests Phone Bans at Schools May Do Little to Benefit Pupils' Mental Health</h2>
+
+            <div class="article-content">
+                <p>
+                France has not allowed <span class="word" data-word="smartphone" data-phonetic="/ˈsmɑːrtfoʊn/" data-meaning="n. 智能手机" data-example="Most teenagers today own a smartphone.">smartphone</span> use in primary or secondary schools since 2018, claiming that it would help children focus, reduce their social-media use and <span class="word" data-word="mitigate" data-phonetic="/ˈmɪtɪɡeɪt/" data-meaning="v. 减轻，缓和" data-example="Measures should be taken to mitigate the effects of pollution.">mitigate</span> online <span class="word" data-word="bullying" data-phonetic="/ˈbʊliɪŋ/" data-meaning="n. 欺凌，霸凌" data-example="School bullying is a serious problem that needs attention.">bullying</span>. The Netherlands <span class="word" data-word="initiated" data-phonetic="/ɪˈnɪʃieɪtɪd/" data-meaning="v. 发起，开始" data-example="The government initiated a new program to help the poor.">initiated</span> a similar ban in January 2024. Hungary followed suit later that year. <span class="word" data-word="Legislators" data-phonetic="/ˈledʒɪsleɪtərz/" data-meaning="n. 立法者" data-example="Legislators are debating the new education bill.">Legislators</span> in Britain are considering similar measures. The key question facing them is whether banning smartphones in schools offers any benefits to mental health.
+                </p>
+
+                <p>
+                That there is a problem seems clear. In 2021 America's surgeon general <span class="word" data-word="compiled" data-phonetic="/kəmˈpaɪld/" data-meaning="v. 汇编，编纂" data-example="She compiled a list of all the necessary documents.">compiled</span> a report revealing that <span class="word" data-word="persistent" data-phonetic="/pərˈsɪstənt/" data-meaning="adj. 持续的，持久的" data-example="Persistent efforts eventually lead to success.">persistent</span> feelings of <span class="word" data-word="hopelessness" data-phonetic="/ˈhoʊpləsnəs/" data-meaning="n. 绝望，无望" data-example="A sense of hopelessness overwhelmed him after the failure.">hopelessness</span> climbed by 40% among American high-school pupils between 2009 and 2019. The number who seriously considered killing themselves went up by 36%. What makes these findings all the worse is that 48% of mental-health problems (like depression and anxiety) that <span class="word" data-word="emerge" data-phonetic="/ɪˈmɜːrdʒ/" data-meaning="v. 出现，浮现" data-example="New evidence emerged during the investigation.">emerge</span> during <span class="word" data-word="adolescence" data-phonetic="/ˌædəˈlesns/" data-meaning="n. 青春期" data-example="Depression often first emerges during adolescence.">adolescence</span> will <span class="word" data-word="plague" data-phonetic="/pleɪɡ/" data-meaning="v. 困扰，折磨" data-example="Financial problems have plagued the company for years.">plague</span> people for the rest of their lives.
+                </p>
+
+                <p>
+                It is tempting to connect these trends with the increased <span class="word" data-word="availability" data-phonetic="/əˌveɪləˈbɪləti/" data-meaning="n. 可获得性，可用性" data-example="The availability of clean water is a basic human right.">availability</span> of smartphones, but establishing a <span class="word" data-word="causal" data-phonetic="/ˈkɔːzl/" data-meaning="adj. 因果关系的" data-example="No causal relationship has been established between the two events.">causal</span> connection is difficult. Part of the problem is that smartphones contain <span class="word" data-word="multitudes" data-phonetic="/ˈmʌltɪtuːdz/" data-meaning="n. 大量，众多（a multitude of）" data-example="There are a multitude of reasons for his decision.">multitudes</span>. Using a smartphone to solve crosswords or read the news may well have markedly different psychological effects from intensive social-media use.
+                </p>
+
+                <p>
+                Children are no less varied. The brain undergoes <span class="word" data-word="profound" data-phonetic="/prəˈfaʊnd/" data-meaning="adj. 深刻的，深远的" data-example="The invention of the internet had a profound impact on society.">profound</span> changes during <span class="word" data-word="puberty" data-phonetic="/ˈpjuːbərti/" data-meaning="n. 青春期" data-example="Children go through many physical changes during puberty.">puberty</span>, meaning that any research on the effects of smartphone use needs to consider the <span class="word" data-word="developmental" data-phonetic="/ˌdiˌveləpˈmentl/" data-meaning="adj. 发展的，发育的" data-example="Developmental milestones vary from child to child.">developmental</span> age of the children being studied as well as their precise smartphone habits.
+                </p>
+
+                <p>
+                No studies have got this specific. Those that have come close, however, reveal that <span class="word" data-word="unfettered" data-phonetic="/ʌnˈfetərd/" data-meaning="adj. 不受限制的，自由的" data-example="Unfettered access to information can be both a blessing and a curse.">unfettered</span> access to social media on smartphones during puberty, especially at critical moments when the brain is changing, may cause problems. One study, led by Amy Orben at the University of Cambridge, asked 17,409 people between the ages of ten and 21 how satisfied they were with their lives and how much they used social media.
+                </p>
+
+                <p>
+                The findings, reported in 2022 in <i>Nature Communications</i>, show that girls who increased their social media use over the course of a year were <span class="word" data-word="significantly" data-phonetic="/sɪɡˈnɪfɪkəntli/" data-meaning="adv. 显著地，明显地" data-example="Test scores improved significantly after the new teaching method was introduced.">significantly</span> less satisfied with their lives if the increase took place when they were between 11 and 13. Boys showed the same <span class="word" data-word="trend" data-phonetic="/trend/" data-meaning="n. 趋势，倾向" data-example="There is a growing trend towards remote working.">trend</span> when increases took place when they were 14 or 15 years old.
+                </p>
+
+                <p>
+                How much of this will change by banning phones in schools is unclear. In a paper published in <i>The Lancet</i> in February, Victoria Goodyear at the University of Birmingham compared the mental well-being of students in schools that <span class="word" data-word="implemented" data-phonetic="/ˈɪmplɪmentɪd/" data-meaning="v. 实施，执行" data-example="The government implemented a series of economic reforms.">implemented</span> <span class="word" data-word="restrictive" data-phonetic="/rɪˈstrɪktɪv/" data-meaning="adj. 限制性的" data-example="The country has restrictive immigration policies.">restrictive</span> smartphone policies with those with relaxed policies. She also monitored overall screentime. Her results show that, though those who spent more time on a smartphone overall did have a <span class="word" data-word="decline" data-phonetic="/dɪˈklaɪn/" data-meaning="n./v. 下降，衰退" data-example="There has been a sharp decline in the number of tourists.">decline</span> in mental well-being, there was no difference between the two groups. She and her colleagues <span class="word" data-word="argue" data-phonetic="/ˈɑːrɡjuː/" data-meaning="v. 主张，认为" data-example="Critics argue that the policy is flawed.">argue</span> that setting up policies at schools alone is simply not enough.
+                </p>
+
+                <p>
+                Researchers are trying to paint a complete picture with both hands tied behind their back. According to Dr Orben, social-media companies <span class="word" data-word="routinely" data-phonetic="/ruːˈtiːnli/" data-meaning="adv. 例行地，常规地" data-example="The equipment is routinely checked for safety.">routinely</span> refuse to give independent researchers access to detailed data on the behaviors of their users. This forces researchers to rely on less accurate <span class="word" data-word="proxy" data-phonetic="/ˈprɒksi/" data-meaning="n. 代理，替代物" data-example="GDP is often used as a proxy for economic well-being.">proxy</span> measures, like overall screentime. It also means that children playing educational games are being put in the same <span class="word" data-word="analytical" data-phonetic="/ˌænəˈlɪtɪkl/" data-meaning="adj. 分析的，解析的" data-example="Analytical skills are essential for scientific research.">analytical</span> bin as children who are on social media. A more <span class="word" data-word="nuanced" data-phonetic="/ˈnuːɑːnst/" data-meaning="adj. 细致的，微妙的" data-example="The issue requires a more nuanced approach.">nuanced</span> picture of the effects of smartphones needs to be drawn.
+                </p>
+            </div>
+
+            <!-- 核心词汇表 -->
+            <div class="vocab-section">
+                <h3>📝 核心词汇表（考研高频词 · 30个）</h3>
+                <div class="vocab-grid">
+                    <div class="vocab-card">
+                        <div class="v-word">mitigate</div>
+                        <div class="v-phonetic">/ˈmɪtɪɡeɪt/</div>
+                        <div class="v-pos">v.</div>
+                        <div class="v-meaning">减轻，缓和</div>
+                        <div class="v-example">Measures should be taken to mitigate the effects of pollution.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">initiate</div>
+                        <div class="v-phonetic">/ɪˈnɪʃieɪt/</div>
+                        <div class="v-pos">v.</div>
+                        <div class="v-meaning">发起，开始；倡议</div>
+                        <div class="v-example">The government initiated a new program to help the poor.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">legislator</div>
+                        <div class="v-phonetic">/ˈledʒɪsleɪtər/</div>
+                        <div class="v-pos">n.</div>
+                        <div class="v-meaning">立法者</div>
+                        <div class="v-example">Legislators are debating the new education bill.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">compile</div>
+                        <div class="v-phonetic">/kəmˈpaɪl/</div>
+                        <div class="v-pos">v.</div>
+                        <div class="v-meaning">汇编，编纂；收集</div>
+                        <div class="v-example">She compiled a list of all the necessary documents.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">persistent</div>
+                        <div class="v-phonetic">/pərˈsɪstənt/</div>
+                        <div class="v-pos">adj.</div>
+                        <div class="v-meaning">持续的，持久的；坚持不懈的</div>
+                        <div class="v-example">Persistent efforts eventually lead to success.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">hopelessness</div>
+                        <div class="v-phonetic">/ˈhoʊpləsnəs/</div>
+                        <div class="v-pos">n.</div>
+                        <div class="v-meaning">绝望，无望</div>
+                        <div class="v-example">A sense of hopelessness overwhelmed him after the failure.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">adolescence</div>
+                        <div class="v-phonetic">/ˌædəˈlesns/</div>
+                        <div class="v-pos">n.</div>
+                        <div class="v-meaning">青春期</div>
+                        <div class="v-example">Depression often first emerges during adolescence.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">plague</div>
+                        <div class="v-phonetic">/pleɪɡ/</div>
+                        <div class="v-pos">v./n.</div>
+                        <div class="v-meaning">v. 困扰，折磨；n. 瘟疫</div>
+                        <div class="v-example">Financial problems have plagued the company for years.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">availability</div>
+                        <div class="v-phonetic">/əˌveɪləˈbɪləti/</div>
+                        <div class="v-pos">n.</div>
+                        <div class="v-meaning">可获得性，可用性</div>
+                        <div class="v-example">The availability of clean water is a basic human right.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">causal</div>
+                        <div class="v-phonetic">/ˈkɔːzl/</div>
+                        <div class="v-pos">adj.</div>
+                        <div class="v-meaning">因果关系的</div>
+                        <div class="v-example">No causal relationship has been established between the two events.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">multitude</div>
+                        <div class="v-phonetic">/ˈmʌltɪtuːd/</div>
+                        <div class="v-pos">n.</div>
+                        <div class="v-meaning">大量，众多</div>
+                        <div class="v-example">There are a multitude of reasons for his decision.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">profound</div>
+                        <div class="v-phonetic">/prəˈfaʊnd/</div>
+                        <div class="v-pos">adj.</div>
+                        <div class="v-meaning">深刻的，深远的</div>
+                        <div class="v-example">The invention of the internet had a profound impact on society.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">puberty</div>
+                        <div class="v-phonetic">/ˈpjuːbərti/</div>
+                        <div class="v-pos">n.</div>
+                        <div class="v-meaning">青春期</div>
+                        <div class="v-example">Children go through many physical changes during puberty.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">developmental</div>
+                        <div class="v-phonetic">/ˌdiˌveləpˈmentl/</div>
+                        <div class="v-pos">adj.</div>
+                        <div class="v-meaning">发展的，发育的</div>
+                        <div class="v-example">Developmental milestones vary from child to child.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">unfettered</div>
+                        <div class="v-phonetic">/ʌnˈfetərd/</div>
+                        <div class="v-pos">adj.</div>
+                        <div class="v-meaning">不受限制的，自由的</div>
+                        <div class="v-example">Unfettered access to information can be both a blessing and a curse.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">significantly</div>
+                        <div class="v-phonetic">/sɪɡˈnɪfɪkəntli/</div>
+                        <div class="v-pos">adv.</div>
+                        <div class="v-meaning">显著地，明显地</div>
+                        <div class="v-example">Test scores improved significantly after the new teaching method was introduced.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">implement</div>
+                        <div class="v-phonetic">/ˈɪmplɪment/</div>
+                        <div class="v-pos">v.</div>
+                        <div class="v-meaning">实施，执行</div>
+                        <div class="v-example">The government implemented a series of economic reforms.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">restrictive</div>
+                        <div class="v-phonetic">/rɪˈstrɪktɪv/</div>
+                        <div class="v-pos">adj.</div>
+                        <div class="v-meaning">限制性的，约束的</div>
+                        <div class="v-example">The country has restrictive immigration policies.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">decline</div>
+                        <div class="v-phonetic">/dɪˈklaɪn/</div>
+                        <div class="v-pos">n./v.</div>
+                        <div class="v-meaning">下降，衰退；拒绝</div>
+                        <div class="v-example">There has been a sharp decline in the number of tourists.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">routinely</div>
+                        <div class="v-phonetic">/ruːˈtiːnli/</div>
+                        <div class="v-pos">adv.</div>
+                        <div class="v-meaning">例行地，常规地</div>
+                        <div class="v-example">The equipment is routinely checked for safety.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">proxy</div>
+                        <div class="v-phonetic">/ˈprɒksi/</div>
+                        <div class="v-pos">n.</div>
+                        <div class="v-meaning">代理，替代物；代理人</div>
+                        <div class="v-example">GDP is often used as a proxy for economic well-being.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">nuanced</div>
+                        <div class="v-phonetic">/ˈnuːɑːnst/</div>
+                        <div class="v-pos">adj.</div>
+                        <div class="v-meaning">细致的，微妙的</div>
+                        <div class="v-example">The issue requires a more nuanced approach.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">bullying</div>
+                        <div class="v-phonetic">/ˈbʊliɪŋ/</div>
+                        <div class="v-pos">n.</div>
+                        <div class="v-meaning">欺凌，霸凌</div>
+                        <div class="v-example">School bullying is a serious problem that needs attention.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">tempting</div>
+                        <div class="v-phonetic">/ˈtemptɪŋ/</div>
+                        <div class="v-pos">adj.</div>
+                        <div class="v-meaning">诱人的，吸引人的</div>
+                        <div class="v-example">It is tempting to blame technology for all our problems.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">emerge</div>
+                        <div class="v-phonetic">/ɪˈmɜːrdʒ/</div>
+                        <div class="v-pos">v.</div>
+                        <div class="v-meaning">出现，浮现；显露</div>
+                        <div class="v-example">New evidence emerged during the investigation.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">analytical</div>
+                        <div class="v-phonetic">/ˌænəˈlɪtɪkl/</div>
+                        <div class="v-pos">adj.</div>
+                        <div class="v-meaning">分析的，解析的</div>
+                        <div class="v-example">Analytical skills are essential for scientific research.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">trend</div>
+                        <div class="v-phonetic">/trend/</div>
+                        <div class="v-pos">n.</div>
+                        <div class="v-meaning">趋势，倾向</div>
+                        <div class="v-example">There is a growing trend towards remote working.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">argue</div>
+                        <div class="v-phonetic">/ˈɑːrɡjuː/</div>
+                        <div class="v-pos">v.</div>
+                        <div class="v-meaning">主张，认为；争论</div>
+                        <div class="v-example">Critics argue that the policy is flawed.</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">measure</div>
+                        <div class="v-phonetic">/ˈmeʒər/</div>
+                        <div class="v-pos">n./v.</div>
+                        <div class="v-meaning">n. 措施，衡量标准；v. 测量</div>
+                        <div class="v-example">The government should take measures to reduce pollution.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 短语搭配 -->
+            <div class="phrase-section">
+                <h3>📌 短语搭配（考研常考固定搭配）</h3>
+
+                <div class="phrase-card">
+                    <div class="p-phrase">follow suit</div>
+                    <div class="p-meaning">效仿，跟着做</div>
+                    <div class="p-example">"The Netherlands initiated a similar ban in January 2024. Hungary <strong>followed suit</strong> later that year."（荷兰于2024年1月发起了类似的禁令。匈牙利后来也效仿了。）</div>
+                </div>
+
+                <div class="phrase-card">
+                    <div class="p-phrase">a multitude of</div>
+                    <div class="p-meaning">大量的，许多的</div>
+                    <div class="p-example">"Part of the problem is that smartphones contain <strong>a multitude of</strong> [features]."（问题的一部分在于智能手机包含大量的功能。）</div>
+                </div>
+
+                <div class="phrase-card">
+                    <div class="p-phrase">it is tempting to</div>
+                    <div class="p-meaning">很容易……，忍不住……</div>
+                    <div class="p-example">"<strong>It is tempting to</strong> connect these trends with the increased availability of smartphones, but establishing a causal connection is difficult."（人们很容易将这些趋势与智能手机的日益普及联系起来，但建立因果关系却很困难。）</div>
+                </div>
+
+                <div class="phrase-card">
+                    <div class="p-phrase">over the course of</div>
+                    <div class="p-meaning">在……期间，在……过程中</div>
+                    <div class="p-example">"Girls who increased their social media use <strong>over the course of</strong> a year were significantly less satisfied with their lives."（在一年中增加了社交媒体使用量的女孩，对生活的满意度显著降低。）</div>
+                </div>
+
+                <div class="phrase-card">
+                    <div class="p-phrase">paint a picture</div>
+                    <div class="p-meaning">描绘一幅……的画面，描述</div>
+                    <div class="p-example">"Researchers are trying to <strong>paint a complete picture</strong> with both hands tied behind their back."（研究者试图描绘一幅完整的画面，但双手却被绑在背后——困难重重。）</div>
+                </div>
+
+                <div class="phrase-card">
+                    <div class="p-phrase">rely on</div>
+                    <div class="p-meaning">依赖，依靠</div>
+                    <div class="p-example">"This forces researchers to <strong>rely on</strong> less accurate proxy measures, like overall screentime."（这迫使研究者依赖不够准确的替代指标，如总屏幕时间。）</div>
+                </div>
+
+                <div class="phrase-card">
+                    <div class="p-phrase">set up</div>
+                    <div class="p-meaning">建立，制定；设置</div>
+                    <div class="p-example">"She and her colleagues argue that <strong>setting up</strong> policies at schools alone is simply not enough."（她和同事们认为，仅仅在学校制定政策是远远不够的。）</div>
+                </div>
+
+                <div class="phrase-card">
+                    <div class="p-phrase">go up by</div>
+                    <div class="p-meaning">上升了……（表示幅度）</div>
+                    <div class="p-example">"The number who seriously considered killing themselves <strong>went up by</strong> 36%."（认真考虑过自杀的人数上升了36%。）</div>
+                </div>
+            </div>
+
+            <!-- 长难句解析 -->
+            <div class="difficult-sentences">
+                <h3>🔍 长难句解析</h3>
+
+                <div class="sentence-card">
+                    <div class="original">"What makes these findings all the worse is that 48% of mental-health problems (like depression and anxiety) that emerge during adolescence will plague people for the rest of their lives."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        • 主语从句：What makes these findings all the worse（让这些发现更糟糕的是……）<br>
+                        • 系动词：is<br>
+                        • 表语从句：that 48% of mental-health problems...will plague people...<br>
+                        • 定语从句：that emerge during adolescence（修饰mental-health problems）<br>
+                        • 时间状语：for the rest of their lives<br><br>
+                        <strong>翻译：</strong>让这些发现更加令人担忧的是，在青春期出现的心理健康问题（如抑郁和焦虑）中有48%将会困扰人们余生。
+                    </div>
+                </div>
+
+                <div class="sentence-card">
+                    <div class="original">"It is tempting to connect these trends with the increased availability of smartphones, but establishing a causal connection is difficult."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        • 形式主语句：It is tempting to connect...（人们很容易将……联系起来）<br>
+                        • 并列连词：but（转折）<br>
+                        • 动名词短语作主语：establishing a causal connection（建立因果关系）<br>
+                        • 系表结构：is difficult<br><br>
+                        <strong>翻译：</strong>人们很容易将这些趋势与智能手机的日益普及联系起来，但建立因果关系却很困难。
+                    </div>
+                </div>
+
+                <div class="sentence-card">
+                    <div class="original">"The findings, reported in 2022 in Nature Communications, show that girls who increased their social media use over the course of a year were significantly less satisfied with their lives if the increase took place when they were between 11 and 13."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        • 主句：The findings show that...<br>
+                        • 插入语：reported in 2022 in Nature Communications（发表于2022年《自然·通讯》）<br>
+                        • 宾语从句：that girls...were significantly less satisfied...<br>
+                        • 定语从句：who increased their social media use over the course of a year（修饰girls）<br>
+                        • 条件状语从句：if the increase took place when they were between 11 and 13<br>
+                        • 时间状语从句嵌套：when they were between 11 and 13<br><br>
+                        <strong>翻译：</strong>2022年发表在《自然·通讯》上的研究结果显示，如果在一年中增加了社交媒体使用量的行为发生在11到13岁之间，女孩对生活的满意度会显著降低。
+                    </div>
+                </div>
+
+                <div class="sentence-card">
+                    <div class="original">"Researchers are trying to paint a complete picture with both hands tied behind their back."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        • 主句：Researchers are trying to paint a complete picture<br>
+                        • 方式状语（独立结构/比喻）：with both hands tied behind their back<br>
+                        • 这是一个生动的比喻，字面意思是"双手被绑在背后画画"，实际含义是研究者在缺乏关键数据的情况下艰难地试图得出全面结论<br><br>
+                        <strong>翻译：</strong>研究者们试图描绘一幅完整的图景，但困难重重——他们就像双手被绑在背后一样，举步维艰。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 阅读理解练习 -->
+            <div class="practice-section">
+                <h3>✏️ 阅读理解练习（考研风格）</h3>
+
+                <div class="question">
+                    <span class="q-type">主旨大意题</span>
+                    <p>1. What is the main idea of this passage?</p>
+                    <div class="options">
+                        <label>A. Smartphones should be completely banned in all schools worldwide.</label>
+                        <label>B. The relationship between phone bans and students' mental health is more complex than commonly assumed.</label>
+                        <label>C. Social media is the sole cause of rising mental-health problems among teenagers.</label>
+                        <label>D. Schools should encourage students to use smartphones more freely.</label>
+                    </div>
+                    <div class="answer-box">
+                        <strong>正确答案：B</strong><br>
+                        <strong>解析：</strong>文章的核心论点是学校手机禁令对改善学生心理健康的效果远不如预期。文章引用多项研究指出，虽然青少年心理健康问题确实存在，但简单禁止手机并不能解决问题。作者强调需要更精细化的、基于证据的政策（"A more nuanced picture...needs to be drawn"），而非一刀切的禁令。A项过于绝对，C项与文章"establishing a causal connection is difficult"矛盾，D项曲解了文章立场。
+                    </div>
+                </div>
+
+                <div class="question">
+                    <span class="q-type">细节理解题</span>
+                    <p>2. According to Victoria Goodyear's research, what did she find about school phone bans?</p>
+                    <div class="options">
+                        <label>A. Phone bans significantly improved students' academic performance.</label>
+                        <label>B. Students in schools with phone bans showed notably better mental well-being.</label>
+                        <label>C. There was no significant difference in mental well-being between schools with restrictive and relaxed phone policies.</label>
+                        <label>D. Phone bans led to a dramatic reduction in overall screentime.</label>
+                    </div>
+                    <div class="answer-box">
+                        <strong>正确答案：C</strong><br>
+                        <strong>解析：</strong>根据第七段，Goodyear博士比较了实施限制性手机政策的学校与政策宽松的学校的学生心理健康状况，发现"there was no difference between the two groups"（两组之间没有差异）。虽然总屏幕时间较多的学生心理健康确实有所下降，但这一差异与学校是否实施手机禁令无关。A、B、D项均与文章内容不符。
+                    </div>
+                </div>
+
+                <div class="question">
+                    <span class="q-type">推理判断题</span>
+                    <p>3. What can be inferred about the challenges researchers face in studying the effects of smartphones on mental health?</p>
+                    <div class="options">
+                        <label>A. Researchers have access to comprehensive data from social-media companies.</label>
+                        <label>B. The effects of smartphones are uniform across all age groups.</label>
+                        <label>C. Current research is hindered by the lack of detailed user data from social-media platforms and the diversity of smartphone usage.</label>
+                        <label>D. Scientists have already reached a definitive conclusion about the causal link between phones and mental health.</label>
+                    </div>
+                    <div class="answer-box">
+                        <strong>正确答案：C</strong><br>
+                        <strong>解析：</strong>最后一段明确指出两大障碍：一是"social-media companies routinely refuse to give independent researchers access to detailed data"（社交媒体公司拒绝提供详细数据），二是"smartphones contain multitudes"（智能手机功能多样，使用方式因人而异），导致研究者只能依赖"less accurate proxy measures"。A项与文章矛盾，B项与"Children are no less varied"矛盾，D项与"establishing a causal connection is difficult"矛盾。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 阅读技巧 -->
+            <div class="tips-box">
+                <h4>💡 考研阅读技巧</h4>
+                <ul>
+                    <li><strong>关注转折与让步：</strong>文中"but"、"however"、"though"等词是作者观点的关键信号。例如"but establishing a causal connection is difficult"直接否定了前文的简单归因。</li>
+                    <li><strong>识别比喻与修辞：</strong>"paint a complete picture with both hands tied behind their back"是生动比喻，考研常考此类修辞手法的理解。</li>
+                    <li><strong>区分相关与因果：</strong>本文核心考点之一是"correlation does not imply causation"（相关性不等于因果关系），这是考研阅读常见逻辑考点。</li>
+                    <li><strong>注意数据引用：</strong>文章引用了具体数字（40%、36%、48%）和权威来源（Nature Communications、The Lancet），这些细节常作为细节题的出题依据。</li>
+                    <li><strong>词汇积累重点：</strong>mitigate、plague、nuanced、unfettered、proxy等是考研高频词，需重点记忆。</li>
+                    <li><strong>把握文章结构：</strong>本文采用"现象→数据→研究→结论"的结构，最后一段提出深层问题（数据不透明），这是典型的经济学人文章结构。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        const tooltip = document.getElementById('tooltip');
+        const words = document.querySelectorAll('.word');
+
+        words.forEach(word => {
+            word.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const wordData = this.dataset;
+                tooltip.innerHTML = `
+                    <div class="word-title">${wordData.word}</div>
+                    <div class="phonetic">${wordData.phonetic}</div>
+                    <div class="meaning">${wordData.meaning}</div>
+                    <div class="example">"${wordData.example}"</div>
+                `;
+
+                const rect = this.getBoundingClientRect();
+                tooltip.style.display = 'block';
+
+                let left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2);
+                let top = rect.top - tooltip.offsetHeight - 10;
+
+                if (left < 10) left = 10;
+                if (left + tooltip.offsetWidth > window.innerWidth - 10) {
+                    left = window.innerWidth - tooltip.offsetWidth - 10;
+                }
+                if (top < 10) {
+                    top = rect.bottom + 10;
+                }
+
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('word')) {
+                tooltip.style.display = 'none';
+            }
+        });
+
+        // 滚动时隐藏tooltip
+        window.addEventListener('scroll', function() {
+            tooltip.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
