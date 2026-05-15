@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日外刊精读 - The Atlantic</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header .meta {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .header .back-link {
+            display: inline-block;
+            margin-top: 12px;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 14px;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 6px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .header .back-link:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .summary-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .summary-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .article-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .article-content {
+            font-size: 17px;
+            line-height: 1.9;
+            color: #444;
+            margin-bottom: 30px;
+        }
+
+        .word {
+            color: #667eea;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px dotted #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .word:hover {
+            background: #667eea;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-bottom: none;
+        }
+
+        .tooltip {
+            position: fixed;
+            background: #333;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            max-width: 300px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            line-height: 1.6;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #333;
+        }
+
+        .tooltip .word-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .tooltip .phonetic {
+            color: #aaa;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .tooltip .meaning {
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .tooltip .example {
+            color: #ccc;
+            font-size: 12px;
+            border-top: 1px solid #555;
+            padding-top: 5px;
+            margin-top: 5px;
+        }
+
+        .vocab-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .vocab-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .vocab-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .vocab-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        .vocab-card .v-word {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 16px;
+        }
+
+        .vocab-card .v-phonetic {
+            color: #888;
+            font-size: 13px;
+            margin: 3px 0;
+        }
+
+        .vocab-card .v-meaning {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .phrase-section {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 25px;
+            border-radius: 0 15px 15px 0;
+            margin-top: 30px;
+        }
+
+        .phrase-section h3 {
+            color: #d97706;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .phrase-card {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+
+        .phrase-card .p-phrase {
+            font-weight: bold;
+            color: #d97706;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .phrase-card .p-meaning {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .phrase-card .p-example {
+            color: #888;
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        .difficult-sentences {
+            margin-top: 30px;
+        }
+
+        .difficult-sentences h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .sentence-card {
+            background: #fff5f5;
+            border-left: 4px solid #e53e3e;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .sentence-card .original {
+            font-style: italic;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .sentence-card .analysis {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .practice-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+        }
+
+        .practice-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .question p {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .options label {
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .options label:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .answer-reveal {
+            display: none;
+            margin-top: 10px;
+            padding: 12px 16px;
+            background: #ecfdf5;
+            border-left: 4px solid #10b981;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .answer-reveal .correct-answer {
+            font-weight: bold;
+            color: #059669;
+        }
+
+        .show-answer-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.3s ease;
+        }
+
+        .show-answer-btn:hover {
+            background: #5a6fd6;
+        }
+
+        .tips-box {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e6fffa;
+            border-left: 4px solid #38b2ac;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .tips-box h4 {
+            color: #38b2ac;
+            margin-bottom: 10px;
+        }
+
+        .tips-box ul {
+            margin-left: 20px;
+            color: #444;
+        }
+
+        .tips-box li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>&#128218; 每日外刊精读</h1>
+            <div class="meta">来源：The Atlantic | 作者：Kwame Anthony Appiah | 日期：2026年5月15日 | 考研词汇专项训练</div>
+            <a href="index.html" class="back-link">&larr; 返回精读列表</a>
+        </div>
+
+        <div class="content">
+            <div class="summary-box">
+                <h3>&#128203; 文章大意</h3>
+                <p>本文由纽约大学哲学教授Kwame Anthony Appiah撰写，探讨了人工智能时代"去技能化"（de-skilling）这一深刻议题。文章从当前对AI使人变笨的焦虑切入，回顾了人类历史上每一次技术革新都伴随着类似的担忧——从苏格拉底对文字的批评，到计算器对工程师数感的侵蚀。作者指出，"去技能化"并非全然有害：写作虽然削弱了记忆力，却开启了科学和历史的新纪元；AI辅助诊断虽然降低了医生的独立判断力，却整体提高了癌症检出率。然而，作者也警告了一种更深层的危机——"构成性去技能化"（constitutive de-skilling），即AI可能逐渐侵蚀人类的判断力、想象力和理解力等核心能力，使我们的对话变得肤浅，对模糊性的容忍度降低。文章最终呼吁我们在利用AI的同时，必须保持对自身认知能力的"管理权"（stewardship），确保人性中最宝贵的品质——判断、想象和理解——不会在技术便利中消亡。</p>
+            </div>
+
+            <h2 class="article-title">The Age of De-Skilling</h2>
+
+            <div class="article-content">
+                <p>
+                The <span class="word" data-word="fretting" data-phonetic="/ˈfretɪŋ/" data-meaning="n./adj. 烦恼(的)，焦虑(的)" data-example="There is much fretting about the economic downturn.">fretting</span> has swelled from a murmur to a <span class="word" data-word="clamor" data-phonetic="/ˈklæmər/" data-meaning="n. 喧嚣，吵闹" data-example="The clamor for reform grew louder.">clamor</span>, all variations on the same <span class="word" data-word="foreboding" data-phonetic="/fɔːrˈboʊdɪŋ/" data-meaning="adj./n. 预兆(的)，不祥(的)" data-example="A sense of foreboding hung over the city.">foreboding</span> theme: "Your Brain on ChatGPT." "AI Is Making You Dumber." "AI Is Killing Critical Thinking." Once, the fear was of a runaway intelligence that would wipe us out, maybe while turning the planet into a paper-clip factory. Now that chatbots are going the way of Google—moving from the miraculous to the taken-for-granted—the anxiety has shifted, too, from apocalypse to <span class="word" data-word="atrophy" data-phonetic="/ˈætrəfi/" data-meaning="n./v. 萎缩，退化" data-example="Muscles atrophy when they are not used.">atrophy</span>. Teachers, especially, say they're beginning to see the rot. The term for it is unlovely but not inapt: de-skilling.
+                </p>
+
+                <p>
+                The worry is far from <span class="word" data-word="fanciful" data-phonetic="/ˈfænsɪfl/" data-meaning="adj. 富于幻想的，不切实际的" data-example="His plan was dismissed as fanciful.">fanciful</span>. Kids who turn to Gemini to summarize Twelfth Night may never learn to wrestle with Shakespeare on their own. Aspiring lawyers who use Harvey AI for legal analysis may fail to develop the interpretive muscle their predecessors <span class="word" data-word="took for granted" data-phonetic="" data-meaning="认为理所当然" data-example="We often take clean water for granted.">took for granted</span>. In a recent study, several hundred U.K. participants were given a standard critical-thinking test and were interviewed about their AI use for finding information or making decisions. Younger users <span class="word" data-word="leaned on" data-phonetic="" data-meaning="依赖，依靠" data-example="She leaned on her friends for support.">leaned on</span> the technology, and scored lower on the test. Use it or lose it was the basic takeaway. Another study looked at physicians performing colonoscopies: After three months of using an AI system to help flag polyps, they became less <span class="word" data-word="adept" data-phonetic="/əˈdept/" data-meaning="adj. 熟练的，擅长的" data-example="She is adept at solving complex problems.">adept</span> at spotting them unaided.
+                </p>
+
+                <p>
+                But the real puzzle isn't whether de-skilling exists—it plainly does—but rather what kind of thing it is. Are all forms of de-skilling <span class="word" data-word="corrosive" data-phonetic="/kəˈroʊsɪv/" data-meaning="adj. 腐蚀性的，有害的" data-example="Corrosive chemicals can damage metal surfaces.">corrosive</span>? Or are there kinds that we can live with, that might even be welcome? De-skilling is a <span class="word" data-word="catchall" data-phonetic="/ˈkætʃɔːl/" data-meaning="adj./n. 包罗万象的(词语)" data-example="The term is a catchall for various unrelated phenomena.">catchall</span> term for losses of very different kinds: some costly, some trivial, some oddly <span class="word" data-word="generative" data-phonetic="/ˈdʒenərətɪv/" data-meaning="adj. 生成的，有生产力的" data-example="The program uses a generative AI model.">generative</span>. To grasp what's at stake, we have to look closely at the ways that skill frays, fades, or mutates when new technologies arrive.
+                </p>
+
+                <p>
+                Our chatbots are new: The "transformer" architecture they rely on was invented in 2017, and ChatGPT made its public debut just five years later. But the fear that a new technology might <span class="word" data-word="blunt" data-phonetic="/blʌnt/" data-meaning="v. 使迟钝；削弱" data-example="The cold weather blunted his enthusiasm.">blunt</span> the mind is ancient. In the Phaedrus, which dates to the fourth century B.C.E., Socrates recounts a myth in which the Egyptian god Thoth offers King Thamus the gift of writing—"a recipe for memory and for wisdom." Thamus is unmoved. Writing, he warns, will do the opposite: It will breed forgetfulness, letting people trade the labor of <span class="word" data-word="recollection" data-phonetic="/ˌrekəˈlekʃn/" data-meaning="n. 回忆，记忆" data-example="She had no recollection of the accident.">recollection</span> for marks on papyrus, mistaking the appearance of understanding for the thing itself. Socrates sides with Thamus. Written words, he complains, never answer your particular questions; reply to everyone the same way, sage and fool alike; and are helpless when they're misunderstood.
+                </p>
+
+                <p>
+                Of course, the reason we know all this—the reason the episode keeps turning up in Whiggish histories of technology—is that Plato wrote it down. Yet the critics of writing weren't entirely wrong. In oral cultures, bards carried epics in their heads; griots could reel off centuries of genealogy on demand. Writing made such <span class="word" data-word="prowess" data-phonetic="/ˈpraʊes/" data-meaning="n. 杰出的技能，非凡的才能" data-example="He was admired for his athletic prowess.">prowess</span> unnecessary. You could now take in ideas without wrestling with them. Dialogue demands replies: clarification, objection, revision. Reading, by contrast, lets you bask in another's brilliance, nodding along without ever testing yourself against it.
+                </p>
+
+                <p>
+                What looks like a loss from one angle, though, can look like a gain from another. Writing opened new mental territories: commentary, jurisprudence, reliable history, science. Walter J. Ong, the scholar of orality and literacy, put it crisply: "Writing is a technology that restructures thought." The pattern is familiar. When sailors began using sextants, they left behind the seafarer's skycraft, the detailed reading of stars that once steered them safely home. Later, satellite navigation brought an end to sextant skills. Owning a Model T once meant moonlighting as a mechanic—knowing how to patch tubes, set ignition timing by ear, coax the car's engine back to life after a stall. Today's highly reliable engines seal off their secrets. Slide rules yielded to calculators, calculators to computers. Each time, individual <span class="word" data-word="virtuosity" data-phonetic="/ˌvɜːrtʃuˈɒsəti/" data-meaning="n. 精湛技艺，高超才能" data-example="Her virtuosity on the piano was breathtaking.">virtuosity</span> <span class="word" data-word="waned" data-phonetic="/weɪnd/" data-meaning="v. 衰退，减弱" data-example="His enthusiasm for the project waned over time.">waned</span>, but overall performance advanced.
+                </p>
+
+                <p>
+                It's a reassuring pattern—something let go, something else acquired. But some gains come with deeper costs. They <span class="word" data-word="unsettle" data-phonetic="/ˌʌnˈsetl/" data-meaning="v. 使不安，扰乱" data-example="The sudden change unsettled the employees.">unsettle</span> not only what people can do but also who they feel themselves to be.
+                </p>
+
+                <p>
+                In the 1980s, the social psychologist Shoshana Zuboff spent time at pulp mills in the southern United States as they shifted from manual to <span class="word" data-word="computerized" data-phonetic="/kəmˈpjuːtəraɪzd/" data-meaning="adj. 计算机化的" data-example="The company introduced a computerized inventory system.">computerized</span> control. Operators who had once judged pulp by touch ("Is it slick? Is it sticky?") now sat in air-conditioned rooms watching numbers scroll across screens, their old skills unexercised and unvalued. "Doing my job through the computer, it feels different," one told Zuboff. "It is like you're riding a big, powerful horse, but someone is sitting behind you on the saddle holding the reins." The new system was faster, cleaner, safer; it also <span class="word" data-word="drained" data-phonetic="/dreɪnd/" data-meaning="v. 排干；耗尽" data-example="The long meeting drained his energy.">drained</span> the work of its meaning.
+                </p>
+
+                <p>
+                The sociologist Richard Sennett recorded a similar transformation at a Boston bakery. In the 1970s, the workers there were Greek men who used their noses and eyes to judge when the bread was ready and took pride in their craft; in the 1990s, their <span class="word" data-word="successors" data-phonetic="/səkˈsesərz/" data-meaning="n. 继任者，接替者" data-example="Her successor continued her reforms.">successors</span> interacted with a touch screen on a Windows-style controller. Bread became a screen icon—its color <span class="word" data-word="inferred" data-phonetic="/ɪnˈfɜːrd/" data-meaning="v. 推断，推测" data-example="We can infer his intentions from his behavior.">inferred</span> from data, its variety chosen from a digital menu. The thinning of skills brought a thinning of identity. The bread was still good, but the kitchen workers knew they weren't really bakers anymore. One told Sennett, half-joking, "Baking, shoemaking, printing—you name it, I've got the skills." She meant that she didn't really need any.
+                </p>
+
+                <p>
+                The cultural realm, certainly, has had a long retreat from touch. In the middle-class homes of 19th-century Europe, to love music usually meant to play it. Symphonies reached the parlor not by stereo but by piano reduction—four hands, one keyboard, Brahms's Symphony No. 1 conjured as best the household could manage. It took skill: reading notation, mastering technique, evoking an orchestra through your fingers. To hear the music you wanted, you had to practice.
+                </p>
+
+                <p>
+                Then the gramophone took off, and the parlor pianos started to gather dust. The gains were obvious: You could summon the orchestra itself into your living room, expand your ear from salon trifles to Debussy, Strauss, Sibelius. The modern music lover may have been less of a performer but, in a sense, more of a listener. Still, breadth came <span class="word" data-word="at the expense of" data-phonetic="" data-meaning="以……为代价" data-example="He succeeded at the expense of his health.">at the expense of</span> depth. Practicing a piece left you with an intimate feel for its seams and contours. Did your kid with the shiny Victrola get that?
+                </p>
+
+                <p>
+                That sense of <span class="word" data-word="estrangement" data-phonetic="/ɪˈstreɪndʒmənt/" data-meaning="n. 疏远，隔阂" data-example="There was a growing estrangement between the two friends.">estrangement</span>—of being a step removed from the real thing—shows up whenever a powerful new tool arrives. The slide rule, starting in the 17th century, reduced the need for expertise at mental math; centuries later, the pocket calculator stirred unease among some engineers, who feared the fading of number sense. Such worries weren't groundless. Pressing "Cos" on a keypad got you a number, but the meaning behind it could slip away. Even in more <span class="word" data-word="rarefied" data-phonetic="/ˈreərɪfaɪd/" data-meaning="adj. 高深精妙的；稀薄的" data-example="The discussion moved into rarefied academic territory.">rarefied</span> <span class="word" data-word="precincts" data-phonetic="/ˈpriːsɪŋkts/" data-meaning="n. 区域，范围" data-example="The rarefied precincts of theoretical physics.">precincts</span>, the worry persisted. The MIT physicist Victor Weisskopf was troubled by his colleagues' growing reliance on computer simulations. "The computer understands the answer," he told them when they handed him their printouts, "but I don't think you understand the answer." It was the disquiet of an Egyptian king, digital edition, convinced that output was being mistaken for insight.
+                </p>
+
+                <p>
+                In what Zuboff called "the age of the smart machine," automation was mainly confined to the workplace—the mill, the industrial bakery, the cockpit. In the age of the PC and then the web, technology escaped into the home, becoming general purpose, woven into everyday life. By the 2000s, researchers were already asking what search engines were doing to us. You'd see headlines such as "This Is Your Brain on Google." Although the panic was overplayed, some effects were real. A widely cited study found that, in certain circumstances, people would remember where a fact could be found rather than the fact itself.
+                </p>
+
+                <p>
+                In truth, human <span class="word" data-word="cognitive" data-phonetic="/ˈkɒɡnɪtɪv/" data-meaning="adj. 认知的" data-example="Cognitive abilities decline with age.">cognitive</span> capacity has always leaked beyond the skull—into instruments, symbols, and one another. From the time of tally bones to the era of clay tablets, we've been storing thought in the world for tens of millennia. Plenty of creatures use tools, but their know-how dies with them; ours <span class="word" data-word="accumulates" data-phonetic="/əˈkjuːmjəleɪts/" data-meaning="v. 积累，积聚" data-example="Wealth accumulates over generations.">accumulates</span> as culture—a relay system for intelligence. We inherit it, extend it, and build upon it, so that each generation can climb higher than the last: moving from pressure-flaked blades to bone needles, to printing presses, to quantum computing. This compounding of insight—externalized, preserved, shared—is what sets Homo sapiens apart. Bonobos live in the ecological present. We live in history.
+                </p>
+
+                <p>
+                Accumulation, meanwhile, has a critical consequence: It drives specialization. As knowledge expands, it no longer resides equally in every head. In small bands, anyone could track game, gather plants, and make fire. But as societies scaled up after the agrarian revolution, crafts and guilds <span class="word" data-word="proliferated" data-phonetic="/prəˈlɪfəreɪtɪd/" data-meaning="v. 激增，扩散" data-example="Social media platforms have proliferated in recent years.">proliferated</span>—toolmakers who could forge an edge that held, masons who knew how to keep a vault from collapsing, glassblowers who refined closely guarded recipes and techniques. Skills once lodged in the body moved into tools and rose into institutions. Over time, the division of labor became, <span class="word" data-word="inevitably" data-phonetic="/ɪnˈevɪtəbli/" data-meaning="adv. 不可避免地" data-example="Inevitably, the project ran into difficulties.">inevitably</span>, a division of cognitive labor.
+                </p>
+
+                <p>
+                The philosopher Hilary Putnam once remarked that he could use the word elm even though he couldn't tell an elm from a beech. Reference is social: You can talk about elms because others in your language community—botanists, gardeners, foresters—can identify them. What's true of language is true of knowledge. Human capability resides not solely in individuals but in the networks they form, each of us depending on others to fill in what we can't supply ourselves. Scale turned social exchange into systemic <span class="word" data-word="interdependence" data-phonetic="/ˌɪntərdɪˈpendəns/" data-meaning="n. 相互依赖" data-example="Globalization has increased economic interdependence.">interdependence</span>.
+                </p>
+
+                <p>
+                The result is a world in which, in a classic example, nobody knows how to make a pencil. An individual would need the skills of foresters, saw millers, miners, chemists, lacquerers—an invisible network of crafts behind even the simplest object. Mark Twain, in A Connecticut Yankee in King Arthur's Court, imagined a 19th-century engineer dropped into Camelot dazzling his hosts with modern wonders. Readers went with it. But drop his 21st-century counterpart into the same setting, and he'd be <span class="word" data-word="stymied" data-phonetic="/ˈstaɪmid/" data-meaning="v. 阻碍，妨碍" data-example="The project was stymied by a lack of funding.">stymied</span> once he failed to get onto the Wi-Fi.
+                </p>
+
+                <p>
+                The cognitive division of labor is now so advanced that two physicists may barely understand each other—one modeling dark matter, the other building quantum sensors. Scientific mastery now means knowing more and more about less and less. This concentration yields <span class="word" data-word="astonishing" data-phonetic="/əˈstɒnɪʃɪŋ/" data-meaning="adj. 令人惊讶的" data-example="The results were astonishing.">astonishing</span> progress, but it also means grasping how limited our competence is: Specialists inherit conceptual tools they can use but can no longer make. Even mathematics, long romanticized as the realm of the solitary genius, now works like this. When Andrew Wiles proved Fermat's Last Theorem, he didn't re-derive every lemma himself; he assembled results that he trusted but didn't personally reproduce, building a structure he could see whole even if he hadn't cut each beam.
+                </p>
+
+                <p>
+                The widening of collaboration has changed what it means to know something. Knowledge, once imagined as a possession, has become a relation—a matter of how well we can locate, interpret, and <span class="word" data-word="synthesize" data-phonetic="/ˈsɪnθəsaɪz/" data-meaning="v. 综合，合成" data-example="The report synthesizes data from multiple sources.">synthesize</span> what others know. We live inside a web of distributed intelligence, dependent on specialists, databases, and instruments to extend our reach. The scale tells the story: The Nature paper that announced the structure of DNA had two authors; a Nature paper in genomics today might have 40. The two papers announcing the Higgs boson? Thousands. Big science is big for a reason. It was only a matter of time before the network acquired a new participant—one that could not just store information but imitate understanding itself.
+                </p>
+
+                <p>
+                The old distinction between information and skill, between "knowing that" and "knowing how," has grown <span class="word" data-word="blurry" data-phonetic="/ˈblɜːri/" data-meaning="adj. 模糊的" data-example="The line between work and leisure has become blurry.">blurry</span> in the era of large language models. In one sense, these models are static: a frozen matrix of weights you could download to your laptop. In another, they're dynamic; once running, they generate responses <span class="word" data-word="on the fly" data-phonetic="" data-meaning="即时地，迅速地" data-example="He made up the speech on the fly.">on the fly</span>. They do what Socrates complained writing could not: They answer questions, adjust to an <span class="word" data-word="interlocutor" data-phonetic="/ˌɪntərˈlɒkjətər/" data-meaning="n. 对话者，交谈者" data-example="She proved to be a witty interlocutor.">interlocutor</span>, carry on a conversation. It wasn't hard to imagine Google as an extension of memory; a large language model feels, to many, more like a stand-in for the mind itself. In harnessing new forms of artificial intelligence, is our own intelligence being amplified—or is it the artificial kind that, on little cat feet, is coming into its own?
+                </p>
+
+                <p>
+                We can't <span class="word" data-word="put the genie back in the bottle" data-phonetic="" data-meaning="让 genie 回到瓶子里（收回已成定局的事）" data-example="Once the technology is out, you can't put the genie back in the bottle.">put the genie back in the bottle</span>; we can decide what spells to have it cast. When people talk about de-skilling, they usually picture an individual who's lost a knack for something—the pilot whose hand-flying gets rusty, the doctor who misses tumors without an AI assist. But most modern work is collaborative, and the arrival of AI hasn't changed that. The issue isn't how humans compare to bots but how humans who use bots compare to those who don't.
+                </p>
+
+                <p>
+                Some people fear that reliance on AI will make us worse in ways that will swamp its promised benefits. Whereas Dario Amodei, the CEO of Anthropic, <span class="word" data-word="sanguinely" data-phonetic="/ˈsæŋɡwɪnli/" data-meaning="adv. 乐观地，自信地" data-example="He sanguinely predicted a bright future for the company.">sanguinely</span> imagines a "country of geniuses," they foresee a country of idiots. It's an echo of the old debate over "risk compensation": Add seatbelts or antilock brakes, some social scientists argued a few decades ago, and people will simply drive more <span class="word" data-word="reckless" data-phonetic="/ˈrekləs/" data-meaning="adj. 鲁莽的，不顾后果的" data-example="Reckless driving is a major cause of accidents.">reckless</span>, their tech-boosted confidence leading them to spend the safety margin. Research eventually showed a more encouraging result: People do adjust, but only partially, so that <span class="word" data-word="substantial" data-phonetic="/səbˈstænʃl/" data-meaning="adj. 大量的，重大的" data-example="There has been a substantial increase in sales.">substantial</span> benefits remain.
+                </p>
+
+                <p>
+                Something similar has seemed to hold for the clinical use of AI, which has been common in hospitals for more than a decade. Think back to that colonoscopy study: After performing AI-assisted procedures, gastroenterologists saw their unaided rate of polyp detection drop by six percentage points. But when another study pooled data from 24,000 patients, a fuller picture emerged: AI assistance raised overall detection rates by roughly 20 percent. Because higher detection rates mean fewer missed cancers, this "centaur" approach was plainly beneficial, regardless of whether individual clinicians became <span class="word" data-word="fractionally" data-phonetic="/ˈfrækʃənəli/" data-meaning="adv. 少量地，略微地" data-example="The error rate decreased fractionally.">fractionally</span> less sharp. If the collaboration is saving lives, gastroenterologists would be irresponsible to insist on flying solo out of pride.
+                </p>
+
+                <p>
+                In other domains, the more skillful the person, the more skillful the collaboration—or so some recent studies suggest. One of them found that humans outperformed bots when sorting images of two kinds of wrens and two kinds of woodpeckers. But when the task was spotting fake hotel reviews, the bots won. Then the researchers paired people with the bots, and the combined teams outperformed either alone. When a machine enters the workflow, mastery may shift from production to appraisal. A 2024 study of coders using GitHub Copilot found that use of AI seemed to redirect human skill rather than <span class="word" data-word="obviate" data-phonetic="/ˈɒbvieɪt/" data-meaning="v. 消除，使……成为不必要" data-example="Technology can obviate the need for manual labor.">obviate</span> it. Coders spent less time generating code and more time assessing it—checking for logic errors, catching edge cases, and cleaning up the script. The skill changed from composition to supervision.
+                </p>
+
+                <p>
+                Occupational de-skilling could even be <span class="word" data-word="democratizing" data-phonetic="/dɪˈmɒkrətaɪzɪŋ/" data-meaning="v. 使民主化，使大众化" data-example="Technology is democratizing access to information.">democratizing</span>, increasing the pool of who gets to do a job. Scientists who struggle with English could use chatbots to improve the drafting of institutional-review-board statements, clearing a linguistic hurdle that has little to do with the quality of their research. The future of expertise will depend not just on how good our tools are but on how well we think alongside them.
+                </p>
+
+                <p>
+                Still, reserve skills will be needed. Somebody in a fleet will need to know celestial navigation in case the GPS goes down. A hospital will want at least some doctors who can spot polyps without a computer's help. The worry isn't that these people will be easy to find; it's that they may not exist at all. The most concerning prospect of all is what might be called constitutive de-skilling: the erosion of the capacities that make us human. If people were to learn to frame questions the way the system prefers them, to choose from its menu of plausible replies, the damage wouldn't <span class="word" data-word="take the form of" data-phonetic="" data-meaning="采取……的形式" data-example="The conflict took the form of a trade war.">take the form of</span> spectacular failures of judgment so much as a gradual <span class="word" data-word="attenuation" data-phonetic="/əˌtenjuˈeɪʃn/" data-meaning="n. 衰减，削弱" data-example="The attenuation of signal strength was noticeable.">attenuation</span> of our character: shallower conversation, a reduced appetite for <span class="word" data-word="ambiguity" data-phonetic="/ˌæmbɪˈɡjuːəti/" data-meaning="n. 模糊，歧义" data-example="The contract was full of ambiguities.">ambiguity</span>, a drift toward automatic phrasing where once we would have searched for the right word, the quiet substitution of fluency for understanding.
+                </p>
+
+                <p>
+                The most pressing question is how to keep our agency <span class="word" data-word="intact" data-phonetic="/ɪnˈtækt/" data-meaning="adj. 完整无损的" data-example="The ancient building remained intact.">intact</span>: how to continue to be the authors of the systems that now are <span class="word" data-word="poised to" data-phonetic="" data-meaning="准备好做某事，即将做某事" data-example="The company is poised to launch a new product.">poised to</span> take on so much of our thinking. Each generation has had to learn how to work with its newly acquired cognitive <span class="word" data-word="prostheses" data-phonetic="/prɒsˈθiːsiːz/" data-meaning="n. 假体，义肢（引申为认知辅助工具）" data-example="Glasses are a form of visual prosthesis.">prostheses</span>, whether stylus, scroll, or smartphone. What's new is the speed and intimacy of the exchange: tools that learn from us as we learn from them. <span class="word" data-word="stewardship" data-phonetic="/ˈstjuːərdʃɪp/" data-meaning="n. 管理，看管" data-example="Environmental stewardship is everyone's responsibility.">Stewardship</span> now means ensuring that the capacities in which our humanity resides—judgment, imagination, understanding—stay alive in us.
+                </p>
+            </div>
+
+            <div class="vocab-section">
+                <h3>&#128221; 核心词汇表 (考研高频词)</h3>
+                <div class="vocab-grid">
+                    <div class="vocab-card">
+                        <div class="v-word">fretting</div>
+                        <div class="v-phonetic">/ˈfretɪŋ/</div>
+                        <div class="v-meaning">n./adj. 烦恼(的)，焦虑(的)</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">clamor</div>
+                        <div class="v-phonetic">/ˈklæmər/</div>
+                        <div class="v-meaning">n. 喧嚣，吵闹</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">foreboding</div>
+                        <div class="v-phonetic">/fɔːrˈboʊdɪŋ/</div>
+                        <div class="v-meaning">adj./n. 预兆(的)，不祥(的)</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">atrophy</div>
+                        <div class="v-phonetic">/ˈætrəfi/</div>
+                        <div class="v-meaning">n./v. 萎缩，退化</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">fanciful</div>
+                        <div class="v-phonetic">/ˈfænsɪfl/</div>
+                        <div class="v-meaning">adj. 富于幻想的，不切实际的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">adept</div>
+                        <div class="v-phonetic">/əˈdept/</div>
+                        <div class="v-meaning">adj. 熟练的，擅长的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">corrosive</div>
+                        <div class="v-phonetic">/kəˈroʊsɪv/</div>
+                        <div class="v-meaning">adj. 腐蚀性的，有害的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">catchall</div>
+                        <div class="v-phonetic">/ˈkætʃɔːl/</div>
+                        <div class="v-meaning">adj./n. 包罗万象的(词语)</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">generative</div>
+                        <div class="v-phonetic">/ˈdʒenərətɪv/</div>
+                        <div class="v-meaning">adj. 生成的，有生产力的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">blunt</div>
+                        <div class="v-phonetic">/blʌnt/</div>
+                        <div class="v-meaning">v. 使迟钝；削弱</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">recollection</div>
+                        <div class="v-phonetic">/ˌrekəˈlekʃn/</div>
+                        <div class="v-meaning">n. 回忆，记忆</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">prowess</div>
+                        <div class="v-phonetic">/ˈpraʊes/</div>
+                        <div class="v-meaning">n. 杰出的技能，非凡的才能</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">virtuosity</div>
+                        <div class="v-phonetic">/ˌvɜːrtʃuˈɒsəti/</div>
+                        <div class="v-meaning">n. 精湛技艺，高超才能</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">wane</div>
+                        <div class="v-phonetic">/weɪn/</div>
+                        <div class="v-meaning">v. 衰退，减弱</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">unsettle</div>
+                        <div class="v-phonetic">/ˌʌnˈsetl/</div>
+                        <div class="v-meaning">v. 使不安，扰乱</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">computerized</div>
+                        <div class="v-phonetic">/kəmˈpjuːtəraɪzd/</div>
+                        <div class="v-meaning">adj. 计算机化的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">drain</div>
+                        <div class="v-phonetic">/dreɪn/</div>
+                        <div class="v-meaning">v. 排干；耗尽</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">successor</div>
+                        <div class="v-phonetic">/səkˈsesər/</div>
+                        <div class="v-meaning">n. 继任者，接替者</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">infer</div>
+                        <div class="v-phonetic">/ɪnˈfɜːr/</div>
+                        <div class="v-meaning">v. 推断，推测</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">estrangement</div>
+                        <div class="v-phonetic">/ɪˈstreɪndʒmənt/</div>
+                        <div class="v-meaning">n. 疏远，隔阂</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">rarefied</div>
+                        <div class="v-phonetic">/ˈreərɪfaɪd/</div>
+                        <div class="v-meaning">adj. 高深精妙的；稀薄的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">precinct</div>
+                        <div class="v-phonetic">/ˈpriːsɪŋkt/</div>
+                        <div class="v-meaning">n. 区域，范围</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">cognitive</div>
+                        <div class="v-phonetic">/ˈkɒɡnɪtɪv/</div>
+                        <div class="v-meaning">adj. 认知的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">accumulate</div>
+                        <div class="v-phonetic">/əˈkjuːmjəleɪt/</div>
+                        <div class="v-meaning">v. 积累，积聚</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">proliferate</div>
+                        <div class="v-phonetic">/prəˈlɪfəreɪt/</div>
+                        <div class="v-meaning">v. 激增，扩散</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">inevitably</div>
+                        <div class="v-phonetic">/ɪnˈevɪtəbli/</div>
+                        <div class="v-meaning">adv. 不可避免地</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">interdependence</div>
+                        <div class="v-phonetic">/ˌɪntərdɪˈpendəns/</div>
+                        <div class="v-meaning">n. 相互依赖</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">stymie</div>
+                        <div class="v-phonetic">/ˈstaɪmi/</div>
+                        <div class="v-meaning">v. 阻碍，妨碍</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">astonishing</div>
+                        <div class="v-phonetic">/əˈstɒnɪʃɪŋ/</div>
+                        <div class="v-meaning">adj. 令人惊讶的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">synthesize</div>
+                        <div class="v-phonetic">/ˈsɪnθəsaɪz/</div>
+                        <div class="v-meaning">v. 综合，合成</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">blurry</div>
+                        <div class="v-phonetic">/ˈblɜːri/</div>
+                        <div class="v-meaning">adj. 模糊的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">interlocutor</div>
+                        <div class="v-phonetic">/ˌɪntərˈlɒkjətər/</div>
+                        <div class="v-meaning">n. 对话者，交谈者</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">sanguinely</div>
+                        <div class="v-phonetic">/ˈsæŋɡwɪnli/</div>
+                        <div class="v-meaning">adv. 乐观地，自信地</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">reckless</div>
+                        <div class="v-phonetic">/ˈrekləs/</div>
+                        <div class="v-meaning">adj. 鲁莽的，不顾后果的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">substantial</div>
+                        <div class="v-phonetic">/səbˈstænʃl/</div>
+                        <div class="v-meaning">adj. 大量的，重大的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">fractionally</div>
+                        <div class="v-phonetic">/ˈfrækʃənəli/</div>
+                        <div class="v-meaning">adv. 少量地，略微地</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">obviate</div>
+                        <div class="v-phonetic">/ˈɒbvieɪt/</div>
+                        <div class="v-meaning">v. 消除，使……成为不必要</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">democratize</div>
+                        <div class="v-phonetic">/dɪˈmɒkrətaɪz/</div>
+                        <div class="v-meaning">v. 使民主化，使大众化</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">attenuation</div>
+                        <div class="v-phonetic">/əˌtenjuˈeɪʃn/</div>
+                        <div class="v-meaning">n. 衰减，削弱</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">ambiguity</div>
+                        <div class="v-phonetic">/ˌæmbɪˈɡjuːəti/</div>
+                        <div class="v-meaning">n. 模糊，歧义</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">intact</div>
+                        <div class="v-phonetic">/ɪnˈtækt/</div>
+                        <div class="v-meaning">adj. 完整无损的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">prosthesis</div>
+                        <div class="v-phonetic">/prɒsˈθiːsɪs/</div>
+                        <div class="v-meaning">n. 假体，义肢（引申为认知辅助工具）</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">stewardship</div>
+                        <div class="v-phonetic">/ˈstjuːərdʃɪp/</div>
+                        <div class="v-meaning">n. 管理，看管</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="phrase-section">
+                <h3>&#128161; 短语搭配</h3>
+                <div class="phrase-card">
+                    <div class="p-phrase">take for granted</div>
+                    <div class="p-meaning">认为理所当然</div>
+                    <div class="p-example">"Aspiring lawyers who use Harvey AI for legal analysis may fail to develop the interpretive muscle their predecessors took for granted."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">lean on</div>
+                    <div class="p-meaning">依赖，依靠</div>
+                    <div class="p-example">"Younger users leaned more on the technology, and scored lower on the test."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">at the expense of</div>
+                    <div class="p-meaning">以……为代价</div>
+                    <div class="p-example">"Still, breadth came at the expense of depth."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">take the form of</div>
+                    <div class="p-meaning">采取……的形式</div>
+                    <div class="p-example">"...the damage wouldn't take the form of spectacular failures of judgment so much as a gradual attenuation of our character."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">on the fly</div>
+                    <div class="p-meaning">即时地，迅速地</div>
+                    <div class="p-example">"...once running, they generate responses on the fly."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">put the genie back in the bottle</div>
+                    <div class="p-meaning">让 genie 回到瓶子里（收回已成定局的事）</div>
+                    <div class="p-example">"We can't put the genie back in the bottle; we can decide what spells to have it cast."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">be poised to</div>
+                    <div class="p-meaning">准备好做某事，即将做某事</div>
+                    <div class="p-example">"...the systems that now are poised to take on so much of our thinking."</div>
+                </div>
+            </div>
+
+            <div class="difficult-sentences">
+                <h3>&#128269; 长难句解析</h3>
+                <div class="sentence-card">
+                    <div class="original">"What looks like a loss from one angle, though, can look like a gain from another."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        主语从句 What looks like a loss from one angle 作主语，can look like a gain from another 作谓语。though 插入表示转折。<br><br>
+                        <strong>翻译：</strong>然而，从某个角度看像是损失的东西，从另一个角度看却可能是收获。
+                    </div>
+                </div>
+                <div class="sentence-card">
+                    <div class="original">"The thinning of skills brought a thinning of identity."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        主语 The thinning of skills，谓语 brought，宾语 a thinning of identity。thinning 重复使用构成修辞上的呼应。<br><br>
+                        <strong>翻译：</strong>技能的消退带来了身份认同的消退。
+                    </div>
+                </div>
+                <div class="sentence-card">
+                    <div class="original">"Knowledge, once imagined as a possession, has become a relation&mdash;a matter of how well we can locate, interpret, and synthesize what others know."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        主语 Knowledge，插入语 once imagined as a possession，谓语 has become，表语 a relation，破折号后是同位语解释。同位语中 how well 引导的从句作介词 of 的宾语，其中 what others know 作 locate/interpret/synthesize 的宾语。<br><br>
+                        <strong>翻译：</strong>知识曾经被想象为一种占有物，如今已变成一种关系——关乎我们能在多大程度上定位、解读和综合他人所知。
+                    </div>
+                </div>
+                <div class="sentence-card">
+                    <div class="original">"If people were to learn to frame questions the way the system prefers them, to choose from its menu of plausible replies, the damage wouldn't take the form of spectacular failures of judgment so much as a gradual attenuation of our character."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        条件从句 If people were to learn...，主句 the damage wouldn't take the form of... so much as...（不是……而是……）。the way the system prefers them 是方式状语。<br><br>
+                        <strong>翻译：</strong>如果人们学会以系统偏好的方式来提出问题，从其提供的合理回复菜单中进行选择，那么这种损害不会表现为判断力的惊人失败，而更像是我们品格的逐渐衰退。
+                    </div>
+                </div>
+            </div>
+
+            <div class="practice-section">
+                <h3>&#9999; 阅读理解练习</h3>
+                <div class="question">
+                    <p>1. 【主旨大意题】What is the central argument of this article?</p>
+                    <div class="options">
+                        <label>A. AI should be banned because it makes humans less intelligent.</label>
+                        <label>B. De-skilling caused by technology is entirely harmful and must be resisted.</label>
+                        <label>C. De-skilling is a complex phenomenon with both beneficial and concerning dimensions, and we must actively steward our core human cognitive capacities in the AI era.</label>
+                        <label>D. Technology has no real effect on human skills and intelligence.</label>
+                    </div>
+                    <button class="show-answer-btn" onclick="toggleAnswer('ans1')">显示答案与解析</button>
+                    <div class="answer-reveal" id="ans1">
+                        <span class="correct-answer">正确答案：C</span><br>
+                        解析：文章的核心论点是"去技能化"是一个复杂现象，既有积极面（如AI辅助提高整体诊断率），也有令人担忧的深层影响（如"构成性去技能化"）。作者呼吁我们在AI时代主动守护人类核心认知能力。A和B过于极端，D与文章内容矛盾。
+                    </div>
+                </div>
+                <div class="question">
+                    <p>2. 【推理判断题】What can be inferred about the author's attitude toward AI's impact on human skills?</p>
+                    <div class="options">
+                        <label>A. He believes AI will completely destroy human cognitive abilities.</label>
+                        <label>B. He thinks the effects of AI on skills are nuanced&mdash;some de-skilling is acceptable or even beneficial, while "constitutive de-skilling" poses a deeper threat.</label>
+                        <label>C. He is entirely optimistic about AI's potential to enhance human intelligence.</label>
+                        <label>D. He argues that humans should reject all forms of technological assistance.</label>
+                    </div>
+                    <button class="show-answer-btn" onclick="toggleAnswer('ans2')">显示答案与解析</button>
+                    <div class="answer-reveal" id="ans2">
+                        <span class="correct-answer">正确答案：B</span><br>
+                        解析：作者的态度是审慎而辩证的。他指出"去技能化"有不同形式——有些是可以接受的（如计算器取代计算尺），有些则令人担忧（"构成性去技能化"）。文章明确提到"Are all forms of de-skilling corrosive? Or are there kinds that we can live with?"，体现了这种辩证态度。A、C、D都过于片面。
+                    </div>
+                </div>
+                <div class="question">
+                    <p>3. 【词义猜测题】What does the author most likely mean by "constitutive de-skilling" in the context of the article?</p>
+                    <div class="options">
+                        <label>A. The loss of physical skills like handwriting or playing musical instruments.</label>
+                        <label>B. The erosion of fundamental human capacities&mdash;such as judgment, imagination, and the ability to grapple with ambiguity&mdash;that define what it means to be human.</label>
+                        <label>C. The replacement of human workers by machines in the workplace.</label>
+                        <label>D. The difficulty of learning new technologies in old age.</label>
+                    </div>
+                    <button class="show-answer-btn" onclick="toggleAnswer('ans3')">显示答案与解析</button>
+                    <div class="answer-reveal" id="ans3">
+                        <span class="correct-answer">正确答案：B</span><br>
+                        解析：文章最后几段明确定义了"构成性去技能化"——"the erosion of the capacities that make us human"，具体表现为"shallower conversation, a reduced appetite for ambiguity, a drift toward automatic phrasing"。这指的是构成人类本质的核心认知能力的侵蚀，而非简单的技能丧失。A只是表面技能的丧失，C是自动化替代，D与文章无关。
+                    </div>
+                </div>
+            </div>
+
+            <div class="tips-box">
+                <h4>&#128161; 考研阅读技巧</h4>
+                <ul>
+                    <li><strong>关注对比论证结构：</strong>文章大量使用古今对比（苏格拉底vs现代AI）、利弊对比（AI辅助的利与弊），这是考研英语常见的论证手法</li>
+                    <li><strong>识别作者态度：</strong>Appiah的态度是"审慎辩证的"（nuanced/prudent），既非技术乐观派也非技术悲观派，考研态度题需准确把握这种中间立场</li>
+                    <li><strong>掌握类比论证：</strong>文章用历史上多次技术变革（文字、计算器、留声机等）类比AI的影响，理解类比有助于把握作者论证逻辑</li>
+                    <li><strong>词汇积累重点：</strong>本文中 attenuation、constitutive、prosthesis、stewardship、sanguinely、corrosive 等是考研高频/难点词汇</li>
+                    <li><strong>关注"not...but..."和"not so much as..."结构：</strong>这是考研英语中常见的对比强调结构</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        const tooltip = document.getElementById('tooltip');
+        const words = document.querySelectorAll('.word');
+
+        words.forEach(word => {
+            word.addEventListener('click', function(e) {
+                const wordData = this.dataset;
+                tooltip.innerHTML = `
+                    <div class="word-title">${wordData.word}</div>
+                    <div class="phonetic">${wordData.phonetic}</div>
+                    <div class="meaning">${wordData.meaning}</div>
+                    <div class="example">"${wordData.example}"</div>
+                `;
+
+                const rect = this.getBoundingClientRect();
+                tooltip.style.display = 'block';
+
+                // Calculate position relative to viewport
+                let left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2);
+                let top = rect.top - tooltip.offsetHeight - 10;
+
+                // Boundary checks
+                if (left < 10) left = 10;
+                if (left + tooltip.offsetWidth > window.innerWidth - 10) {
+                    left = window.innerWidth - tooltip.offsetWidth - 10;
+                }
+                if (top < 10) {
+                    top = rect.bottom + 10;
+                }
+
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('word')) {
+                tooltip.style.display = 'none';
+            }
+        });
+
+        function toggleAnswer(id) {
+            const ans = document.getElementById(id);
+            const btn = ans.previousElementSibling;
+            if (ans.style.display === 'block') {
+                ans.style.display = 'none';
+                btn.textContent = '显示答案与解析';
+            } else {
+                ans.style.display = 'block';
+                btn.textContent = '隐藏答案与解析';
+            }
+        }
+    </script>
+</body>
+</html>
