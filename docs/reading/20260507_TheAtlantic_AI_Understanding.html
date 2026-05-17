@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日外刊精读 - The Atlantic</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header .meta {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .header .back-link {
+            display: inline-block;
+            margin-top: 12px;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 14px;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 6px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .header .back-link:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .summary-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .summary-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .article-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .article-content {
+            font-size: 17px;
+            line-height: 1.9;
+            color: #444;
+            margin-bottom: 30px;
+        }
+
+        .word {
+            color: #667eea;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px dotted #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .word:hover {
+            background: #667eea;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-bottom: none;
+        }
+
+        .tooltip {
+            position: fixed;
+            background: #333;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            max-width: 300px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            line-height: 1.6;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #333;
+        }
+
+        .tooltip .word-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .tooltip .phonetic {
+            color: #aaa;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .tooltip .meaning {
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .tooltip .example {
+            color: #ccc;
+            font-size: 12px;
+            border-top: 1px solid #555;
+            padding-top: 5px;
+            margin-top: 5px;
+        }
+
+        .vocab-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .vocab-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .vocab-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .vocab-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        .vocab-card .v-word {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 16px;
+        }
+
+        .vocab-card .v-phonetic {
+            color: #888;
+            font-size: 13px;
+            margin: 3px 0;
+        }
+
+        .vocab-card .v-meaning {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .phrase-section {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 25px;
+            border-radius: 0 15px 15px 0;
+            margin-top: 30px;
+        }
+
+        .phrase-section h3 {
+            color: #d97706;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .phrase-card {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+
+        .phrase-card .p-phrase {
+            font-weight: bold;
+            color: #d97706;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .phrase-card .p-meaning {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .phrase-card .p-example {
+            color: #888;
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        .difficult-sentences {
+            margin-top: 30px;
+        }
+
+        .difficult-sentences h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .sentence-card {
+            background: #fff5f5;
+            border-left: 4px solid #e53e3e;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .sentence-card .original {
+            font-style: italic;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .sentence-card .analysis {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .practice-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+        }
+
+        .practice-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .question p {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .options label {
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .options label:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .answer-reveal {
+            display: none;
+            margin-top: 10px;
+            padding: 12px 16px;
+            background: #ecfdf5;
+            border-left: 4px solid #10b981;
+            border-radius: 0 8px 8px 0;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .answer-reveal .correct-answer {
+            font-weight: bold;
+            color: #059669;
+        }
+
+        .show-answer-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.3s ease;
+        }
+
+        .show-answer-btn:hover {
+            background: #5a6fd6;
+        }
+
+        .tips-box {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e6fffa;
+            border-left: 4px solid #38b2ac;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .tips-box h4 {
+            color: #38b2ac;
+            margin-bottom: 10px;
+        }
+
+        .tips-box ul {
+            margin-left: 20px;
+            color: #444;
+        }
+
+        .tips-box li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>&#128218; 每日外刊精读</h1>
+            <div class="meta">来源：The Atlantic | 日期：2026年5月7日 | 考研词汇专项训练</div>
+            <a href="index.html" class="back-link">&larr; 返回精读列表</a>
+        </div>
+
+        <div class="content">
+            <div class="summary-box">
+                <h3>&#128203; 文章大意</h3>
+                <p>本文探讨了人工智能（AI）在现实世界中的实际应用，而非停留在技术公司的宏大叙事中。作者从ChatGPT发布后引发的AI狂热入手，区分了"加速主义者"（认为AI将拯救世界）和"末日论者"（认为AI将毁灭人类）两种极端立场，随后将目光转向一个被忽视的群体——"AI反文化运动"中的实践者。文章以美国国税局（IRS）为核心案例，详细描述了该机构如何在预算削减、技术老旧、政治压力的多重困境下，悄然利用AI实现服务现代化：从自然语言处理加速客服响应，到利用大语言模型辅助代码生成，再到将拥有60年历史的COBOL代码迁移到现代编程语言。作者认为，面对变革性技术，最有效的回应不是躲避，而是"撸起袖子"让它为人们关心的事物服务——这不是天真的乐观主义，而是开明的自利。</p>
+            </div>
+
+            <h2 class="article-title">The Secret to Understanding AI</h2>
+
+            <div class="article-content">
+                <p>
+                In the before times—before machines could <span class="word" data-word="hallucinate" data-phonetic="/həˈluːsɪneɪt/" data-meaning="v. 产生幻觉（指AI生成虚假信息）" data-example="Large language models sometimes hallucinate facts that sound plausible.">hallucinate</span>, before <em>compute</em> was a noun—it was not uncommon to go several weeks without someone telling me the world was about to end. Similarly, a whole season might pass without anyone assuring me that it was also, <span class="word" data-word="simultaneously" data-phonetic="/ˌsaɪməlˈteɪniəsli/" data-meaning="adv. 同时地" data-example="The two events occurred simultaneously in different cities.">simultaneously</span>, about to become perfect.
+                </p>
+
+                <p>
+                That particular luxury died on November 30, 2022, when OpenAI released ChatGPT to the public. What followed was less a news cycle than a weather event—a tropical <span class="word" data-word="depression" data-phonetic="/dɪˈpreʃn/" data-meaning="n. 低气压；萧条；沮丧" data-example="The tropical depression intensified into a hurricane overnight.">depression</span> that would not budge. Within weeks, millions of people had their first experience with <span class="word" data-word="generative" data-phonetic="/ˈdʒenərətɪv/" data-meaning="adj. 生成的，有生产力的" data-example="Generative AI can create text, images, and music.">generative</span> AI. Within months, every major technology company had announced its own version of a large language model, or a <span class="word" data-word="partnership" data-phonetic="/ˈpɑːrtnərʃɪp/" data-meaning="n. 伙伴关系，合作关系" data-example="The two universities formed a research partnership.">partnership</span>, or a pivot. Venture capital arrived <span class="word" data-word="drooling" data-phonetic="/ˈdruːlɪŋ/" data-meaning="adj. 流口水的（比喻极度渴望）" data-example="Investors were drooling over the potential profits.">drooling</span>. Most people in tech think about money, but AI-profit <span class="word" data-word="projections" data-phonetic="/prəˈdʒekʃnz/" data-meaning="n. 预测，预估（复数）" data-example="The company's revenue projections exceeded expectations.">projections</span> are different—like CFO fan fiction, written in Excel. In 2023, the McKinsey Global Institute estimated that $4.4 trillion in annual corporate profits could be up for grabs from generative AI alone. Morgan Stanley estimated $40 trillion more in <span class="word" data-word="operational" data-phonetic="/ˌɒpəˈreɪʃənl/" data-meaning="adj. 运营的，操作的" data-example="The company needs to improve its operational efficiency.">operational</span> efficiencies. The words <em>artificial intelligence</em> went from <span class="word" data-word="obscurity" data-phonetic="/əbˈskjʊrəti/" data-meaning="n. 默默无闻，晦涩" data-example="The author emerged from obscurity after winning the award.">obscurity</span> to a constant hum, present in every earnings call, every school-board meeting, and far too many arguments at dinner tables.
+                </p>
+
+                <p>
+                Yet for all of the noise, a simple question stayed unanswered: What exactly was this new technology going to do for people? Not for <span class="word" data-word="corporations" data-phonetic="/ˌkɔːrpəˈreɪʃnz/" data-meaning="n. 公司，企业（复数）" data-example="Multinational corporations dominate the global economy.">corporations</span> or the billionaires who <span class="word" data-word="aspired" data-phonetic="/əˈspaɪərd/" data-meaning="v. 渴望，追求（过去式）" data-example="She aspired to become a renowned scientist.">aspired</span> to become trillionaires, but for people with mortgages and sick parents and children struggling to learn things.
+                </p>
+
+                <p>
+                Answers, when they came, were either so enormous as to be meaningless or so specific as to seem beside the point: AI would cure cancer and write your text messages. AI would create deadly <span class="word" data-word="superviruses" data-phonetic="/ˈsuːpərˌvaɪrəsɪz/" data-meaning="n. 超级病毒（复数）" data-example="Scientists warned about the potential emergence of superviruses.">superviruses</span> and drain all meaning from our existence.
+                </p>
+
+                <p>
+                I got to know some of the people delivering these competing <span class="word" data-word="prophecies" data-phonetic="/ˈprɒfəsiz/" data-meaning="n. 预言（复数）" data-example="The ancient prophecies were finally coming true.">prophecies</span>, and they had a lot of overlapping traits. Brilliance, certainty; delight at being players in a turbulent drama. A hairball of motives.
+                </p>
+
+                <p>
+                <span class="word" data-word="Accelerationists" data-phonetic="/əkˌseləˈreɪʃənɪsts/" data-meaning="n. 加速主义者（认为应加速技术发展）" data-example="Accelerationists argue that technological progress should be accelerated.">Accelerationists</span>—the cure-cancer people—were often in charge of, or funded by, or praying to be funded by, companies whose products they were predicting would save civilization. <span class="word" data-word="Doomers" data-phonetic="/ˈduːmərz/" data-meaning="n. 末日论者（复数）" data-example="The doomers predicted that AI would lead to human extinction.">Doomers</span>—the extinction people—were then led by Elon Musk, who sued OpenAI to try to reclaim its founding mission as a nonprofit serving humanity. (Although a more <span class="word" data-word="plausible" data-phonetic="/ˈplɔːzəbl/" data-meaning="adj. 貌似合理的，可信的" data-example="His explanation sounded plausible but was entirely fabricated.">plausible</span> read was that he wanted to <span class="word" data-word="hobble" data-phonetic="/ˈhɒbl/" data-meaning="v. 阻碍，使跛行" data-example="The injury hobbled the athlete for the rest of the season.">hobble</span> his <span class="word" data-word="archnemesis" data-phonetic="/ˌɑːrtnˈeməsɪs/" data-meaning="n. 头号敌人，宿敌" data-example="The two politicians were archnemeses for decades.">archnemesis</span> and former partner, Sam Altman, long enough for his own AI start-up, xAI, to catch up.)
+                </p>
+
+                <p>
+                Geniuses, rivalries, clashing ideologies—all lovely ingredients for a writer like me to work with. But documenting a state of confusion isn't the same as providing clarity, and after months of talking with the assorted <span class="word" data-word="zealots" data-phonetic="/ˈzeləts/" data-meaning="n. 狂热者（复数）" data-example="Political zealots often refuse to compromise.">zealots</span>, I was getting a little loopy myself. I needed someone who could see the technology clearly—not as a salvation or a catastrophe or a Powerball ticket, but as a tool.
+                </p>
+
+                <p>
+                Danny Hillis was one of the first people on the internet, back when it was still called the ARPANET and the community of users was so small that he knew all of the other Dannys online. His work on parallel processing led to the creation of cloud computing, which laid a <span class="word" data-word="foundation" data-phonetic="/faʊnˈdeɪʃn/" data-meaning="n. 基础，根基" data-example="The research laid the foundation for modern neuroscience.">foundation</span> for the rise of artificial intelligence. Danny listened to me rant about the AI industry with sympathy and <span class="word" data-word="bemusement" data-phonetic="/bɪˈmjuːzmənt/" data-meaning="n. 困惑，好笑" data-example="She watched the argument with bemusement.">bemusement</span>. He's seen every gold rush in Silicon Valley, and his heart rate is as steady as the Buddha's. When I arrived at my <span class="word" data-word="exasperated" data-phonetic="/ɪɡˈzæspəreɪtɪd/" data-meaning="adj. 恼怒的，恼火的" data-example="The teacher grew exasperated with the students' constant interruptions.">exasperated</span> coda—"Danny, what is AI actually good for?"—he was ready.
+                </p>
+
+                <p>
+                "Try to imagine the tech without the tech companies," he told me.
+                </p>
+
+                <p>
+                To my <span class="word" data-word="embarrassment" data-phonetic="/ɪmˈbærəsmənt/" data-meaning="n. 尴尬，窘迫" data-example="To my embarrassment, I forgot her name at the party.">embarrassment</span>, it had not previously occurred to me that one could do that.
+                </p>
+
+                <p>
+                Danny was certain that an AI <span class="word" data-word="counterculture" data-phonetic="/ˈkaʊntərkʌltʃər/" data-meaning="n. 反文化（运动）" data-example="The 1960s counterculture challenged traditional values.">counterculture</span> had to be out there, beyond the tech <span class="word" data-word="megalopolises" data-phonetic="/ˌmegəˈlɒpəlɪsɪz/" data-meaning="n. 特大城市（复数）" data-example="The world's largest megalopolises face enormous environmental challenges.">megalopolises</span>, full of people experimenting with AI in ways more meaningful than the latest chatbot-calendar integration. Why not write about them?
+                </p>
+
+                <p>
+                Not long after, I discovered whole tribes of people who were tinkering with artificial intelligence to make things that matter—education, health care, government, human connection—work better. A Cleveland Clinic <span class="word" data-word="cardiologist" data-phonetic="/ˌkɑːrdiˈɒlədʒɪst/" data-meaning="n. 心脏病学家" data-example="The cardiologist recommended immediate surgery.">cardiologist</span> was using AI to make lifesaving heart scans available to everyone; teachers in an Indiana school district were finding new ways to engage with students; <span class="word" data-word="technocrats" data-phonetic="/ˈteknəkræts/" data-meaning="n. 技术官僚（复数）" data-example="The technocrats believed that expertise should guide policy decisions.">technocrats</span> were bringing their deeply <span class="word" data-word="unglamorous" data-phonetic="/ʌnˈɡlæmərəs/" data-meaning="adj. 不光鲜的，乏味的" data-example="The unglamorous work of data entry is essential to the project.">unglamorous</span> government agencies into modernity; a former physicist was racing to build AI-powered translation for nonverbal autistic kids, including her son.
+                </p>
+
+                <p>
+                Like the accelerationists, these people are plenty frustrated with <span class="word" data-word="bureaucracies" data-phonetic="/bjʊˈrɒkrəsiz/" data-meaning="n. 官僚机构（复数）" data-example="Government bureaucracies often move too slowly to address urgent problems.">bureaucracies</span> and ideas that have aged into <span class="word" data-word="obsolescence" data-phonetic="/ˌɒbsəˈlesəns/" data-meaning="n. 过时，淘汰" data-example="Rapid technological change can render products to obsolescence.">obsolescence</span>. But they don't believe in the techno-optimist philosophy known as "Move fast and break things," because they don't want to break things; they want to fix things. They had run into a problem that <span class="word" data-word="defied" data-phonetic="/dɪˈfaɪd/" data-meaning="v. 违抗，使不可能" data-example="The disease defied all conventional treatments.">defied</span> conventional solutions, and were stubborn or desperate enough—or just cared enough—to keep going, even if it meant having to learn more about technology than they had ever wanted to.
+                </p>
+
+                <p>
+                The downsides of AI are real: misuse, <span class="word" data-word="malfunction" data-phonetic="/mælˈfʌŋkʃn/" data-meaning="n. 故障，失灵" data-example="The spacecraft experienced a critical malfunction.">malfunction</span>, the temptation to replace people instead of teaching them new skills. It's easy to understand why some people would prefer that AI just go away; no one is in the market for another <span class="word" data-word="existential" data-phonetic="/ˌeɡzɪˈstenʃl/" data-meaning="adj. 关乎存在的，生存的" data-example="Climate change poses an existential threat to many species.">existential</span> risk. But here's the thing about defensive <span class="word" data-word="crouches" data-phonetic="/kraʊtʃɪz/" data-meaning="n. 蹲伏，防御姿态（复数）" data-example="The animal's defensive crouches intimidated potential predators.">crouches</span>: They don't actually stop anything. They just ensure that you get whacked in the back of the head. The people in the AI counterculture have figured out that the only effective response to a transformative technology is not to hide from it but to get your hands dirty and make it work to preserve and improve the things you care about. That's not naive <span class="word" data-word="optimism" data-phonetic="/ˈɒptɪmɪzəm/" data-meaning="n. 乐观主义" data-example="Despite the setbacks, she maintained her optimism.">optimism</span>—it's enlightened self-interest.
+                </p>
+
+                <p>
+                A week before the 2024 presidential election, I went to Washington, D.C., for the least sexy reason: I'd heard that the IRS was up to something. Let me <span class="word" data-word="rephrase" data-phonetic="/ˌriːˈfreɪz/" data-meaning="v. 重新措辞，换种说法" data-example="Let me rephrase the question to make it clearer.">rephrase</span>. People who work inside the tight circle of government information technology kept whispering the <span class="word" data-word="equivalent" data-phonetic="/ɪˈkwɪvələnt/" data-meaning="n./adj. 等同物；等同的" data-example="One mile is roughly equivalent to 1.6 kilometers.">equivalent</span> of <em>Psst. Y'know what's going on at the IRS?</em> When I would answer that I did not, they'd smile and tease me with rumors of some secret AI Fight Club inside the federal government that may or may not exist. Who could say?
+                </p>
+
+                <p>
+                It seemed unlikely the IRS was working on a supercool, supersecret AI project, because the IRS runs on ancient tech and has never once flirted with being cool. As for secrecy, I had entered its headquarters to meet then-Commissioner Danny Werfel within two weeks of requesting an interview. But after a few minutes in Werfel's waiting room, I began to wonder. Dull-blue carpet. Walls the color of cafeteria pudding. The room's center of <span class="word" data-word="antigravity" data-phonetic="/ˌæntiˈɡrævəti/" data-meaning="n. 反重力" data-example="The science fiction novel featured antigravity technology.">antigravity</span>—its un-focal point—was a faux-mahogany cabinet displaying unloved plaques and seasonal gourds. I had never been in a place so perfectly optimized to kill all curiosity. If a <span class="word" data-word="diabolical" data-phonetic="/ˌdaɪəˈbɒlɪkl/" data-meaning="adj. 恶魔般的，极坏的" data-example="The villain devised a diabolical plan to take over the world.">diabolical</span> genius were hiding an incredible AI project, this is the anteroom he'd build.
+                </p>
+
+                <p>
+                Werfel is trim and boyish, and he welcomed me into his office with the slightly <span class="word" data-word="besieged" data-phonetic="/bɪˈsiːdʒd/" data-meaning="adj. 被围困的，受困扰的" data-example="The besieged mayor faced criticism from all sides.">besieged</span> air of someone used to getting kneecapped whenever he stands. Werfel knew what I wanted to discuss, and cautiously allowed that "there's a <span class="word" data-word="trajectory" data-phonetic="/trəˈdʒektəri/" data-meaning="n. 轨迹，发展路线" data-example="The trajectory of the company's growth has been remarkable.">trajectory</span> for artificial intelligence that has a net positive impact on society and government." But he raised a hand to indicate he would go no further: complications first.
+                </p>
+
+                <p>
+                The IRS is bound by rules about "inherently governmental" functions and cannot simply replace its employees with AI. It has a duty to serve all taxpayers equally, whether they file on smartphones or with pencil and paper, so imposing chatbots on them isn't an option. In any case, the IRS has some of the strictest privacy and cybersecurity requirements in the world, and many AI products don't meet them.
+                </p>
+
+                <p>
+                Werfel sidestepped politics—commissioners are <span class="word" data-word="appointed" data-phonetic="/əˈpɔɪntɪd/" data-meaning="adj. 被任命的" data-example="She was appointed to the committee last month.">appointed</span> to a five-year term that is intended to span presidencies—while acknowledging that the IRS is inherently political. From 2010 to 2021, as the annual flow of tax returns increased by 15 million, its budget was slashed by more than 22 percent. As a result, crucial IT <span class="word" data-word="infrastructure" data-phonetic="/ˈɪnfrəstrʌktʃər/" data-meaning="n. 基础设施" data-example="The country needs to invest more in digital infrastructure.">infrastructure</span> had been on life support. Recent cuts were driven by Republicans, but the IRS has always been the essential part of government from which everyone recoils—the body politic's colon. Since its creation, in 1862, only one president, John F. Kennedy, has visited its headquarters.
+                </p>
+
+                <p>
+                "The other thing," Werfel continued, "is that a bureaucracy like the IRS doesn't move in 180-degree turns. We move in five-degree turns. And that's just understanding the <span class="word" data-word="biorhythm" data-phonetic="/ˈbaɪəʊrɪðəm/" data-meaning="n. 生物节律" data-example="The researcher studied how biorhythms affect workplace productivity.">biorhythm</span> of our bureaucracy."
+                </p>
+
+                <p>
+                This was such a colossal <span class="word" data-word="bummer" data-phonetic="/ˈbʌmər/" data-meaning="n. 令人失望的事" data-example="The cancellation of the concert was a real bummer.">bummer</span> that I almost missed his pivot.
+                </p>
+
+                <p>
+                After cataloging the reasons that it's nearly impossible for the IRS to use AI, Werfel quietly began to list some of the ways in which the IRS was already using AI. Natural-language processing was speeding taxpayers through call centers and getting them to the right human representative. Large language models, including GPT-4 and Meta's Llama, were being tested to assist with code generation. Bespoke AI was helping employees spot complex tax-evasion schemes. Most impressive of all, AI was assisting in the translation of the IRS Individual Master File (IMF)—the massive Kennedy-era database that contains not just the tax records of every American, but every change ever made to those tax records—into modern software languages. The IMF is the white whale of obsolete government technology; the team that drags it into the present should be given its own national park.
+                </p>
+
+                <p>
+                By design these were <span class="word" data-word="incremental" data-phonetic="/ˌɪnkrəˈmentl/" data-meaning="adj. 渐进的，递增的" data-example="The company made incremental improvements to its product line.">incremental</span> changes, only to be whispered about. In the <span class="word" data-word="perverse" data-phonetic="/pərˈvɜːrs/" data-meaning="adj. 违背常理的，反常的" data-example="There is a perverse logic in the way the system operates.">perverse</span> environment of Washington, where the IRS is somehow both the most neglected agency and the most abused, Werfel was shrinking its AI efforts to invisibility, using the <span class="word" data-word="perception" data-phonetic="/pərˈsepʃn/" data-meaning="n. 认知，看法" data-example="Public perception of the company has improved significantly.">perception</span> of the IRS as slow and boring and technologically hopeless as cover for his effort to <span class="word" data-word="transcend" data-phonetic="/trænˈsend/" data-meaning="v. 超越，超出" data-example="The artist sought to transcend the limitations of traditional painting.">transcend</span> that perception.
+                </p>
+
+                <p>
+                To be clear, Werfel did not admit to any of this. The first rule of Fight Club, et cetera. The closest thing to a slipup was when he said, "The IRS has launched more digital tools in the last two years than we launched in the previous 20, and it's possible AI can help us move faster than that in the future." But that hardly counts as <span class="word" data-word="swagger" data-phonetic="/ˈswæɡər/" data-meaning="n. 昂首阔步；炫耀" data-example="He walked into the room with an air of swagger.">swagger</span>.
+                </p>
+
+                <p>
+                Maybe he was a diabolical genius, although traditionally we call a person willing to swallow their ego and navigate hardship in the service of their country a <span class="word" data-word="patriot" data-phonetic="/ˈpeɪtriət/" data-meaning="n. 爱国者" data-example="The soldier was celebrated as a national patriot.">patriot</span>.
+                </p>
+
+                <p>
+                Danny Werfel was obliged to suppress most signs of <span class="word" data-word="exuberance" data-phonetic="/ɪɡˈzjuːbərəns/" data-meaning="n. 繁茂，热情洋溢" data-example="The crowd's exuberance was contagious during the celebration.">exuberance</span>—and committed to the bit. Further down the chain, Kaschit Pandya, then the IRS's chief technology officer, had the freedom to get excited. "The opportunities with AI are endless," he told me.
+                </p>
+
+                <p>
+                For most of the 21st century, IRS customer-service reps would get calls from taxpayers, listen to their questions, and use an internal search engine that had indexed thousands of pages of Internal Revenue Manuals in hopes of finding answers. "Very <span class="word" data-word="kludgy" data-phonetic="/ˈklʌdʒi/" data-meaning="adj. 笨拙的，拼凑的" data-example="The software interface was kludgy and difficult to navigate.">kludgy</span>," Pandya said.
+                </p>
+
+                <p>
+                Pandya's team used AI to restructure these dense manuals, making them easier to search and navigate. Now when a taxpayer calls, representatives can find answers almost instantly in language that makes sense to non-accountants. This was one of many service improvements noticed by the national taxpayer advocate, who informed Congress in 2024 that "despair has turned to cautious <span class="word" data-word="optimism" data-phonetic="/ˈɒptɪmɪzəm/" data-meaning="n. 乐观，乐观主义" data-example="Despite the challenges, there is room for cautious optimism.">optimism</span>."
+                </p>
+
+                <p>
+                "A whole bunch of IRM manuals, it's not the sexiest thing," Pandya said. "But when you call us, and our customer-service reps can get answers faster, that's a modernization journey too."
+                </p>
+
+                <p>
+                Pandya is the first chief technology officer I'd ever heard use the phrase <em>modernization journey</em>. It's the equivalent of meeting a brain surgeon who talks about chakras, and Pandya modestly agrees that he's unique in his field.
+                </p>
+
+                <p>
+                After college, Pandya worked in consulting; clients said that he was great at deploying new technology—and horrible at explaining it. He went back to school for an M.B.A. and loaded up on communications courses. "I used to say, 'Here's some tech, and here's what it does,'" Pandya said. "But it didn't <span class="word" data-word="resonate" data-phonetic="/ˈrezəneɪt/" data-meaning="v. 引起共鸣，产生回响" data-example="Her speech resonated deeply with the audience.">resonate</span> until I could explain why you should care, why it impacts you, how it can be <span class="word" data-word="transformative" data-phonetic="/trænsˈfɔːrmətɪv/" data-meaning="adj. 变革性的，彻底改变的" data-example="The internet has had a transformative effect on communication.">transformative</span>."
+                </p>
+
+                <p>
+                At the IRS, Pandya splits his time between tracking the latest AI developments and explaining them to the people who have to live with the consequences. He's learned that the second part is harder. AI can mean the difference between a taxi and a bullet train—an obvious improvement, unless you feed your family by driving a taxi. So he's become a skilled <span class="word" data-word="empath" data-phonetic="/ˈempæθ/" data-meaning="n. 共情者，有同理心的人" data-example="A good teacher must be an empath who understands students' struggles.">empath</span>. "We can't get to the target if you don't come along with us on the journey," he said he tells people. "The intent isn't simply to extract knowledge from you. It is to broaden your portfolio of available skills, and make it so that <em>you</em> are the reason why we succeeded, not the tech underlying the effort."
+                </p>
+
+                <p>
+                Empathy has practical limits, though; at some point, the systems just have to work. The IRS divides its technology into two tiers. Tier one refers to crucial stuff, such as the IMF. Tier two encompasses all of the programs and machines that integrate with tier one—everything including smaller databases and fraud detection and the taxpayer online-account portal—but that aren't part of the tax record.
+                </p>
+
+                <p>
+                The IMF is the IRS's master database—software originally built decades ago that runs on a mainframe, a kind of industrial-strength computer designed to process massive amounts of data reliably and securely. Mainframes are designed to be up and running almost 100 percent of the time, making them ideal for securely managing sensitive government data. (Seventy percent of <em>Fortune</em> 500 companies—airlines, banks—also rely on mainframes.) "Our hardware gets updated every two to three years—it's not outdated," Pandya said. "What makes it seem old is the software. The system was originally built 60 or 70 years ago using programming languages like COBOL and ALC, and those are still what run the IMF today," he said, referring to Common Business-Oriented Language and Assembly Language Code.
+                </p>
+
+                <p>
+                In a vacuum, there's nothing wrong with COBOL and ALC. They grind away inside the mainframe efficiently. But not everything is a mainframe, and most of the software in tier two—and the world—is coded in languages that <span class="word" data-word="prioritize" data-phonetic="/praɪˈɒrətaɪz/" data-meaning="v. 优先考虑，把…放在首位" data-example="We should prioritize tasks that have the greatest impact.">prioritize</span> usability and <span class="word" data-word="interoperability" data-phonetic="/ˌɪntərˌɒpərəˈbɪləti/" data-meaning="n. 互操作性" data-example="Interoperability between different software systems is crucial for efficiency.">interoperability</span> with other software. That's turned COBOL and ALC into the equivalent of Sanskrit—perfectly useful if you happen to know a bunch of other people who speak Sanskrit, and pretty isolating if you don't. Plus, COBOL and ALC engineers are retiring, and dying, faster than the IRS can replace them.
+                </p>
+
+                <p>
+                If a customer-service agent using modern tier-two software wants to look at a taxpayer record on graying tier one, they have to navigate multiple systems or wait while middleware, which is exactly what it sounds like, translates the request. That's usually what's happening while the IRS's signature hold music is slowly <span class="word" data-word="lobotomizing" data-phonetic="/ləˈbɒtəmaɪzɪŋ/" data-meaning="v. 使脑白质切除（比喻使人麻木）" data-example="The repetitive hold music felt like it was slowly lobotomizing me.">lobotomizing</span> you.
+                </p>
+
+                <p>
+                In 2014, the IRS began a 10-year process to replace the IMF's 2 million lines of code. By law, there could be no disruption to tax filing or the 400 IRS processes that rely on the IMF—"ripping and replacing was not an option," Pandya said. "And there was no tool out there that easily converts from the old to the new. What that meant is: We had to use an approach called 'pair programming.' Literally, you, COBOL, and an ALC programmer sit here next to me and tell me what this thing is doing, and I will work on creating a similar logic in the modern version of this language." But eventually, somehow, by November 2024, 90 percent of the IMF was shiny and new.
+                </p>
+
+                <p>
+                Next up is the migration of the equally monstrous Business Master File, and it will not take 10 years. "This," Pandya said, "is where AI gets really exciting for us."
+                </p>
+            </div>
+
+            <div class="vocab-section">
+                <h3>&#128221; 核心词汇表 (考研高频词)</h3>
+                <div class="vocab-grid">
+                    <div class="vocab-card">
+                        <div class="v-word">hallucinate</div>
+                        <div class="v-phonetic">/həˈluːsɪneɪt/</div>
+                        <div class="v-meaning">v. 产生幻觉（AI语境：生成虚假信息）</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">simultaneously</div>
+                        <div class="v-phonetic">/ˌsaɪməlˈteɪniəsli/</div>
+                        <div class="v-meaning">adv. 同时地</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">generative</div>
+                        <div class="v-phonetic">/ˈdʒenərətɪv/</div>
+                        <div class="v-meaning">adj. 生成的，有生产力的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">projection</div>
+                        <div class="v-phonetic">/prəˈdʒekʃn/</div>
+                        <div class="v-meaning">n. 预测，预估</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">operational</div>
+                        <div class="v-phonetic">/ˌɒpəˈreɪʃənl/</div>
+                        <div class="v-meaning">adj. 运营的，操作的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">obscurity</div>
+                        <div class="v-phonetic">/əbˈskjʊrəti/</div>
+                        <div class="v-meaning">n. 默默无闻，晦涩</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">corporation</div>
+                        <div class="v-phonetic">/ˌkɔːrpəˈreɪʃn/</div>
+                        <div class="v-meaning">n. 公司，企业</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">aspire</div>
+                        <div class="v-phonetic">/əˈspaɪər/</div>
+                        <div class="v-meaning">v. 渴望，追求</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">plausible</div>
+                        <div class="v-phonetic">/ˈplɔːzəbl/</div>
+                        <div class="v-meaning">adj. 貌似合理的，可信的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">hobble</div>
+                        <div class="v-phonetic">/ˈhɒbl/</div>
+                        <div class="v-meaning">v. 阻碍，使跛行</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">foundation</div>
+                        <div class="v-phonetic">/faʊnˈdeɪʃn/</div>
+                        <div class="v-meaning">n. 基础，根基</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">exasperated</div>
+                        <div class="v-phonetic">/ɪɡˈzæspəreɪtɪd/</div>
+                        <div class="v-meaning">adj. 恼怒的，恼火的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">counterculture</div>
+                        <div class="v-phonetic">/ˈkaʊntərkʌltʃər/</div>
+                        <div class="v-meaning">n. 反文化（运动）</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">bureaucracy</div>
+                        <div class="v-phonetic">/bjʊˈrɒkrəsi/</div>
+                        <div class="v-meaning">n. 官僚机构，官僚主义</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">obsolescence</div>
+                        <div class="v-phonetic">/ˌɒbsəˈlesəns/</div>
+                        <div class="v-meaning">n. 过时，淘汰</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">defy</div>
+                        <div class="v-phonetic">/dɪˈfaɪ/</div>
+                        <div class="v-meaning">v. 违抗，使不可能</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">malfunction</div>
+                        <div class="v-phonetic">/mælˈfʌŋkʃn/</div>
+                        <div class="v-meaning">n. 故障，失灵</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">existential</div>
+                        <div class="v-phonetic">/ˌeɡzɪˈstenʃl/</div>
+                        <div class="v-meaning">adj. 关乎存在的，生存的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">trajectory</div>
+                        <div class="v-phonetic">/trəˈdʒektəri/</div>
+                        <div class="v-meaning">n. 轨迹，发展路线</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">infrastructure</div>
+                        <div class="v-phonetic">/ˈɪnfrəstrʌktʃər/</div>
+                        <div class="v-meaning">n. 基础设施</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">incremental</div>
+                        <div class="v-phonetic">/ˌɪnkrəˈmentl/</div>
+                        <div class="v-meaning">adj. 渐进的，递增的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">perverse</div>
+                        <div class="v-phonetic">/pərˈvɜːrs/</div>
+                        <div class="v-meaning">adj. 违背常理的，反常的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">perception</div>
+                        <div class="v-phonetic">/pərˈsepʃn/</div>
+                        <div class="v-meaning">n. 认知，看法</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">transcend</div>
+                        <div class="v-phonetic">/trænˈsend/</div>
+                        <div class="v-meaning">v. 超越，超出</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">resonate</div>
+                        <div class="v-phonetic">/ˈrezəneɪt/</div>
+                        <div class="v-meaning">v. 引起共鸣，产生回响</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">transformative</div>
+                        <div class="v-phonetic">/trænsˈfɔːrmətɪv/</div>
+                        <div class="v-meaning">adj. 变革性的，彻底改变的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">prioritize</div>
+                        <div class="v-phonetic">/praɪˈɒrətaɪz/</div>
+                        <div class="v-meaning">v. 优先考虑，把…放在首位</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">equivalent</div>
+                        <div class="v-phonetic">/ɪˈkwɪvələnt/</div>
+                        <div class="v-meaning">n./adj. 等同物；等同的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">besieged</div>
+                        <div class="v-phonetic">/bɪˈsiːdʒd/</div>
+                        <div class="v-meaning">adj. 被围困的，受困扰的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">diabolical</div>
+                        <div class="v-phonetic">/ˌdaɪəˈbɒlɪkl/</div>
+                        <div class="v-meaning">adj. 恶魔般的，极坏的</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">exuberance</div>
+                        <div class="v-phonetic">/ɪɡˈzjuːbərəns/</div>
+                        <div class="v-meaning">n. 繁茂，热情洋溢</div>
+                    </div>
+                    <div class="vocab-card">
+                        <div class="v-word">patriot</div>
+                        <div class="v-phonetic">/ˈpeɪtriət/</div>
+                        <div class="v-meaning">n. 爱国者</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="phrase-section">
+                <h3>&#128161; 短语搭配</h3>
+                <div class="phrase-card">
+                    <div class="p-phrase">up for grabs</div>
+                    <div class="p-meaning">供争夺的，可获得的</div>
+                    <div class="p-example">"$4.4 trillion in annual corporate profits could be up for grabs from generative AI alone."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">from obscurity to...</div>
+                    <div class="p-meaning">从默默无闻到……</div>
+                    <div class="p-example">"The words artificial intelligence went from obscurity to a constant hum."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">beside the point</div>
+                    <div class="p-meaning">无关紧要，偏离主题</div>
+                    <div class="p-example">"Answers... were either so enormous as to be meaningless or so specific as to seem beside the point."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">in charge of</div>
+                    <div class="p-meaning">负责，掌管</div>
+                    <div class="p-example">"Accelerationists... were often in charge of, or funded by, companies whose products they were predicting would save civilization."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">get one's hands dirty</div>
+                    <div class="p-meaning">亲自动手，投入实际工作</div>
+                    <div class="p-example">"The only effective response... is not to hide from it but to get your hands dirty and make it work."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">on life support</div>
+                    <div class="p-meaning">勉强维持，濒临崩溃</div>
+                    <div class="p-example">"As a result, crucial IT infrastructure had been on life support."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">swallow one's ego</div>
+                    <div class="p-meaning">放下自尊，忍辱负重</div>
+                    <div class="p-example">"...a person willing to swallow their ego and navigate hardship in the service of their country a patriot."</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="p-phrase">broaden one's portfolio</div>
+                    <div class="p-meaning">拓宽某人的技能组合/投资组合</div>
+                    <div class="p-example">"It is to broaden your portfolio of available skills, and make it so that you are the reason why we succeeded."</div>
+                </div>
+            </div>
+
+            <div class="difficult-sentences">
+                <h3>&#128269; 长难句解析</h3>
+                <div class="sentence-card">
+                    <div class="original">"Most people in tech think about money, but AI-profit projections are different—like CFO fan fiction, written in Excel."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        破折号后面的内容是对"AI-profit projections are different"的解释说明。使用了明喻（simile）手法，将AI利润预测比作"CFO写的同人小说，用Excel写的"，幽默地讽刺了这些预测的不切实际。<br><br>
+                        <strong>翻译：</strong>科技界大多数人都在想着赚钱，但AI利润预测与众不同——就像CFO用Excel写的同人小说。
+                    </div>
+                </div>
+                <div class="sentence-card">
+                    <div class="original">"Accelerationists—the cure-cancer people—were often in charge of, or funded by, or praying to be funded by, companies whose products they were predicting would save civilization."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        主语是Accelerationists，破折号之间的"the cure-cancer people"是同位语，对其进行解释。谓语部分使用了三个并列结构：in charge of（负责）、funded by（被资助）、praying to be funded by（祈求被资助）。whose引导定语从句修饰companies，从句中they were predicting是插入语，would save civilization是定语从句的谓语。<br><br>
+                        <strong>翻译：</strong>加速主义者——那些认为AI能治愈癌症的人——往往负责着、或被资助于、或祈求被资助于那些他们预言其产品将拯救文明的公司。
+                    </div>
+                </div>
+                <div class="sentence-card">
+                    <div class="original">"The people in the AI counterculture have figured out that the only effective response to a transformative technology is not to hide from it but to get your hands dirty and make it work to preserve and improve the things you care about."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        主句主语是The people in the AI counterculture，谓语是have figured out，that引导宾语从句。宾语从句中，主语是the only effective response to a transformative technology，表语使用了not... but...（不是……而是……）结构，but后面连接两个并列的不定式：to get your hands dirty和to make it work。you care about是省略了that/which的定语从句，修饰the things。<br><br>
+                        <strong>翻译：</strong>AI反文化运动中的人们已经认识到，面对变革性技术，唯一有效的回应不是躲避它，而是撸起袖子亲自动手，让它为你关心的事物服务。
+                    </div>
+                </div>
+                <div class="sentence-card">
+                    <div class="original">"In the perverse environment of Washington, where the IRS is somehow both the most neglected agency and the most abused, Werfel was shrinking its AI efforts to invisibility, using the perception of the IRS as slow and boring and technologically hopeless as cover for his effort to transcend that perception."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        这是一个结构复杂的句子。where引导非限制性定语从句修饰Washington。主句中，Werfel是主语，was shrinking是谓语，its AI efforts是宾语，to invisibility是结果补语。using...as cover是现在分词短语作伴随状语，其中the perception of the IRS as slow and boring and technologically hopeless是using的宾语，as cover是宾语补足语，for his effort to transcend that perception是cover的后置定语。<br><br>
+                        <strong>翻译：</strong>在华盛顿那个反常的环境中——IRS不知为何既是被最忽视的机构，又是被最苛责的机构——Werfel将其AI努力缩小到几乎不可见的程度，利用人们对IRS"迟缓、无聊、技术上无可救药"的认知，作为他超越这一认知的掩护。
+                    </div>
+                </div>
+                <div class="sentence-card">
+                    <div class="original">"AI can mean the difference between a taxi and a bullet train—an obvious improvement, unless you feed your family by driving a taxi."</div>
+                    <div class="analysis">
+                        <strong>结构分析：</strong><br>
+                        主句使用了mean the difference between A and B（意味着A和B之间的区别）的句型。破折号后的an obvious improvement是同位语，对前面内容的评价。unless引导让步状语从句，引入了一个重要的转折——技术进步并非对所有人都是好事。<br><br>
+                        <strong>翻译：</strong>AI可能意味着出租车和高铁之间的差距——显然是进步，除非你靠开出租车养家糊口。
+                    </div>
+                </div>
+            </div>
+
+            <div class="practice-section">
+                <h3>&#9999; 阅读理解练习</h3>
+                <div class="question">
+                    <p>1. 【主旨大意题】What is the central argument of this article?</p>
+                    <div class="options">
+                        <label>A. AI technology is primarily a threat that will destroy human civilization.</label>
+                        <label>B. The most meaningful response to AI is to actively use it to improve things people care about, rather than merely celebrating or fearing it.</label>
+                        <label>C. Tech companies are the only ones capable of developing useful AI applications.</label>
+                        <label>D. The IRS should replace all its employees with artificial intelligence systems.</label>
+                    </div>
+                    <button class="show-answer-btn" onclick="toggleAnswer('ans1')">显示答案与解析</button>
+                    <div class="answer-reveal" id="ans1">
+                        <span class="correct-answer">正确答案：B</span><br>
+                        解析：文章的核心论点在多处明确表达。作者通过Danny Hillis的建议"Try to imagine the tech without the tech companies"引出"AI反文化运动"的概念，并在总结段指出："the only effective response to a transformative technology is not to hide from it but to get your hands dirty and make it work to preserve and improve the things you care about."这与选项B完全一致。A是"末日论者"的观点，C与文章强调非科技公司也能有效使用AI的主旨相悖，D文中明确说IRS不能简单用AI替代员工。
+                    </div>
+                </div>
+                <div class="question">
+                    <p>2. 【细节理解题】According to the article, which of the following is NOT a way the IRS is using AI?</p>
+                    <div class="options">
+                        <label>A. Natural-language processing to speed up call center service.</label>
+                        <label>B. Large language models to assist with code generation.</label>
+                        <label>C. AI to completely replace human customer-service representatives.</label>
+                        <label>D. AI to assist in translating legacy COBOL code into modern programming languages.</label>
+                    </div>
+                    <button class="show-answer-btn" onclick="toggleAnswer('ans2')">显示答案与解析</button>
+                    <div class="answer-reveal" id="ans2">
+                        <span class="correct-answer">正确答案：C</span><br>
+                        解析：文章明确提到IRS使用AI的三种方式：自然语言处理加速客服中心（A）、大语言模型辅助代码生成（B）、AI协助将COBOL代码翻译为现代编程语言（D）。但文章同时指出"the IRS is bound by rules about 'inherently governmental' functions and cannot simply replace its employees with AI"，说明IRS不能完全用AI替代人类员工，C选项与原文矛盾。
+                    </div>
+                </div>
+                <div class="question">
+                    <p>3. 【推理判断题】What can be inferred about Werfel's strategy for modernizing the IRS with AI?</p>
+                    <div class="options">
+                        <label>A. He publicly announced ambitious AI transformation plans to gain media attention.</label>
+                        <label>B. He deliberately kept the IRS's AI efforts low-profile, using its reputation for being slow and outdated as a strategic advantage.</label>
+                        <label>C. He believed the IRS should completely abandon its legacy systems and start from scratch.</label>
+                        <label>D. He opposed any use of AI within the IRS due to privacy concerns.</label>
+                    </div>
+                    <button class="show-answer-btn" onclick="toggleAnswer('ans3')">显示答案与解析</button>
+                    <div class="answer-reveal" id="ans3">
+                        <span class="correct-answer">正确答案：B</span><br>
+                        解析：文章详细描述了Werfel的策略："Werfel was shrinking its AI efforts to invisibility, using the perception of the IRS as slow and boring and technologically hopeless as cover for his effort to transcend that perception."这说明他刻意保持低调，利用IRS"迟缓无聊"的公众形象作为掩护来推进AI现代化。A与"shrinking its AI efforts to invisibility"矛盾；C与文中"ripping and replacing was not an option"矛盾；D与文中他积极推动AI应用的事实矛盾。
+                    </div>
+                </div>
+            </div>
+
+            <div class="tips-box">
+                <h4>&#128161; 考研阅读技巧</h4>
+                <ul>
+                    <li><strong>把握文章框架：</strong>本文采用了"宏观→微观→宏观"的结构：先讨论AI的总体争论，再聚焦IRS的具体案例，最后升华主题。考研阅读中识别这种结构有助于快速定位主旨</li>
+                    <li><strong>关注对比与转折：</strong>文章大量使用对比（accelerationists vs. doomers, tech companies vs. counterculture），转折词"Yet""But""However"往往是考点所在</li>
+                    <li><strong>理解比喻和幽默：</strong>作者使用了大量生动的比喻（"CFO fan fiction""body politic's colon"），考研英语中理解作者的修辞手法有助于把握态度题</li>
+                    <li><strong>注意数字和细节：</strong>本文包含大量具体数据（$4.4 trillion, 22 percent budget cut, 90 percent of the IMF），这些往往是细节题的出题点</li>
+                    <li><strong>识别作者态度：</strong>作者对AI的态度是"审慎乐观"——既承认风险，也看到实际应用的价值。这种 nuanced（微妙的）态度是考研态度题的常见考法</li>
+                    <li><strong>同义替换积累：</strong>incremental = gradual; transcend = go beyond; perverse = contrary to expectation; resonate = strike a chord，这些同义替换在考研中频繁出现</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        const tooltip = document.getElementById('tooltip');
+        const words = document.querySelectorAll('.word');
+
+        words.forEach(word => {
+            word.addEventListener('click', function(e) {
+                const wordData = this.dataset;
+                tooltip.innerHTML = `
+                    <div class="word-title">${wordData.word}</div>
+                    <div class="phonetic">${wordData.phonetic}</div>
+                    <div class="meaning">${wordData.meaning}</div>
+                    <div class="example">"${wordData.example}"</div>
+                `;
+
+                const rect = this.getBoundingClientRect();
+                tooltip.style.display = 'block';
+
+                let left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2);
+                let top = rect.top - tooltip.offsetHeight - 10;
+
+                if (left < 10) left = 10;
+                if (left + tooltip.offsetWidth > window.innerWidth - 10) {
+                    left = window.innerWidth - tooltip.offsetWidth - 10;
+                }
+                if (top < 10) {
+                    top = rect.bottom + 10;
+                }
+
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('word')) {
+                tooltip.style.display = 'none';
+            }
+        });
+
+        function toggleAnswer(id) {
+            const ans = document.getElementById(id);
+            const btn = ans.previousElementSibling;
+            if (ans.style.display === 'block') {
+                ans.style.display = 'none';
+                btn.textContent = '显示答案与解析';
+            } else {
+                ans.style.display = 'block';
+                btn.textContent = '隐藏答案与解析';
+            }
+        }
+    </script>
+</body>
+</html>
