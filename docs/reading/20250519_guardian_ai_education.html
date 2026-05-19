@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | AI in the Classroom: Cheating Machine or Powerful Assistant?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 14px;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            color: #667eea;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            font-weight: 600;
+        }
+        
+        .article-content {
+            font-size: 17px;
+            line-height: 2;
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+            text-indent: 2em;
+        }
+        
+        .vocab-word {
+            background: linear-gradient(120deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #2d3436;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .vocab-word:hover {
+            background: linear-gradient(120deg, #fdcb6e 0%, #e17055 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .tooltip {
+            position: fixed;
+            background: #2d3436;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            max-width: 300px;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #2d3436;
+        }
+        
+        .vocab-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .vocab-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .vocab-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .vocab-table tr:hover {
+            background: #f0f0f0;
+        }
+        
+        .phrase-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .phrase-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .phrase-en {
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        
+        .phrase-cn {
+            font-size: 15px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .phrase-example {
+            font-size: 14px;
+            color: #777;
+            font-style: italic;
+            border-left: 3px solid #667eea;
+            padding-left: 15px;
+        }
+        
+        .summary-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .summary-content {
+            font-size: 16px;
+            line-height: 1.9;
+            color: #444;
+        }
+        
+        .difficult-sentences {
+            background: #fff3cd;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .sentence-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .sentence-en {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        
+        .sentence-analysis {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .reading-tips {
+            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tips-list li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 15px;
+        }
+        
+        .tips-list li::before {
+            content: '💡';
+            position: absolute;
+            left: 0;
+        }
+        
+        .quiz-section {
+            background: #f0f4f8;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .quiz-item {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+        
+        .quiz-question {
+            font-size: 17px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-options {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .quiz-options li {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .quiz-options li:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+        }
+        
+        .quiz-options li.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .quiz-answer {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .quiz-answer-title {
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: 8px;
+        }
+        
+        .footer {
+            background: #2d3436;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .footer p {
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .word-count {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+            
+            .meta-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 考研英语外刊精读</h1>
+            <p class="subtitle">AI in the Classroom: Cheating Machine or Powerful Assistant?</p>
+            <div class="meta-info">
+                <div class="meta-item">
+                    <span>📰</span>
+                    <span>来源：The Guardian</span>
+                </div>
+                <div class="meta-item">
+                    <span>📅</span>
+                    <span>日期：2026年5月19日</span>
+                </div>
+                <div class="meta-item">
+                    <span>📖</span>
+                    <span>话题：教育科技</span>
+                </div>
+                <div class="meta-item">
+                    <span>⏱️</span>
+                    <span>阅读时间：15分钟</span>
+                </div>
+            </div>
+            <div class="word-count">文章长度：约1200词</div>
+        </header>
+        
+        <div class="content">
+            <!-- 文章正文 -->
+            <section>
+                <h2 class="section-title">📝 文章正文</h2>
+                <div class="article-content">
+                    <p>AI in the classroom has become one of the most <span class="vocab-word" data-word="urgent" data-phonetic="/ˈɜːrdʒənt/" data-meaning="adj. 紧急的，紧迫的" data-example="Climate change is an urgent problem that requires immediate action.">urgent</span> <span class="vocab-word" data-word="dilemmas" data-phonetic="/dɪˈleməz/" data-meaning="n. 困境，进退两难的局面" data-example="The company faces a dilemma between cutting costs and maintaining quality.">dilemmas</span> facing modern education. For new teachers, especially those entering the <span class="vocab-word" data-word="profession" data-phonetic="/prəˈfeʃn/" data-meaning="n. 职业，专业" data-example="Teaching is a profession that requires patience and dedication.">profession</span> later in life, the rapid <span class="vocab-word" data-word="integration" data-phonetic="/ˌɪntɪˈɡreɪʃn/" data-meaning="n. 整合，融合" data-example="The integration of new technology into the classroom has improved learning outcomes.">integration</span> of <span class="vocab-word" data-word="generative" data-phonetic="/ˈdʒenərətɪv/" data-meaning="adj. 生成的，有生产能力的" data-example="Generative AI can create text, images, and music from simple prompts.">generative</span> AI tools like chatbots has introduced a layer of <span class="vocab-word" data-word="uncertainty" data-phonetic="/ʌnˈsɜːrtnti/" data-meaning="n. 不确定性，疑虑" data-example="There is still some uncertainty about the future of the project.">uncertainty</span> that rivals even the most <span class="vocab-word" data-word="daunting" data-phonetic="/ˈdɔːntɪŋ/" data-meaning="adj. 令人畏惧的，使人气馁的" data-example="Climbing Mount Everest is a daunting challenge for any mountaineer.">daunting</span> classroom management challenges.</p>
+                    
+                    <p>According to The Guardian, a trainee English teacher in 2026 described the experience as "downing a coffee in the middle of a panic attack"—a <span class="vocab-word" data-word="visceral" data-phonetic="/ˈvɪsərəl/" data-meaning="adj. 发自内心的，本能的" data-example="The documentary had a visceral impact on the audience.">visceral</span> <span class="vocab-word" data-word="metaphor" data-phonetic="/ˈmetəfər/" data-meaning="n. 隐喻，比喻" data-example="The metaphor 'time is money' suggests that time should be used wisely.">metaphor</span> for the <span class="vocab-word" data-word="disorientation" data-phonetic="/dɪsˌɔːriənˈteɪʃn/" data-meaning="n. 迷失方向，困惑" data-example="The sudden change in leadership caused disorientation among employees.">disorientation</span> caused by technology that can instantly generate essays, poems, and analyses with near-human <span class="vocab-word" data-word="fluency" data-phonetic="/ˈfluːənsi/" data-meaning="n. 流利，流畅" data-example="Her fluency in three languages helped her get the job.">fluency</span>.</p>
+                    
+                    <p>Students today can produce <span class="vocab-word" data-word="polished" data-phonetic="/ˈpɒlɪʃt/" data-meaning="adj. 完美的，优雅的；抛光的" data-example="He gave a polished presentation that impressed the board.">polished</span>, <span class="vocab-word" data-word="plagiarism" data-phonetic="/ˈpleɪdʒərɪzəm/" data-meaning="n. 抄袭，剽窃" data-example="The student was expelled for plagiarism.">plagiarism</span>-free essays in seconds using free AI tools. Traditional <span class="vocab-word" data-word="detectors" data-phonetic="/dɪˈtektərz/" data-meaning="n. 检测器，探测器" data-example="Smoke detectors are required in all residential buildings.">detectors</span> fail to catch AI-generated text because it <span class="vocab-word" data-word="mimics" data-phonetic="/ˈmɪmɪks/" data-meaning="v. 模仿，模拟" data-example="The robot mimics human movements with surprising accuracy.">mimics</span> human <span class="vocab-word" data-word="syntax" data-phonetic="/ˈsɪntæks/" data-meaning="n. 句法，语法" data-example="Understanding syntax is essential for learning any programming language.">syntax</span> and avoids <span class="vocab-word" data-word="repetitive" data-phonetic="/rɪˈpetətɪv/" data-meaning="adj. 重复的，反复的" data-example="The factory work was repetitive and boring.">repetitive</span> patterns. This <span class="vocab-word" data-word="undermines" data-phonetic="/ˌʌndərˈmaɪnz/" data-meaning="v. 破坏，削弱...的基础" data-example="Constant criticism undermines a child's confidence.">undermines</span> decades of educational values centered on original thought and <span class="vocab-word" data-word="critical" data-phonetic="/ˈkrɪtɪkl/" data-meaning="adj. 批判性的，关键的" data-example="Critical thinking is an essential skill for university students.">critical</span> analysis.</p>
+                    
+                    <p>Meanwhile, forward-thinking educators are using AI as a <span class="vocab-word" data-word="scaffold" data-phonetic="/ˈskæfoʊld/" data-meaning="n. 脚手架；教学支架（辅助学习的方法）" data-example="Teachers use questions as a scaffold to help students develop deeper understanding.">scaffold</span>—not a shortcut. AI generates <span class="vocab-word" data-word="differentiated" data-phonetic="/ˌdɪfəˈrenʃieɪtɪd/" data-meaning="adj. 差异化的，有区别的" data-example="The teacher provided differentiated instruction to meet each student's needs.">differentiated</span> reading materials for <span class="vocab-word" data-word="struggling" data-phonetic="/ˈstrʌɡlɪŋ/" data-meaning="adj. 挣扎的，困难的" data-example="The program helps struggling readers improve their skills.">struggling</span> learners, creates real-time feedback loops, and models <span class="vocab-word" data-word="revision" data-phonetic="/rɪˈvɪʒn/" data-meaning="n. 修改，修订" data-example="The essay requires significant revision before submission.">revision</span> strategies. In <span class="vocab-word" data-word="under-resourced" data-phonetic="/ˌʌndər rɪˈsɔːrst/" data-meaning="adj. 资源不足的" data-example="Under-resourced schools often struggle to provide adequate technology.">under-resourced</span> schools, it's becoming a vital <span class="vocab-word" data-word="equity" data-phonetic="/ˈekwəti/" data-meaning="n. 公平，公正" data-example="The policy aims to promote equity in education.">equity</span> tool, closing gaps where human tutors are unavailable.</p>
+                    
+                    <p>Clear ethical <span class="vocab-word" data-word="guidelines" data-phonetic="/ˈɡaɪdlaɪnz/" data-meaning="n. 指导方针，准则" data-example="The company issued new guidelines for remote work.">guidelines</span> are now essential. Leading <span class="vocab-word" data-word="districts" data-phonetic="/ˈdɪstrɪkts/" data-meaning="n. 学区，地区" data-example="The new policy affects all school districts in the state.">districts</span> are adopting AI use policies that require students to <span class="vocab-word" data-word="disclose" data-phonetic="/dɪsˈkloʊz/" data-meaning="v. 披露，公开" data-example="Companies must disclose any potential conflicts of interest.">disclose</span> AI assistance, <span class="vocab-word" data-word="cite" data-phonetic="/saɪt/" data-meaning="v. 引用，引证" data-example="Remember to cite your sources in academic papers.">cite</span> sources, and <span class="vocab-word" data-word="reflect" data-phonetic="/rɪˈflekt/" data-meaning="v. 反思，反映" data-example="Take time to reflect on what you have learned.">reflect</span> on their process. The goal isn't to ban AI—it's to teach responsible use, turning students into <span class="vocab-word" data-word="discerning" data-phonetic="/dɪˈsɜːrnɪŋ/" data-meaning="adj. 有辨别力的，有洞察力的" data-example="Discerning customers can tell the difference between quality and imitation.">discerning</span> users who understand when to rely on machines and when to trust their own voice.</p>
+                    
+                    <p>Professional <span class="vocab-word" data-word="development" data-phonetic="/dɪˈveləpmənt/" data-meaning="n. 发展，开发" data-example="The company invests heavily in employee development.">development</span> programs now include <span class="vocab-word" data-word="mandatory" data-phonetic="/ˈmændətɔːri/" data-meaning="adj. 强制的，义务的" data-example="Attendance at the safety training is mandatory.">mandatory</span> AI <span class="vocab-word" data-word="literacy" data-phonetic="/ˈlɪtərəsi/" data-meaning="n. 读写能力，素养" data-example="Digital literacy is becoming as important as traditional literacy.">literacy</span> modules. But many <span class="vocab-word" data-word="veteran" data-phonetic="/ˈvetərən/" data-meaning="adj. 经验丰富的，老练的" data-example="Veteran teachers bring valuable experience to the classroom.">veteran</span> educators remain <span class="vocab-word" data-word="unprepared" data-phonetic="/ʌnprɪˈperd/" data-meaning="adj. 无准备的，措手不及的" data-example="The city was unprepared for the sudden snowstorm.">unprepared</span>. Schools that invest in ongoing, peer-led training see faster <span class="vocab-word" data-word="adoption" data-phonetic="/əˈdɒpʃn/" data-meaning="n. 采用，采纳" data-example="The adoption of new technology requires careful planning.">adoption</span> and lower anxiety. AI isn't replacing teachers—it's redefining their role as guides in a <span class="vocab-word" data-word="digital" data-phonetic="/ˈdɪdʒɪtl/" data-meaning="adj. 数字的，数码的" data-example="The digital revolution has transformed how we communicate.">digital</span> <span class="vocab-word" data-word="landscape" data-phonetic="/ˈlændskeɪp/" data-meaning="n.  landscape，领域" data-example="The political landscape has changed dramatically.">landscape</span>.</p>
+                    
+                    <p>While <span class="vocab-word" data-word="elite" data-phonetic="/ɪˈliːt/" data-meaning="adj. 精英的，优秀的" data-example="Elite universities attract students from around the world.">elite</span> schools restrict AI to <span class="vocab-word" data-word="preserve" data-phonetic="/prɪˈzɜːrv/" data-meaning="v. 保护，维护" data-example="We must preserve our cultural heritage for future generations.">preserve</span> academic <span class="vocab-word" data-word="purity" data-phonetic="/ˈpjʊrəti/" data-meaning="n. 纯洁，纯正" data-example="The purity of the water was tested in a laboratory.">purity</span>, <span class="vocab-word" data-word="underfunded" data-phonetic="/ˌʌndərˈfʌndɪd/" data-meaning="adj. 资金不足的" data-example="Underfunded public schools struggle to retain good teachers.">underfunded</span> districts rely on it for support. Without <span class="vocab-word" data-word="equitable" data-phonetic="/ˈekwɪtəbl/" data-meaning="adj. 公平的，公正的" data-example="We need to ensure equitable access to healthcare.">equitable</span> access to tools, training, and <span class="vocab-word" data-word="infrastructure" data-phonetic="/ˈɪnfrəstrʌktʃər/" data-meaning="n. 基础设施" data-example="Good infrastructure is essential for economic development.">infrastructure</span>, AI risks <span class="vocab-word" data-word="deepening" data-phonetic="/ˈdiːpənɪŋ/" data-meaning="v. 加深，加剧" data-example="The crisis is deepening, with no end in sight.">deepening</span> the <span class="vocab-word" data-word="achievement" data-phonetic="/əˈtʃiːvmənt/" data-meaning="n. 成就，成绩" data-example="Winning the championship was a great achievement.">achievement</span> gap. <span class="vocab-word" data-word="Policymakers" data-phonetic="/ˈpɒləsimeɪkərz/" data-meaning="n. 政策制定者" data-example="Policymakers must consider the long-term effects of their decisions.">Policymakers</span> must <span class="vocab-word" data-word="prioritize" data-phonetic="/praɪˈɒrətaɪz/" data-meaning="v. 优先考虑，确定优先顺序" data-example="We need to prioritize safety over speed.">prioritize</span> funding for AI-enabled tutoring and teacher <span class="vocab-word" data-word="upskilling" data-phonetic="/ʌpˈskɪlɪŋ/" data-meaning="n. 技能提升，再培训" data-example="The company invested in upskilling its workforce.">upskilling</span> in Title I schools.</p>
+                    
+                    <p>As AI becomes as <span class="vocab-word" data-word="ubiquitous" data-phonetic="/juːˈbɪkwɪtəs/" data-meaning="adj. 无处不在的，普遍存在的" data-example="Smartphones have become ubiquitous in modern society.">ubiquitous</span> as <span class="vocab-word" data-word="calculators" data-phonetic="/ˈkælkjuleɪtərz/" data-meaning="n. 计算器" data-example="Students are allowed to use calculators during the exam.">calculators</span> were in the 1980s, the real challenge isn't preventing its use—it's redefining what learning means in its <span class="vocab-word" data-word="presence" data-phonetic="/ˈprezns/" data-meaning="n. 存在，出现" data-example="The presence of security cameras deters theft.">presence</span>. The goal is no longer to produce perfect essays, but to <span class="vocab-word" data-word="cultivate" data-phonetic="/ˈkʌltɪveɪt/" data-meaning="v. 培养，陶冶" data-example="The school aims to cultivate critical thinking skills.">cultivate</span> thoughtful, self-aware thinkers who understand when and how to lean on machines—and when to trust their own voices.</p>
+                </div>
+            </section>
+            
+            <!-- 文章大意总结 -->
+            <section class="summary-section">
+                <h2 class="section-title">📋 文章大意总结</h2>
+                <div class="summary-content">
+                    <p><strong>主题：</strong>本文探讨了人工智能（AI）在现代教育中的双重角色——既是潜在的"作弊工具"，也是强大的"教学助手"。</p>
+                    <br>
+                    <p><strong>主要内容：</strong></p>
+                    <p>1. <strong>AI带来的挑战：</strong>生成式AI工具（如聊天机器人）的快速发展让教师感到不安，学生可以轻松生成看似原创的论文，传统抄袭检测工具难以识别AI生成的内容，这对强调原创思维和批判性分析的教育价值观构成威胁。</p>
+                    <br>
+                    <p>2. <strong>AI的积极作用：</strong>有远见的教育工作者将AI视为教学支架而非捷径。AI可以为学习困难的学生提供差异化阅读材料，创建实时反馈机制，示范修改策略。在资源不足的学校，AI成为促进教育公平的重要工具。</p>
+                    <br>
+                    <p>3. <strong>伦理规范与教师培训：</strong>建立明确的AI使用伦理准则至关重要。领先的学区要求学生披露AI辅助使用情况、引用来源并反思学习过程。同时，教师专业发展项目需要纳入AI素养培训，帮助教师适应数字化教学环境。</p>
+                    <br>
+                    <p>4. <strong>教育公平问题：</strong>精英学校限制AI使用以维护学术纯粹性，而资金不足的学区则依赖AI提供支持。如果不能确保工具、培训和基础设施的公平获取，AI可能加剧教育成就差距。</p>
+                    <br>
+                    <p><strong>核心观点：</strong>AI在教育中的存在已不可逆转。真正的挑战不是阻止其使用，而是重新定义AI时代的"学习"内涵——目标不再是产出完美的论文，而是培养有思想、有自我意识的思考者，让他们懂得何时借助机器、何时相信自己的判断。</p>
+                </div>
+            </section>
+            
+            <!-- 短语搭配 -->
+            <section class="phrase-section">
+                <h2 class="section-title">🔗 短语搭配</h2>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">1. in the presence of</div>
+                    <div class="phrase-cn">在...存在的情况下；在...面前</div>
+                    <div class="phrase-example">原文例句：The goal is no longer to produce perfect essays, but to cultivate thoughtful thinkers who understand when and how to lean on machines—and when to trust their own voices <strong>in the presence of</strong> AI.</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">2. rely on</div>
+                    <div class="phrase-cn">依靠，依赖</div>
+                    <div class="phrase-example">原文例句：While elite schools restrict AI to preserve academic purity, underfunded districts <strong>rely on</strong> it for support.</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">3. close gaps</div>
+                    <div class="phrase-cn">缩小差距</div>
+                    <div class="phrase-example">原文例句：In under-resourced schools, it's becoming a vital equity tool, <strong>closing gaps</strong> where human tutors are unavailable.</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">4. in seconds</div>
+                    <div class="phrase-cn">在几秒钟内</div>
+                    <div class="phrase-example">原文例句：Students today can produce polished, plagiarism-free essays <strong>in seconds</strong> using free AI tools.</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">5. centered on</div>
+                    <div class="phrase-cn">以...为中心，围绕...</div>
+                    <div class="phrase-example">原文例句：This undermines decades of educational values <strong>centered on</strong> original thought and critical analysis.</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">6. fail to</div>
+                    <div class="phrase-cn">未能，没有能够</div>
+                    <div class="phrase-example">原文例句：Traditional detectors <strong>fail to</strong> catch AI-generated text because it mimics human syntax.</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">7. risks doing</div>
+                    <div class="phrase-cn">冒着...的风险</div>
+                    <div class="phrase-example">原文例句：Without equitable access to tools, training, and infrastructure, AI <strong>risks</strong> deepening the achievement gap.</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">8. lean on</div>
+                    <div class="phrase-cn">依靠，依赖</div>
+                    <div class="phrase-example">原文例句：The goal is to cultivate thinkers who understand when and how to <strong>lean on</strong> machines—and when to trust their own voices.</div>
+                </div>
+            </section>
+            
+            <!-- 长难句解析 -->
+            <section class="difficult-sentences">
+                <h2 class="section-title">🔍 长难句解析</h2>
+                
+                <div class="sentence-item">
+                    <div class="sentence-en">"For new teachers, especially those entering the profession later in life, the rapid integration of generative AI tools like chatbots has introduced a layer of uncertainty that rivals even the most daunting classroom management challenges."</div>
+                    <div class="sentence-analysis">
+                        <strong>句子结构分析：</strong><br>
+                        • 主干：The rapid integration has introduced a layer of uncertainty<br>
+                        • 插入语：especially those entering the profession later in life（修饰new teachers）<br>
+                        • 定语从句：that rivals even the most daunting classroom management challenges（修饰uncertainty）<br>
+                        • 关键短语：enter the profession（进入职场/行业）；rival（与...匹敌）
+                    </div>
+                </div>
+                
+                <div class="sentence-item">
+                    <div class="sentence-en">"Traditional detectors fail to catch AI-generated text because it mimics human syntax and avoids repetitive patterns."</div>
+                    <div class="sentence-analysis">
+                        <strong>句子结构分析：</strong><br>
+                        • 主干：Traditional detectors fail to catch AI-generated text<br>
+                        • 原因状语从句：because it mimics human syntax and avoids repetitive patterns<br>
+                        • 合成形容词：AI-generated（AI生成的）<br>
+                        • 关键短语：fail to do（未能做某事）；mimic（模仿）
+                    </div>
+                </div>
+                
+                <div class="sentence-item">
+                    <div class="sentence-en">"The goal isn't to ban AI—it's to teach responsible use, turning students into discerning users who understand when to rely on machines and when to trust their own voice."</div>
+                    <div class="sentence-analysis">
+                        <strong>句子结构分析：</strong><br>
+                        • 主干：The goal isn't to ban AI—it's to teach responsible use<br>
+                        • 现在分词短语作结果状语：turning students into discerning users<br>
+                        • 定语从句：who understand when to rely on machines and when to trust their own voice<br>
+                        • 关键结构：turn...into...（将...转变为...）；discerning（有辨别力的）
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 考研核心词汇 -->
+            <section class="vocab-section">
+                <h2 class="section-title">📖 考研核心词汇表</h2>
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th>单词</th>
+                            <th>音标</th>
+                            <th>词性</th>
+                            <th>中文释义</th>
+                            <th>例句</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>urgent</strong></td>
+                            <td>/ˈɜːrdʒənt/</td>
+                            <td>adj.</td>
+                            <td>紧急的，紧迫的</td>
+                            <td>Climate change is an urgent problem.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>dilemma</strong></td>
+                            <td>/dɪˈlemə/</td>
+                            <td>n.</td>
+                            <td>困境，进退两难</td>
+                            <td>The company faces a dilemma between costs and quality.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>integration</strong></td>
+                            <td>/ˌɪntɪˈɡreɪʃn/</td>
+                            <td>n.</td>
+                            <td>整合，融合</td>
+                            <td>The integration of technology improved outcomes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>generative</strong></td>
+                            <td>/ˈdʒenərətɪv/</td>
+                            <td>adj.</td>
+                            <td>生成的</td>
+                            <td>Generative AI can create text and images.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>uncertainty</strong></td>
+                            <td>/ʌnˈsɜːrtnti/</td>
+                            <td>n.</td>
+                            <td>不确定性</td>
+                            <td>There is uncertainty about the project's future.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>daunting</strong></td>
+                            <td>/ˈdɔːntɪŋ/</td>
+                            <td>adj.</td>
+                            <td>令人畏惧的</td>
+                            <td>Climbing Everest is a daunting challenge.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>visceral</strong></td>
+                            <td>/ˈvɪsərəl/</td>
+                            <td>adj.</td>
+                            <td>发自内心的</td>
+                            <td>The film had a visceral impact on audiences.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>metaphor</strong></td>
+                            <td>/ˈmetəfər/</td>
+                            <td>n.</td>
+                            <td>隐喻，比喻</td>
+                            <td>"Time is money" is a common metaphor.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>disorientation</strong></td>
+                            <td>/dɪsˌɔːriənˈteɪʃn/</td>
+                            <td>n.</td>
+                            <td>迷失方向，困惑</td>
+                            <td>The change caused disorientation among staff.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>fluency</strong></td>
+                            <td>/ˈfluːənsi/</td>
+                            <td>n.</td>
+                            <td>流利，流畅</td>
+                            <td>Her fluency in languages helped her career.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>polished</strong></td>
+                            <td>/ˈpɒlɪʃt/</td>
+                            <td>adj.</td>
+                            <td>完美的，优雅的</td>
+                            <td>He gave a polished presentation.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>plagiarism</strong></td>
+                            <td>/ˈpleɪdʒərɪzəm/</td>
+                            <td>n.</td>
+                            <td>抄袭，剽窃</td>
+                            <td>The student was expelled for plagiarism.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>mimic</strong></td>
+                            <td>/ˈmɪmɪk/</td>
+                            <td>v.</td>
+                            <td>模仿，模拟</td>
+                            <td>The robot mimics human movements.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>syntax</strong></td>
+                            <td>/ˈsɪntæks/</td>
+                            <td>n.</td>
+                            <td>句法，语法</td>
+                            <td>Understanding syntax is essential for coding.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>undermine</strong></td>
+                            <td>/ˌʌndərˈmaɪn/</td>
+                            <td>v.</td>
+                            <td>破坏，削弱</td>
+                            <td>Criticism undermines a child's confidence.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>critical</strong></td>
+                            <td>/ˈkrɪtɪkl/</td>
+                            <td>adj.</td>
+                            <td>批判性的，关键的</td>
+                            <td>Critical thinking is essential for students.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>scaffold</strong></td>
+                            <td>/ˈskæfoʊld/</td>
+                            <td>n.</td>
+                            <td>脚手架；教学支架</td>
+                            <td>Teachers use questions as a scaffold.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>differentiated</strong></td>
+                            <td>/ˌdɪfəˈrenʃieɪtɪd/</td>
+                            <td>adj.</td>
+                            <td>差异化的</td>
+                            <td>The teacher provided differentiated instruction.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>equity</strong></td>
+                            <td>/ˈekwəti/</td>
+                            <td>n.</td>
+                            <td>公平，公正</td>
+                            <td>The policy aims to promote equity.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>guideline</strong></td>
+                            <td>/ˈɡaɪdlaɪn/</td>
+                            <td>n.</td>
+                            <td>指导方针</td>
+                            <td>The company issued new guidelines.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>disclose</strong></td>
+                            <td>/dɪsˈkloʊz/</td>
+                            <td>v.</td>
+                            <td>披露，公开</td>
+                            <td>Companies must disclose conflicts of interest.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>cite</strong></td>
+                            <td>/saɪt/</td>
+                            <td>v.</td>
+                            <td>引用，引证</td>
+                            <td>Remember to cite your sources.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>discerning</strong></td>
+                            <td>/dɪˈsɜːrnɪŋ/</td>
+                            <td>adj.</td>
+                            <td>有辨别力的</td>
+                            <td>Discerning customers value quality.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>mandatory</strong></td>
+                            <td>/ˈmændətɔːri/</td>
+                            <td>adj.</td>
+                            <td>强制的，义务的</td>
+                            <td>Attendance at training is mandatory.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>literacy</strong></td>
+                            <td>/ˈlɪtərəsi/</td>
+                            <td>n.</td>
+                            <td>读写能力，素养</td>
+                            <td>Digital literacy is increasingly important.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>veteran</strong></td>
+                            <td>/ˈvetərən/</td>
+                            <td>adj.</td>
+                            <td>经验丰富的</td>
+                            <td>Veteran teachers bring valuable experience.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>adoption</strong></td>
+                            <td>/əˈdɒpʃn/</td>
+                            <td>n.</td>
+                            <td>采用，采纳</td>
+                            <td>The adoption of new technology requires planning.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>elite</strong></td>
+                            <td>/ɪˈliːt/</td>
+                            <td>adj.</td>
+                            <td>精英的</td>
+                            <td>Elite universities attract global students.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>preserve</strong></td>
+                            <td>/prɪˈzɜːrv/</td>
+                            <td>v.</td>
+                            <td>保护，维护</td>
+                            <td>We must preserve our cultural heritage.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>purity</strong></td>
+                            <td>/ˈpjʊrəti/</td>
+                            <td>n.</td>
+                            <td>纯洁，纯正</td>
+                            <td>The purity of the water was tested.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>equitable</strong></td>
+                            <td>/ˈekwɪtəbl/</td>
+                            <td>adj.</td>
+                            <td>公平的，公正的</td>
+                            <td>We need equitable access to healthcare.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>infrastructure</strong></td>
+                            <td>/ˈɪnfrəstrʌktʃər/</td>
+                            <td>n.</td>
+                            <td>基础设施</td>
+                            <td>Good infrastructure is essential for development.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>prioritize</strong></td>
+                            <td>/praɪˈɒrətaɪz/</td>
+                            <td>v.</td>
+                            <td>优先考虑</td>
+                            <td>We need to prioritize safety over speed.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ubiquitous</strong></td>
+                            <td>/juːˈbɪkwɪtəs/</td>
+                            <td>adj.</td>
+                            <td>无处不在的</td>
+                            <td>Smartphones have become ubiquitous.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>cultivate</strong></td>
+                            <td>/ˈkʌltɪveɪt/</td>
+                            <td>v.</td>
+                            <td>培养，陶冶</td>
+                            <td>The school aims to cultivate critical thinking.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- 阅读理解练习 -->
+            <section class="quiz-section">
+                <h2 class="section-title">✍️ 阅读理解练习</h2>
+                
+                <div class="quiz-item">
+                    <div class="quiz-question">1. What is the main dilemma discussed in the passage regarding AI in education?</div>
+                    <ul class="quiz-options">
+                        <li>A. Whether AI should be banned from schools entirely</li>
+                        <li>B. Whether AI is a cheating tool or a powerful educational assistant</li>
+                        <li>C. Whether teachers should be replaced by AI systems</li>
+                        <li>D. Whether students should learn programming before using AI</li>
+                    </ul>
+                    <div class="quiz-answer">
+                        <div class="quiz-answer-title">正确答案：B</div>
+                        <div>解析：文章开篇即点明主题"AI in the classroom has become one of the most urgent dilemmas"，并在标题和全文围绕AI是"作弊工具"还是"强大助手"这一核心矛盾展开讨论。A选项过于绝对，文章并未主张完全禁止；C选项与文中"AI isn't replacing teachers"相悖；D选项文中未提及。</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-item">
+                    <div class="quiz-question">2. According to the passage, why do traditional plagiarism detectors fail to catch AI-generated text?</div>
+                    <ul class="quiz-options">
+                        <li>A. Because AI-generated text contains no words at all</li>
+                        <li>B. Because students use advanced encryption techniques</li>
+                        <li>C. Because AI mimics human syntax and avoids repetitive patterns</li>
+                        <li>D. Because teachers don't know how to use the detectors properly</li>
+                    </ul>
+                    <div class="quiz-answer">
+                        <div class="quiz-answer-title">正确答案：C</div>
+                        <div>解析：根据文章第三段"Traditional detectors fail to catch AI-generated text because it mimics human syntax and avoids repetitive patterns"可知，传统检测工具失效的原因是AI文本模仿人类句法且避免重复模式。A、B、D选项均与原文不符。</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-item">
+                    <div class="quiz-question">3. What can be inferred from the passage about the author's attitude toward AI in education?</div>
+                    <ul class="quiz-options">
+                        <li>A. AI should be completely banned from educational settings</li>
+                        <li>B. AI is purely harmful and undermines educational values</li>
+                        <li>C. AI is a tool that requires proper guidance and ethical guidelines</li>
+                        <li>D. AI will eventually replace all human teachers in the future</li>
+                    </ul>
+                    <div class="quiz-answer">
+                        <div class="quiz-answer-title">正确答案：C</div>
+                        <div>解析：从文中"The goal isn't to ban AI—it's to teach responsible use"和"redefining what learning means in its presence"等表述可以看出，作者认为AI需要正确的引导和伦理规范，而非一味禁止。A、B选项过于负面，与作者观点不符；D选项与"AI isn't replacing teachers"相悖。</div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 阅读技巧提示 -->
+            <section class="reading-tips">
+                <h2 class="section-title">💡 阅读技巧提示</h2>
+                <ul class="tips-list">
+                    <li><strong>主旨大意题：</strong>注意文章首段和标题，通常包含核心主题。本文标题中的"Cheating Machine or Powerful Assistant"直接点明文章讨论的核心矛盾。</li>
+                    <li><strong>细节理解题：</strong>定位关键词，快速扫描找到相关信息。注意同义替换，如文中"mimics"对应选项中的"imitates"。</li>
+                    <li><strong>推理判断题：</strong>基于原文信息进行合理推断，避免过度解读。关注作者的态度词汇（如"forward-thinking"、"responsible"等）。</li>
+                    <li><strong>词义猜测题：</strong>利用上下文语境推断生词含义。如通过"closing gaps where human tutors are unavailable"可推断"equity"与"公平"相关。</li>
+                    <li><strong>长难句分析：</strong>先找主干（主谓宾），再分析修饰成分。注意插入语、定语从句等结构对句子理解的影响。</li>
+                    <li><strong>积累同义表达：</strong>如文中"under-resourced"与"underfunded"都表示"资金不足的"，"ubiquitous"与"widespread"都表示"普遍的"。</li>
+                </ul>
+            </section>
+        </div>
+        
+        <footer class="footer">
+            <p>📚 考研英语外刊精读系列</p>
+            <p>来源：The Guardian | 编辑整理：SinAndZsh</p>
+            <p>本站仅供学习交流使用，版权归原作者及出版方所有</p>
+        </footer>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+    
+    <script>
+        // 词汇提示功能
+        const vocabWords = document.querySelectorAll('.vocab-word');
+        const tooltip = document.getElementById('tooltip');
+        
+        vocabWords.forEach(word => {
+            word.addEventListener('mouseenter', (e) => {
+                const wordData = word.dataset.word;
+                const phonetic = word.dataset.phonetic;
+                const meaning = word.dataset.meaning;
+                const example = word.dataset.example;
+                
+                tooltip.innerHTML = `
+                    <strong style="font-size:16px;color:#fdcb6e">${wordData}</strong>
+                    <span style="color:#dfe6e9">${phonetic}</span><br>
+                    <span style="color:#74b9ff">${meaning}</span><br><br>
+                    <em style="color:#b2bec3;font-size:12px">${example}</em>
+                `;
+                
+                tooltip.style.display = 'block';
+                
+                const rect = word.getBoundingClientRect();
+                tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+                tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
+            });
+            
+            word.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>考研英语外刊精读 | SinAndZsh</title>
+    <title>考研英语外刊精读 | Reading Collection</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,7 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
             line-height: 1.8;
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -24,27 +24,27 @@
             max-width: 1000px;
             margin: 0 auto;
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
         }
         
         .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 50px 40px;
             text-align: center;
         }
         
         .header h1 {
-            font-size: 2.5em;
+            font-size: 36px;
             margin-bottom: 15px;
             font-weight: 600;
         }
         
         .header p {
+            font-size: 18px;
             opacity: 0.9;
-            font-size: 1.1em;
         }
         
         .content {
@@ -52,175 +52,267 @@
         }
         
         .intro {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
-            border-radius: 12px;
+            background: #f8f9fa;
             padding: 30px;
+            border-radius: 15px;
             margin-bottom: 40px;
         }
         
         .intro h2 {
-            color: #1e3c72;
+            color: #667eea;
             margin-bottom: 15px;
+            font-size: 24px;
         }
         
         .intro p {
             color: #555;
             line-height: 1.9;
+            margin-bottom: 10px;
         }
         
-        .intro ul {
-            margin: 15px 0 0 25px;
-            color: #555;
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
         
-        .intro li {
-            margin: 8px 0;
+        .feature-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .feature-item .icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .feature-item h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .feature-item p {
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .section-title {
+            font-size: 26px;
+            color: #667eea;
+            margin: 40px 0 25px 0;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            font-weight: 600;
         }
         
         .article-list {
-            margin-top: 30px;
-        }
-        
-        .article-list h2 {
-            color: #1e3c72;
-            font-size: 1.8em;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #2a5298;
+            display: grid;
+            gap: 20px;
         }
         
         .article-card {
             background: #f8f9fa;
-            border-radius: 12px;
+            border-radius: 15px;
             padding: 25px;
-            margin-bottom: 20px;
-            border-left: 5px solid #2a5298;
             transition: all 0.3s ease;
-            cursor: pointer;
+            border-left: 5px solid #667eea;
             text-decoration: none;
-            display: block;
             color: inherit;
+            display: block;
         }
         
         .article-card:hover {
-            transform: translateX(10px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            background: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            background: white;
         }
         
-        .article-card .date {
-            color: #888;
-            font-size: 0.9em;
-            margin-bottom: 8px;
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
-        .article-card .title {
-            font-size: 1.3em;
+        .article-title {
+            font-size: 20px;
             font-weight: 600;
-            color: #1e3c72;
-            margin-bottom: 10px;
+            color: #333;
+            flex: 1;
         }
         
-        .article-card .source {
-            display: inline-block;
-            background: rgba(42, 82, 152, 0.1);
-            color: #2a5298;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.85em;
-            margin-bottom: 10px;
+        .article-date {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            white-space: nowrap;
         }
         
-        .article-card .desc {
+        .article-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .article-meta span {
+            font-size: 14px;
             color: #666;
-            line-height: 1.7;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
-        .article-card .tags {
-            margin-top: 15px;
+        .article-summary {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
         }
         
-        .article-card .tag {
-            display: inline-block;
+        .article-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
             background: #e3f2fd;
-            color: #1565c0;
+            color: #1976d2;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+        }
+        
+        .new-badge {
+            background: #ff4757;
+            color: white;
             padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            margin-right: 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         
         .footer {
-            background: #f5f5f5;
-            padding: 25px;
+            background: #2d3436;
+            color: white;
+            padding: 30px;
             text-align: center;
-            color: #888;
         }
         
-        .footer a {
-            color: #2a5298;
-            text-decoration: none;
+        .footer p {
+            margin-bottom: 10px;
+            opacity: 0.8;
         }
         
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 1.8em;
+                font-size: 28px;
             }
             
             .content {
                 padding: 20px;
             }
             
-            .article-card {
-                padding: 20px;
+            .article-header {
+                flex-direction: column;
+            }
+            
+            .article-meta {
+                flex-direction: column;
+                gap: 5px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header class="header">
             <h1>📚 考研英语外刊精读</h1>
-            <p>精选《经济学人》《卫报》《纽约时报》等权威外刊，助力考研英语备考</p>
-        </div>
+            <p>精选权威外刊文章，助力考研英语备考</p>
+        </header>
         
         <div class="content">
-            <div class="intro">
-                <h2>关于本栏目</h2>
-                <p>本栏目每日精选一篇来自国际权威媒体的高质量文章，专为考研英语备考设计。每篇文章包含：</p>
-                <ul>
-                    <li>📝 完整原文（1000词以上，考研难度）</li>
-                    <li>📖 核心词汇标注（点击可查看释义）</li>
-                    <li>📋 详细词汇表（音标、词性、释义、例句）</li>
-                    <li>🔗 短语搭配模块（8个常用短语）</li>
-                    <li>📝 长难句解析（语法结构分析）</li>
-                    <li>✍️ 阅读理解练习（3道考研风格题目+详解）</li>
-                    <li>💡 阅读技巧提示</li>
-                </ul>
-            </div>
+            <section class="intro">
+                <h2>🎯 关于本站</h2>
+                <p>本站精选《纽约时报》、《卫报》、《大西洋月刊》、《经济学人》等权威外刊的最新文章，为考研学子提供高质量的英语阅读材料。</p>
+                <br>
+                <p>每篇文章包含：核心词汇标注（支持点击查看释义）、短语搭配、长难句解析、阅读理解练习及答案解析，帮助您系统提升考研英语阅读能力。</p>
+                
+                <div class="features">
+                    <div class="feature-item">
+                        <div class="icon">📖</div>
+                        <h3>精选外刊</h3>
+                        <p>权威来源，原汁原味</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">🎯</div>
+                        <h3>词汇标注</h3>
+                        <p>考研核心词汇详解</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">✍️</div>
+                        <h3>阅读练习</h3>
+                        <p>配套真题风格练习</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">💡</div>
+                        <h3>技巧点拨</h3>
+                        <p>阅读技巧与策略</p>
+                    </div>
+                </div>
+            </section>
+            
+            <h2 class="section-title">📑 文章列表</h2>
             
             <div class="article-list">
-                <h2>📖 文章列表</h2>
-                
-                <a href="20250519_Economist_AI-Web.html" class="article-card">
-                    <div class="date">2025年5月19日</div>
-                    <div class="title">AI Is Killing the Web. Can Anything Save It?</div>
-                    <div class="source">The Economist</div>
-                    <div class="desc">人工智能正在改变人们浏览互联网的方式，导致内容网站流量急剧下降。本文探讨了AI对传统网络生态的冲击，以及各种可能的解决方案。</div>
-                    <div class="tags">
-                        <span class="tag">科技</span>
-                        <span class="tag">社会</span>
-                        <span class="tag">互联网</span>
-                        <span class="tag">人工智能</span>
+                <a href="20250519_guardian_ai_education.html" class="article-card">
+                    <div class="article-header">
+                        <div class="article-title">
+                            AI in the Classroom: Cheating Machine or Powerful Assistant?
+                            <span class="new-badge">NEW</span>
+                        </div>
+                        <div class="article-date">2026-05-19</div>
+                    </div>
+                    <div class="article-meta">
+                        <span>📰 The Guardian</span>
+                        <span>📖 约1200词</span>
+                        <span>⏱️ 阅读时间15分钟</span>
+                        <span>🏷️ 教育科技</span>
+                    </div>
+                    <div class="article-summary">
+                        探讨人工智能在教育中的双重角色——既是潜在的"作弊工具"，也是强大的"教学助手"。文章分析了AI给教育带来的挑战与机遇，讨论了伦理规范、教师培训以及教育公平等重要议题。
+                    </div>
+                    <div class="article-tags">
+                        <span class="tag">AI教育</span>
+                        <span class="tag">教育科技</span>
+                        <span class="tag">教育公平</span>
+                        <span class="tag">学术诚信</span>
                     </div>
                 </a>
             </div>
         </div>
         
-        <div class="footer">
-            <p>考研英语外刊精读 | 每日更新</p>
-            <p>GitHub: <a href="https://github.com/SinAndZsh/SinAndZsh.github.io" target="_blank">SinAndZsh.github.io</a></p>
-        </div>
+        <footer class="footer">
+            <p>📚 考研英语外刊精读系列</p>
+            <p>本站仅供学习交流使用，版权归原作者及出版方所有</p>
+            <p>© 2026 SinAndZsh | 持续更新中...</p>
+        </footer>
     </div>
 </body>
 </html>
