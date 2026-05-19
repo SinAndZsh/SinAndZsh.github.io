@@ -3,307 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📚 每日外刊精读 - 考研英语备考</title>
+    <title>考研英语外刊精读 | SinAndZsh</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #fff;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .container { max-width: 1000px; margin: 0 auto; }
-        .header { text-align: center; margin-bottom: 50px; }
-        .header h1 {
-            font-size: 42px;
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .intro {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .intro h2 {
+            color: #1e3c72;
             margin-bottom: 15px;
         }
-        .header p { color: #a0a0a0; font-size: 16px; }
-        .header .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #667eea;
-            text-decoration: none;
-            font-size: 14px;
+        
+        .intro p {
+            color: #555;
+            line-height: 1.9;
         }
-        .header .back-link:hover { text-decoration: underline; }
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
+        
+        .intro ul {
+            margin: 15px 0 0 25px;
+            color: #555;
+        }
+        
+        .intro li {
+            margin: 8px 0;
+        }
+        
+        .article-list {
             margin-top: 30px;
-            flex-wrap: wrap;
         }
-        .stat-item {
-            text-align: center;
-            padding: 20px 30px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
+        
+        .article-list h2 {
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #2a5298;
         }
-        .stat-number { font-size: 36px; font-weight: bold; color: #667eea; }
-        .stat-label { color: #888; margin-top: 5px; font-size: 14px; }
-        .section-title {
-            font-size: 24px;
-            margin: 40px 0 25px;
-            padding-left: 15px;
-            border-left: 4px solid #667eea;
-            color: #fff;
-        }
-        .article-list { display: grid; gap: 20px; }
+        
         .article-card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
             padding: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+            border-left: 5px solid #2a5298;
             transition: all 0.3s ease;
             cursor: pointer;
             text-decoration: none;
-            color: inherit;
             display: block;
+            color: inherit;
         }
+        
         .article-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255,255,255,0.1);
-            border-color: #667eea;
-            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            background: #fff;
         }
-        .article-date {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 13px;
+        
+        .article-card .date {
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        
+        .article-card .title {
+            font-size: 1.3em;
             font-weight: 600;
-            margin-bottom: 15px;
+            color: #1e3c72;
+            margin-bottom: 10px;
         }
-        .article-source { color: #ffd700; font-size: 13px; margin-bottom: 10px; }
-        .article-title { font-size: 20px; font-weight: 600; margin-bottom: 10px; color: #fff; }
-        .article-summary { color: #a0a0a0; font-size: 14px; line-height: 1.6; margin-bottom: 15px; }
-        .article-tags { display: flex; gap: 10px; flex-wrap: wrap; }
-        .tag {
-            background: rgba(102, 126, 234, 0.2);
-            color: #667eea;
+        
+        .article-card .source {
+            display: inline-block;
+            background: rgba(42, 82, 152, 0.1);
+            color: #2a5298;
             padding: 4px 12px;
             border-radius: 15px;
-            font-size: 12px;
+            font-size: 0.85em;
+            margin-bottom: 10px;
         }
-        .footer {
-            text-align: center;
-            margin-top: 60px;
-            padding: 30px;
+        
+        .article-card .desc {
             color: #666;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            line-height: 1.7;
         }
-        .footer a { color: #667eea; text-decoration: none; }
-        @media (max-width: 600px) {
-            .header h1 { font-size: 28px; }
-            .stats { gap: 20px; }
-            .stat-item { padding: 15px 20px; }
-            .stat-number { font-size: 28px; }
+        
+        .article-card .tags {
+            margin-top: 15px;
+        }
+        
+        .article-card .tag {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-right: 8px;
+        }
+        
+        .footer {
+            background: #f5f5f5;
+            padding: 25px;
+            text-align: center;
+            color: #888;
+        }
+        
+        .footer a {
+            color: #2a5298;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .article-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <a href="../index.html" class="back-link">← 返回首页</a>
-            <h1>📚 每日外刊精读</h1>
-            <p>考研英语备考专用 | 每天精选一篇外刊，配有详细词汇注释和长难句解析</p>
-            <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-number" id="article-count">1</div>
-                    <div class="stat-label">篇文章</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">5</div>
-                    <div class="stat-label">大来源</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">1000+</div>
-                    <div class="stat-label">词汇量/篇</div>
-                </div>
+            <h1>📚 考研英语外刊精读</h1>
+            <p>精选《经济学人》《卫报》《纽约时报》等权威外刊，助力考研英语备考</p>
+        </div>
+        
+        <div class="content">
+            <div class="intro">
+                <h2>关于本栏目</h2>
+                <p>本栏目每日精选一篇来自国际权威媒体的高质量文章，专为考研英语备考设计。每篇文章包含：</p>
+                <ul>
+                    <li>📝 完整原文（1000词以上，考研难度）</li>
+                    <li>📖 核心词汇标注（点击可查看释义）</li>
+                    <li>📋 详细词汇表（音标、词性、释义、例句）</li>
+                    <li>🔗 短语搭配模块（8个常用短语）</li>
+                    <li>📝 长难句解析（语法结构分析）</li>
+                    <li>✍️ 阅读理解练习（3道考研风格题目+详解）</li>
+                    <li>💡 阅读技巧提示</li>
+                </ul>
+            </div>
+            
+            <div class="article-list">
+                <h2>📖 文章列表</h2>
+                
+                <a href="20250519_Economist_AI-Web.html" class="article-card">
+                    <div class="date">2025年5月19日</div>
+                    <div class="title">AI Is Killing the Web. Can Anything Save It?</div>
+                    <div class="source">The Economist</div>
+                    <div class="desc">人工智能正在改变人们浏览互联网的方式，导致内容网站流量急剧下降。本文探讨了AI对传统网络生态的冲击，以及各种可能的解决方案。</div>
+                    <div class="tags">
+                        <span class="tag">科技</span>
+                        <span class="tag">社会</span>
+                        <span class="tag">互联网</span>
+                        <span class="tag">人工智能</span>
+                    </div>
+                </a>
             </div>
         </div>
-        <h2 class="section-title">📅 文章列表</h2>
-        <div class="article-list" id="article-list"></div>
+        
         <div class="footer">
-            <p>📖 数据来源：纽约时报 | 大西洋月刊 | 基督教科学箴言报 | 经济学人 | 卫报</p>
-            <p style="margin-top: 10px;">每天早上 8:00 自动更新</p>
+            <p>考研英语外刊精读 | 每日更新</p>
+            <p>GitHub: <a href="https://github.com/SinAndZsh/SinAndZsh.github.io" target="_blank">SinAndZsh.github.io</a></p>
         </div>
     </div>
-    <script>
-        const articles = [
-            {
-                date: '2026年5月18日',
-                dateShort: '20260518a',
-                source: 'The Guardian',
-                sourceZh: '卫报',
-                title: 'Estonia Eschews Phone Bans in Schools and Takes Leap into AI',
-                titleZh: '爱沙尼亚：不禁手机，全面拥抱AI教育',
-                summary: '本文报道了爱沙尼亚这个人口仅140万的小国如何在教育领域引领欧洲。当英国等国纷纷禁止学生在校使用手机时，爱沙尼亚却反其道而行之——不仅鼓励学生课堂使用手机，还即将启动"AI Leap"（人工智能飞跃）计划，为全国5.8万名学生和5000名教师提供免费AI学习工具。文章介绍了爱沙尼亚教育部长Kristina Kallas的观点，她认为AI将彻底改变教育模式，终结传统的"记忆-复述-应用"学习方式和书面作业，转向培养高阶认知能力和口试评估。爱沙尼亚在2022年PISA测试中位居欧洲数学、科学和创意思维榜首，其成功经验值得全球教育工作者深思。',
-                tags: ['人工智能', '教育', '科技政策', '考研核心词汇', '短语搭配', '阅读理解'],
-                filename: '20260518_TheGuardian_Estonia_AI_Education.html'
-            },
-            {
-                date: '2026年5月17日',
-                dateShort: '20260517b',
-                source: 'The Atlantic',
-                sourceZh: '大西洋月刊',
-                title: 'The Secret to Understanding AI',
-                titleZh: '理解AI的秘密：在科技巨头之外，一场"AI反文化运动"正在改变世界',
-                summary: '本文探讨了人工智能在现实世界中的实际应用，而非停留在技术公司的宏大叙事中。作者从ChatGPT发布后引发的AI狂热入手，区分了"加速主义者"和"末日论者"两种极端立场，随后将目光转向"AI反文化运动"中的实践者。文章以美国国税局（IRS）为核心案例，详细描述了该机构如何在预算削减、技术老旧、政治压力的多重困境下，悄然利用AI实现服务现代化：从自然语言处理加速客服响应，到利用大语言模型辅助代码生成，再到将拥有60年历史的COBOL代码迁移到现代编程语言。作者认为，面对变革性技术，最有效的回应不是躲避，而是"撸起袖子"让它为人们关心的事物服务。',
-                tags: ['人工智能', '政府治理', '科技与社会', '考研核心词汇', '短语搭配', '阅读理解'],
-                filename: '20260507_TheAtlantic_AI_Understanding.html'
-            },
-            {
-                date: '2026年5月17日',
-                dateShort: '20260517a',
-                source: 'The Guardian / AI News',
-                sourceZh: '卫报 / AI新闻',
-                title: 'Over 250 CEOs Urge Schools to Make AI and Computer Science Core Subjects',
-                titleZh: '250多位CEO呼吁学校将AI和计算机科学列为核心课程',
-                summary: '本文报道了超过250位美国企业CEO联名在《纽约时报》发表公开信，呼吁全美各州将人工智能（AI）和计算机科学列为K-12（幼儿园至高中）教育的核心必修课程。签署者包括微软CEO萨蒂亚·纳德拉、Uber CEO达拉·科斯罗萨西等商业巨头。文章援引布鲁金斯学会的研究数据，显示学习计算机科学的学生毕业后薪资平均高出8%，同时也提及了教育工作者对AI可能削弱学生批判性思维的担忧。',
-                tags: ['人工智能', '教育', '科技政策', '考研核心词汇', '短语搭配', '阅读理解'],
-                filename: '20260517_TheGuardian_AI_Computer_Science_Education.html'
-            },
-            {
-                date: '2026年5月16日',
-                dateShort: '20260516b',
-                source: 'The Economist',
-                sourceZh: '经济学人',
-                title: 'AI Is Killing the Web. Can Anything Save It?',
-                titleZh: 'AI正在扼杀互联网。还有什么能拯救它吗？',
-                summary: '本文探讨了人工智能如何改变互联网的商业模式。随着ChatGPT等AI工具的兴起，用户越来越多地通过聊天机器人而非传统搜索引擎获取信息，这导致内容创作者面临流量锐减的困境。文章引用Cloudflare CEO Matthew Prince的数据：十年前Google每抓取两页内容会向网站发送一位访客，如今需要抓取六页才能换来一位访客；而OpenAI的抓取比例高达250:1，Anthropic更是达到6000:1。内容网站正在失去广告收入和订阅用户，许多出版商被迫与AI公司签订授权协议或采取法律行动。',
-                tags: ['人工智能', '互联网', '商业模式', '考研核心词汇', '短语搭配', '阅读理解'],
-                filename: '20260516_TheEconomist_AI_Killing_Web.html'
-            },
-            {
-                date: '2026年5月16日',
-                dateShort: '20260516a',
-                source: 'Futurism',
-                sourceZh: '未来主义（引用卫报）',
-                title: 'Professors Say AI Is Destroying Their Students\' Ability to Think',
-                titleZh: '教授们说AI正在摧毁学生的思维能力',
-                summary: '本文探讨了人工智能对学生思维能力的深刻影响。多位人文学科教授在接受《卫报》采访时表示，AI正在"摧毁"学生的批判性思维能力——学生们变得"无法阅读和分析，无法综合数据"。文章引用了多项研究：卡内基梅隆大学发现频繁使用AI的知识工作者批判性思维能力下降；MIT的脑电图研究显示使用ChatGPT写作时认知参与度最低。与此同时，OpenAI、微软等科技巨头正向教育领域大举渗透，投入数百万美元推广AI工具。然而，一些教授开始反击，采用口试、手写笔记等方式应对AI的入侵。',
-                tags: ['人工智能', '教育', '认知科学', '考研核心词汇', '短语搭配', '阅读理解'],
-                filename: '20260516_Futurism_AI_Education_Thinking.html'
-            },
-            {
-                date: '2026年5月15日',
-                dateShort: '20260515b',
-                source: 'The Guardian',
-                sourceZh: '卫报',
-                title: 'Musk Accused of \'Selective Amnesia,\' Altman of Lying as OpenAI Trial Nears End',
-                titleZh: '马斯克被指"选择性失忆"，奥特曼被控说谎——OpenAI世纪审判进入尾声',
-                summary: '本文报道了埃隆·马斯克诉OpenAI及其CEO萨姆·奥特曼一案的最后陈词阶段。马斯克律师指控奥特曼在将OpenAI从非营利组织转变为营利性公司过程中缺乏诚信，五位证人称其为"说谎者"，要求追回约1500亿美元。OpenAI方面反驳称马斯克早就知情并支持转向营利模式，指责其真正动机是对失去控制权的不满。此案将成为判定AI非营利组织能否合法转型的里程碑式判例，影响整个AI行业的未来走向。',
-                tags: ['人工智能', '法律', '科技与社会', '考研核心词汇', '短语搭配', '阅读理解'],
-                filename: '20260515_TheGuardian_OpenAI_Trial.html'
-            },
-            {
-                date: '2026年5月15日',
-                dateShort: '20260515a',
-                source: 'The Atlantic',
-                sourceZh: '大西洋月刊',
-                title: 'The Age of De-Skilling',
-                titleZh: '去技能化时代：AI会拓展我们的思维，还是会使其萎缩？',
-                summary: '本文由纽约大学哲学教授Kwame Anthony Appiah撰写，深入探讨了AI时代的"去技能化"现象。文章从苏格拉底对文字的批评讲起，回顾了人类历史上每一次技术革新都伴随的类似焦虑，指出"去技能化"并非全然有害——AI辅助诊断虽降低医生独立判断力，却整体提高了癌症检出率。然而作者警告了一种更深层的"构成性去技能化"：AI可能逐渐侵蚀人类的判断力、想象力和对模糊性的容忍度。文章最终呼吁我们在利用AI的同时，主动守护人性中最宝贵的认知能力。',
-                tags: ['人工智能', '哲学', '科技与社会', '考研核心词汇', '短语搭配', '阅读理解'],
-                filename: '20260515_TheAtlantic_De-Skilling.html'
-            },
-            {
-                date: '2025年5月14日',
-                dateShort: '20250514a',
-                source: 'The Economist',
-                sourceZh: '经济学人',
-                title: 'Early Evidence Suggests Phone Bans at Schools May Do Little to Benefit Pupils\' Mental Health',
-                titleZh: '早期证据表明学校手机禁令对改善学生心理健康效果甚微',
-                summary: '本文选自《经济学人》2025年2月刊，探讨了全球范围内学校禁止使用智能手机的政策及其效果。法国、荷兰、匈牙利等国已相继实施校园手机禁令，但最新研究显示，禁令对改善学生心理健康的效果远不如预期。文章引用剑桥大学和伯明翰大学的研究，指出问题远比"禁不禁"复杂——社交媒体公司拒绝向研究者提供数据，使得科学界难以得出准确结论，呼吁采取更加精细化的基于证据的政策。',
-                tags: ['教育', '心理健康', '科技政策', '考研核心词汇', '短语搭配', '阅读理解'],
-                filename: '20250514_TheEconomist_Phone_Bans.html'
-            },
-            {
-                date: '2025年5月29日',
-                dateShort: '20250529a',
-                source: 'The Economist',
-                sourceZh: '经济学人',
-                title: 'The Lesser of Two Evils: Turn on the Air-con',
-                titleZh: '两害相权取其轻：打开空调吧——印度清洁空气的悖论',
-                summary: '本文选自《经济学人》社论，探讨了印度面临的环境悖论：严重的空气污染虽然在短期内降低了地表温度，却每年导致数百万人死于污染相关疾病。文章分析了灌溉扩张和空气污染两个"降温因素"，揭示了清洁空气反而会加剧高温的两难困境，并提出印度需要同时推进清洁能源和空调普及的政策建议。',
-                tags: ['环境', '气候变化', '能源政策', '考研核心词汇', '短语搭配', '阅读理解'],
-                filename: '20250529_TheEconomist_India_AirCon.html'
-            },
-            {
-                date: '2026年5月13日',
-                dateShort: '20260513d',
-                source: 'The Guardian',
-                sourceZh: '卫报',
-                title: 'I Knew My Writing Students Were Using AI',
-                titleZh: '我知道我的写作学生在使用AI：一次深刻的教学时刻',
-                summary: 'MIT小说写作教授Micah Nathan讲述发现学生使用AI辅助写作后的经历。他没有选择惩罚或简单禁止，而是通过一次坦诚的课堂对话，引导学生思考写作的本质——将思想转化为文字的挣扎本身就是写作的核心价值。文章探讨了AI时代教育应如何重新定义"学习"和"原创性"。',
-                tags: ['人工智能', '教育', '写作', '考研核心词汇', '短语搭配', '阅读理解'],
-                filename: '20260513_TheGuardian_AI_Writing.html'
-            },
-            {
-                date: '2026年5月13日',
-                dateShort: '20260513c',
-                source: 'The Atlantic',
-                sourceZh: '大西洋月刊',
-                title: 'Science Is Drowning in AI Slop',
-                titleZh: '科学正在被AI垃圾淹没',
-                summary: '本文探讨了人工智能对学术出版质量的影响。文章指出，AI虽然能帮助研究者改善写作，但也降低了生产低质量论文的成本，导致大量表面光鲜但缺乏深度的论文涌入投稿系统。作者强调问题不在于AI本身，而在于AI放大了学术界已有的激励机制缺陷，呼吁学术出版界建立更强的筛选机制和治理政策。',
-                tags: ['人工智能', '学术出版', '考研核心词汇', '短语搭配'],
-                filename: '20260513_TheAtlantic_AI_Slop.html'
-            },
-            {
-                date: '2026年5月13日',
-                dateShort: '20260513b',
-                source: 'The Guardian',
-                sourceZh: '卫报',
-                title: 'Big Tech Is Finally Under the Microscope',
-                titleZh: '大型科技公司终于受到审视：学校屏幕问题',
-                summary: '本文讨论了学校中屏幕使用的问题以及大型科技公司对儿童教育的影响。英国新立法禁止学校使用手机，挪威和瑞典在阅读成绩下降后回归纸质教学，全球范围内对儿童屏幕时间的监管正在加强。',
-                tags: ['科技与教育', '儿童保护', '考研核心词汇'],
-                filename: '20260513_TheGuardian_Screens_in_Schools.html'
-            },
-            {
-                date: '2026年5月13日',
-                dateShort: '20260513a',
-                source: 'The Atlantic',
-                sourceZh: '大西洋月刊',
-                title: 'How AI Is Reshaping the Future of Work',
-                titleZh: '人工智能如何重塑工作的未来',
-                summary: '本文探讨了人工智能如何改变现代工作场所，分析了自动化对就业市场的影响，以及人类员工如何适应这一技术变革。',
-                tags: ['人工智能', '职场', '考研核心词汇'],
-                filename: '20260513_TheAtlantic_AI_Reading.html'
-            }
-        ];
-        function renderArticles() {
-            const container = document.getElementById('article-list');
-            if (articles.length === 0) {
-                container.innerHTML = '<div style="text-align:center;padding:60px;color:#666;"><h3>📭 暂无文章</h3><p>明天早上8点将会更新第一篇文章</p></div>';
-                return;
-            }
-            const sorted = [...articles].sort((a, b) => b.dateShort.localeCompare(a.dateShort));
-            container.innerHTML = sorted.map(a => `
-                <a href="${a.filename}" class="article-card">
-                    <div class="article-date">📅 ${a.date}</div>
-                    <div class="article-source">📰 ${a.sourceZh} (${a.source})</div>
-                    <div class="article-title">${a.titleZh}</div>
-                    <div class="article-title" style="font-size:16px;color:#aaa;">${a.title}</div>
-                    <div class="article-summary">${a.summary}</div>
-                    <div class="article-tags">${a.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-                </a>
-            `).join('');
-            document.getElementById('article-count').textContent = articles.length;
-        }
-        renderArticles();
-    </script>
 </body>
 </html>

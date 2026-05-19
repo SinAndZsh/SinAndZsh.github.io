@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | AI Is Killing the Web - The Economist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .header .meta {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        
+        .header .source {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            border-left: 5px solid #2a5298;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .summary-box h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .summary-box p {
+            color: #555;
+            line-height: 1.9;
+        }
+        
+        .article-content {
+            font-size: 1.05em;
+            line-height: 2;
+            color: #444;
+            text-align: justify;
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+            text-indent: 2em;
+        }
+        
+        .vocab {
+            color: #2a5298;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px dotted #2a5298;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .vocab:hover {
+            background: rgba(42, 82, 152, 0.1);
+            border-radius: 3px;
+        }
+        
+        .tooltip {
+            display: none;
+            position: fixed;
+            background: #1e3c72;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            z-index: 1000;
+            max-width: 300px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            line-height: 1.6;
+        }
+        
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #1e3c72;
+        }
+        
+        .section-title {
+            color: #1e3c72;
+            font-size: 1.4em;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #2a5298;
+        }
+        
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+        
+        .vocab-table th {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .vocab-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .vocab-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .vocab-table .word {
+            font-weight: 600;
+            color: #2a5298;
+            font-size: 1.1em;
+        }
+        
+        .vocab-table .phonetic {
+            color: #888;
+            font-style: italic;
+        }
+        
+        .phrase-box {
+            background: #fff9e6;
+            border: 1px solid #ffd700;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .phrase-box .phrase {
+            font-weight: 600;
+            color: #b8860b;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .phrase-box .meaning {
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .phrase-box .example {
+            color: #888;
+            font-style: italic;
+            font-size: 0.95em;
+        }
+        
+        .sentence-analysis {
+            background: #f0f8ff;
+            border-left: 4px solid #4169e1;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .sentence-analysis .original {
+            font-style: italic;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .sentence-analysis .analysis {
+            color: #555;
+            line-height: 1.9;
+        }
+        
+        .sentence-analysis .highlight {
+            background: rgba(65, 105, 225, 0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        .quiz-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .quiz-item {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .quiz-item:last-child {
+            border-bottom: none;
+        }
+        
+        .quiz-question {
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        .quiz-options {
+            margin-left: 20px;
+        }
+        
+        .quiz-options label {
+            display: block;
+            padding: 10px 15px;
+            margin: 8px 0;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-options label:hover {
+            border-color: #2a5298;
+            background: #f0f4f8;
+        }
+        
+        .answer-box {
+            background: #e8f5e9;
+            border: 1px solid #4caf50;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .answer-box .correct-answer {
+            color: #2e7d32;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .answer-box .explanation {
+            color: #555;
+            line-height: 1.7;
+        }
+        
+        .tips-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .tips-box h3 {
+            color: #1565c0;
+            margin-bottom: 15px;
+        }
+        
+        .tips-box ul {
+            margin-left: 20px;
+            color: #444;
+        }
+        
+        .tips-box li {
+            margin: 10px 0;
+            line-height: 1.8;
+        }
+        
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.6em;
+            }
+            
+            .vocab-table {
+                font-size: 0.85em;
+            }
+            
+            .vocab-table th,
+            .vocab-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI Is Killing the Web. Can Anything Save It?</h1>
+            <div class="meta">人工智能正在扼杀互联网。还有什么能拯救它吗？</div>
+            <div class="source">来源：The Economist | 日期：2025年5月19日</div>
+        </div>
+        
+        <div class="content">
+            <div class="summary-box">
+                <h3>📋 文章大意</h3>
+                <p>本文探讨了人工智能如何改变人们浏览互联网的方式，以及这种变化对内容创作者和网络生态系统的深远影响。随着ChatGPT等AI工具的普及，用户越来越多地通过聊天机器人而非传统搜索引擎获取信息，导致内容网站的流量急剧下降。文章分析了这一现象对新闻出版商、参考网站和在线论坛造成的经济损失，并探讨了各种可能的解决方案，包括与AI公司签订授权协议、法律诉讼、技术解决方案（如Cloudflare的付费抓取系统）以及商业模式的重新思考。文章最后指出，如果网络要继续以当前形式存在，内容创作者必须找到新的盈利方式。</p>
+            </div>
+            
+            <div class="article-content">
+                <p>Around the beginning of last year, Matthew Prince started receiving worried calls from the <span class="vocab" data-word="chief executives" data-phonetic="/tʃiːf ɪɡˈzekjətɪvz/" data-meaning="n. 首席执行官，高管" data-pos="名词">chief executives</span> of large media companies. They told Mr Prince, whose firm, Cloudflare, provides <span class="vocab" data-word="security infrastructure" data-phonetic="/sɪˈkjʊərəti ˈɪnfrəstrʌktʃər/" data-meaning="n. 安全基础设施" data-pos="名词">security infrastructure</span> to about a fifth of the web, that their businesses faced a <span class="vocab" data-word="grave" data-phonetic="/ɡreɪv/" data-meaning="adj. 严重的，严峻的" data-pos="形容词">grave</span> new online threat.</p>
+                
+                <p>"I said, 'What, is it the North Koreans?'," he recalls. "And they said, 'No. It's AI'." Those executives had spotted the early signs of a trend that has since become clear: artificial intelligence is <span class="vocab" data-word="transforming" data-phonetic="/trænsˈfɔːmɪŋ/" data-meaning="v. 改变，转变" data-pos="动词">transforming</span> the way that people <span class="vocab" data-word="navigate" data-phonetic="/ˈnævɪɡeɪt/" data-meaning="v. 浏览，导航" data-pos="动词">navigate</span> the web.</p>
+                
+                <p>As users pose their queries to <span class="vocab" data-word="chatbots" data-phonetic="/ˈtʃætbɒts/" data-meaning="n. 聊天机器人" data-pos="名词">chatbots</span> rather than <span class="vocab" data-word="conventional" data-phonetic="/kənˈvenʃənl/" data-meaning="adj. 传统的，常规的" data-pos="形容词">conventional</span> search engines, they are given answers, rather than links to follow. The result is that "content" <span class="vocab" data-word="publishers" data-phonetic="/ˈpʌblɪʃərz/" data-meaning="n. 出版商，发布者" data-pos="名词">publishers</span>, from news providers and online forums to <span class="vocab" data-word="reference" data-phonetic="/ˈrefrəns/" data-meaning="n. 参考，引用" data-pos="名词">reference</span> sites such as Wikipedia, are seeing <span class="vocab" data-word="alarming" data-phonetic="/əˈlɑːmɪŋ/" data-meaning="adj. 令人担忧的，惊人的" data-pos="形容词">alarming</span> drops in their traffic.</p>
+                
+                <p>As AI changes how people browse, it is <span class="vocab" data-word="altering" data-phonetic="/ˈɔːltərɪŋ/" data-meaning="v. 改变，更改" data-pos="动词">altering</span> the economic <span class="vocab" data-word="bargain" data-phonetic="/ˈbɑːɡɪn/" data-meaning="n. 交易，协议" data-pos="名词">bargain</span> at the heart of the internet. Human traffic has long been <span class="vocab" data-word="monetised" data-phonetic="/ˈmʌnɪtaɪzd/" data-meaning="v. 使货币化，变现" data-pos="动词">monetised</span> using online advertising; now that traffic is <span class="vocab" data-word="drying up" data-phonetic="/ˈdraɪɪŋ ʌp/" data-meaning="phr. 枯竭，逐渐减少" data-pos="短语">drying up</span>. Content producers are urgently trying to find new ways to make AI companies pay them for information. If they cannot, the open web may <span class="vocab" data-word="evolve" data-phonetic="/ɪˈvɒlv/" data-meaning="v. 演变，进化" data-pos="动词">evolve</span> into something very different.</p>
+                
+                <p>Since the <span class="vocab" data-word="launch" data-phonetic="/lɔːntʃ/" data-meaning="n./v. 发布，推出" data-pos="名词/动词">launch</span> of ChatGPT in late 2022, people have <span class="vocab" data-word="embraced" data-phonetic="/ɪmˈbreɪst/" data-meaning="v. 欣然接受，拥抱" data-pos="动词">embraced</a> a new way to <span class="vocab" data-word="seek" data-phonetic="/siːk/" data-meaning="v. 寻找，寻求" data-pos="动词">seek</span> information online. OpenAI, maker of ChatGPT, says that around 800 million people use the chatbot. It is the most popular download on the iPhone app store.</p>
+                
+                <p>Apple said that conventional searches in its Safari web browser had fallen for the first time in April, as people <span class="vocab" data-word="posed" data-phonetic="/pəʊzd/" data-meaning="v. 提出（问题）" data-pos="动词">posed</span> their questions to AI instead. OpenAI is soon expected to launch a browser of its own. Its rise is so <span class="vocab" data-word="dramatic" data-phonetic="/drəˈmætɪk/" data-meaning="adj. 戏剧性的，显著的" data-pos="形容词">dramatic</span> that a Hollywood <span class="vocab" data-word="adaptation" data-phonetic="/ˌædæpˈteɪʃn/" data-meaning="n. 改编，改编作品" data-pos="名词">adaptation</span> is in the works.</p>
+                
+                <p>As OpenAI and other <span class="vocab" data-word="upstarts" data-phonetic="/ˈʌpstɑːts/" data-meaning="n. 新贵，新兴企业" data-pos="名词">upstarts</span> have <span class="vocab" data-word="soared" data-phonetic="/sɔːrd/" data-meaning="v. 飙升，高飞" data-pos="动词">soared</span>, Google, which has about 90 per cent of the conventional search market in America, has added AI features to its own search engine in a <span class="vocab" data-word="bid" data-phonetic="/bɪd/" data-meaning="n. 企图，努力" data-pos="名词">bid</span> to keep up. Last year it began <span class="vocab" data-word="preceding" data-phonetic="/prɪˈsiːdɪŋ/" data-meaning="v. 在...之前，先于" data-pos="动词">preceding</span> some search results with AI-generated "overviews", which have since become <span class="vocab" data-word="ubiquitous" data-phonetic="/juːˈbɪkwɪtəs/" data-meaning="adj. 无处不在的，普遍存在的" data-pos="形容词">ubiquitous</span>.</p>
+                
+                <p>In May it launched "AI mode", a chatbot-like version of its search engine. The company <span class="vocab" data-word="promises" data-phonetic="/ˈprɒmɪsɪz/" data-meaning="v. 承诺，保证" data-pos="动词">promises</span> that, with AI, users can "let Google do the Googling for you". Yet as Google does the Googling, humans no longer visit the websites from which the information is <span class="vocab" data-word="gleaned" data-phonetic="/ɡliːnd/" data-meaning="v. 收集，搜集" data-pos="动词">gleaned</span>.</p>
+                
+                <p>Similarweb, which <span class="vocab" data-word="measures" data-phonetic="/ˈmeʒərz/" data-meaning="v. 测量，衡量" data-pos="动词">measures</span> traffic to more than 100m web domains, <span class="vocab" data-word="estimates" data-phonetic="/ˈestɪmeɪts/" data-meaning="v. 估计，估算" data-pos="动词">estimates</span> that worldwide search traffic (by humans) fell by about 15 per cent in the year to June. Although some <span class="vocab" data-word="categories" data-phonetic="/ˈkætɪɡɔːriz/" data-meaning="n. 类别，种类" data-pos="名词">categories</span>, such as <span class="vocab" data-word="hobbyists'" data-phonetic="/ˈhɒbiɪsts/" data-meaning="n. 业余爱好者" data-pos="名词">hobbyists'</span> sites, are doing fine, others have been hit hard.</p>
+                
+                <p>Many of the most <span class="vocab" data-word="affected" data-phonetic="/əˈfektɪd/" data-meaning="adj. 受影响的" data-pos="形容词">affected</span> are just the kind that might have commonly answered search queries. Science and education sites have lost 10 per cent of their visitors. Reference sites have lost 15 per cent. Health sites have lost 31 per cent. For companies that sell advertising or <span class="vocab" data-word="subscriptions" data-phonetic="/səbˈskrɪpʃnz/" data-meaning="n. 订阅，订阅费" data-pos="名词">subscriptions</span>, lost visitors means lost <span class="vocab" data-word="revenue" data-phonetic="/ˈrevənjuː/" data-meaning="n. 收入，收益" data-pos="名词">revenue</span>.</p>
+                
+                <p>"We had a very positive relationship with Google for a long time... They broke the deal," says Neil Vogel, head of Dotdash Meredith, which owns titles such as People and Food & Wine. Three years ago its sites got more than 60 per cent of their traffic from Google. Now the figure is in the mid-30s. "They are <span class="vocab" data-word="stealing" data-phonetic="/ˈstiːlɪŋ/" data-meaning="v. 窃取，偷取" data-pos="动词">stealing</span> our content to compete with us," says Mr Vogel.</p>
+                
+                <p>Google has <span class="vocab" data-word="insisted" data-phonetic="/ɪnˈsɪstɪd/" data-meaning="v. 坚持，坚称" data-pos="动词">insisted</span> that its use of others' content is fair. But since it launched its AI overviews, the share of news-related searches <span class="vocab" data-word="resulting in" data-phonetic="/rɪˈzʌltɪŋ ɪn/" data-meaning="phr. 导致，结果是" data-pos="短语">resulting in</span> no <span class="vocab" data-word="onward" data-phonetic="/ˈɒnwəd/" data-meaning="adj. 向前的，继续的" data-pos="形容词">onward</span> clicks has risen from 56 per cent to 69 per cent, estimates Similarweb. In other words, seven in ten people get their answer without visiting the page that <span class="vocab" data-word="supplied" data-phonetic="/səˈplaɪd/" data-meaning="v. 提供，供应" data-pos="动词">supplied</span> it.</p>
+                
+                <p>"The nature of the internet has completely changed," says Prashanth Chandrasekar, chief executive of Stack Overflow, best known as an online forum for <span class="vocab" data-word="coders" data-phonetic="/ˈkəʊdərz/" data-meaning="n. 程序员，编码员" data-pos="名词">coders</span>. "AI is basically <span class="vocab" data-word="choking off" data-phonetic="/ˈtʃəʊkɪŋ ɒf/" data-meaning="phr. 阻断，扼杀" data-pos="短语">choking off</span> traffic to most content sites," he says. With fewer visitors, Stack Overflow is seeing fewer questions posted on its <span class="vocab" data-word="message boards" data-phonetic="/ˈmesɪdʒ bɔːdz/" data-meaning="n. 留言板，论坛" data-pos="名词">message boards</span>.</p>
+                
+                <p>Wikipedia, also <span class="vocab" data-word="powered by" data-phonetic="/ˈpaʊəd baɪ/" data-meaning="phr. 由...驱动/支持" data-pos="短语">powered by</span> <span class="vocab" data-word="enthusiasts" data-phonetic="/ɪnˈθjuːziæsts/" data-meaning="n. 爱好者，热心者" data-pos="名词">enthusiasts</span>, warns that AI-generated <span class="vocab" data-word="summaries" data-phonetic="/ˈsʌməriz/" data-meaning="n. 摘要，总结" data-pos="名词">summaries</span> without <span class="vocab" data-word="attribution" data-phonetic="/ˌætrɪˈbjuːʃn/" data-meaning="n. 归属，归因" data-pos="名词">attribution</span> "block pathways for people to access... and <span class="vocab" data-word="contribute to" data-phonetic="/kənˈtrɪbjuːt tuː/" data-meaning="phr. 为...做贡献" data-pos="短语">contribute to</span>" the site.</p>
+                
+                <p>To keep the traffic and the money coming, many big content producers have <span class="vocab" data-word="negotiated" data-phonetic="/nɪˈɡəʊʃieɪtɪd/" data-meaning="v. 谈判，协商" data-pos="动词">negotiated</span> <span class="vocab" data-word="licensing" data-phonetic="/ˈlaɪsnsɪŋ/" data-meaning="n. 授权，许可" data-pos="名词">licensing</span> deals with AI companies, backed up by legal threats: what Robert Thomson, chief executive of News Corp, has <span class="vocab" data-word="dubbed" data-phonetic="/dʌbd/" data-meaning="v. 把...称为，给...起绰号" data-pos="动词">dubbed</span> "wooing and suing". His company, which owns the Wall Street Journal and the New York Post, among other titles, has <span class="vocab" data-word="struck" data-phonetic="/strʌk/" data-meaning="v. 达成（协议），罢工" data-pos="动词">struck</span> a deal with OpenAI.</p>
+                
+                <p>Yet this approach has <span class="vocab" data-word="limits" data-phonetic="/ˈlɪmɪts/" data-meaning="n. 限制，局限" data-pos="名词">limits</span>. For one thing, <span class="vocab" data-word="judges" data-phonetic="/ˈdʒʌdʒɪz/" data-meaning="n. 法官，裁判" data-pos="名词">judges</span> so far seem <span class="vocab" data-word="minded" data-phonetic="/ˈmaɪndɪd/" data-meaning="adj. 有意做的，倾向于" data-pos="形容词">minded</span> to side with AI companies: last month two separate <span class="vocab" data-word="copyright" data-phonetic="/ˈkɒpiraɪt/" data-meaning="n. 版权，著作权" data-pos="名词">copyright</span> cases in California went in <span class="vocab" data-word="favour" data-phonetic="/ˈfeɪvər/" data-meaning="n. 支持，赞同" data-pos="名词">favour</span> of their <span class="vocab" data-word="defendants" data-phonetic="/dɪˈfendənts/" data-meaning="n. 被告，辩护人" data-pos="名词">defendants</span>, Meta and Anthropic, both of which argued that <span class="vocab" data-word="training" data-phonetic="/ˈtreɪnɪŋ/" data-meaning="n. 训练，培训" data-pos="名词">training</span> their models on others' content <span class="vocab" data-word="amounted to" data-phonetic="/əˈmaʊntɪd tuː/" data-meaning="phr. 相当于，意味着" data-pos="短语">amounted to</span> fair use.</p>
+                
+                <p>AI companies are more willing to pay for <span class="vocab" data-word="continuing" data-phonetic="/kənˈtɪnjuːɪŋ/" data-meaning="adj. 持续的，继续的" data-pos="形容词">continuing</span> access to information than training data. But the deals done so far are hardly <span class="vocab" data-word="stellar" data-phonetic="/ˈstelər/" data-meaning="adj. 杰出的，优秀的" data-pos="形容词">stellar</span>. Reddit, an online forum, has licensed its user-generated content to Google for a reported $60m a year. Yet its <span class="vocab" data-word="market value" data-phonetic="/ˈmɑːkɪt ˈvæljuː/" data-meaning="n. 市场价值" data-pos="名词">market value</span> fell by more than half — over $20 billion — after it reported slower user-growth than expected in February, owing to <span class="vocab" data-word="wobbles" data-phonetic="/ˈwɒblz/" data-meaning="n. 动摇，不稳定" data-pos="名词">wobbles</span> in search traffic.</p>
+                
+                <p>The bigger problem however, is that most of the internet's hundreds of millions of <span class="vocab" data-word="domains" data-phonetic="/dəˈmeɪnz/" data-meaning="n. 域名，领域" data-pos="名词">domains</span> are too small to either woo or sue the tech <span class="vocab" data-word="giants" data-phonetic="/ˈdʒaɪənts/" data-meaning="n. 巨头，巨人" data-pos="名词">giants</span>. Their content may be <span class="vocab" data-word="collectively" data-phonetic="/kəˈlektɪvli/" data-meaning="adv. 集体地，共同地" data-pos="副词">collectively</span> <span class="vocab" data-word="essential" data-phonetic="/ɪˈsenʃl/" data-meaning="adj. 必不可少的，极其重要的" data-pos="形容词">essential</span> to AI firms, but each site is <span class="vocab" data-word="individually" data-phonetic="/ˌɪndɪˈvɪdʒuəli/" data-meaning="adv.  individually，分别地" data-pos="副词">individually</span> <span class="vocab" data-word="dispensable" data-phonetic="/dɪˈspensəbl/" data-meaning="adj. 可有可无的，非必要的" data-pos="形容词">dispensable</span>.</p>
+                
+                <p>Software <span class="vocab" data-word="providers" data-phonetic="/prəˈvaɪdərz/" data-meaning="n. 提供商，供应商" data-pos="名词">providers</span> may be able to help. All of Cloudflare's new customers will now be asked if they want to allow AI companies' <span class="vocab" data-word="bots" data-phonetic="/bɒts/" data-meaning="n. 机器人程序" data-pos="名词">bots</span> to <span class="vocab" data-word="scrape" data-phonetic="/skreɪp/" data-meaning="v. 抓取，刮取（数据）" data-pos="动词">scrape</span> their site, and for what purpose. Cloudflare's scale gives it a better chance than most of <span class="vocab" data-word="enabling" data-phonetic="/ɪˈneɪblɪŋ/" data-meaning="v. 使能够，使可能" data-pos="动词">enabling</span> something like a <span class="vocab" data-word="collective" data-phonetic="/kəˈlektɪv/" data-meaning="adj. 集体的，共同的" data-pos="形容词">collective</span> response by content sites that want to force AI firms to <span class="vocab" data-word="cough up" data-phonetic="/kɒf ʌp/" data-meaning="phr. 勉强交出，掏出（钱）" data-pos="短语">cough up</span>.</p>
+                
+                <p>It is testing a <span class="vocab" data-word="pay-as-you-crawl" data-phonetic="/peɪ æz juː krɔːl/" data-meaning="phr. 按抓取付费" data-pos="短语">pay-as-you-crawl</span> system that would let sites charge bots an <span class="vocab" data-word="entry fee" data-phonetic="/ˈentri fiː/" data-meaning="n. 入场费，入门费" data-pos="名词">entry fee</span>. "We have to set the rules of the road," says Mr Prince, who says his <span class="vocab" data-word="preferred" data-phonetic="/prɪˈfɜːrd/" data-meaning="adj. 首选的，偏爱的" data-pos="形容词">preferred</span> outcome is "a world where humans get content for free, and bots pay a <span class="vocab" data-word="tonne" data-phonetic="/tʌn/" data-meaning="n. 吨，大量" data-pos="名词">tonne</span> for it".</p>
+                
+                <p>An <span class="vocab" data-word="alternative" data-phonetic="/ɔːlˈtɜːnətɪv/" data-meaning="n./adj. 替代方案，可供选择的" data-pos="名词/形容词">alternative</span> is offered by Tollbit, which <span class="vocab" data-word="bills itself as" data-phonetic="/bɪlz ɪtˈself æz/" data-meaning="phr. 自称是，标榜为" data-pos="短语">bills itself as</span> a <span class="vocab" data-word="paywall" data-phonetic="/ˈpeɪwɔːl/" data-meaning="n. 付费墙" data-pos="名词">paywall</span> for bots. It allows content sites to charge AI <span class="vocab" data-word="crawlers" data-phonetic="/ˈkrɔːlərz/" data-meaning="n. 爬虫程序" data-pos="名词">crawlers</span> <span class="vocab" data-word="varying" data-phonetic="/ˈveəriɪŋ/" data-meaning="adj. 不同的，变化的" data-pos="形容词">varying</span> rates: for instance, a magazine could charge more for new stories than old ones.</p>
+                
+                <p>In the first quarter of this year Tollbit <span class="vocab" data-word="processed" data-phonetic="/ˈprəʊsest/" data-meaning="v. 处理，加工" data-pos="动词">processed</span> 15m <span class="vocab" data-word="micro-transactions" data-phonetic="/ˈmaɪkrəʊ trænˈzækʃnz/" data-meaning="n. 微交易" data-pos="名词">micro-transactions</span> of this sort, for 2000 content producers including the Associated Press and Newsweek.</p>
+                
+                <p>Toshit Panigrahi, its chief executive, points out that whereas <span class="vocab" data-word="traditional" data-phonetic="/trəˈdɪʃənl/" data-meaning="adj. 传统的" data-pos="形容词">traditional</span> search engines <span class="vocab" data-word="incentivise" data-phonetic="/ɪnˈsentɪvaɪz/" data-meaning="v. 激励，鼓励" data-pos="动词">incentivise</span> <span class="vocab" data-word="samey" data-phonetic="/ˈseɪmi/" data-meaning="adj. 千篇一律的，雷同的" data-pos="形容词">samey</span> content — "What time does the Super Bowl start?", for example — charging for access <span class="vocab" data-word="incentivises" data-phonetic="/ɪnˈsentɪvaɪzɪz/" data-meaning="v. 激励（第三人称单数）" data-pos="动词">incentivises</span> <span class="vocab" data-word="uniqueness" data-phonetic="/juˈniːknəs/" data-meaning="n. 独特性，独一无二" data-pos="名词">uniqueness</span>. One of Tollbit's highest per-crawl rates is charged by a local newspaper.</p>
+                
+                <p>Another <span class="vocab" data-word="model" data-phonetic="/ˈmɒdl/" data-meaning="n. 模式，模型" data-pos="名词">model</span> is being <span class="vocab" data-word="put forward" data-phonetic="/pʊt ˈfɔːrwəd/" data-meaning="phr. 提出，推荐" data-pos="短语">put forward</span> by ProRata, a <span class="vocab" data-word="startup" data-phonetic="/ˈstɑːtʌp/" data-meaning="n. 初创公司" data-pos="名词">startup</span> led by Bill Gross, a <span class="vocab" data-word="pioneer" data-phonetic="/ˌpaɪəˈnɪər/" data-meaning="n. 先驱，先锋" data-pos="名词">pioneer</span> in the 1990s of the pay-as-you-click online ads that have <span class="vocab" data-word="powered" data-phonetic="/ˈpaʊəd/" data-meaning="v. 驱动，推动" data-pos="动词">powered</span> much of the web ever since.</p>
+                
+                <p>He <span class="vocab" data-word="proposes" data-phonetic="/prəˈpəʊzɪz/" data-meaning="v. 提议，建议" data-pos="动词">proposes</span> that money from ads placed <span class="vocab" data-word="alongside" data-phonetic="/əˈlɒŋsaɪd/" data-meaning="prep. 在...旁边，与...一起" data-pos="介词">alongside</span> AI-generated answers should be <span class="vocab" data-word="redistributed" data-phonetic="/ˌriːdɪˈstrɪbjuːtɪd/" data-meaning="v. 重新分配" data-pos="动词">redistributed</span> to sites in <span class="vocab" data-word="proportion" data-phonetic="/prəˈpɔːʃn/" data-meaning="n. 比例，份额" data-pos="名词">proportion</span> to how much their content <span class="vocab" data-word="contributed" data-phonetic="/kənˈtrɪbjuːtɪd/" data-meaning="v. 贡献，促成" data-pos="动词">contributed</span> to the answer.</p>
+                
+                <p>ProRata has its own answer engine, Gist.ai, which <span class="vocab" data-word="shares" data-phonetic="/ʃeəz/" data-meaning="v. 分享，分担" data-pos="动词">shares</span> ad <span class="vocab" data-word="revenue" data-phonetic="/ˈrevənjuː/" data-meaning="n. 收入，收益" data-pos="名词">revenue</span> with its 500-plus <span class="vocab" data-word="partners" data-phonetic="/ˈpɑːtnərz/" data-meaning="n. 合作伙伴" data-pos="名词">partners</span>, which include the Financial Times and the Atlantic. It is currently more of an <span class="vocab" data-word="exemplar" data-phonetic="/ɪɡˈzemplɑːr/" data-meaning="n. 模范，榜样" data-pos="名词">exemplar</span> than a serious <span class="vocab" data-word="threat" data-phonetic="/θret/" data-meaning="n. 威胁" data-pos="名词">threat</span> to Google: Mr Gross says his main aim is to "show a fair business model that other people eventually <span class="vocab" data-word="copy" data-phonetic="/ˈkɒpi/" data-meaning="v. 复制，模仿" data-pos="动词">copy</span>".</p>
+                
+                <p>Meanwhile, content producers are <span class="vocab" data-word="rethinking" data-phonetic="/riːˈθɪŋkɪŋ/" data-meaning="v. 重新思考" data-pos="动词">rethinking</span> their business models. "The future of the internet is not all about traffic," says Mr Chandrasekar, who has <span class="vocab" data-word="built up" data-phonetic="/bɪlt ʌp/" data-meaning="phr. 建立，逐步发展" data-pos="短语">built up</span> Stack Overflow's private, <span class="vocab" data-word="enterprise-oriented" data-phonetic="/ˈentəpraɪz ˈɔːrientɪd/" data-meaning="adj. 面向企业的" data-pos="形容词">enterprise-oriented</span> <span class="vocab" data-word="subscription" data-phonetic="/səbˈskrɪpʃn/" data-meaning="n. 订阅" data-pos="名词">subscription</span> product, Stack Internal.</p>
+                
+                <p>News publishers are planning for "Google zero", <span class="vocab" data-word="deploying" data-phonetic="/dɪˈplɔɪɪŋ/" data-meaning="v. 部署，利用" data-pos="动词">deploying</span> newsletters and apps to reach customers who no longer come to them via search, and moving their content behind <span class="vocab" data-word="paywalls" data-phonetic="/ˈpeɪwɔːlz/" data-meaning="n. 付费墙（复数）" data-pos="名词">paywalls</span> or to live events. Audio and video are proving legally and technically harder for AI engines to <span class="vocab" data-word="summarise" data-phonetic="/ˈsʌməraɪz/" data-meaning="v. 总结，概括" data-pos="动词">summarise</span> than text.</p>
+                
+                <p>Not everyone thinks the web is in <span class="vocab" data-word="decline" data-phonetic="/dɪˈklaɪn/" data-meaning="n. 衰退，下降" data-pos="名词">decline</span> — on the contrary, it is in "an incredibly <span class="vocab" data-word="expansionary" data-phonetic="/ɪkˈspænʃənri/" data-meaning="adj. 扩张的，扩展的" data-pos="形容词">expansionary</span> moment", argues Robby Stein of Google. As AI makes it easier to create content, the number of sites is growing: Google's bots report that the web has <span class="vocab" data-word="expanded" data-phonetic="/ɪkˈspændɪd/" data-meaning="v. 扩展，扩大" data-pos="动词">expanded</span> by 45 per cent in the past two years.</p>
+                
+                <p>AI search lets people ask questions in new ways — for instance, taking a photo of their <span class="vocab" data-word="bookshelf" data-phonetic="/ˈbʊkʃelf/" data-meaning="n. 书架" data-pos="名词">bookshelf</span> and asking for <span class="vocab" data-word="recommendations" data-phonetic="/ˌrekəmenˈdeɪʃnz/" data-meaning="n. 推荐，建议" data-pos="名词">recommendations</span> on what to read next — which could increase traffic. With AI queries, more sites than ever are being "read", even if not with human eyes. An answer engine may scan hundreds of pages to <span class="vocab" data-word="deliver" data-phonetic="/dɪˈlɪvər/" data-meaning="v. 提供，交付" data-pos="动词">deliver</span> an answer, drawing on a more <span class="vocab" data-word="diverse" data-phonetic="/daɪˈvɜːs/" data-meaning="adj. 多样的，多元的" data-pos="形容词">diverse</span> range of <span class="vocab" data-word="sources" data-phonetic="/ˈsɔːsɪz/" data-meaning="n. 来源，出处" data-pos="名词">sources</span> than human readers would.</p>
+                
+                <p>As for the idea that Google is <span class="vocab" data-word="disseminating" data-phonetic="/dɪˈsemɪneɪtɪŋ/" data-meaning="v. 传播，散布" data-pos="动词">disseminating</span> less human traffic than before, Mr Stein says the company has not noticed a <span class="vocab" data-word="dramatic" data-phonetic="/drəˈmætɪk/" data-meaning="adj. 戏剧性的，显著的" data-pos="形容词">dramatic</span> decline in the number of <span class="vocab" data-word="outbound" data-phonetic="/ˈaʊtbaʊnd/" data-meaning="adj. 向外去的，出境的" data-pos="形容词">outbound</span> clicks, though it <span class="vocab" data-word="declines" data-phonetic="/dɪˈklaɪnz/" data-meaning="v. 拒绝，谢绝" data-pos="动词">declines</span> to make the number public.</p>
+                
+                <p>There are other reasons besides AI why people may be visiting sites less. Maybe they are <span class="vocab" data-word="scrolling" data-phonetic="/ˈskrəʊlɪŋ/" data-meaning="v. 滚动（浏览）" data-pos="动词">scrolling</span> social media. Maybe they are listening to <span class="vocab" data-word="podcasts" data-phonetic="/ˈpɒdkɑːsts/" data-meaning="n. 播客" data-pos="名词">podcasts</span>. The death of the web has been <span class="vocab" data-word="predicted" data-phonetic="/prɪˈdɪktɪd/" data-meaning="v. 预测，预言" data-pos="动词">predicted</span> before — at the hands of social networks, then smartphone apps — and not come to <span class="vocab" data-word="pass" data-phonetic="/pɑːs/" data-meaning="v. 发生，通过" data-pos="动词">pass</span>.</p>
+                
+                <p>But AI may <span class="vocab" data-word="pose" data-phonetic="/pəʊz/" data-meaning="v. 造成，引起" data-pos="动词">pose</span> the biggest <span class="vocab" data-word="threat" data-phonetic="/θret/" data-meaning="n. 威胁" data-pos="名词">threat</span> to it yet. If the web is to <span class="vocab" data-word="continue" data-phonetic="/kənˈtɪnjuː/" data-meaning="v. 继续" data-pos="动词">continue</span> in something close to its current form, sites will have to find new ways to get <span class="vocab" data-word="paid" data-phonetic="/peɪd/" data-meaning="v. 获得报酬" data-pos="动词">paid</span> for content.</p>
+                
+                <p>"There's no question that people prefer AI search," says Mr Gross. "And to make the internet <span class="vocab" data-word="survive" data-phonetic="/səˈvaɪv/" data-meaning="v. 生存，存活" data-pos="动词">survive</span>, to make <span class="vocab" data-word="democracy" data-phonetic="/dɪˈmɒkrəsi/" data-meaning="n. 民主" data-pos="名词">democracy</span> survive, to make content <span class="vocab" data-word="creators" data-phonetic="/kriˈeɪtərz/" data-meaning="n. 创作者" data-pos="名词">creators</span> survive, AI search has to <span class="vocab" data-word="share" data-phonetic="/ʃeər/" data-meaning="v. 分享，分担" data-pos="动词">share</span> revenue with creators."</p>
+            </div>
+            
+            <h2 class="section-title">📚 核心词汇表</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">单词</th>
+                        <th style="width: 18%;">音标</th>
+                        <th style="width: 12%;">词性</th>
+                        <th style="width: 25%;">中文释义</th>
+                        <th style="width: 30%;">例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="word">transform</td>
+                        <td class="phonetic">/trænsˈfɔːm/</td>
+                        <td>v.</td>
+                        <td>改变，转变</td>
+                        <td>AI is transforming the way people work.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">conventional</td>
+                        <td class="phonetic">/kənˈvenʃənl/</td>
+                        <td>adj.</td>
+                        <td>传统的，常规的</td>
+                        <td>She prefers conventional medicine.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">alarming</td>
+                        <td class="phonetic">/əˈlɑːmɪŋ/</td>
+                        <td>adj.</td>
+                        <td>令人担忧的</td>
+                        <td>The pollution has reached alarming levels.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">monetise</td>
+                        <td class="phonetic">/ˈmʌnɪtaɪz/</td>
+                        <td>v.</td>
+                        <td>使货币化，变现</td>
+                        <td>The app was designed to monetise user data.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">ubiquitous</td>
+                        <td class="phonetic">/juːˈbɪkwɪtəs/</td>
+                        <td>adj.</td>
+                        <td>无处不在的</td>
+                        <td>Smartphones have become ubiquitous.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">revenue</td>
+                        <td class="phonetic">/ˈrevənjuː/</td>
+                        <td>n.</td>
+                        <td>收入，收益</td>
+                        <td>The company's annual revenue increased.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">copyright</td>
+                        <td class="phonetic">/ˈkɒpiraɪt/</td>
+                        <td>n.</td>
+                        <td>版权，著作权</td>
+                        <td>Who owns the copyright to this song?</td>
+                    </tr>
+                    <tr>
+                        <td class="word">essential</td>
+                        <td class="phonetic">/ɪˈsenʃl/</td>
+                        <td>adj.</td>
+                        <td>必不可少的</td>
+                        <td>Water is essential for life.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">dispensable</td>
+                        <td class="phonetic">/dɪˈspensəbl/</td>
+                        <td>adj.</td>
+                        <td>可有可无的</td>
+                        <td>No employee is dispensable in our team.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">alternative</td>
+                        <td class="phonetic">/ɔːlˈtɜːnətɪv/</td>
+                        <td>n./adj.</td>
+                        <td>替代方案；可供选择的</td>
+                        <td>We need to find an alternative solution.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">proportion</td>
+                        <td class="phonetic">/prəˈpɔːʃn/</td>
+                        <td>n.</td>
+                        <td>比例，份额</td>
+                        <td>The proportion of women has increased.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">diverse</td>
+                        <td class="phonetic">/daɪˈvɜːs/</td>
+                        <td>adj.</td>
+                        <td>多样的，多元的</td>
+                        <td>The city has a diverse population.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">pioneer</td>
+                        <td class="phonetic">/ˌpaɪəˈnɪər/</td>
+                        <td>n.</td>
+                        <td>先驱，先锋</td>
+                        <td>He was a pioneer in computer science.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">navigate</td>
+                        <td class="phonetic">/ˈnævɪɡeɪt/</td>
+                        <td>v.</td>
+                        <td>浏览，导航</td>
+                        <td>Users can easily navigate the website.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">embrace</td>
+                        <td class="phonetic">/ɪmˈbreɪs/</td>
+                        <td>v.</td>
+                        <td>欣然接受，拥抱</td>
+                        <td>We should embrace new technologies.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">dramatic</td>
+                        <td class="phonetic">/drəˈmætɪk/</td>
+                        <td>adj.</td>
+                        <td>戏剧性的，显著的</td>
+                        <td>There was a dramatic improvement.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">estimate</td>
+                        <td class="phonetic">/ˈestɪmeɪt/</td>
+                        <td>v.</td>
+                        <td>估计，估算</td>
+                        <td>We estimate the cost at $10,000.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">negotiate</td>
+                        <td class="phonetic">/nɪˈɡəʊʃieɪt/</td>
+                        <td>v.</td>
+                        <td>谈判，协商</td>
+                        <td>They negotiated a peace treaty.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">incentivise</td>
+                        <td class="phonetic">/ɪnˈsentɪvaɪz/</td>
+                        <td>v.</td>
+                        <td>激励，鼓励</td>
+                        <td>Bonuses incentivise better performance.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">survive</td>
+                        <td class="phonetic">/səˈvaɪv/</td>
+                        <td>v.</td>
+                        <td>生存，存活</td>
+                        <td>Small businesses must adapt to survive.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">evolve</td>
+                        <td class="phonetic">/ɪˈvɒlv/</td>
+                        <td>v.</td>
+                        <td>演变，进化</td>
+                        <td>The company has evolved over decades.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">collective</td>
+                        <td class="phonetic">/kəˈlektɪv/</td>
+                        <td>adj.</td>
+                        <td>集体的，共同的</td>
+                        <td>It was a collective decision.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">threat</td>
+                        <td class="phonetic">/θret/</td>
+                        <td>n.</td>
+                        <td>威胁</td>
+                        <td>Climate change poses a serious threat.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">attribution</td>
+                        <td class="phonetic">/ˌætrɪˈbjuːʃn/</td>
+                        <td>n.</td>
+                        <td>归属，归因</td>
+                        <td>Proper attribution is required.</td>
+                    </tr>
+                    <tr>
+                        <td class="word">scrape</td>
+                        <td class="phonetic">/skreɪp/</td>
+                        <td>v.</td>
+                        <td>抓取（数据）</td>
+                        <td>Bots scrape data from websites.</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2 class="section-title">🔗 短语搭配</h2>
+            
+            <div class="phrase-box">
+                <div class="phrase">1. dry up</div>
+                <div class="meaning">枯竭，逐渐减少</div>
+                <div class="example">原句：Human traffic has long been monetised using online advertising; now that traffic is <strong>drying up</strong>.</div>
+            </div>
+            
+            <div class="phrase-box">
+                <div class="phrase">2. result in</div>
+                <div class="meaning">导致，结果是</div>
+                <div class="example">原句：The share of news-related searches <strong>resulting in</strong> no onward clicks has risen from 56 per cent to 69 per cent.</div>
+            </div>
+            
+            <div class="phrase-box">
+                <div class="phrase">3. contribute to</div>
+                <div class="meaning">为...做贡献，促成</div>
+                <div class="example">原句：AI-generated summaries without attribution "block pathways for people to access... and <strong>contribute to</strong>" the site.</div>
+            </div>
+            
+            <div class="phrase-box">
+                <div class="phrase">4. amount to</div>
+                <div class="meaning">相当于，意味着</div>
+                <div class="example">原句：Training their models on others' content <strong>amounted to</strong> fair use.</div>
+            </div>
+            
+            <div class="phrase-box">
+                <div class="phrase">5. in favour of</div>
+                <div class="meaning">支持，赞同；有利于</div>
+                <div class="example">原句：Two separate copyright cases in California went <strong>in favour of</strong> their defendants.</div>
+            </div>
+            
+            <div class="phrase-box">
+                <div class="phrase">6. cough up</div>
+                <div class="meaning">勉强交出，掏出（钱）</div>
+                <div class="example">原句：Content sites want to force AI firms to <strong>cough up</strong>.</div>
+            </div>
+            
+            <div class="phrase-box">
+                <div class="phrase">7. put forward</div>
+                <div class="meaning">提出，推荐</div>
+                <div class="example">原句：Another model is being <strong>put forward</strong> by ProRata.</div>
+            </div>
+            
+            <div class="phrase-box">
+                <div class="phrase">8. build up</div>
+                <div class="meaning">建立，逐步发展</div>
+                <div class="example">原句：He has <strong>built up</strong> Stack Overflow's private subscription product.</div>
+            </div>
+            
+            <h2 class="section-title">📝 长难句解析</h2>
+            
+            <div class="sentence-analysis">
+                <div class="original">"The bigger problem however, is that most of the internet's hundreds of millions of domains are too small to either woo or sue the tech giants."</div>
+                <div class="analysis">
+                    <strong>结构分析：</strong><br>
+                    • 主语：The bigger problem<br>
+                    • 系动词：is<br>
+                    • 表语从句：that most of the internet's hundreds of millions of domains are too small to either woo or sue the tech giants<br><br>
+                    <strong>语法要点：</strong><br>
+                    • <span class="highlight">too...to...</span> 结构表示"太...而不能..."<br>
+                    • <span class="highlight">either...or...</span> 表示"要么...要么..."<br>
+                    • <span class="highlight">hundreds of millions of</span> 表示"数亿的"<br><br>
+                    <strong>参考译文：</strong>然而，更大的问题是，互联网上数亿个域名中的大多数规模太小，既无法吸引也无法起诉这些科技巨头。
+                </div>
+            </div>
+            
+            <div class="sentence-analysis">
+                <div class="original">"As users pose their queries to chatbots rather than conventional search engines, they are given answers, rather than links to follow."</div>
+                <div class="analysis">
+                    <strong>结构分析：</strong><br>
+                    • As引导时间状语从句：As users pose their queries to chatbots rather than conventional search engines<br>
+                    • 主句：they are given answers, rather than links to follow<br><br>
+                    <strong>语法要点：</strong><br>
+                    • <span class="highlight">pose queries to</span> 表示"向...提出问题"<br>
+                    • <span class="highlight">rather than</span> 表示"而不是"，连接并列成分<br>
+                    • <span class="highlight">links to follow</span> 不定式作后置定语修饰links<br><br>
+                    <strong>参考译文：</strong>当用户向聊天机器人而非传统搜索引擎提出问题时，他们得到的是答案，而不是可以点击查看的链接。
+                </div>
+            </div>
+            
+            <div class="sentence-analysis">
+                <div class="original">"He proposes that money from ads placed alongside AI-generated answers should be redistributed to sites in proportion to how much their content contributed to the answer."</div>
+                <div class="analysis">
+                    <strong>结构分析：</strong><br>
+                    • 主语：He<br>
+                    • 谓语：proposes<br>
+                    • 宾语从句：that money...should be redistributed to sites...<br><br>
+                    <strong>语法要点：</strong><br>
+                    • <span class="highlight">placed alongside AI-generated answers</span> 过去分词短语作后置定语修饰ads<br>
+                    • <span class="highlight">in proportion to</span> 表示"与...成比例"<br>
+                    • <span class="highlight">how much their content contributed to</span> 宾语从句作介词to的宾语<br><br>
+                    <strong>参考译文：</strong>他提议，放置在AI生成答案旁边的广告收入应该按照各网站内容对答案的贡献程度比例重新分配给他们。
+                </div>
+            </div>
+            
+            <h2 class="section-title">✍️ 阅读理解练习</h2>
+            
+            <div class="quiz-section">
+                <div class="quiz-item">
+                    <div class="quiz-question">1. 主旨大意题：What is the main idea of this article?</div>
+                    <div class="quiz-options">
+                        <label>A. ChatGPT has become the most popular app on the iPhone store.</label>
+                        <label>B. AI is changing how people browse the web, causing traffic declines for content sites and forcing them to find new business models.</label>
+                        <label>C. Google is adding AI features to compete with OpenAI.</label>
+                        <label>D. Cloudflare is developing new security systems for websites.</label>
+                    </div>
+                    <div class="answer-box">
+                        <div class="correct-answer">正确答案：B</div>
+                        <div class="explanation">
+                            <strong>解析：</strong>文章开篇即点明主题——人工智能正在改变人们浏览网页的方式，导致内容网站流量下降。随后详细阐述了这一现象对新闻出版商、参考网站等的影响，以及各种应对措施（授权协议、法律诉讼、技术解决方案、商业模式转型等）。选项A、C、D虽然在文中都有提及，但都只是细节信息，不能概括全文主旨。
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quiz-item">
+                    <div class="quiz-question">2. 细节理解题：According to the article, which type of websites has suffered the most significant traffic loss?</div>
+                    <div class="quiz-options">
+                        <label>A. Hobbyists' sites</label>
+                        <label>B. Science and education sites</label>
+                        <label>C. Reference sites</label>
+                        <label>D. Health sites</label>
+                    </div>
+                    <div class="answer-box">
+                        <div class="correct-answer">正确答案：D</div>
+                        <div class="explanation">
+                            <strong>解析：</strong>根据文章第七段的数据：Science and education sites have lost 10 per cent of their visitors. Reference sites have lost 15 per cent. Health sites have lost 31 per cent. 健康类网站损失了31%的访问量，是文中提到的各类网站中损失最严重的。同时，文章也提到hobbyists' sites（业余爱好者网站）表现良好（doing fine），并未受到严重影响。
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quiz-item">
+                    <div class="quiz-question">3. 推理判断题：What can be inferred from Bill Gross's proposal about ProRata's business model?</div>
+                    <div class="quiz-options">
+                        <label>A. He wants to replace Google as the dominant search engine.</label>
+                        <label>B. He believes AI companies should share revenue with content creators based on their contribution.</label>
+                        <label>C. He thinks traditional advertising is more effective than AI-generated answers.</label>
+                        <label>D. He proposes that all websites should block AI crawlers.</label>
+                    </div>
+                    <div class="answer-box">
+                        <div class="correct-answer">正确答案：B</div>
+                        <div class="explanation">
+                            <strong>解析：</strong>根据文章倒数第五段，Bill Gross提议"money from ads placed alongside AI-generated answers should be redistributed to sites in proportion to how much their content contributed to the answer"（放置在AI生成答案旁边的广告收入应该按照各网站内容对答案的贡献程度比例重新分配）。文章最后一段他进一步强调"AI search has to share revenue with creators"。选项A与原文"It is currently more of an exemplar than a serious threat to Google"矛盾；选项C、D在文中没有依据。
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tips-box">
+                <h3>💡 考研阅读技巧提示</h3>
+                <ul>
+                    <li><strong>主旨大意题：</strong>关注文章首尾段和各段首句，寻找反复出现的关键词。本文反复出现"AI"、"traffic"、"content"、"revenue"等词，有助于把握主旨。</li>
+                    <li><strong>细节定位：</strong>注意数字、百分比、人名、地名等具体信息，这些往往是细节题的考点。如文中的"15%"、"31%"、"800 million"等数据。</li>
+                    <li><strong>推理判断：</strong>区分事实陈述和观点表达，注意转折词（however, yet, but）后的内容往往是作者真正想表达的观点。</li>
+                    <li><strong>词汇题：</strong>通过上下文语境猜测词义，注意同义词、反义词、举例说明等线索。</li>
+                    <li><strong>长难句分析：</strong>先找主干（主谓宾/主系表），再分析从句和修饰成分，逐步拆解复杂句式。</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>考研英语外刊精读 | Generated on 2025-05-19</p>
+            <p>来源：The Economist | 仅供学习交流使用</p>
+        </div>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+    
+    <script>
+        const tooltip = document.getElementById('tooltip');
+        const vocabElements = document.querySelectorAll('.vocab');
+        
+        vocabElements.forEach(elem => {
+            elem.addEventListener('mouseenter', function(e) {
+                const word = this.getAttribute('data-word');
+                const phonetic = this.getAttribute('data-phonetic');
+                const meaning = this.getAttribute('data-meaning');
+                const pos = this.getAttribute('data-pos');
+                
+                tooltip.innerHTML = `
+                    <strong>${word}</strong><br>
+                    <span style="color: #ccc;">${phonetic}</span><br>
+                    <span style="color: #ffd700;">${pos}</span> ${meaning}
+                `;
+                tooltip.style.display = 'block';
+                
+                const rect = this.getBoundingClientRect();
+                tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+                tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
+            });
+            
+            elem.addEventListener('mouseleave', function() {
+                tooltip.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
