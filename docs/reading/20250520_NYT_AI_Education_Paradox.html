@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | AI教育的悖论</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+            opacity: 0.85;
+        }
+        
+        .meta-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            font-weight: 600;
+        }
+        
+        .article-content {
+            font-size: 1.1em;
+            line-height: 2;
+            text-align: justify;
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+            text-indent: 2em;
+        }
+        
+        .vocab-word {
+            color: #e74c3c;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px dotted #e74c3c;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .vocab-word:hover {
+            background: #fff3f3;
+            border-bottom-style: solid;
+        }
+        
+        .vocab-tooltip {
+            display: none;
+            position: fixed;
+            background: #2c3e50;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            max-width: 300px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            line-height: 1.6;
+        }
+        
+        .vocab-tooltip::before {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #2c3e50;
+        }
+        
+        .vocab-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+        
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .vocab-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .vocab-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .vocab-table tr:hover {
+            background: #f0f0f0;
+        }
+        
+        .phrase-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 5px solid #764ba2;
+        }
+        
+        .phrase-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .phrase-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .phrase-en {
+            font-size: 1.2em;
+            color: #764ba2;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .phrase-cn {
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .phrase-example {
+            font-style: italic;
+            color: #555;
+            padding-left: 15px;
+            border-left: 3px solid #764ba2;
+        }
+        
+        .sentence-section {
+            background: #fff8e1;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 5px solid #ffa726;
+        }
+        
+        .sentence-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .sentence-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .sentence-original {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+        
+        .sentence-analysis {
+            color: #666;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .sentence-translation {
+            color: #e65100;
+            font-weight: 500;
+        }
+        
+        .summary-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 5px solid #2196f3;
+        }
+        
+        .summary-content {
+            font-size: 1.05em;
+            line-height: 1.9;
+            color: #1565c0;
+        }
+        
+        .quiz-section {
+            background: #f3e5f5;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 5px solid #9c27b0;
+        }
+        
+        .quiz-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .quiz-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .quiz-question {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-type {
+            display: inline-block;
+            background: #9c27b0;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        
+        .quiz-options {
+            margin-left: 20px;
+        }
+        
+        .quiz-option {
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        
+        .quiz-option:hover {
+            background: #f5f5f5;
+        }
+        
+        .quiz-answer {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 6px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .answer-label {
+            font-weight: 600;
+            color: #2e7d32;
+        }
+        
+        .tips-section {
+            background: #e8f5e9;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 5px solid #4caf50;
+        }
+        
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tips-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .tips-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 25px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .meta-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Teachers Worry About Students Using A.I. But They Love It for Themselves</h1>
+            <p class="subtitle">老师们担心学生使用人工智能，但他们自己喜欢用它</p>
+            <div class="meta-info">
+                <span>📰 The New York Times</span>
+                <span>📅 May 20, 2025</span>
+                <span>📝 1482 words</span>
+                <span>🎯 考研难度</span>
+            </div>
+        </header>
+        
+        <div class="content">
+            <!-- 文章大意总结 -->
+            <div class="summary-section">
+                <h2 class="section-title">📋 文章大意总结</h2>
+                <div class="summary-content">
+                    <p>本文探讨了人工智能（AI）进入教育领域后产生的悖论现象：教育工作者一方面担心学生使用AI作弊或走捷径，试图限制学生使用；另一方面，教师们自己却越来越多地利用AI工具来节省时间、批改作文和辅导学生。文章深入分析了这种矛盾带来的伦理困境，如"禁止学生用AI写作文，却用AI批改作文是否公平"。同时，文章也展示了AI在教育中的多种应用场景，包括个性化作业设计、自动评分等，并讨论了科技公司与教育界在AI应用上的不同视角。最后，文章强调了在AI时代保持教育人性化的重要性。</p>
+                </div>
+            </div>
+            
+            <!-- 正文内容 -->
+            <h2 class="section-title">📖 精读正文</h2>
+            <div class="article-content">
+                <p>As <span class="vocab-word" data-meaning="artificial intelligence 人工智能">artificial intelligence</span> makes its way into schools, a <span class="vocab-word" data-meaning="paradox n. /ˈpærədɒks/ 悖论，自相矛盾的事">paradox</span> is <span class="vocab-word" data-meaning="emerge v. /ɪˈmɜːrdʒ/ 浮现，出现">emerging</span>. Many <span class="vocab-word" data-meaning="educator n. /ˈedʒukeɪtər/ 教育工作者，教师">educators</span>, concerned about <span class="vocab-word" data-meaning="cheating n. /ˈtʃiːtɪŋ/ 作弊，欺骗">cheating</span> and <span class="vocab-word" data-meaning="shortcut n. /ˈʃɔːrtkʌt/ 捷径，近路">shortcuts</span>, are trying to <span class="vocab-word" data-meaning="limit v. /ˈlɪmɪt/ 限制，限定">limit</span> student use of A.I. At the same time, teachers are <span class="vocab-word" data-meaning="increasingly adv. /ɪnˈkriːsɪŋli/ 越来越多地，日益">increasingly</span> using A.I. tools themselves, both to save time on <span class="vocab-word" data-meaning="rote adj. /roʊt/ 死记硬背的，机械的">rote</span> tasks and to <span class="vocab-word" data-meaning="outsource v. /ˈaʊtsɔːrs/ 外包，外购">outsource</span> some of their most <span class="vocab-word" data-meaning="meaningful adj. /ˈmiːnɪŋfl/ 有意义的，重要的">meaningful</span> work, like <span class="vocab-word" data-meaning="grade v. /ɡreɪd/ 评分，打分">grading</span> essays and <span class="vocab-word" data-meaning="tutor v. /ˈtuːtər/ 辅导，指导">tutoring</span> <span class="vocab-word" data-meaning="struggling adj. /ˈstrʌɡlɪŋ/  struggling 挣扎的，困难的">struggling</span> students.</p>
+                
+                <p>That <span class="vocab-word" data-meaning="tension n. /ˈtenʃn/ 紧张，张力">tension</span> has <span class="vocab-word" data-meaning="prompt v. /prɑːmpt/ 促使，引起">prompted</span> some difficult <span class="vocab-word" data-meaning="ethical adj. /ˈeθɪkl/ 伦理的，道德的">ethical</span> questions. For example, is it <span class="vocab-word" data-meaning="fair adj. /fer/ 公平的，公正的">fair</span> to use A.I. to grade student essays, if you've <span class="vocab-word" data-meaning="prohibit v. /prəˈhɪbɪt/ 禁止，阻止">prohibited</span> students from using A.I. to write them? School leaders are <span class="vocab-word" data-meaning="grapple v. /ˈɡræpl/ 努力解决，搏斗">grappling</span> with these <span class="vocab-word" data-meaning="dilemma n. /dɪˈlemə/ 困境，进退两难">dilemmas</span> as they <span class="vocab-word" data-meaning="confront v. /kənˈfrʌnt/ 面对，遭遇">confront</span> a <span class="vocab-word" data-meaning="barrage n. /bəˈrɑːʒ/ 接二连三，大量">barrage</span> of <span class="vocab-word" data-meaning="marketing n. /ˈmɑːrkɪtɪŋ/ 营销，市场营销">marketing</span> claims around how A.I. could "<span class="vocab-word" data-meaning="transform v. /trænsˈfɔːrm/ 改变，转变">transform</span>," "<span class="vocab-word" data-meaning="personalize v. /ˈpɜːrsənəlaɪz/ 使个性化，针对个人">personalize</span>" and "<span class="vocab-word" data-meaning="accelerate v. /əkˈseləreɪt/ 加速，加快">accelerate</span>" learning.</p>
+                
+                <p>A.I. "is already being used by the <span class="vocab-word" data-meaning="majority n. /məˈdʒɔːrəti/ 大多数，大部分">majority</span> of teachers and students," said Jennifer Carolan, a former history teacher and <span class="vocab-word" data-meaning="founder n. /ˈfaʊndər/ 创始人，创立者">founder</span> of Reach Capital, a <span class="vocab-word" data-meaning="venture capital 风险投资">venture capital</span> firm that <span class="vocab-word" data-meaning="invest v. /ɪnˈvest/ 投资，投入">invests</span> in A.I. learning tools. But as the technology works its way into schools, some educators say they are concerned that tech companies are <span class="vocab-word" data-meaning="pour v. /pɔːr/ 倾注，投入（资源等）">pouring</span> resources into A.I. <span class="vocab-word" data-meaning="application n. /ˌæplɪˈkeɪʃn/ 应用，应用程序">applications</span>, like tutoring <span class="vocab-word" data-meaning="bot n. /bɑːt/ 机器人程序，自动程序">bots</span>, that <span class="vocab-word" data-meaning="disrupt v. /dɪsˈrʌpt/ 扰乱，破坏">disrupt</span> the human <span class="vocab-word" data-meaning="relationship n. /rɪˈleɪʃnʃɪp/ 关系，联系">relationships</span> at the <span class="vocab-word" data-meaning="core n. /kɔːr/ 核心，中心">core</span> of teaching and learning — instead of creating tools to ease the <span class="vocab-word" data-meaning="bureaucratic adj. /ˌbjʊrəˈkrætɪk/ 官僚的，官僚主义的">bureaucratic</span> <span class="vocab-word" data-meaning="burden n. /ˈbɜːrdn/ 负担，重负">burdens</span> that shift adults' attention away from children.</p>
+                
+                <p>Among middle school students, word has gotten out about a <span class="vocab-word" data-meaning="solution n. /səˈluːʃn/ 解决方案，答案">solution</span> for <span class="vocab-word" data-meaning="tricky adj. /ˈtrɪki/ 棘手的，难对付的">tricky</span> math <span class="vocab-word" data-meaning="assignment n. /əˈsaɪnmənt/ 作业，任务">assignments</span>. If you take a <span class="vocab-word" data-meaning="photograph n. /ˈfoʊtəɡræf/ 照片">photograph</span> of a problem and <span class="vocab-word" data-meaning="feed v. /fiːd/ 输入，喂养">feed</span> it into one of several free A.I. apps, the <span class="vocab-word" data-meaning="software n. /ˈsɔːftwer/ 软件">software</span> will show you the correct answer and <span class="vocab-word" data-meaning="break down 分解，拆分">break</span> the solution down step by step. It's easy to then copy those steps out, exactly as if you had solved the problem by hand.</p>
+                
+                <p>Alex Baron, an <span class="vocab-word" data-meaning="administrator n. /ədˈmɪnɪstreɪtər/ 管理者，行政人员">administrator</span> at E.L. Haynes Public Charter School in Washington, D.C., said he <span class="vocab-word" data-meaning="consider v. /kənˈsɪdər/ 认为，考虑">considered</span> the <span class="vocab-word" data-meaning="widely adv. /ˈwaɪdli/ 广泛地，普遍地">widely</span> used math apps a form of cheating. But he <span class="vocab-word" data-meaning="acknowledge v. /əkˈnɑːlɪdʒ/ 承认，认可">acknowledged</span> that he has found some <span class="vocab-word" data-meaning="compelling adj. /kəmˈpelɪŋ/ 令人信服的，有说服力的">compelling</span> uses of A.I. in his own work. For <span class="vocab-word" data-meaning="instance n. /ˈɪnstəns/ 例子，实例">instance</span>, he can <span class="vocab-word" data-meaning="analyze v. /ˈænəlaɪz/ 分析，解析">analyze</span> students' <span class="vocab-word" data-meaning="academic adj. /ˌækəˈdemɪk/ 学术的，学业的">academic</span> and <span class="vocab-word" data-meaning="behavioral adj. /bɪˈheɪvjərəl/ 行为的">behavioral</span> data, and then <span class="vocab-word" data-meaning="split v. /splɪt/ 分开，分割">split</span> them into groups for <span class="vocab-word" data-meaning="targeted adj. /ˈtɑːrɡɪtɪd/ 有针对性的，定向的">targeted</span> support.</p>
+                
+                <p>Several of the popular math apps that concern Mr. Baron are <span class="vocab-word" data-meaning="own v. /oʊn/ 拥有，持有">owned</span> by Google, including PhotoMath and Google Lens. Robert Wong, Google's <span class="vocab-word" data-meaning="director n. /dəˈrektər/ 总监，主管">director</span> of product <span class="vocab-word" data-meaning="management n. /ˈmænɪdʒmənt/ 管理，经营">management</span> for learning and education, said the tools are <span class="vocab-word" data-meaning="invaluable adj. /ɪnˈvæljuəbl/ 极宝贵的，无价的">invaluable</span> for students whose parents cannot help them with math homework. He <span class="vocab-word" data-meaning="suggest v. /səɡˈdʒest/ 暗示，表明">suggested</span> that cheating had less to do with access to A.I. than with "other factors, like, are students <span class="vocab-word" data-meaning="engage v. /ɪnˈɡeɪdʒ/ 参与，投入">engaged</span> in the class?"</p>
+                
+                <p>Indeed, educators <span class="vocab-word" data-meaning="experiment v. /ɪkˈsperɪment/ 尝试，实验">experimenting</span> with A.I. are seeking to solve the <span class="vocab-word" data-meaning="perennial adj. /pəˈreniəl/ 长期的，持久的">perennial</span> problem of how to get students more <span class="vocab-word" data-meaning="excited adj. /ɪkˈsaɪtɪd/ 兴奋的，激动的">excited</span> about learning. In Llano, Texas, Maurie Beasley, a school district technology administrator, has <span class="vocab-word" data-meaning="suggest v. /səɡˈdʒest/ 建议">suggested</span> to teachers that they use A.I. to <span class="vocab-word" data-meaning="personalize v. /ˈpɜːrsənəlaɪz/ 个性化">personalize</span> assignments. With activities written by a <span class="vocab-word" data-meaning="chatbot n. /ˈtʃætbɑːt/ 聊天机器人">chatbot</span>, some students can work on a word problem about <span class="vocab-word" data-meaning="velocity n. /vəˈlɑːsəti/ 速度，速率">velocity</span> using the example of a <span class="vocab-word" data-meaning="speeding adj. /ˈspiːdɪŋ/ 高速行驶的">speeding</span> baseball, while others consider a dancer <span class="vocab-word" data-meaning="leap v. /liːp/ 跳跃，飞跃">leaping</span> through the air. Then there are the <span class="vocab-word" data-meaning="gray area 灰色地带，模糊区域">gray areas</span>.</p>
+                
+                <p>In Providence, R.I., middle school history teacher Jon Gold has found <span class="vocab-word" data-meaning="generative adj. /ˈdʒenərətɪv/ 生成的，有生产力的">generative</span> A.I. useful in lesson planning. He <span class="vocab-word" data-meaning="train v. /treɪn/ 训练，培养">trained</span> ChatGPT by <span class="vocab-word" data-meaning="feed v. /fiːd/ 输入">feeding</span> it dozens of pages of <span class="vocab-word" data-meaning="curriculum n. /kəˈrɪkjələm/ 课程，课程体系">curriculum</span> materials he wrote over many years. That helped the bot <span class="vocab-word" data-meaning="spit out 快速输出，吐出">spit</span> back useful material. It can <span class="vocab-word" data-meaning="edit v. /ˈedɪt/ 编辑，修改">edit</span> a long reading assignment down to three <span class="vocab-word" data-meaning="paragraph n. /ˈpærəɡræf/ 段落">paragraphs</span> for a short exercise, or create <span class="vocab-word" data-meaning="dummy adj. /ˈdʌmi/ 假的，模拟的">dummy</span> essays that <span class="vocab-word" data-meaning="illustrate v. /ˈɪləstreɪt/ 说明，阐明">illustrate</span> for students the <span class="vocab-word" data-meaning="difference n. /ˈdɪfrəns/ 区别，差异">difference</span> between an <span class="vocab-word" data-meaning="effective adj. /ɪˈfektɪv/ 有效的，生效的">effective</span> essay and one that <span class="vocab-word" data-meaning="lack v. /læk/ 缺乏，缺少">lacks</span> <span class="vocab-word" data-meaning="supporting adj. /səˈpɔːrtɪŋ/ 支持的，支撑的">supporting</span> <span class="vocab-word" data-meaning="evidence n. /ˈevɪdəns/ 证据，证明">evidence</span>.</p>
+                
+                <p><span class="vocab-word" data-meaning="transparency n. /trænsˈpærənsi/ 透明度，公开">Transparency</span> is key, he said. He <span class="vocab-word" data-meaning="explain v. /ɪkˈspleɪn/ 解释，说明">explains</span> to students exactly how he has used A.I., in part to <span class="vocab-word" data-meaning="model v. /ˈmɑːdl/ 示范，模仿">model</span> ethical use. Asking a chatbot to <span class="vocab-word" data-meaning="summarize v. /ˈsʌməraɪz/ 总结，概括">summarize</span> notes into a study <span class="vocab-word" data-meaning="guide n. /ɡaɪd/ 指南，指导">guide</span> is a good idea, for example. But he does not want students using A.I. to <span class="vocab-word" data-meaning="draft v. /dræft/ 起草，草拟">draft</span> essays or <span class="vocab-word" data-meaning="conduct v. /kənˈdʌkt/ 进行，实施">conduct</span> research. He tells them that finding various <span class="vocab-word" data-meaning="source n. /sɔːrs/ 来源，出处">sources</span> of information and <span class="vocab-word" data-meaning="synthesize v. /ˈsɪnθəsaɪz/ 综合，合成">synthesizing</span> them in writing is key to learning history. He also talks with students about <span class="vocab-word" data-meaning="knotty adj. /ˈnɑːti/ 棘手的，复杂的">knotty</span> ethical issues around how chatbots <span class="vocab-word" data-meaning="rely on 依赖，依靠">rely</span> on <span class="vocab-word" data-meaning="copyrighted adj. /ˈkɑːpiraɪtɪd/ 受版权保护的">copyrighted</span> material and <span class="vocab-word" data-meaning="consume v. /kənˈsuːm/ 消耗，消费">consume</span> an <span class="vocab-word" data-meaning="immense adj. /ɪˈmens/ 巨大的，极大的">immense</span> amount of <span class="vocab-word" data-meaning="energy n. /ˈenərdʒi/ 能源，能量">energy</span>.</p>
+                
+                <p>"I am more pro-A.I.-<span class="vocab-word" data-meaning="literacy n. /ˈlɪtərəsi/ 素养，读写能力">literacy</span> than I am pro-A.I.-use," said Mr. Gold, who teaches at Moses Brown School, a private <span class="vocab-word" data-meaning="Quaker n. /ˈkweɪkər/ 贵格会教徒">Quaker</span> <span class="vocab-word" data-meaning="academy n. /əˈkædəmi/ 学院，专科学校">academy</span>.</p>
+                
+                <p>Writing is one of the most <span class="vocab-word" data-meaning="challenging adj. /ˈtʃælɪndʒɪŋ/ 有挑战性的，困难的">challenging</span> tasks for students, which is why it is so <span class="vocab-word" data-meaning="tempting adj. /ˈtemptɪŋ/ 诱人的，有吸引力的">tempting</span> for some to ask A.I. to do it for them. In turn, A.I. can be useful for teachers who would like to <span class="vocab-word" data-meaning="assign v. /əˈsaɪn/ 布置，分配">assign</span> more writing, but are <span class="vocab-word" data-meaning="limited adj. /ˈlɪmɪtɪd/ 有限的">limited</span> in their time to grade it. Companies like MagicSchool and Brisk Teaching already offer A.I. products that give <span class="vocab-word" data-meaning="instant adj. /ˈɪnstənt/ 即时的，立即的">instant</span> <span class="vocab-word" data-meaning="feedback n. /ˈfiːdbæk/ 反馈，回馈">feedback</span> on student writing.</p>
+                
+                <p><span class="vocab-word" data-meaning="automated adj. /ˈɔːtəmeɪtɪd/ 自动化的">Automated</span> <span class="vocab-word" data-meaning="score v. /skɔːr/ 评分，打分">scoring</span> is also happening in <span class="vocab-word" data-meaning="high-stakes adj. /haɪ steɪks/ 高风险的，高利害关系的">high-stakes</span> <span class="vocab-word" data-meaning="scenario n. /səˈnɑːrioʊ/ 场景，情景">scenarios</span> — on exams that <span class="vocab-word" data-meaning="determine v. /dɪˈtɜːrmɪn/ 决定，确定">determine</span> whether students <span class="vocab-word" data-meaning="graduate v. /ˈɡrædʒueɪt/ 毕业">graduate</span> from high school. In 2020, the state of Texas <span class="vocab-word" data-meaning="sign v. /saɪn/ 签署，签订">signed</span> a five-year, $391,000,000 <span class="vocab-word" data-meaning="contract n. /ˈkɑːntrækt/ 合同，契约">contract</span> with the education technology firm Cambium Assessment, in part to <span class="vocab-word" data-meaning="deliver v. /dɪˈlɪvər/ 提供，交付">deliver</span> automated scoring of student writing.</p>
+                
+                <p>The technology is not generative A.I. with <span class="vocab-word" data-meaning="access n. /ˈækses/ 访问，进入">access</span> to the open <span class="vocab-word" data-meaning="internet n. /ˈɪntərnet/ 互联网">internet</span>, but instead uses an <span class="vocab-word" data-meaning="older adj. /ˈoʊldər/ 较旧的，更老的">older</span> form of artificial intelligence <span class="vocab-word" data-meaning="train v. /treɪn/ 训练">trained</span> on human-graded writing <span class="vocab-word" data-meaning="sample n. /ˈsæmpl/ 样本，样品">samples</span>. Earlier this year, Dallas school officials <span class="vocab-word" data-meaning="complain v. /kəmˈpleɪn/ 抱怨，投诉">complained</span> after some questions on state tests were graded by the software, and <span class="vocab-word" data-meaning="score n. /skɔːr/ 分数">scores</span> were lower than district leaders <span class="vocab-word" data-meaning="expect v. /ɪkˈspekt/ 期望，预期">expected</span>. When the district <span class="vocab-word" data-meaning="submit v. /səbˈmɪt/ 提交，递交">submitted</span> about 4,600 student writing samples for <span class="vocab-word" data-meaning="regrade v. /riːˈɡreɪd/ 重新评分">regrading</span>, about 2,000 received a higher score.</p>
+                
+                <p>Jake Kobersky, a <span class="vocab-word" data-meaning="spokesman n. /ˈspoʊksmən/ 发言人">spokesman</span> for the Texas Education <span class="vocab-word" data-meaning="agency n. /ˈeɪdʒənsi/ 机构，代理处">Agency</span>, said the <span class="vocab-word" data-meaning="adjustment n. /əˈdʒʌstmənt/ 调整，调节">adjustments</span> were <span class="vocab-word" data-meaning="minor adj. /ˈmaɪnər/ 较小的，次要的">minor</span> in the <span class="vocab-word" data-meaning="context n. /ˈkɑːntekst/ 背景，环境">context</span> of Dallas's 71,000 writing samples. He said the state <span class="vocab-word" data-meaning="remain v. /rɪˈmeɪn/ 保持，仍然">remained</span> <span class="vocab-word" data-meaning="confident adj. /ˈkɑːnfɪdənt/ 自信的，确信的">confident</span> in the technology.</p>
+                
+                <p>Studies show that human grading of writing, too, is <span class="vocab-word" data-meaning="prone adj. /proʊn/ 易于...的，有...倾向的">prone</span> to <span class="vocab-word" data-meaning="bias n. /ˈbaɪəs/ 偏见，偏向">bias</span> and <span class="vocab-word" data-meaning="error n. /ˈerər/ 错误">error</span> — and that advanced forms of generative A.I. may be <span class="vocab-word" data-meaning="accurate adj. /ˈækjərət/ 准确的，精确的">accurate</span> and <span class="vocab-word" data-meaning="consistent adj. /kənˈsɪstənt/ 一致的，始终如一的">consistent</span> graders of simple writing tasks. The Dallas <span class="vocab-word" data-meaning="superintendent n. /ˌsuːpərɪnˈtendənt/ 学区负责人">superintendent</span>, Stephanie Elizalde, <span class="vocab-word" data-meaning="acknowledge v. /əkˈnɑːlɪdʒ/ 承认">acknowledged</span> that even as she <span class="vocab-word" data-meaning="raise v. /reɪz/ 提出，举起">raised</span> <span class="vocab-word" data-meaning="concern n. /kənˈsɜːrn/ 担忧，关心">concerns</span> about the state's use of automated scoring, her own district has <span class="vocab-word" data-meaning="embrace v. /ɪmˈbreɪs/ 拥抱，接受">embraced</span> A.I. It has used the technology to grade students' <span class="vocab-word" data-meaning="practice n. /ˈpræktɪs/ 练习">practice</span> Advanced <span class="vocab-word" data-meaning="placement n. /ˈpleɪsmənt/ 安置，放置">Placement</span> essays, she said, and to <span class="vocab-word" data-meaning="assist v. /əˈsɪst/ 协助，帮助">assist</span> staff members in <span class="vocab-word" data-meaning="summarize v. /ˈsʌməraɪz/ 总结">summarizing</span> <span class="vocab-word" data-meaning="document n. /ˈdɑːkjumənt/ 文件，文档">documents</span> and <span class="vocab-word" data-meaning="analyze v. /ˈænəlaɪz/ 分析">analyzing</span> large <span class="vocab-word" data-meaning="set n. /set/ 集合，一套">sets</span> of data. Dallas students are already using A.I. to <span class="vocab-word" data-meaning="conduct v. /kənˈdʌkt/ 进行">conduct</span> research, she said, and learning about the <span class="vocab-word" data-meaning="importance n. /ɪmˈpɔːrtns/ 重要性">importance</span> of <span class="vocab-word" data-meaning="verify v. /ˈverɪfaɪ/ 核实，验证">verifying</span> information they receive from chatbots. "It's <span class="vocab-word" data-meaning="irresponsible adj. /ˌɪrɪˈspɑːnsəbl/ 不负责任的">irresponsible</span> to not teach it," she said of A.I. "We have to. We are <span class="vocab-word" data-meaning="prepare v. /prɪˈper/ 准备">preparing</span> kids for their future."</p>
+                
+                <p>Over the past two years, companies working at the <span class="vocab-word" data-meaning="nexus n. /ˈneksəs/ 联结，关系">nexus</span> of artificial intelligence and education have <span class="vocab-word" data-meaning="raise v. /reɪz/ 筹集，募集">raised</span> $1.5 billion, according to an <span class="vocab-word" data-meaning="analysis n. /əˈnæləsɪs/ 分析">analysis</span> by Reach Capital, the venture firm. The biggest <span class="vocab-word" data-meaning="player n. /ˈpleɪər/ 参与者，选手">players</span> in education technology, like Google, Microsoft and Khan Academy, are also heavily <span class="vocab-word" data-meaning="promote v. /prəˈmoʊt/ 推广，促进">promoting</span> A.I. for student research, tutoring and teacher lesson planning.</p>
+                
+                <p>Mr. Wong, of Google, said the company's <span class="vocab-word" data-meaning="vision n. /ˈvɪʒn/ 愿景，视野">vision</span> for A.I. is to provide "a tutor for every learner and a T.A. for every teacher." Google's Gemini chatbot, for <span class="vocab-word" data-meaning="instance n. /ˈɪnstəns/ 例子">instance</span>, can <span class="vocab-word" data-meaning="probe v. /proʊb/ 探究，探查">probe</span> students with questions that <span class="vocab-word" data-meaning="prompt v. /prɑːmpt/ 促使，提示">prompt</span> them to <span class="vocab-word" data-meaning="demonstrate v. /ˈdemənstreɪt/ 展示，证明">demonstrate</span> and <span class="vocab-word" data-meaning="practice v. /ˈpræktɪs/ 练习">practice</span> what they know. School leaders are <span class="vocab-word" data-meaning="parse v. /pɑːrs/ 仔细分析，解析">parsing</span> which of these technologies might become <span class="vocab-word" data-meaning="essential adj. /ɪˈsenʃl/ 必要的，本质的">essential</span> and which should be <span class="vocab-word" data-meaning="pass up 放弃，错过">passed</span> up.</p>
+                
+                <p>Mr. Baron, the administrator in Washington, D.C., said one company had <span class="vocab-word" data-meaning="push v. /pʊʃ/ 推销，推动">pushed</span> an A.I. product that <span class="vocab-word" data-meaning="watch v. /wɑːtʃ/ 观看，观察">watches</span> video <span class="vocab-word" data-meaning="footage n. /ˈfʊtɪdʒ/ 片段，镜头">footage</span> of teachers teaching, and offers feedback. Teacher <span class="vocab-word" data-meaning="observation n. /ˌɑːbzərˈveɪʃn/ 观察">observation</span> and <span class="vocab-word" data-meaning="evaluation n. /ɪˌvæljuˈeɪʃn/ 评估，评价">evaluation</span> are among the most <span class="vocab-word" data-meaning="complex adj. /ˈkɑːmpleks/ 复杂的">complex</span> and important tasks he does, he said. Instead of <span class="vocab-word" data-meaning="outsource v. /ˈaʊtsɔːrs/ 外包">outsourcing</span> that job, he would <span class="vocab-word" data-meaning="prefer v. /prɪˈfɜːr/ 更喜欢，宁愿">prefer</span> an A.I. tool that helped him <span class="vocab-word" data-meaning="maintain v. /meɪnˈteɪn/ 维护，保持">maintain</span> his school's <span class="vocab-word" data-meaning="master adj. /ˈmæstər/ 总的，主要的">master</span> <span class="vocab-word" data-meaning="schedule n. /ˈskedʒuːl/ 日程表，课程表">schedule</span> and <span class="vocab-word" data-meaning="search v. /sɜːrtʃ/ 搜索，寻找">search</span> for <span class="vocab-word" data-meaning="substitute n. /ˈsʌbstɪtuːt/ 代课老师，替代品">substitutes</span> — <span class="vocab-word" data-meaning="chore n. /tʃɔːr/ 杂务，琐事">chores</span> that <span class="vocab-word" data-meaning="routinely adv. /ruːˈtiːnli/ 例行地，常规地">routinely</span> eat up hours of his day. "I really want the teacher to be reading students' work and helping them become better writers. I want school leaders to observe teacher practice," he said.</p>
+                
+                <p>Ms. Carolan, the Reach Capital partner, said <span class="vocab-word" data-meaning="marketing n. /ˈmɑːrkɪtɪŋ/ 营销">marketing</span> around A.I. could sometimes be "<span class="vocab-word" data-meaning="overly adv. /ˈoʊvərli/ 过度地，太">overly</span> <span class="vocab-word" data-meaning="aggressive adj. /əˈɡresɪv/ 激进的，有侵略性的">aggressive</span>." She added that tech companies should focus on creating tools that <span class="vocab-word" data-meaning="preserve v. /prɪˈzɜːrv/ 保护，维护">preserve</span> the human <span class="vocab-word" data-meaning="connection n. /kəˈnekʃn/ 联系，连接">connection</span> at the heart of education, rather than <span class="vocab-word" data-meaning="replace v. /rɪˈpleɪs/ 取代，替代">replacing</span> it.</p>
+            </div>
+            
+            <!-- 短语搭配 -->
+            <div class="phrase-section">
+                <h2 class="section-title">🎯 短语搭配精选</h2>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">1. make one's way into</div>
+                    <div class="phrase-cn">进入，渗透（某领域）</div>
+                    <div class="phrase-example">"As artificial intelligence <strong>makes its way into</strong> schools, a paradox is emerging."<br>（随着人工智能进入学校，一种悖论现象正在出现。）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">2. be concerned about</div>
+                    <div class="phrase-cn">担心，担忧</div>
+                    <div class="phrase-example">"Many educators, <strong>concerned about</strong> cheating and shortcuts, are trying to limit student use of A.I."<br>（许多担心作弊和走捷径问题的教育工作者正试图限制学生使用人工智能。）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">3. break down</div>
+                    <div class="phrase-cn">分解，拆分</div>
+                    <div class="phrase-example">"The software will show you the correct answer and <strong>break</strong> the solution <strong>down</strong> step by step."<br>（该软件将为你展示正确答案，并逐步分解解题步骤。）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">4. rely on</div>
+                    <div class="phrase-cn">依赖，依靠</div>
+                    <div class="phrase-example">"He also talks with students about knotty ethical issues around how chatbots <strong>rely on</strong> copyrighted material..."<br>（他还与学生们讨论围绕聊天机器人如何依赖受版权保护的材料等棘手的伦理问题。）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">5. in turn</div>
+                    <div class="phrase-cn">相应地，反过来</div>
+                    <div class="phrase-example">"Writing is one of the most challenging tasks for students... <strong>In turn</strong>, A.I. can be useful for teachers..."<br>（写作对学生来说是最具挑战性的任务之一...相应地，人工智能对教师来说会很有用...）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">6. be prone to</div>
+                    <div class="phrase-cn">易于...的，有...倾向的</div>
+                    <div class="phrase-example">"Studies show that human grading of writing, too, is <strong>prone to</strong> bias and error..."<br>（研究表明，人工批改写作也容易出现偏差和错误...）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">7. prepare for</div>
+                    <div class="phrase-cn">为...做准备</div>
+                    <div class="phrase-example">"We are <strong>preparing</strong> kids <strong>for</strong> their future."<br>（我们正在为孩子们的未来做准备。）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">8. eat up</div>
+                    <div class="phrase-cn">消耗（时间、金钱等）</div>
+                    <div class="phrase-example">"...chores that routinely <strong>eat up</strong> hours of his day."<br>（...这些日常琐事通常会耗费他每天好几个小时。）</div>
+                </div>
+            </div>
+            
+            <!-- 长难句解析 -->
+            <div class="sentence-section">
+                <h2 class="section-title">🔍 长难句解析</h2>
+                
+                <div class="sentence-item">
+                    <div class="sentence-original">But as the technology works its way into schools, some educators say they are concerned that tech companies are pouring resources into A.I. applications, like tutoring bots, that disrupt the human relationships at the core of teaching and learning — instead of creating tools to ease the bureaucratic burdens that shift adults' attention away from children.</div>
+                    <div class="sentence-analysis">
+                        <strong>句子结构分析：</strong><br>
+                        • 主句：some educators say...<br>
+                        • 宾语从句：they are concerned that...<br>
+                        • 同位语：like tutoring bots<br>
+                        • 定语从句1：that disrupt the human relationships...（修饰applications）<br>
+                        • 定语从句2：that shift adults' attention away from children（修饰burdens）<br>
+                        • 时间状语从句：as the technology works its way into schools
+                    </div>
+                    <div class="sentence-translation">但随着这项技术逐渐进入学校，一些教育工作者表示，他们担心科技公司正在将资源投入到人工智能应用程序中，比如辅导机器人，这些应用程序破坏了教学和学习核心的人际关系——而不是开发工具来减轻那些让成年人注意力从孩子身上转移开的官僚负担。</div>
+                </div>
+                
+                <div class="sentence-item">
+                    <div class="sentence-original">He tells them that finding various sources of information and synthesizing them in writing is key to learning history.</div>
+                    <div class="sentence-analysis">
+                        <strong>句子结构分析：</strong><br>
+                        • 主句：He tells them that...<br>
+                        • 宾语从句：finding various sources of information and synthesizing them in writing is key to learning history<br>
+                        • 动名词短语作主语：finding various sources of information and synthesizing them in writing<br>
+                        • 表语：key to learning history
+                    </div>
+                    <div class="sentence-translation">他告诉他们，找到各种信息来源并将其综合成文字是学习历史的关键。</div>
+                </div>
+                
+                <div class="sentence-item">
+                    <div class="sentence-original">The Dallas superintendent, Stephanie Elizalde, acknowledged that even as she raised concerns about the state's use of automated scoring, her own district has embraced A.I.</div>
+                    <div class="sentence-analysis">
+                        <strong>句子结构分析：</strong><br>
+                        • 主句：The Dallas superintendent acknowledged that...<br>
+                        • 让步状语从句：even as she raised concerns about the state's use of automated scoring<br>
+                        • 宾语从句：her own district has embraced A.I.<br>
+                        • 同位语：Stephanie Elizalde（解释说明主语身份）
+                    </div>
+                    <div class="sentence-translation">达拉斯学区负责人斯蒂芬妮·伊丽萨尔德承认，尽管她对该州使用自动评分系统表示担忧，但她所在的学区已经采用了人工智能技术。</div>
+                </div>
+            </div>
+            
+            <!-- 考研核心词汇表 -->
+            <div class="vocab-section">
+                <h2 class="section-title">📚 考研核心词汇表</h2>
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th>单词</th>
+                            <th>音标</th>
+                            <th>词性</th>
+                            <th>中文释义</th>
+                            <th>例句</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>paradox</strong></td>
+                            <td>/ˈpærədɒks/</td>
+                            <td>n.</td>
+                            <td>悖论，自相矛盾的事</td>
+                            <td>As AI makes its way into schools, a <strong>paradox</strong> is emerging.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>educator</strong></td>
+                            <td>/ˈedʒukeɪtər/</td>
+                            <td>n.</td>
+                            <td>教育工作者，教师</td>
+                            <td>Many <strong>educators</strong> are trying to limit student use of A.I.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>prohibit</strong></td>
+                            <td>/prəˈhɪbɪt/</td>
+                            <td>v.</td>
+                            <td>禁止，阻止</td>
+                            <td>Is it fair to use A.I. if you've <strong>prohibited</strong> students from using it?</td>
+                        </tr>
+                        <tr>
+                            <td><strong>grapple</strong></td>
+                            <td>/ˈɡræpl/</td>
+                            <td>v.</td>
+                            <td>努力解决，搏斗</td>
+                            <td>School leaders are <strong>grappling</strong> with these dilemmas.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>dilemma</strong></td>
+                            <td>/dɪˈlemə/</td>
+                            <td>n.</td>
+                            <td>困境，进退两难</td>
+                            <td>That tension has prompted some difficult ethical <strong>dilemmas</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>confront</strong></td>
+                            <td>/kənˈfrʌnt/</td>
+                            <td>v.</td>
+                            <td>面对，遭遇</td>
+                            <td>They confront a barrage of marketing claims.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>accelerate</strong></td>
+                            <td>/əkˈseləreɪt/</td>
+                            <td>v.</td>
+                            <td>加速，加快</td>
+                            <td>Claims about how A.I. could "accelerate" learning.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>disrupt</strong></td>
+                            <td>/dɪsˈrʌpt/</td>
+                            <td>v.</td>
+                            <td>扰乱，破坏</td>
+                            <td>Apps that <strong>disrupt</strong> the human relationships at the core of teaching.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>bureaucratic</strong></td>
+                            <td>/ˌbjʊrəˈkrætɪk/</td>
+                            <td>adj.</td>
+                            <td>官僚的，官僚主义的</td>
+                            <td>Tools to ease the <strong>bureaucratic</strong> burdens.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>assignment</strong></td>
+                            <td>/əˈsaɪnmənt/</td>
+                            <td>n.</td>
+                            <td>作业，任务</td>
+                            <td>A solution for tricky math <strong>assignments</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>acknowledge</strong></td>
+                            <td>/əkˈnɑːlɪdʒ/</td>
+                            <td>v.</td>
+                            <td>承认，认可</td>
+                            <td>But he <strong>acknowledged</strong> that he has found compelling uses.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>compelling</strong></td>
+                            <td>/kəmˈpelɪŋ/</td>
+                            <td>adj.</td>
+                            <td>令人信服的，有说服力的</td>
+                            <td>He has found some <strong>compelling</strong> uses of A.I.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>analyze</strong></td>
+                            <td>/ˈænəlaɪz/</td>
+                            <td>v.</td>
+                            <td>分析，解析</td>
+                            <td>He can <strong>analyze</strong> students' academic and behavioral data.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>invaluable</strong></td>
+                            <td>/ɪnˈvæljuəbl/</td>
+                            <td>adj.</td>
+                            <td>极宝贵的，无价的</td>
+                            <td>The tools are <strong>invaluable</strong> for students.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>perennial</strong></td>
+                            <td>/pəˈreniəl/</td>
+                            <td>adj.</td>
+                            <td>长期的，持久的</td>
+                            <td>The <strong>perennial</strong> problem of how to get students excited.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>curriculum</strong></td>
+                            <td>/kəˈrɪkjələm/</td>
+                            <td>n.</td>
+                            <td>课程，课程体系</td>
+                            <td>He fed it dozens of pages of <strong>curriculum</strong> materials.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>illustrate</strong></td>
+                            <td>/ˈɪləstreɪt/</td>
+                            <td>v.</td>
+                            <td>说明，阐明</td>
+                            <td>Create dummy essays that <strong>illustrate</strong> the difference.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>transparency</strong></td>
+                            <td>/trænsˈpærənsi/</td>
+                            <td>n.</td>
+                            <td>透明度，公开</td>
+                            <td><strong>Transparency</strong> is key, he said.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>synthesize</strong></td>
+                            <td>/ˈsɪnθəsaɪz/</td>
+                            <td>v.</td>
+                            <td>综合，合成</td>
+                            <td>Finding sources and <strong>synthesizing</strong> them in writing is key.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>immense</strong></td>
+                            <td>/ɪˈmens/</td>
+                            <td>adj.</td>
+                            <td>巨大的，极大的</td>
+                            <td>Consume an <strong>immense</strong> amount of energy.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>tempting</strong></td>
+                            <td>/ˈtemptɪŋ/</td>
+                            <td>adj.</td>
+                            <td>诱人的，有吸引力的</td>
+                            <td>It is so <strong>tempting</strong> for some to ask A.I. to do it.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>automated</strong></td>
+                            <td>/ˈɔːtəmeɪtɪd/</td>
+                            <td>adj.</td>
+                            <td>自动化的</td>
+                            <td><strong>Automated</strong> scoring is happening in high-stakes scenarios.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>determine</strong></td>
+                            <td>/dɪˈtɜːrmɪn/</td>
+                            <td>v.</td>
+                            <td>决定，确定</td>
+                            <td>Exams that <strong>determine</strong> whether students graduate.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>submit</strong></td>
+                            <td>/səbˈmɪt/</td>
+                            <td>v.</td>
+                            <td>提交，递交</td>
+                            <td>When the district <strong>submitted</strong> about 4,600 writing samples.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>prone</strong></td>
+                            <td>/proʊn/</td>
+                            <td>adj.</td>
+                            <td>易于...的，有...倾向的</td>
+                            <td>Human grading is <strong>prone</strong> to bias and error.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>consistent</strong></td>
+                            <td>/kənˈsɪstənt/</td>
+                            <td>adj.</td>
+                            <td>一致的，始终如一的</td>
+                            <td>A.I. may be accurate and <strong>consistent</strong> graders.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>embrace</strong></td>
+                            <td>/ɪmˈbreɪs/</td>
+                            <td>v.</td>
+                            <td>拥抱，接受</td>
+                            <td>Her own district has <strong>embraced</strong> A.I.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>verify</strong></td>
+                            <td>/ˈverɪfaɪ/</td>
+                            <td>v.</td>
+                            <td>核实，验证</td>
+                            <td>Learning about the importance of <strong>verifying</strong> information.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>analysis</strong></td>
+                            <td>/əˈnæləsɪs/</td>
+                            <td>n.</td>
+                            <td>分析</td>
+                            <td>According to an <strong>analysis</strong> by Reach Capital.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>vision</strong></td>
+                            <td>/ˈvɪʒn/</td>
+                            <td>n.</td>
+                            <td>愿景，视野</td>
+                            <td>The company's <strong>vision</strong> for A.I.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>demonstrate</strong></td>
+                            <td>/ˈdemənstreɪt/</td>
+                            <td>v.</td>
+                            <td>展示，证明</td>
+                            <td>Prompt them to <strong>demonstrate</strong> and practice what they know.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 阅读理解练习 -->
+            <div class="quiz-section">
+                <h2 class="section-title">✏️ 阅读理解练习</h2>
+                
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        1. What is the main paradox discussed in the article regarding AI in education?
+                        <span class="quiz-type">主旨大意题</span>
+                    </div>
+                    <div class="quiz-options">
+                        <div class="quiz-option">A. Students love using AI while teachers hate it.</div>
+                        <div class="quiz-option">B. Teachers worry about students using AI for cheating, but they themselves use AI tools extensively.</div>
+                        <div class="quiz-option">C. AI is too expensive for schools to afford.</div>
+                        <div class="quiz-option">D. Parents support AI use while teachers oppose it.</div>
+                    </div>
+                    <div class="quiz-answer">
+                        <span class="answer-label">正确答案：B</span><br><br>
+                        <strong>解析：</strong>文章开篇即指出这一悖论(paradox)：教育工作者一方面担心学生使用AI作弊或走捷径（"Many educators, concerned about cheating and shortcuts, are trying to limit student use of A.I."），另一方面教师自己却越来越多地使用AI工具（"teachers are increasingly using A.I. tools themselves"）。这是贯穿全文的核心矛盾。
+                    </div>
+                </div>
+                
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        2. According to Jon Gold, what is the key to using AI ethically in education?
+                        <span class="quiz-type">细节理解题</span>
+                    </div>
+                    <div class="quiz-options">
+                        <div class="quiz-option">A. Banning students from using AI completely.</div>
+                        <div class="quiz-option">B. Using AI only for grading purposes.</div>
+                        <div class="quiz-option">C. Transparency about how AI is being used.</div>
+                        <div class="quiz-option">D. Keeping AI usage secret from students.</div>
+                    </div>
+                    <div class="quiz-answer">
+                        <span class="answer-label">正确答案：C</span><br><br>
+                        <strong>解析：</strong>文章明确提到Jon Gold的观点："Transparency is key, he said. He explains to students exactly how he has used A.I., in part to model ethical use."（透明度是关键。他向学生详细解释他是如何使用人工智能的，部分原因是为了示范合乎道德的使用方式。）因此，透明公开是道德使用AI的关键。
+                    </div>
+                </div>
+                
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        3. What can be inferred from Stephanie Elizalde's statement "It's irresponsible to not teach it"?
+                        <span class="quiz-type">推理判断题</span>
+                    </div>
+                    <div class="quiz-options">
+                        <div class="quiz-option">A. Schools should ban AI completely.</div>
+                        <div class="quiz-option">B. Teaching AI usage is essential for students' future preparation.</div>
+                        <div class="quiz-option">C. AI is too dangerous for students to learn.</div>
+                        <div class="quiz-option">D. Teachers should not use AI at all.</div>
+                    </div>
+                    <div class="quiz-answer">
+                        <span class="answer-label">正确答案：B</span><br><br>
+                        <strong>解析：</strong>Stephanie Elizalde说"不教这个是不负责任的"，紧接着解释"我们必须教。我们正在为孩子们的未来做准备。"（"We have to. We are preparing kids for their future."）由此可以推断，她认为教授AI使用对学生为未来做准备至关重要。
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 阅读技巧提示 -->
+            <div class="tips-section">
+                <h2 class="section-title">💡 考研阅读技巧提示</h2>
+                <ul class="tips-list">
+                    <li><strong>抓住文章主旨：</strong>本文开篇即点明核心悖论，阅读时要注意作者如何围绕这一主题展开论述。</li>
+                    <li><strong>关注转折词：</strong>文中but, however, instead等转折词往往引出作者真正想表达的观点。</li>
+                    <li><strong>识别例证关系：</strong>文章使用多个具体案例（如Jon Gold、Alex Baron、Stephanie Elizalde等）来支撑论点，理解例证与论点的关系有助于把握文章结构。</li>
+                    <li><strong>注意引语作用：</strong>文中大量引用教育专家的观点，这些引语往往代表不同立场，是理解文章多角度的关键。</li>
+                    <li><strong>词汇复现：</strong>考研阅读中重要概念会反复出现，如本文中的paradox, ethical, transparency等，注意这些词汇的复现有助于理解文章核心。</li>
+                    <li><strong>长难句分析：</strong>遇到长句先找主干（主谓宾），再分析修饰成分，如定语从句、状语从句等。</li>
+                </ul>
+            </div>
+            
+            <a href="index.html" class="back-link">← 返回文章列表</a>
+        </div>
+    </div>
+    
+    <div class="vocab-tooltip" id="tooltip"></div>
+    
+    <script>
+        // 词汇提示功能
+        const vocabWords = document.querySelectorAll('.vocab-word');
+        const tooltip = document.getElementById('tooltip');
+        
+        vocabWords.forEach(word => {
+            word.addEventListener('click', function(e) {
+                const meaning = this.getAttribute('data-meaning');
+                tooltip.textContent = meaning;
+                tooltip.style.display = 'block';
+                
+                const rect = this.getBoundingClientRect();
+                tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+                tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
+                
+                setTimeout(() => {
+                    tooltip.style.display = 'none';
+                }, 3000);
+            });
+        });
+        
+        // 点击其他地方关闭提示
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('vocab-word')) {
+                tooltip.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
