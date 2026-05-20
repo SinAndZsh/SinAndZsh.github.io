@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | 爱沙尼亚拥抱AI教育革命</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+            opacity: 0.85;
+        }
+        
+        .meta-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            color: #667eea;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            font-weight: 600;
+        }
+        
+        .article-content {
+            font-size: 1.1em;
+            line-height: 2;
+            text-align: justify;
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+            text-indent: 2em;
+        }
+        
+        .vocab-word {
+            color: #e74c3c;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px dotted #e74c3c;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .vocab-word:hover {
+            background: #fff3f3;
+            border-bottom-style: solid;
+        }
+        
+        .vocab-tooltip {
+            display: none;
+            position: fixed;
+            background: #2c3e50;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            max-width: 300px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            line-height: 1.6;
+        }
+        
+        .vocab-tooltip::before {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #2c3e50;
+        }
+        
+        .vocab-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+        
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .vocab-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .vocab-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .vocab-table tr:hover {
+            background: #f0f0f0;
+        }
+        
+        .phrase-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 5px solid #764ba2;
+        }
+        
+        .phrase-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .phrase-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .phrase-en {
+            font-size: 1.2em;
+            color: #764ba2;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .phrase-cn {
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .phrase-example {
+            font-style: italic;
+            color: #555;
+            padding-left: 15px;
+            border-left: 3px solid #764ba2;
+        }
+        
+        .sentence-section {
+            background: #fff8e1;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 5px solid #ffa726;
+        }
+        
+        .sentence-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .sentence-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .sentence-original {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+        
+        .sentence-analysis {
+            color: #666;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .sentence-translation {
+            color: #e65100;
+            font-weight: 500;
+        }
+        
+        .summary-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 5px solid #2196f3;
+        }
+        
+        .summary-content {
+            font-size: 1.05em;
+            line-height: 1.9;
+            color: #1565c0;
+        }
+        
+        .quiz-section {
+            background: #f3e5f5;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 5px solid #9c27b0;
+        }
+        
+        .quiz-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .quiz-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .quiz-question {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-type {
+            display: inline-block;
+            background: #9c27b0;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        
+        .quiz-options {
+            margin-left: 20px;
+        }
+        
+        .quiz-option {
+            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        
+        .quiz-option:hover {
+            background: #f5f5f5;
+        }
+        
+        .quiz-answer {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 6px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .answer-label {
+            font-weight: 600;
+            color: #2e7d32;
+        }
+        
+        .tips-section {
+            background: #e8f5e9;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            border-left: 5px solid #4caf50;
+        }
+        
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tips-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .tips-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 25px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .meta-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Estonia Eschews Ban on Phones in Schools, Moves into AI</h1>
+            <p class="subtitle">爱沙尼亚拒绝在学校禁止手机，转向AI教育革命</p>
+            <div class="meta-info">
+                <span>📰 The Guardian</span>
+                <span>📅 May 26, 2025</span>
+                <span>📝 约1050词</span>
+                <span>🎯 考研难度</span>
+            </div>
+        </header>
+        
+        <div class="content">
+            <!-- 文章大意总结 -->
+            <div class="summary-section">
+                <h2 class="section-title">📋 文章大意总结</h2>
+                <div class="summary-content">
+                    <p>本文报道了爱沙尼亚在教育科技领域的前瞻性政策。与欧洲其他国家纷纷禁止学生在校使用手机不同，爱沙尼亚选择拥抱技术，将其视为教育的核心支柱。文章介绍了爱沙尼亚即将推出的"AI Leap"国家计划，该计划将与OpenAI合作，为全国学生和教师提供免费AI工具。教育部长Kristina Kallas阐述了这一政策的理念：既然16岁学生可以用手机投票，禁止他们在教育中使用手机是矛盾的。文章还回顾了爱沙尼亚自1997年"Tiger Leap"计划以来的数字化教育历程，并展望了AI将如何改变传统课堂模式，推动教育向更高阶思维能力发展。</p>
+                </div>
+            </div>
+            
+            <!-- 正文内容 -->
+            <h2 class="section-title">📖 精读正文</h2>
+            <div class="article-content">
+                <p>While countries like England are <span class="vocab-word" data-meaning="tighten v. /ˈtaɪtn/ 加紧，收紧（限制等）">tightening</span> <span class="vocab-word" data-meaning="restriction n. /rɪˈstrɪkʃn/ 限制，约束">restrictions</span> on smartphones in schools, Estonia is <span class="vocab-word" data-meaning="embrace v. /ɪmˈbreɪs/ 拥抱，欣然接受">embracing</span> technology as a <span class="vocab-word" data-meaning="central adj. /ˈsentrəl/ 核心的，中心的">central</span> <span class="vocab-word" data-meaning="pillar n. /ˈpɪlər/ 支柱，基石">pillar</span> of its education system. The <span class="vocab-word" data-meaning="Baltic adj. /ˈbɔːltɪk/ 波罗的海的">Baltic</span> nation, now considered a leader in digital learning in Europe, is preparing to <span class="vocab-word" data-meaning="roll out 推出，推广">roll out</span> personal AI accounts for students, marking a bold new chapter in AI in education.</p>
+                
+                <p>Estonia, with a population of 1.4 million, has quietly <span class="vocab-word" data-meaning="rise v. /raɪz/ 上升，崛起">risen</span> to the top of Europe's education charts. According to the OECD's 2022 Programme for International Student Assessment (PISA), Estonia's education system <span class="vocab-word" data-meaning="rank v. /ræŋk/ 排名，位列">ranked</span> first in Europe in mathematics, science, and creative thinking, and came second only to Ireland in reading. Despite its <span class="vocab-word" data-meaning="modest adj. /ˈmɑːdɪst/ 适度的，不大的">modest</span> size and resources, the country is <span class="vocab-word" data-meaning="outperform v. /ˌaʊtpərˈfɔːrm/ 胜过，表现优于">outperforming</span> much larger nations.</p>
+                
+                <p>According to The Guardian, a key factor in its success is its early and <span class="vocab-word" data-meaning="widespread adj. /ˈwaɪdspred/ 广泛的，普遍的">widespread</span> <span class="vocab-word" data-meaning="adoption n. /əˈdɑːpʃn/ 采用，采纳">adoption</span> of digital tools in classrooms. Unlike governments that <span class="vocab-word" data-meaning="restrict v. /rɪˈstrɪkt/ 限制，约束">restrict</span> device usage due to concerns over <span class="vocab-word" data-meaning="distraction n. /dɪˈstrækʃn/ 分心，干扰">distraction</span> or mental health, Estonia views smartphones as <span class="vocab-word" data-meaning="essential adj. /ɪˈsenʃl/ 必要的，本质的">essential</span> educational <span class="vocab-word" data-meaning="instrument n. /ˈɪnstrəmənt/ 工具，仪器">instruments</span>.</p>
+                
+                <p>This September, Estonia will <span class="vocab-word" data-meaning="launch v. /lɔːntʃ/ 发起，启动">launch</span> the first phase of its national "AI Leap" <span class="vocab-word" data-meaning="initiative n. /ɪˈnɪʃətɪv/ 倡议，计划">initiative</span>. The program aims to provide AI tools for students and educators across the country. In <span class="vocab-word" data-meaning="partnership n. /ˈpɑːrtnərʃɪp/ 合作关系，伙伴关系">partnership</span> with OpenAI, the government plans to offer free access to advanced AI platforms to 58,000 students and 5,000 teachers by 2027, starting with those aged 16 and 17.</p>
+                
+                <p>The initiative also includes <span class="vocab-word" data-meaning="professional adj. /prəˈfeʃənl/ 专业的，职业的">professional</span> development for teachers, covering digital <span class="vocab-word" data-meaning="ethics n. /ˈeθɪks/ 伦理，道德准则">ethics</span>, <span class="vocab-word" data-meaning="equitable adj. /ˈekwɪtəbl/ 公平的，公正的">equitable</span> access to AI, and techniques for encouraging self-directed learning. The broader <span class="vocab-word" data-meaning="objective n. /əbˈdʒektɪv/ 目标，目的">objective</span> is to <span class="vocab-word" data-meaning="position v. /pəˈzɪʃn/ 定位，使处于...位置">position</span> Estonia as not just tech-savvy but as one of the most intelligent <span class="vocab-word" data-meaning="adopter n. /əˈdɑːptər/ 采用者，采纳者">adopters</span> of AI worldwide.</p>
+                
+                <p>Estonia's education policy <span class="vocab-word" data-meaning="contrast v. /kənˈtræst/ 形成对比，对照">contrasts</span> <span class="vocab-word" data-meaning="sharply adv. /ˈʃɑːrpli/ 鲜明地，尖锐地">sharply</span> with the growing <span class="vocab-word" data-meaning="trend n. /trend/ 趋势，潮流">trend</span> of mobile phone bans in schools elsewhere in Europe. According to Kristina Kallas, Estonia's Minister of Education and Research, society at large, and by <span class="vocab-word" data-meaning="extension n. /ɪkˈstenʃn/ 延伸，扩展">extension</span>, the school system, is more <span class="vocab-word" data-meaning="accepting adj. /əkˈseptɪŋ/ 接受的，包容的">accepting</span> of digital tools.</p>
+                
+                <p>"I know the <span class="vocab-word" data-meaning="scepticism n. /ˈskeptɪsɪzəm/ 怀疑态度，怀疑主义">scepticism</span> and carefulness of most of the European countries regarding screens, mobile phones and technology," Kallas said at the Education World Forum in London. "The thing is that in the Estonian case, society in general is much more open and <span class="vocab-word" data-meaning="prone adj. /proʊn/ 易于...的，倾向于...的">prone</span> to using digital tools and services. Teachers are no different."</p>
+                
+                <p>In Estonian schools, mobile phone use is typically <span class="vocab-word" data-meaning="guide v. /ɡaɪd/ 指导，引导">guided</span> by age-specific <span class="vocab-word" data-meaning="regulation n. /ˌreɡjuˈleɪʃn/ 规定，规章">regulations</span> and local-level policies. While younger students face more structured guidelines, older students <span class="vocab-word" data-meaning="frequently adv. /ˈfriːkwəntli/ 频繁地，经常地">frequently</span> use phones during lessons for academic tasks. During breaks, their use is limited.</p>
+                
+                <p>Kallas <span class="vocab-word" data-meaning="emphasize v. /ˈemfəsaɪz/ 强调，着重">emphasized</span> that 16-year-olds in Estonia can already vote in local elections using their phones, <span class="vocab-word" data-meaning="highlight v. /ˈhaɪlaɪt/ 突出，强调">highlighting</span> the <span class="vocab-word" data-meaning="inconsistency n. /ˌɪnkənˈsɪstənsi/ 不一致，矛盾">inconsistency</span> of banning phones for learning while encouraging <span class="vocab-word" data-meaning="civic adj. /ˈsɪvɪk/ 公民的，市民的">civic</span> <span class="vocab-word" data-meaning="participation n. /pɑːrˌtɪsɪˈpeɪʃn/ 参与，参加">participation</span> via digital platforms.</p>
+                
+                <p>"So we want them to use mobile phones to do their civic duty, to participate in an election, to get the information, to <span class="vocab-word" data-meaning="analyse v. /ˈænəlaɪz/ 分析">analyse</span> the political platforms," she said. "It's a little bit strange if we would not allow them to use them in school, in an educational setting. That would be a very <span class="vocab-word" data-meaning="confusing adj. /kənˈfjuːzɪŋ/ 令人困惑的，使人迷惑的">confusing</span> message to 16-year-olds – vote online, vote on a mobile, but don't use ChatGPT on your phone to do education learning."</p>
+                
+                <p>Estonia's forward-thinking <span class="vocab-word" data-meaning="stance n. /stæns/ 立场，态度">stance</span> on education technology is not new. In 1997, the country introduced the Tiigrihüpe (Tiger Leap) program, laying the <span class="vocab-word" data-meaning="foundation n. /faʊnˈdeɪʃn/ 基础，根基">foundation</span> for its high-speed internet <span class="vocab-word" data-meaning="infrastructure n. /ˈɪnfrəstrʌktʃər/ 基础设施">infrastructure</span> and school-based digital systems. Now, with AI, Estonia is <span class="vocab-word" data-meaning="poised adj. /pɔɪzd/ 准备好的，蓄势待发的">poised</span> to enter a new era of digital learning.</p>
+                
+                <p>Looking ahead, Kallas <span class="vocab-word" data-meaning="predict v. /prɪˈdɪkt/ 预测，预言">predicts</span> that AI will shift traditional classroom <span class="vocab-word" data-meaning="dynamics n. /daɪˈnæmɪks/ 动态，动力学">dynamics</span>, marking the "end of essays for homework" and a movement toward oral <span class="vocab-word" data-meaning="assessment n. /əˈsesmənt/ 评估，评价">assessments</span> and higher-order <span class="vocab-word" data-meaning="cognitive adj. /ˈkɑːɡnətɪv/ 认知的，认识的">cognitive</span> skills.</p>
+                
+                <p>"It's a matter of <span class="vocab-word" data-meaning="urgency n. /ˈɜːrdʒənsi/ 紧迫，紧急">urgency</span>," she stated. "We are facing this <span class="vocab-word" data-meaning="evolutionary adj. /ˌevəˈluːʃəneri/ 进化的，演变的">evolutionary</span>, developmental <span class="vocab-word" data-meaning="challenge n. /ˈtʃælɪndʒ/ 挑战">challenge</span> now. We either <span class="vocab-word" data-meaning="evolve v. /ɪˈvɑːlv/ 进化，发展">evolve</span> into faster-thinking and higher-level-thinking <span class="vocab-word" data-meaning="creature n. /ˈkriːtʃər/ 生物，人">creatures</span>, or the technology will take over our <span class="vocab-word" data-meaning="consciousness n. /ˈkɑːnʃəsnəs/ 意识，知觉">consciousness</span>."</p>
+            </div>
+            
+            <!-- 短语搭配 -->
+            <div class="phrase-section">
+                <h2 class="section-title">🎯 短语搭配精选</h2>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">1. roll out</div>
+                    <div class="phrase-cn">推出，推广（新产品或服务）</div>
+                    <div class="phrase-example">"Estonia is preparing to <strong>roll out</strong> personal AI accounts for students."<br>（爱沙尼亚正准备为学生推出个人AI账户。）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">2. in partnership with</div>
+                    <div class="phrase-cn">与...合作，与...建立伙伴关系</div>
+                    <div class="phrase-example">"<strong>In partnership with</strong> OpenAI, the government plans to offer free access to advanced AI platforms."<br>（政府与OpenAI合作，计划提供先进AI平台的免费访问。）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">3. contrast sharply with</div>
+                    <div class="phrase-cn">与...形成鲜明对比</div>
+                    <div class="phrase-example">"Estonia's education policy <strong>contrasts sharply with</strong> the growing trend of mobile phone bans."<br>（爱沙尼亚的教育政策与日益增长的手机禁令趋势形成鲜明对比。）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">4. by extension</div>
+                    <div class="phrase-cn">进而，相应地，引申开来</div>
+                    <div class="phrase-example">"Society at large, and <strong>by extension</strong>, the school system, is more accepting of digital tools."<br>（整个社会，进而学校系统，对数字工具更加包容。）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">5. be prone to</div>
+                    <div class="phrase-cn">易于...的，有...倾向的</div>
+                    <div class="phrase-example">"Society in general is much more open and <strong>prone to</strong> using digital tools and services."<br>（总体而言，社会更加开放，更倾向于使用数字工具和服务。）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">6. lay the foundation for</div>
+                    <div class="phrase-cn">为...奠定基础</div>
+                    <div class="phrase-example">"The country introduced the Tiigrihüpe program, <strong>laying the foundation for</strong> its high-speed internet infrastructure."<br>（该国推出了"虎跃"计划，为其高速互联网基础设施奠定了基础。）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">7. be poised to</div>
+                    <div class="phrase-cn">准备好的，蓄势待发的</div>
+                    <div class="phrase-example">"With AI, Estonia <strong>is poised to</strong> enter a new era of digital learning."<br>（有了人工智能，爱沙尼亚准备进入数字学习的新时代。）</div>
+                </div>
+                
+                <div class="phrase-item">
+                    <div class="phrase-en">8. take over</div>
+                    <div class="phrase-cn">接管，取代，控制</div>
+                    <div class="phrase-example">"The technology will <strong>take over</strong> our consciousness."<br>（技术将接管我们的意识。）</div>
+                </div>
+            </div>
+            
+            <!-- 长难句解析 -->
+            <div class="sentence-section">
+                <h2 class="section-title">🔍 长难句解析</h2>
+                
+                <div class="sentence-item">
+                    <div class="sentence-original">Unlike governments that restrict device usage due to concerns over distraction or mental health, Estonia views smartphones as essential educational instruments.</div>
+                    <div class="sentence-analysis">
+                        <strong>句子结构分析：</strong><br>
+                        • 主句：Estonia views smartphones as essential educational instruments<br>
+                        • 介词短语作状语：Unlike governments...（表示对比）<br>
+                        • 定语从句：that restrict device usage due to concerns over distraction or mental health（修饰governments）<br>
+                        • 介词短语作原因状语：due to concerns over distraction or mental health
+                    </div>
+                    <div class="sentence-translation">与那些因担心分心或心理健康问题而限制设备使用的政府不同，爱沙尼亚将智能手机视为必要的教育工具。</div>
+                </div>
+                
+                <div class="sentence-item">
+                    <div class="sentence-original">According to Kristina Kallas, Estonia's Minister of Education and Research, society at large, and by extension, the school system, is more accepting of digital tools.</div>
+                    <div class="sentence-analysis">
+                        <strong>句子结构分析：</strong><br>
+                        • 主句：society at large... is more accepting of digital tools<br>
+                        • 插入语：and by extension, the school system（表示递进关系）<br>
+                        • 同位语：Estonia's Minister of Education and Research（解释说明Kristina Kallas的身份）<br>
+                        • 状语：According to Kristina Kallas
+                    </div>
+                    <div class="sentence-translation">据爱沙尼亚教育与研究部长克里斯蒂娜·卡拉斯表示，整个社会，进而学校系统，对数字工具更加包容。</div>
+                </div>
+                
+                <div class="sentence-item">
+                    <div class="sentence-original">It's a little bit strange if we would not allow them to use them in school, in an educational setting, when we want them to use mobile phones to do their civic duty.</div>
+                    <div class="sentence-analysis">
+                        <strong>句子结构分析：</strong><br>
+                        • 主句：It's a little bit strange（it为形式主语）<br>
+                        • 真正的主语：if引导的条件状语从句<br>
+                        • 嵌套从句：when引导的时间状语从句（在if从句中）<br>
+                        • 不定式作宾语补足语：to use them in school
+                    </div>
+                    <div class="sentence-translation">如果我们不允许他们在学校、在教育环境中使用手机，而同时又希望他们用手机履行公民义务，这有点奇怪。</div>
+                </div>
+                
+                <div class="sentence-item">
+                    <div class="sentence-original">We either evolve into faster-thinking and higher-level-thinking creatures, or the technology will take over our consciousness.</div>
+                    <div class="sentence-analysis">
+                        <strong>句子结构分析：</strong><br>
+                        • either...or...结构：表示二选一的抉择<br>
+                        • 前半部分：We evolve into faster-thinking and higher-level-thinking creatures<br>
+                        • 后半部分：the technology will take over our consciousness<br>
+                        • 复合形容词：faster-thinking, higher-level-thinking
+                    </div>
+                    <div class="sentence-translation">我们要么进化成思维更快、思维层次更高的生物，要么技术将接管我们的意识。</div>
+                </div>
+            </div>
+            
+            <!-- 考研核心词汇表 -->
+            <div class="vocab-section">
+                <h2 class="section-title">📚 考研核心词汇表</h2>
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th>单词</th>
+                            <th>音标</th>
+                            <th>词性</th>
+                            <th>中文释义</th>
+                            <th>例句</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>restriction</strong></td>
+                            <td>/rɪˈstrɪkʃn/</td>
+                            <td>n.</td>
+                            <td>限制，约束</td>
+                            <td>Countries are tightening <strong>restrictions</strong> on smartphones in schools.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>embrace</strong></td>
+                            <td>/ɪmˈbreɪs/</td>
+                            <td>v.</td>
+                            <td>拥抱，欣然接受</td>
+                            <td>Estonia is <strong>embracing</strong> technology as a central pillar.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>pillar</strong></td>
+                            <td>/ˈpɪlər/</td>
+                            <td>n.</td>
+                            <td>支柱，基石</td>
+                            <td>Technology is a central <strong>pillar</strong> of its education system.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>rank</strong></td>
+                            <td>/ræŋk/</td>
+                            <td>v.</td>
+                            <td>排名，位列</td>
+                            <td>Estonia's education system <strong>ranked</strong> first in Europe.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>modest</strong></td>
+                            <td>/ˈmɑːdɪst/</td>
+                            <td>adj.</td>
+                            <td>适度的，不大的</td>
+                            <td>Despite its <strong>modest</strong> size, the country is outperforming larger nations.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>outperform</strong></td>
+                            <td>/ˌaʊtpərˈfɔːrm/</td>
+                            <td>v.</td>
+                            <td>胜过，表现优于</td>
+                            <td>The country is <strong>outperforming</strong> much larger nations.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>adoption</strong></td>
+                            <td>/əˈdɑːpʃn/</td>
+                            <td>n.</td>
+                            <td>采用，采纳</td>
+                            <td>Early <strong>adoption</strong> of digital tools is a key factor.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>essential</strong></td>
+                            <td>/ɪˈsenʃl/</td>
+                            <td>adj.</td>
+                            <td>必要的，本质的</td>
+                            <td>Estonia views smartphones as <strong>essential</strong> educational instruments.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>initiative</strong></td>
+                            <td>/ɪˈnɪʃətɪv/</td>
+                            <td>n.</td>
+                            <td>倡议，计划</td>
+                            <td>Estonia will launch its national "AI Leap" <strong>initiative</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>partnership</strong></td>
+                            <td>/ˈpɑːrtnərʃɪp/</td>
+                            <td>n.</td>
+                            <td>合作关系，伙伴关系</td>
+                            <td><strong>In partnership with</strong> OpenAI, the government plans...</td>
+                        </tr>
+                        <tr>
+                            <td><strong>equitable</strong></td>
+                            <td>/ˈekwɪtəbl/</td>
+                            <td>adj.</td>
+                            <td>公平的，公正的</td>
+                            <td>Covering digital ethics, <strong>equitable</strong> access to AI.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>objective</strong></td>
+                            <td>/əbˈdʒektɪv/</td>
+                            <td>n.</td>
+                            <td>目标，目的</td>
+                            <td>The broader <strong>objective</strong> is to position Estonia as a leader.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>contrast</strong></td>
+                            <td>/kənˈtræst/</td>
+                            <td>v.</td>
+                            <td>形成对比，对照</td>
+                            <td>Estonia's policy <strong>contrasts</strong> sharply with the trend.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>scepticism</strong></td>
+                            <td>/ˈskeptɪsɪzəm/</td>
+                            <td>n.</td>
+                            <td>怀疑态度，怀疑主义</td>
+                            <td>I know the <strong>scepticism</strong> of most European countries.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>prone</strong></td>
+                            <td>/proʊn/</td>
+                            <td>adj.</td>
+                            <td>易于...的，倾向于...的</td>
+                            <td>Society is more open and <strong>prone</strong> to using digital tools.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>inconsistency</strong></td>
+                            <td>/ˌɪnkənˈsɪstənsi/</td>
+                            <td>n.</td>
+                            <td>不一致，矛盾</td>
+                            <td>Highlighting the <strong>inconsistency</strong> of banning phones.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>civic</strong></td>
+                            <td>/ˈsɪvɪk/</td>
+                            <td>adj.</td>
+                            <td>公民的，市民的</td>
+                            <td>Encouraging <strong>civic</strong> participation via digital platforms.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>foundation</strong></td>
+                            <td>/faʊnˈdeɪʃn/</td>
+                            <td>n.</td>
+                            <td>基础，根基</td>
+                            <td>Laying the <strong>foundation</strong> for its digital infrastructure.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>infrastructure</strong></td>
+                            <td>/ˈɪnfrəstrʌktʃər/</td>
+                            <td>n.</td>
+                            <td>基础设施</td>
+                            <td>High-speed internet <strong>infrastructure</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>poised</strong></td>
+                            <td>/pɔɪzd/</td>
+                            <td>adj.</td>
+                            <td>准备好的，蓄势待发的</td>
+                            <td>Estonia <strong>is poised</strong> to enter a new era.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>dynamics</strong></td>
+                            <td>/daɪˈnæmɪks/</td>
+                            <td>n.</td>
+                            <td>动态，动力学</td>
+                            <td>AI will shift traditional classroom <strong>dynamics</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>assessment</strong></td>
+                            <td>/əˈsesmənt/</td>
+                            <td>n.</td>
+                            <td>评估，评价</td>
+                            <td>A movement toward oral <strong>assessments</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>cognitive</strong></td>
+                            <td>/ˈkɑːɡnətɪv/</td>
+                            <td>adj.</td>
+                            <td>认知的，认识的</td>
+                            <td>Higher-order <strong>cognitive</strong> skills.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>urgency</strong></td>
+                            <td>/ˈɜːrdʒənsi/</td>
+                            <td>n.</td>
+                            <td>紧迫，紧急</td>
+                            <td>It's a matter of <strong>urgency</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>evolutionary</strong></td>
+                            <td>/ˌevəˈluːʃəneri/</td>
+                            <td>adj.</td>
+                            <td>进化的，演变的</td>
+                            <td>We are facing this <strong>evolutionary</strong> challenge.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>consciousness</strong></td>
+                            <td>/ˈkɑːnʃəsnəs/</td>
+                            <td>n.</td>
+                            <td>意识，知觉</td>
+                            <td>Technology will take over our <strong>consciousness</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>stance</strong></td>
+                            <td>/stæns/</td>
+                            <td>n.</td>
+                            <td>立场，态度</td>
+                            <td>Estonia's forward-thinking <strong>stance</strong> on education technology.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>emphasize</strong></td>
+                            <td>/ˈemfəsaɪz/</td>
+                            <td>v.</td>
+                            <td>强调，着重</td>
+                            <td>Kallas <strong>emphasized</strong> that 16-year-olds can vote.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>predict</strong></td>
+                            <td>/prɪˈdɪkt/</td>
+                            <td>v.</td>
+                            <td>预测，预言</td>
+                            <td>Kallas <strong>predicts</strong> that AI will shift classroom dynamics.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>evolve</strong></td>
+                            <td>/ɪˈvɑːlv/</td>
+                            <td>v.</td>
+                            <td>进化，发展</td>
+                            <td>We either <strong>evolve</strong> into faster-thinking creatures.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 阅读理解练习 -->
+            <div class="quiz-section">
+                <h2 class="section-title">✏️ 阅读理解练习</h2>
+                
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        1. What distinguishes Estonia's approach to smartphones in education from other European countries?
+                        <span class="quiz-type">主旨大意题</span>
+                    </div>
+                    <div class="quiz-options">
+                        <div class="quiz-option">A. Estonia completely bans smartphones in all schools.</div>
+                        <div class="quiz-option">B. Estonia embraces smartphones as essential educational instruments while other countries restrict them.</div>
+                        <div class="quiz-option">C. Estonia has no policy regarding smartphone use in schools.</div>
+                        <div class="quiz-option">D. Estonia only allows teachers to use smartphones, not students.</div>
+                    </div>
+                    <div class="quiz-answer">
+                        <span class="answer-label">正确答案：B</span><br><br>
+                        <strong>解析：</strong>文章开篇即指出"While countries like England are tightening restrictions on smartphones in schools, Estonia is embracing technology as a central pillar of its education system."（当英国等国家正在加紧限制学校中的智能手机使用时，爱沙尼亚正在拥抱技术，将其作为教育系统的核心支柱。）随后进一步说明"Unlike governments that restrict device usage...Estonia views smartphones as essential educational instruments."这明确表明爱沙尼亚与其他欧洲国家的做法形成鲜明对比。
+                    </div>
+                </div>
+                
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        2. According to the passage, what is the "AI Leap" initiative?
+                        <span class="quiz-type">细节理解题</span>
+                    </div>
+                    <div class="quiz-options">
+                        <div class="quiz-option">A. A program to replace all teachers with AI systems.</div>
+                        <div class="quiz-option">B. A national initiative to provide free AI tools to students and teachers in partnership with OpenAI.</div>
+                        <div class="quiz-option">C. A research project to develop new AI technologies.</div>
+                        <div class="quiz-option">D. A commercial venture to sell AI products to other countries.</div>
+                    </div>
+                    <div class="quiz-answer">
+                        <span class="answer-label">正确答案：B</span><br><br>
+                        <strong>解析：</strong>文章明确说明"This September, Estonia will launch the first phase of its national 'AI Leap' initiative. The program aims to provide AI tools for students and educators across the country. In partnership with OpenAI, the government plans to offer free access to advanced AI platforms to 58,000 students and 5,000 teachers by 2027."这清楚表明AI Leap是一个与OpenAI合作、为学生和教师提供免费AI工具的国家计划。
+                    </div>
+                </div>
+                
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        3. What can be inferred from Minister Kallas's statement about 16-year-olds voting with phones?
+                        <span class="quiz-type">推理判断题</span>
+                    </div>
+                    <div class="quiz-options">
+                        <div class="quiz-option">A. She believes voting should be restricted to adults only.</div>
+                        <div class="quiz-option">B. She thinks there is a logical inconsistency in allowing phone voting but banning phones in education.</div>
+                        <div class="quiz-option">C. She wants to raise the voting age in Estonia.</div>
+                        <div class="quiz-option">D. She opposes the use of phones for civic participation.</div>
+                    </div>
+                    <div class="quiz-answer">
+                        <span class="answer-label">正确答案：B</span><br><br>
+                        <strong>解析：</strong>Kallas指出16岁学生可以用手机投票，然后说"It's a little bit strange if we would not allow them to use them in school...That would be a very confusing message to 16-year-olds – vote online, vote on a mobile, but don't use ChatGPT on your phone to do education learning."她认为允许学生用手机投票却禁止在教育中使用手机是"奇怪的"（strange）和"令人困惑的"（confusing），这表明她认为这种做法存在逻辑上的不一致。
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 阅读技巧提示 -->
+            <div class="tips-section">
+                <h2 class="section-title">💡 考研阅读技巧提示</h2>
+                <ul class="tips-list">
+                    <li><strong>抓住对比结构：</strong>本文开篇即用"While...Estonia is..."的对比结构，快速把握文章核心观点——爱沙尼亚与其他国家的不同做法。</li>
+                    <li><strong>关注数据细节：</strong>文中出现多个数据（1.4 million人口、58,000学生、5,000教师、2027年等），考研细节题常考查这些信息。</li>
+                    <li><strong>理解引语作用：</strong>Kallas部长的引语贯穿全文，代表官方立场，是理解文章论点的关键。</li>
+                    <li><strong>注意历史脉络：</strong>文章提及1997年"Tiger Leap"计划，说明爱沙尼亚的数字化政策由来已久，这有助于理解其当前政策的延续性。</li>
+                    <li><strong>把握结尾升华：</strong>文章最后Kallas关于"进化或被技术控制"的论述，体现了作者对AI时代教育变革的深层思考，是理解文章主旨的重要部分。</li>
+                    <li><strong>词汇积累：</strong>本文包含多个考研高频词汇，如restriction, embrace, initiative, contrast, cognitive等，建议重点记忆。</li>
+                </ul>
+            </div>
+            
+            <a href="index.html" class="back-link">← 返回文章列表</a>
+        </div>
+    </div>
+    
+    <div class="vocab-tooltip" id="tooltip"></div>
+    
+    <script>
+        // 词汇提示功能
+        const vocabWords = document.querySelectorAll('.vocab-word');
+        const tooltip = document.getElementById('tooltip');
+        
+        vocabWords.forEach(word => {
+            word.addEventListener('click', function(e) {
+                const meaning = this.getAttribute('data-meaning');
+                tooltip.textContent = meaning;
+                tooltip.style.display = 'block';
+                
+                const rect = this.getBoundingClientRect();
+                tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+                tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
+                
+                setTimeout(() => {
+                    tooltip.style.display = 'none';
+                }, 3000);
+            });
+        });
+        
+        // 点击其他地方关闭提示
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('vocab-word')) {
+                tooltip.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
