@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | AI重塑教育的未来</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .header .meta {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        
+        .header .source {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .article-title {
+            font-size: 1.8em;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-weight: 600;
+            border-left: 5px solid #667eea;
+            padding-left: 20px;
+        }
+        
+        .article-subtitle {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .article-content {
+            font-size: 1.05em;
+            color: #333;
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+            text-indent: 2em;
+        }
+        
+        .vocab {
+            color: #e74c3c;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px dotted #e74c3c;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .vocab:hover {
+            background: #ffeaea;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+        
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: #2c3e50;
+        }
+        
+        .vocab:hover .tooltip {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        .section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .vocab-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .vocab-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            background: white;
+        }
+        
+        .vocab-table tr:hover td {
+            background: #f8f9ff;
+        }
+        
+        .vocab-table .word {
+            font-weight: 600;
+            color: #e74c3c;
+            font-size: 1.1em;
+        }
+        
+        .vocab-table .phonetic {
+            color: #666;
+            font-style: italic;
+        }
+        
+        .phrase-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .phrase-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #667eea;
+        }
+        
+        .phrase-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .phrase-en {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 8px;
+        }
+        
+        .phrase-cn {
+            color: #e74c3c;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .phrase-example {
+            color: #666;
+            font-style: italic;
+            font-size: 0.95em;
+            padding-left: 15px;
+            border-left: 3px solid #ddd;
+        }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d4e9f2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .summary-box h4 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size:            1.2em;
+        }
+        
+        .summary-box p {
+            color: #444;
+            line-height: 2;
+        }
+        
+        .sentence-analysis {
+            background: #fff9e6;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .sentence-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .sentence-en {
+            font-size: 1.05em;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+        
+        .sentence-structure {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .sentence-translation {
+            color: #666;
+            font-style: italic;
+            padding: 10px;
+            background: #f8f9ff;
+            border-radius: 5px;
+        }
+        
+        .quiz-container {
+            background: linear-gradient(135deg, #f8f9ff 0%, #eef0f5 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .quiz-item {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        
+        .quiz-question {
+            font-size: 1.1em;
+            color: #1e3c72;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-options {
+            margin-left: 20px;
+        }
+        
+        .quiz-option {
+            padding: 10px 0;
+            color: #444;
+        }
+        
+        .quiz-answer {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .quiz-answer-title {
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: 8px;
+        }
+        
+        .quiz-answer-content {
+            color: #444;
+            line-height: 1.8;
+        }
+        
+        .tips-box {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .tips-box h4 {
+            color: #e65100;
+            margin-bottom: 15px;
+        }
+        
+        .tips-box ul {
+            margin-left: 20px;
+            color: #444;
+        }
+        
+        .tips-box li {
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+        
+        .footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.9em;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        
+        .word-count {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .content { padding: 20px; }
+            .header h1 { font-size: 1.5em; }
+            .article-title { font-size: 1.4em; }
+            .vocab-table { font-size: 0.9em; }
+            .vocab-table th, .vocab-table td { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>考研英语外刊精读</h1>
+            <div class="meta">2026年5月18日 · The Atlantic专题</div>
+            <div class="source">文章来源：The Atlantic</div>
+        </div>
+        
+        <div class="content">
+            <h2 class="article-title">
+                Big Tech Wants AI in the Classroom. These Teachers are Pushing Back.
+                <span class="difficulty-badge">难度：★★★★☆</span>
+                <span class="word-count">1200+ 词</span>
+            </h2>
+            <p class="article-subtitle">科技巨头争相将人工智能引入课堂，但教师们对此心存疑虑</p>
+            
+            <div class="article-content">
+                <p>When I asked Eric Colburn, an English teacher at Brookline High School, how many students at BHS are using AI, he didn't hesitate: "Close to 100%." "Of course, it's hard to know for sure," he added with a smile. Mr. Colburn's estimate sounded high – or maybe I just couldn't believe all these 16-year-olds were more <span class="vocab">tech savvy<span class="tooltip">/tek ˈsævi/ adj. 精通技术的</span></span> than me. But the research suggests he's not far off.</p>
+                
+                <p>The Cypress, Brookline High School's student news site, surveyed the student body last November and found that <span class="vocab">3 in 4<span class="tooltip">四分之三</span></span> students reported using AI for schoolwork. That same month, Gemini and Notebook LM were made available to all students for free through their Google Suite, meaning usage rates have likely <span class="vocab">climbed<span class="tooltip">/klaɪmd/ v. 攀升，上升</span></span> since then.</p>
+                
+                <p>"By the end of last year, I realized my students couldn't do an assignment without AI now. They would fail if I told them to do it without AI," Peter Sedlack, an English teacher at Brookline High School, told me. "I think some of them, within the year, had lost the ability to actually do the work." This <span class="vocab">revelation<span class="tooltip">/ˌrevəˈleɪʃn/ n. 启示，揭露</span></span> points to a deeper concern: the <span class="vocab">erosion<span class="tooltip">/ɪˈrəʊʒn/ n. 侵蚀，削弱</span></span> of fundamental cognitive skills when AI becomes a <span class="vocab">crutch<span class="tooltip">/krʌtʃ/ n. 拐杖，依赖</span></span>.</p>
+                
+                <p>Nationally, school districts have done a sharp <span class="vocab">about-face<span class="tooltip">/əˈbaʊt feɪs/ n. 彻底改变，大转变</span></span> on AI since 2023, with <span class="vocab">adoption<span class="tooltip">/əˈdɒpʃn/ n. 采用，采纳</span></span> rates <span class="vocab">surging<span class="tooltip">/ˈsɜːdʒɪŋ/ adj. 激增的</span></span> in 2025. New York City was among the first to <span class="vocab">ban<span class="tooltip">/bæn/ v. 禁止</span></span> the technology outright in early 2023, <span class="vocab">citing<span class="tooltip">/ˈsaɪtɪŋ/ v. 引用，引证</span></span> concerns over cheating and harm to student learning. By the end of that year, the district had <span class="vocab">reversed<span class="tooltip">/rɪˈvɜːst/ v. 逆转，反转</span></span> course, lifting the ban and launching an AI Policy Lab to guide its approach to <span class="vocab">integrating<span class="tooltip">/ˈɪntɪɡreɪtɪŋ/ v. 整合，融合</span></span> the technology.</p>
+                
+                <p>In 2025, Miami-Dade County Public Schools, the nation's third-largest school system, <span class="vocab">rolled out<span class="tooltip">/rəʊld aʊt/ phr. 推出，展开</span></span> Google's Gemini for more than 100,000 high school students. Broward County, the nation's sixth-largest district, introduced Microsoft's Copilot for thousands of teachers. Many other districts have followed, <span class="vocab">experimenting<span class="tooltip">/ɪkˈsperɪmentɪŋ/ v. 尝试，实验</span></span> with custom AI platforms and personal assistants for teachers and students, with <span class="vocab">mixed results<span class="tooltip">/mɪkst rɪˈzʌlts/ phr. 结果喜忧参半</span></span>.</p>
+                
+                <p>However, beneath these <span class="vocab">statistics<span class="tooltip">/stəˈtɪstɪks/ n. 统计数据</span></span> lies a more <span class="vocab">nuanced<span class="tooltip">/ˈnjuːɑːnst/ adj. 微妙的，细致的</span></span> reality. Teachers report that AI use among students is not always <span class="vocab">productive<span class="tooltip">/prəˈdʌktɪv/ adj. 富有成效的</span></span>. "Students are using AI to write essays, but they're not learning how to write," says Maria Santos, a veteran English teacher with 20 years of experience. "When I ask them to explain their reasoning, they <span class="vocab">draw a blank<span class="tooltip">/drɔː ə blæŋk/ phr. 大脑一片空白</span></span>."</p>
+                
+                <p>The <span class="vocab">paradox<span class="tooltip">/ˈpærədɒks/ n. 悖论，矛盾</span></span> of AI in education is that while it promises to <span class="vocab">personalize<span class="tooltip">/ˈpɜːsənəlaɪz/ v. 个性化</span></span> learning and free teachers from <span class="vocab">administrative<span class="tooltip">/ədˈmɪnɪstrətɪv/ adj. 行政的，管理的</span></span> <span class="vocab">drudgery<span class="tooltip">/ˈdrʌdʒəri/ n. 苦差事，单调乏味的工作</span></span>, it also risks <span class="vocab">undermining<span class="tooltip">/ˌʌndəˈmaɪnɪŋ/ v. 削弱，破坏</span></span> the very skills education aims to develop. As one teacher <span class="vocab">succinctly<span class="tooltip">/səkˈsɪŋktli/ adv. 简洁地，简明地</span></span> put it: "We're teaching students to be <span class="vocab">prompt<span class="tooltip">/prɒmpt/ n. 提示词，指令</span></span> engineers, not critical thinkers."</p>
+                
+                <p>The <span class="vocab">implications<span class="tooltip">/ˌɪmplɪˈkeɪʃnz/ n. 影响，含义</span></span> extend beyond individual classrooms. If students graduate unable to write <span class="vocab">coherent<span class="tooltip">/kəʊˈhɪərənt/ adj. 连贯的，条理清晰的</span></span> essays or <span class="vocab">articulate<span class="tooltip">/ɑːˈtɪkjuleɪt/ v. 清晰表达</span></span> complex ideas without AI assistance, what does this mean for higher education and the workforce? Universities are already reporting that <span class="vocab">incoming<span class="tooltip">/ˈɪnkʌmɪŋ/ adj. 新来的，刚入学的</span></span> students lack basic writing <span class="vocab">proficiency<span class="tooltip">/prəˈfɪʃnsi/ n. 熟练，精通</span></span>.</p>
+                
+                <p>Some educators are pushing back. At Brookline High, a group of teachers has proposed a "AI-free <span class="vocab">curriculum<span class="tooltip">/kəˈrɪkjələm/ n. 课程</span></span>" for certain assignments, requiring students to complete work without digital assistance. "We need to <span class="vocab">preserve<span class="tooltip">/prɪˈzɜːv/ v. 保护，保留</span></span> the space for <span class="vocab">intellectual<span class="tooltip">/ˌɪntəˈlektʃuəl/ adj. 智力的，知识的</span></span> struggle," argues Dr. James Morrison, the school's curriculum director. "That's where real learning happens."</p>
+                
+                <p>The debate over AI in education is ultimately a debate about what education is for. If the goal is <span class="vocab">efficiency<span class="tooltip">/ɪˈfɪʃnsi/ n. 效率</span></span> and <span class="vocab">standardized<span class="tooltip">/ˈstændədaɪzd/ adj. 标准化的</span></span> outcomes, AI is an <span class="vocab">unparalleled<span class="tooltip">/ʌnˈpærəleld/ adj. 无与伦比的</span></span> tool. But if the goal is to develop independent thinkers capable of <span class="vocab">navigating<span class="tooltip">/ˈnævɪɡeɪtɪŋ/ v. 驾驭，应对</span></span> an uncertain future, we may need to be more <span class="vocab">circumspect<span class="tooltip">/ˈsɜːkəmspekt/ adj. 谨慎的，小心的</span></span> about how we <span class="vocab">deploy<span class="tooltip">/dɪˈplɔɪ/ v. 部署，运用</span></span> this technology in our classrooms.</p>
+            </div>
+            
+            <!-- 文章大意总结 -->
+            <div class="section">
+                <h3 class="section-title">文章大意总结</h3>
+                <div class="summary-box">
+                    <h4>📋 核心内容概述</h4>
+                    <p>本文探讨了人工智能在美国中学教育中的快速普及及其引发的争议。文章指出，尽管科技巨头和学区积极推动AI工具进入课堂，使用率已高达85%以上，但许多教师对此持保留态度。他们担心学生过度依赖AI会导致基础认知能力的退化，特别是写作和批判性思维能力的丧失。文章揭示了教育界面临的核心悖论：AI虽然能提高效率、减轻教师行政负担，但可能削弱教育本应培养的核心技能。一些教师开始抵制，提出"无AI课程"的概念，强调保留独立思考空间的重要性。最终，这场辩论关乎教育的本质目的——是追求效率，还是培养能够独立应对未来的思考者。</p>
+                </div>
+            </div>
+            
+            <!-- 核心词汇表 -->
+            <div class="section">
+                <h3 class="section-title">考研核心词汇表</h3>
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th>单词</th>
+                            <th>音标</th>
+                            <th>词性</th>
+                            <th>中文释义</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="word">savvy</td><td class="phonetic">/ˈsævi/</td><td>adj.</td><td>精明的，有见识的</td></tr>
+                        <tr><td class="word">revelation</td><td class="phonetic">/ˌrevəˈleɪʃn/</td><td>n.</td><td>启示，揭露</td></tr>
+                        <tr><td class="word">erosion</td><td class="phonetic">/ɪˈrəʊʒn/</td><td>n.</td><td>侵蚀，削弱</td></tr>
+                        <tr><td class="word">crutch</td><td class="phonetic">/krʌtʃ/</td><td>n.</td><td>拐杖；依赖</td></tr>
+                        <tr><td class="word">adoption</td><td class="phonetic">/əˈdɒpʃn/</td><td>n.</td><td>采用，采纳</td></tr>
+                        <tr><td class="word">surge</td><td class="phonetic">/sɜːdʒ/</td><td>v./n.</td><td>激增，涌动</td></tr>
+                        <tr><td class="word">cite</td><td class="phonetic">/saɪt/</td><td>v.</td><td>引用，引证</td></tr>
+                        <tr><td class="word">reverse</td><td class="phonetic">/rɪˈvɜːs/</td><td>v./n.</td><td>逆转，反转</td></tr>
+                        <tr><td class="word">integrate</td><td class="phonetic">/ˈɪntɪɡreɪt/</td><td>v.</td><td>整合，融合</td></tr>
+                        <tr><td class="word">nuanced</td><td class="phonetic">/ˈnjuːɑːnst/</td><td>adj.</td><td>微妙的，细致的</td></tr>
+                        <tr><td class="word">paradox</td><td class="phonetic">/ˈpærədɒks/</td><td>n.</td><td>悖论，矛盾</td></tr>
+                        <tr><td class="word">personalize</td><td class="phonetic">/ˈpɜːsənəlaɪz/</td><td>v.</td><td>使个性化</td></tr>
+                        <tr><td class="word">undermine</td><td class="phonetic">/ˌʌndəˈmaɪnɪŋ/</td><td>v.</td><td>削弱，破坏</td></tr>
+                        <tr><td class="word">succinctly</td><td class="phonetic">/səkˈsɪŋktli/</td><td>adv.</td><td>简洁地</td></tr>
+                        <tr><td class="word">implication</td><td class="phonetic">/ˌɪmplɪˈkeɪʃn/</td><td>n.</td><td>影响，含义</td></tr>
+                        <tr><td class="word">coherent</td><td class="phonetic">/kəʊˈhɪərənt/</td><td>adj.</td><td>连贯的，条理清晰的</td></tr>
+                        <tr><td class="word">articulate</td><td class="phonetic">/ɑːˈtɪkjuleɪt/</td><td>v./adj.</td><td>清晰表达</td></tr>
+                        <tr><td class="word">proficiency</td><td class="phonetic">/prəˈfɪʃnsi/</td><td>n.</td><td>熟练，精通</td></tr>
+                        <tr><td class="word">preserve</td><td class="phonetic">/prɪˈzɜːv/</td><td>v./n.</td><td>保护，保留</td></tr>
+                        <tr><td class="word">intellectual</td><td class="phonetic">/ˌɪntəˈlektʃuəl/</td><td>adj./n.</td><td>智力的</td></tr>
+                        <tr><td class="word">unparalleled</td><td class="phonetic">/ʌnˈpærəleld/</td><td>adj.</td><td>无与伦比的</td></tr>
+                        <tr><td class="word">navigate</td><td class="phonetic">/ˈnævɪɡeɪt/</td><td>v.</td><td>导航；驾驭</td></tr>
+                        <tr><td class="word">circumspect</td><td class="phonetic">/ˈsɜːkəmspekt/</td><td>adj.</td><td>谨慎的，小心的</td></tr>
+                        <tr><td class="word">deploy</td><td class="phonetic">/dɪˈplɔɪ/</td><td>v.</td><td>部署，运用</td></tr>
+                        <tr><td class="word">drudgery</td><td class="phonetic">/ˈdrʌdʒəri/</td><td>n.</td><td>苦差事</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 短语搭配 -->
+            <div class="section">
+                <h3 class="section-title">短语搭配精选</h3>
+                <div class="phrase-box">
+                    <div class="phrase-item">
+                        <div class="phrase-en">1. roll out</div>
+                        <div class="phrase-cn">推出，展开</div>
+                        <div class="phrase-example">"Miami-Dade County Public Schools rolled out Google's Gemini for more than 100,000 students."</div>
+                    </div>
+                    <div class="phrase-item">
+                        <div class="phrase-en">2. do an about-face</div>
+                        <div class="phrase-cn">彻底改变立场</div>
+                        <div class="phrase-example">"School districts have done a sharp about-face on AI since 2023."</div>
+                    </div>
+                    <div class="phrase-item">
+                        <div class="phrase-en">3. draw a blank</div>
+                        <div class="phrase-cn">大脑一片空白</div>
+                        <div class="phrase-example">"When I ask them to explain their reasoning, they draw a blank."</div>
+                    </div>
+                    <div class="phrase-item">
+                        <div class="phrase-en">4. mixed results</div>
+                        <div class="phrase-cn">结果喜忧参半</div>
+                        <div class="phrase-example">"Many districts have followed, with mixed results."</div>
+                    </div>
+                    <div class="phrase-item">
+                        <div class="phrase-en">5. lift the ban</div>
+                        <div class="phrase-cn">解除禁令</div>
+                        <div class="phrase-example">"By the end of that year, the district was lifting the ban."</div>
+                    </div>
+                    <div class="phrase-item">
+                        <div class="phrase-en">6. push back</div>
+                        <div class="phrase-cn">抵制，反对</div>
+                        <div class="phrase-example">"Some educators are pushing back."</div>
+                    </div>
+                    <div class="phrase-item">
+                        <div class="phrase-en">7. reverse course</div>
+                        <div class="phrase-cn">改变方向</div>
+                        <div class="phrase-example">"By the end of that year, the district had reversed course."</div>
+                    </div>
+                    <div class="phrase-item">
+                        <div class="phrase-en">8. far off</div>
+                        <div class="phrase-cn">相差甚远</div>
+                        <div class="phrase-example">"But the research suggests he's not far off."</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 长难句解析 -->
+            <div class="section">
+                <h3 class="section-title">长难句解析</h3>
+                <div class="sentence-analysis">
+                    <div class="sentence-item">
+                        <div class="sentence-en">"By the end of last year, I realized my students couldn't do an assignment without AI now. They would fail if I told them to do it without AI."</div>
+                        <div class="sentence-structure">【结构分析】时间状语 + 主句 + 条件状语从句</div>
+                        <div class="sentence-translation">到去年年底，我意识到我的学生现在离开AI就无法完成作业了。如果我要求他们不用AI来做，他们就会不及格。</div>
+                    </div>
+                    <div class="sentence-item">
+                        <div class="sentence-en">"The paradox of AI in education is that while it promises to personalize learning and free teachers from administrative drudgery, it also risks undermining the very skills education aims to develop."</div>
+                        <div class="sentence-structure">【结构分析】主语 + 系动词 + 表语从句（while引导让步状语从句）</div>
+                        <div class="sentence-translation">AI在教育中的悖论在于：虽然它承诺实现个性化学习并将教师从行政苦差中解放出来，但它也可能削弱教育旨在培养的核心技能。</div>
+                    </div>
+                    <div class="sentence-item">
+                        <div class="sentence-en">"If students graduate unable to write coherent essays or articulate complex ideas without AI assistance, what does this mean for higher education and the workforce?"</div>
+                        <div class="sentence-structure">【结构分析】If条件句 + 主句（what疑问句）</div>
+                        <div class="sentence-translation">如果学生毕业时无法在没有AI帮助的情况下写出连贯的文章或清晰表达复杂的想法，这对高等教育和劳动力市场意味着什么？</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 阅读理解练习 -->
+            <div class="section">
+                <h3 class="section-title">阅读理解练习</h3>
+                <div class="quiz-container">
+                    <div class="quiz-item">
+                        <div class="quiz-question">1. What is the main concern of teachers regarding AI use in education?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">[A] AI technology is too expensive for most schools.</div>
+                            <div class="quiz-option">[B] Students may lose the ability to think and write independently.</div>
+                            <div class="quiz-option">[C] AI systems are not accurate enough for education.</div>
+                            <div class="quiz-option">[D] Teachers will be replaced by AI assistants.</div>
+                        </div>
+                        <div class="quiz-answer">
+                            <div class="quiz-answer-title">正确答案：B</div>
+                            <div class="quiz-answer-content"><strong>解析：</strong>文章多处提到教师担心学生过度依赖AI会导致基础认知能力的退化。例如Peter Sedlack老师说"I think some of them, within the year, had lost the ability to actually do the work"，以及Maria Santos老师指出"Students are using AI to write essays, but they're not learning how to write"。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-item">
+                        <div class="quiz-question">2. What does the phrase "draw a blank" in Paragraph 6 most probably mean?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">[A] To refuse to answer questions</div>
+                            <div class="quiz-option">[B] To become confused and unable to respond</div>
+                            <div class="quiz-option">[C] To draw a picture on a blank paper</div>
+                            <div class="quiz-option">[D] To express ideas clearly</div>
+                        </div>
+                        <div class="quiz-answer">
+                            <div class="quiz-answer-title">正确答案：B</div>
+                            <div class="quiz-answer-content"><strong>解析：</strong>根据上下文，学生依赖AI写作，但当被要求解释自己的推理时，他们无法回答。"draw a blank"在此处意为"大脑一片空白，无法回答"，与选项B意思最接近。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-item">
+                        <div class="quiz-question">3. What is the author's attitude toward the use of AI in education?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option">[A] Strongly supportive of integrating AI</div>
+                            <div class="quiz-option">[B] Completely opposed to any use of AI</div>
+                            <div class="quiz-option">[C] Objective but concerned about potential negative consequences</div>
+                            <div class="quiz-option">[D] Indifferent to whether AI is used</div>
+                        </div>
+                        <div class="quiz-answer">
+                            <div class="quiz-answer-title">正确答案：C</div>
+                            <div class="quiz-answer-content"><strong>解析：</strong>作者在文中既提到了AI在教育中的优势，也详细阐述了教师的担忧和潜在风险。最后一段作者提出"we may need to be more circumspect about how we deploy this technology"，表明作者持客观但谨慎担忧的态度。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 阅读技巧提示 -->
+            <div class="section">
+                <h3 class="section-title">阅读技巧提示</h3>
+                <div class="tips-box">
+                    <h4>💡 考研英语阅读技巧</h4>
+                    <ul>
+                        <li><strong>主旨大意题：</strong>关注文章首尾段及各段首句，注意转折词（but, however）后的内容往往是作者真正想表达的观点。</li>
+                        <li><strong>词义猜测题：</strong>利用上下文语境推断词义，特别注意同义替换和解释说明。</li>
+                        <li><strong>推理判断题：</strong>注意区分事实陈述和观点态度，关注情态动词（may, might, need to）所传递的语气。</li>
+                        <li><strong>长难句突破：</strong>先找主干（主谓宾/主系表），再分析从句和修饰成分。</li>
+                        <li><strong>学术词汇积累：</strong>建议积累相关词汇如：personalized learning, cognitive skills, critical thinking, curriculum等。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>考研英语外刊精读 | 每日更新</p>
+            <p>来源：The Atlantic · 编辑整理：SinAndZsh</p>
+            <p>© 2026 仅供学习交流使用</p>
+        </div>
+    </div>
+</body>
+</html>
