@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>考研英语外刊精读 | How A.I. Killed Student Writing (and Revived It)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a365d;
+      --primary-light: #2c5282;
+      --accent: #c53030;
+      --accent-light: #e53e3e;
+      --bg: #f7fafc;
+      --card-bg: #ffffff;
+      --text: #2d3748;
+      --text-light: #4a5568;
+      --text-muted: #718096;
+      --border: #e2e8f0;
+      --highlight: #fef3c7;
+      --vocab-bg: #ebf8ff;
+      --vocab-border: #90cdf4;
+      --success: #38a169;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    /* Header */
+    .article-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 60px 0 40px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .article-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .source-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .article-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+    .article-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 24px;
+    }
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 0.9rem;
+      opacity: 0.85;
+      flex-wrap: wrap;
+    }
+    .article-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    /* Navigation */
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .nav-back:hover { opacity: 1; }
+
+    /* Main content */
+    .content-wrapper {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      padding: 40px;
+      margin-bottom: 40px;
+    }
+
+    /* Summary Card */
+    .summary-card {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border-left: 4px solid #f59e0b;
+      padding: 24px;
+      border-radius: 12px;
+      margin-bottom: 32px;
+    }
+    .summary-card h3 {
+      color: #92400e;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .summary-card p {
+      color: #78350f;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    /* Article body */
+    .article-body {
+      font-family: 'Noto Serif SC', Georgia, serif;
+      font-size: 1.1rem;
+      line-height: 2;
+      color: var(--text);
+    }
+    .article-body p {
+      margin-bottom: 1.5em;
+      text-align: justify;
+    }
+    .article-body h2 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 1.4rem;
+      color: var(--primary);
+      margin: 2em 0 1em;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* Vocabulary highlighting */
+    .vocab {
+      display: inline;
+      color: var(--primary-light);
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px dotted var(--vocab-border);
+      position: relative;
+      transition: all 0.2s;
+    }
+    .vocab:hover {
+      background: var(--vocab-bg);
+      border-bottom-style: solid;
+    }
+    .vocab-tooltip {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-weight: 400;
+      line-height: 1.5;
+      white-space: nowrap;
+      z-index: 100;
+      box-shadow: var(--shadow-lg);
+    }
+    .vocab-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--primary);
+    }
+    .vocab:hover .vocab-tooltip {
+      display: block;
+    }
+
+    /* Long sentence analysis */
+    .long-sentence {
+      background: #f0fff4;
+      border-left: 4px solid var(--success);
+      padding: 20px 24px;
+      margin: 24px 0;
+      border-radius: 0 12px 12px 0;
+    }
+    .long-sentence-label {
+      display: inline-block;
+      background: var(--success);
+      color: white;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .long-sentence-text {
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 12px;
+      font-family: 'Noto Serif SC', serif;
+    }
+    .long-sentence-analysis {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+    .long-sentence-analysis strong {
+      color: var(--success);
+    }
+
+    /* Section styling */
+    .section {
+      margin-bottom: 40px;
+    }
+    .section-title {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Vocabulary table */
+    .vocab-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 0.95rem;
+    }
+    .vocab-table th {
+      background: var(--primary);
+      color: white;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 500;
+    }
+    .vocab-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .vocab-table tr:nth-child(even) {
+      background: var(--bg);
+    }
+    .vocab-table tr:hover {
+      background: var(--vocab-bg);
+    }
+    .vocab-word {
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .vocab-phonetic {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .vocab-pos {
+      display: inline-block;
+      background: #e6fffa;
+      color: #234e52;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* Phrase cards */
+    .phrase-grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .phrase-card {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .phrase-card:hover {
+      box-shadow: var(--shadow);
+      border-color: var(--vocab-border);
+    }
+    .phrase-english {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .phrase-chinese {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .phrase-example {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-style: italic;
+      padding-left: 12px;
+      border-left: 3px solid var(--border);
+    }
+
+    /* Quiz section */
+    .quiz-item {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+    .quiz-question {
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .quiz-option {
+      padding: 12px 16px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .quiz-option:hover {
+      border-color: var(--primary-light);
+      background: var(--vocab-bg);
+    }
+    .quiz-option.correct {
+      border-color: var(--success);
+      background: #f0fff4;
+    }
+    .quiz-answer {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 12px;
+    }
+    .quiz-answer-label {
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 6px;
+    }
+    .quiz-answer-text {
+      color: #78350f;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* Tips box */
+    .tips-box {
+      background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 32px;
+    }
+    .tips-box h3 {
+      color: #234e52;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tips-box ul {
+      margin-left: 20px;
+      color: #2c7a7b;
+    }
+    .tips-box li {
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+
+    /* Footer */
+    .article-footer {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Print styles */
+    @media print {
+      .article-header { background: var(--primary) !important; -webkit-print-color-adjust: exact; }
+      .vocab-tooltip { display: none !important; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .article-title { font-size: 1.6rem; }
+      .content-wrapper { padding: 24px; }
+      .vocab-table { font-size: 0.85rem; }
+      .vocab-table th, .vocab-table td { padding: 8px 10px; }
+    }
+
+    /* Toggle answer button */
+    .toggle-answer {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .toggle-answer:hover {
+      background: var(--primary-light);
+    }
+    .answer-hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="article-header">
+    <div class="container">
+      <a href="index.html" class="nav-back">&larr; 返回文章列表</a>
+      <div class="source-badge">The New York Times · Technology & Education</div>
+      <h1 class="article-title">How A.I. Killed Student Writing (and Revived It)</h1>
+      <p class="article-subtitle">AI如何"杀死"学生写作，又如何让它"复活"</p>
+      <div class="article-meta">
+        <span>&#128197; 2026年4月30日</span>
+        <span>&#9201; 阅读时长约 15 分钟</span>
+        <span>&#128214; 词数：约 1800 词</span>
+        <span>&#127942; 难度：考研英语一</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="content-wrapper">
+
+      <!-- Summary -->
+      <div class="summary-card">
+        <h3>&#128161; 文章大意</h3>
+        <p>本文选自《纽约时报》2026年4月刊，由教育记者Dana Goldstein撰写，深入报道了人工智能（AI）对美国高中和大学写作教学的颠覆性影响。调查显示，62%的美国学生定期使用AI完成作业，传统"带回家写论文"的模式正迅速瓦解。近400位教育工作者的反馈揭示了一个深刻的教育变革：教师们纷纷要求学生在课堂内写作，甚至回归纸笔方式，以确保评估学生真实的写作能力。文章穿插了多个学校的具体案例，展现了教育界应对AI挑战的多元策略，同时探讨了AI技术素养与学生批判性思维培养之间的张力。</p>
+      </div>
+
+      <!-- Article Body -->
+      <article class="article-body">
+        <p>For today's high school and college students, the all-night writing <span class="vocab">session<span class="vocab-tooltip">一段时间；会议；座谈会</span></span>, hunched over a laptop at home or in a library carrel, is on the way out.</p>
+
+        <p>In the era of artificial intelligence, take-home writing assignments have become so difficult to <span class="vocab">police<span class="vocab-tooltip">监督；管制；巡查</span></span> for integrity that many educators have simply stopped assigning them.</p>
+
+        <p>Instead, in a <span class="vocab">rapid<span class="vocab-tooltip">迅速的；急剧的</span></span> shift, teachers are requiring students to write inside the classroom, where they can be observed. Assignments have changed too, with some educators <span class="vocab">prompting<span class="vocab-tooltip">促使；提示；激励</span></span> students to <span class="vocab">reflect on<span class="vocab-tooltip">反思；回顾</span></span> their personal <span class="vocab">reactions<span class="vocab-tooltip">反应；回应</span></span> to what they've learned and read &mdash; the type of writing that A.I. struggles to <span class="vocab">credibly<span class="vocab-tooltip">可信地；可靠地</span></span> produce.</p>
+
+        <p>This <span class="vocab">transformation<span class="vocab-tooltip">转变；变革</span></span> is happening across the educational <span class="vocab">landscape<span class="vocab-tooltip">全景；局面；形势</span></span>, from suburban districts and urban charter schools to community colleges and the Ivy League.</p>
+
+        <p>The New York Times heard from nearly 400 college and high school educators who responded to a <span class="vocab">callout<span class="vocab-tooltip">征集；呼吁</span></span> about how <span class="vocab">generative<span class="vocab-tooltip">生成的；有生产力的</span></span> A.I. is changing writing instruction. Almost all described a deep rethinking of how to teach writing &mdash; and whether it still matters, since A.I. has become a better writer than most students (and adults), they said.</p>
+
+        <p>Teachers are responding to a widespread challenge. Over the past year, A.I. use has become <span class="vocab">ubiquitous<span class="vocab-tooltip">无处不在的；普遍存在的</span></span> among American students. Between May and December of 2025, the share of American middle school, high school and college students who reported regularly using A.I. for homework increased from 48 to 62 percent, according to <span class="vocab">polling<span class="vocab-tooltip">民意调查</span></span> from RAND &mdash; even as two-thirds of students said the technology harmed <span class="vocab">critical-thinking<span class="vocab-tooltip">批判性思维</span></span> skills. A third of the students reported using A.I. to draft or revise writing.</p>
+
+        <div class="long-sentence">
+          <div class="long-sentence-label">长难句解析 ①</div>
+          <div class="long-sentence-text">"Between May and December of 2025, the share of American middle school, high school and college students who reported regularly using A.I. for homework increased from 48 to 62 percent, according to polling from RAND — even as two-thirds of students said the technology harmed critical-thinking skills."</div>
+          <div class="long-sentence-analysis">
+            <strong>结构分析：</strong>主句为the share...increased from 48 to 62 percent；who引导限制性定语从句修饰students；according to polling from RAND为介词短语补充信息来源；even as引导让步状语从句，表示"尽管"。<br>
+            <strong>翻译：</strong>根据RAND的民意调查，2025年5月至12月间，定期使用AI完成作业的美国初高中及大学生比例从48%上升到62%——尽管三分之二的学生表示该技术损害了批判性思维能力。
+          </div>
+        </div>
+
+        <p>Chatbots can easily produce <span class="vocab">polished<span class="vocab-tooltip">润色过的；精良的</span></span> essays in <span class="vocab">response to<span class="vocab-tooltip">响应；回应</span></span> any prompt &mdash; analyzing Supreme Court cases, <span class="vocab">parsing<span class="vocab-tooltip">分析；解析</span></span> <span class="vocab">symbolism<span class="vocab-tooltip">象征；象征主义</span></span> in &ldquo;The Great Gatsby,&rdquo; explaining the science behind the Artemis mission. A.I.-powered browser extensions allow students to instantly generate and revise text as they complete online assignments. The tools are able to find and replace language in student writing that could trigger A.I.-detection software, and can also <span class="vocab">rephrase<span class="vocab-tooltip">重新措辞；改写</span></span> published writing into new text that students can turn in as their own.</p>
+
+        <p>Educators consider many of these uses <span class="vocab">akin to<span class="vocab-tooltip">类似于；近乎于</span></span> <span class="vocab">plagiarism<span class="vocab-tooltip">抄袭；剽窃</span></span>. But some are also worried about students falling behind the curve of a technology that is <span class="vocab">reshaping<span class="vocab-tooltip">重塑；改变</span></span> the economy and day-to-day life.</p>
+
+        <div class="long-sentence">
+          <div class="long-sentence-label">长难句解析 ②</div>
+          <div class="long-sentence-text">"But some are also worried about students falling behind the curve of a technology that is reshaping the economy and day-to-day life."</div>
+          <div class="long-sentence-analysis">
+            <strong>结构分析：</strong>主句为some are worried about...；about后接名词短语students falling behind the curve of a technology；that引导限制性定语从句修饰technology；falling behind the curve为固定表达，意为"落后于趋势"。<br>
+            <strong>翻译：</strong>但也有人担心学生会落后于正在重塑经济和日常生活的技术潮流。
+          </div>
+        </div>
+
+        <p>&ldquo;The standard <span class="vocab">curriculum<span class="vocab-tooltip">课程；课程设置</span></span> was a thesis-driven research essay that students completed on their own time outside of class,&rdquo; said Marc Watkins, who directs the A.I. Institute for Teachers at the University of Mississippi. &ldquo;That is, <span class="vocab">unfortunately<span class="vocab-tooltip">不幸地；遗憾地</span></span>, gone.&rdquo;</p>
+
+        <h2>The Revival of Paper and Pencil</h2>
+
+        <p>Over the past year, Jessica Binney, 49, <span class="vocab">overhauled<span class="vocab-tooltip">彻底改造；全面修订</span></span> her English classroom at John Jay High School in the Katonah-Lewisboro school district, north of New York City. She gave up on assigning three-to-five-page papers, once a <span class="vocab">staple<span class="vocab-tooltip">主要产品；支柱；常备元素</span></span> of the homework in her Advanced Placement courses. Now, her students write in-class essays, either by hand or on a laptop with a <span class="vocab">locked-down<span class="vocab-tooltip">锁定的；受限制的</span></span> browser.</p>
+
+        <p>Ms. Binney <span class="vocab">regrets<span class="vocab-tooltip">后悔；遗憾</span></span> the loss of depth that longer assignments could produce. But she and many other educators who have moved writing into the classroom described <span class="vocab">relief<span class="vocab-tooltip">宽慰；解脱</span></span> at being able to abandon the highly <span class="vocab">imperfect<span class="vocab-tooltip">不完美的；有缺陷的</span></span> science of A.I. detection. Student <span class="vocab">reliance<span class="vocab-tooltip">依赖；信赖</span></span> on chatbots had gotten &ldquo;worse and worse&rdquo; as the technology gained <span class="vocab">sophistication<span class="vocab-tooltip">精密；复杂；老练</span></span>, Ms. Binney said.</p>
+
+        <p>One April afternoon in her A.P. literature class, Ms. Binney read aloud &ldquo;XIV,&rdquo; a poem by the St. Lucian Nobel <span class="vocab">laureate<span class="vocab-tooltip">获奖者；桂冠诗人</span></span> Derek Walcott. It describes the poet and his brother as children, <span class="vocab">trekking<span class="vocab-tooltip">跋涉；徒步旅行</span></span> into the Caribbean forest to listen at the feet of a traditional <span class="vocab">storyteller<span class="vocab-tooltip">讲故事的人</span></span>.</p>
+
+        <p>Walcott's language is lush and challenging. Students marked up paper handouts of the text, <span class="vocab">underlining<span class="vocab-tooltip">在...下面划线；强调</span></span> and scrawling in the margins. Then they took out notebooks and began to draft essays analyzing literary devices.</p>
+
+        <p>&ldquo;I want you to write out a really rough, terrible draft in your writers' notebooks,&rdquo; Ms. Binney told them. &ldquo;And then I want you to <span class="vocab">scratch out<span class="vocab-tooltip">划掉；涂掉</span></span> and rewrite it.&rdquo;</p>
+
+        <p>There was nary a laptop or tablet in sight. For these juniors and seniors, who have been taught on screens for much of their schooling, Ms. Binney's class can be a welcome break.</p>
+
+        <p>&ldquo;It's a relief,&rdquo; said Cassady Tondorf, 17. &ldquo;There's less <span class="vocab">distraction<span class="vocab-tooltip">分心；干扰</span></span>.&rdquo;</p>
+
+        <p>Her classmate Naomi Siegel, also 17, agreed. &ldquo;I'm able to connect with people more easily throughout the class, because we're not as much on our computers.&rdquo;</p>
+
+        <p>If there is a <span class="vocab">downside<span class="vocab-tooltip">缺点；不利因素</span></span>, it is that today's teenagers have little experience writing with pens and pencils. Their <span class="vocab">handwriting<span class="vocab-tooltip">笔迹；手写</span></span> can be <span class="vocab">atrocious<span class="vocab-tooltip">极差的；糟糕的</span></span>. Still, many educators said they were willing to deal with that <span class="vocab">inconvenience<span class="vocab-tooltip">不便；麻烦</span></span> in order to ensure they were grading <span class="vocab">authentic<span class="vocab-tooltip">真实的；可信的</span></span> student work.</p>
+
+        <p>At Kingsborough Community College in Brooklyn, Matthew Gartner said that because of A.I. <span class="vocab">overuse<span class="vocab-tooltip">过度使用</span></span>, he now has his freshman <span class="vocab">composition<span class="vocab-tooltip">作文；构成</span></span> students write on paper in the classroom for 30 minutes, then share their drafts immediately in small groups.</p>
+
+        <p>&ldquo;It creates connection and a desire to communicate well,&rdquo; he said.</p>
+
+        <p>Jane-Marie Law, a religious studies professor at Cornell, said she recently realized that despite asking her students to sign an honor code promising not to use A.I. for writing, they were still doing so.</p>
+
+        <p>&ldquo;Gone were any errors,&rdquo; she said. &ldquo;Also gone was a sense of freshness and daring. ChatGPT made everything so safe.&rdquo;</p>
+
+        <div class="long-sentence">
+          <div class="long-sentence-label">长难句解析 ③</div>
+          <div class="long-sentence-text">"Gone were any errors. Also gone was a sense of freshness and daring."</div>
+          <div class="long-sentence-analysis">
+            <strong>结构分析：</strong>这两句均使用了完全倒装结构。正常语序为Any errors were gone和A sense of freshness and daring was also gone。倒装结构常用于强调状态的变化，使语气更具文学性和表现力。freshness and daring为并列名词短语，修饰sense。<br>
+            <strong>翻译：</strong>任何错误都消失了。同时消失的还有那种新颖和大胆的感觉。
+          </div>
+        </div>
+
+        <p>This fall, she plans to move toward mandatory, in-class writing by hand.</p>
+
+        <p>At the University of Virginia, Devin Donovan, who teaches writing and <span class="vocab">rhetoric<span class="vocab-tooltip">修辞学；雄辩术</span></span>, requires students to write on paper in class, and revise drafts using scissors and tape to cut up and <span class="vocab">reorder<span class="vocab-tooltip">重新排序；重新安排</span></span> paragraphs.</p>
+
+        <p>At the end of the semester, a final piece is polished and submitted via computer &mdash; a common approach.</p>
+
+        <p>&ldquo;I've moved past the idea of catching people or <span class="vocab">punishing<span class="vocab-tooltip">惩罚</span></span> this,&rdquo; Professor Donovan said of A.I. His new method fosters &ldquo;a real person-to-person experience, which is sort of <span class="vocab">unfakeable<span class="vocab-tooltip">无法伪造的；不可假冒的</span></span>.&rdquo;</p>
+
+        <h2>Resisting Temptation</h2>
+
+        <p>Most teachers and students are navigating A.I. without clear guidance from school <span class="vocab">administrators<span class="vocab-tooltip">管理者；行政人员</span></span> or <span class="vocab">policymakers<span class="vocab-tooltip">政策制定者</span></span>. Leaders have <span class="vocab">denounced<span class="vocab-tooltip">谴责；公开指责</span></span> cheating, but have also praised the technology's promise, often without offering many specifics on how students should and should not be using A.I.</p>
+
+        <p>Young people are using it. Recent studies of ChatGPT and of Anthropic's Claude chatbot show that help with schoolwork is among the most popular uses of generative A.I. When it comes to writing, two-thirds of ChatGPT queries ask for edits or <span class="vocab">translation<span class="vocab-tooltip">翻译</span></span>. A third ask the chatbot to <span class="vocab">generate<span class="vocab-tooltip">生成；产生</span></span> text from scratch.</p>
+
+        <p>Megan Hart, an English teacher at South Forsyth High School outside of Atlanta, said that last year, she noticed take-home essays returned sounding <span class="vocab">eerily<span class="vocab-tooltip">诡异地；令人毛骨悚然地</span></span> similar and <span class="vocab">formulaic<span class="vocab-tooltip">公式化的；刻板的</span></span>.</p>
+
+        <p>At the same time, her district has encouraged teachers to get comfortable with generative A.I., she said. Several of Dr. Hart's former students have told her they use A.I. <span class="vocab">frequently<span class="vocab-tooltip">频繁地；经常地</span></span> in their adult jobs, helping to <span class="vocab">convince<span class="vocab-tooltip">说服；使确信</span></span> her that teenagers need to develop A.I. skills.</p>
+
+        <p>Now, she requires students to complete most writing in the classroom, but she also teaches them how to use A.I. to find <span class="vocab">reliable<span class="vocab-tooltip">可靠的；可信赖的</span></span> sources for research papers. And she has worked with students to use A.I. to <span class="vocab">solicit<span class="vocab-tooltip">征求；请求</span></span> feedback on drafts.</p>
+
+        <p>&ldquo;The kids have to build that critical thinking,&rdquo; she said, including <span class="vocab">fact-checking<span class="vocab-tooltip">事实核查</span></span> the information A.I. provides. &ldquo;This is an assistant that is here to help me. But it can also really make me look like an <span class="vocab">idiot<span class="vocab-tooltip">白痴；傻瓜</span></span>.&rdquo;</p>
+
+        <div class="long-sentence">
+          <div class="long-sentence-label">长难句解析 ④</div>
+          <div class="long-sentence-text">"Several of Dr. Hart's former students have told her they use A.I. frequently in their adult jobs, helping to convince her that teenagers need to develop A.I. skills."</div>
+          <div class="long-sentence-analysis">
+            <strong>结构分析：</strong>主句为Several of Dr. Hart's former students have told her；后接省略that的宾语从句they use A.I. frequently in their adult jobs；helping to convince her为现在分词短语作结果状语；that引导宾语从句作convince的直接宾语。<br>
+            <strong>翻译：</strong>哈特博士的几位前学生告诉她，他们在成年后的工作中经常使用AI，这帮助她说服了自己：青少年也需要培养AI技能。
+          </div>
+        </div>
+
+        <p>Breton Sheridan, who teaches English at a Philadelphia charter high school, has <span class="vocab">prioritized<span class="vocab-tooltip">优先考虑；将...放在首位</span></span> in-classroom reading and writing, oral <span class="vocab">presentations<span class="vocab-tooltip">展示；演讲</span></span> and debates.</p>
+
+        <p>The problem with A.I., Mr. Sheridan said, was that while adults who have <span class="vocab">mastered<span class="vocab-tooltip">掌握；精通</span></span> basic skills may use A.I. on the job, teenagers have not yet <span class="vocab">grasped<span class="vocab-tooltip">抓住；理解；掌握</span></span> those basics.</p>
+
+        <div class="long-sentence">
+          <div class="long-sentence-label">长难句解析 ⑤</div>
+          <div class="long-sentence-text">"The problem with A.I., Mr. Sheridan said, was that while adults who have mastered basic skills may use A.I. on the job, teenagers have not yet grasped those basics."</div>
+          <div class="long-sentence-analysis">
+            <strong>结构分析：</strong>Mr. Sheridan said为插入语；主句核心为The problem...was that...；that引导表语从句；while引导让步状语从句，其中who引导限制性定语从句修饰adults。整体逻辑为：AI的问题在于——成年人已掌握基本技能后可以使用AI，而青少年尚未掌握这些基本功。<br>
+            <strong>翻译：</strong>谢里丹先生说，AI的问题在于：已经掌握基本技能的成年人可以在工作中使用AI，但青少年还没有掌握那些基本功。
+          </div>
+        </div>
+
+        <p>&ldquo;They are using generative A.I. to write before they learn how to write. They are reading ChatGPT summaries of a book before they have ever read a book,&rdquo; he said. &ldquo;The result is a <span class="vocab">diminished<span class="vocab-tooltip">减弱的；缩小的</span></span> <span class="vocab">population<span class="vocab-tooltip">人口；群体</span></span>.&rdquo;</p>
+
+        <p>But he noted that schools serving low-income students, like his, are often under the most pressure to show that they are embracing <span class="vocab">innovative<span class="vocab-tooltip">创新的；革新的</span></span> technology and preparing students for the working world, where it may soon be standard to rely on generative A.I.</p>
+
+        <p>The shift toward in-classroom writing is part of a broader conversation about how educators can <span class="vocab">counteract<span class="vocab-tooltip">对抗；抵消</span></span> the negative <span class="vocab">impact<span class="vocab-tooltip">影响；冲击</span></span> of screen time on attention and learning. Laptops, tablets and gamified learning apps entered most classrooms over the past decade, but there is little evidence they increased student <span class="vocab">achievement<span class="vocab-tooltip">成就；成绩</span></span>.</p>
+
+        <p>Rather, test scores declined over the same period, especially in reading.</p>
+
+        <p>Still, the tech industry continues to <span class="vocab">aggressively<span class="vocab-tooltip">激进地；强势地</span></span> market its products to schools. Some A.I. start-ups are appealing directly to students through funny, <span class="vocab">tongue-in-cheek<span class="vocab-tooltip">半开玩笑的；调侃的</span></span> social media videos featuring <span class="vocab">attractive<span class="vocab-tooltip">有吸引力的；迷人的</span></span> young <span class="vocab">influencers<span class="vocab-tooltip">有影响力的人；网红</span></span>. The videos coach students on how to use generative A.I. to <span class="vocab">breeze through<span class="vocab-tooltip">轻松完成；迅速通过</span></span> writing-related coursework.</p>
+
+        <p>Educators said that while A.I. may be helpful for research and revision, they still want students to <span class="vocab">face down<span class="vocab-tooltip">勇敢面对；直面</span></span> the blank page and craft original text.</p>
+
+        <p>Daniel Herman, who teaches <span class="vocab">humanities<span class="vocab-tooltip">人文学科</span></span> at Maybeck High School, a private school in Berkeley, Calif., said he continues to see student writing as <span class="vocab">essential<span class="vocab-tooltip">必要的；本质的</span></span>, &ldquo;to help them become better readers, thinkers and explorers of the world and their mind.&rdquo;</p>
+
+        <p>Teenagers said they were eager for adults to guide them on how to use A.I. <span class="vocab">ethically<span class="vocab-tooltip">合乎道德地；伦理地</span></span> and <span class="vocab">productively<span class="vocab-tooltip">高效地；富有成效地</span></span>.</p>
+
+        <p>&ldquo;It's really concerning how <span class="vocab">dependent<span class="vocab-tooltip">依赖的；从属的</span></span> we are,&rdquo; said Ms. Siegel, the John Jay senior.</p>
+
+        <p>She hopes to become a defense <span class="vocab">attorney<span class="vocab-tooltip">律师</span></span> and recently decided to <span class="vocab">reel back<span class="vocab-tooltip">收敛；减少；回拉</span></span> her use of A.I. for editing because she found it introduced a <span class="vocab">stilted<span class="vocab-tooltip">生硬的；不自然的</span></span> voice into her writing.</p>
+
+        <p>&ldquo;But,&rdquo; she added, &ldquo;we're getting into a world full of technology, and we have to learn how to allow it to benefit us.&rdquo;</p>
+
+        <p style="font-style:italic; color: var(--text-muted); font-size: 0.95rem;">Dana Goldstein covers education and families for The Times.</p>
+      </article>
+
+      <!-- Phrases Section -->
+      <div class="section">
+        <h2 class="section-title">&#128221; 短语搭配精讲</h2>
+        <div class="phrase-grid">
+          <div class="phrase-card">
+            <div class="phrase-english">on the way out</div>
+            <div class="phrase-chinese">即将过时；即将消失；正在被淘汰</div>
+            <div class="phrase-example">"For today's high school and college students, the all-night writing session...is on the way out." — 对当今的高中生和大学生来说，通宵达旦的写作时光正在被淘汰。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">in response to</div>
+            <div class="phrase-chinese">响应；回应；作为对...的反应</div>
+            <div class="phrase-example">"Chatbots can easily produce polished essays in response to any prompt." — 聊天机器人可以轻松地针对任何提示生成润色好的文章。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">akin to</div>
+            <div class="phrase-chinese">类似于；近乎于；与...相似</div>
+            <div class="phrase-example">"Educators consider many of these uses akin to plagiarism." — 教育工作者认为其中许多使用方式类似于抄袭。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">fall behind the curve</div>
+            <div class="phrase-chinese">落后于趋势；跟不上潮流</div>
+            <div class="phrase-example">"Some are also worried about students falling behind the curve of a technology that is reshaping the economy." — 也有人担心学生会落后于正在重塑经济的技术潮流。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">from scratch</div>
+            <div class="phrase-chinese">从零开始；从头做起</div>
+            <div class="phrase-example">"A third ask the chatbot to generate text from scratch." — 三分之一的请求要求聊天机器人从零开始生成文本。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">breeze through</div>
+            <div class="phrase-chinese">轻松完成；毫不费力地通过</div>
+            <div class="phrase-example">"The videos coach students on how to use generative A.I. to breeze through writing-related coursework." — 这些视频指导学生如何使用生成式AI轻松完成与写作相关的课程作业。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">reel back</div>
+            <div class="phrase-chinese">收敛；减少；回缩</div>
+            <div class="phrase-example">"She recently decided to reel back her use of A.I. for editing because she found it introduced a stilted voice." — 她最近决定减少使用AI来编辑文字，因为她发现这会让文章变得生硬。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">face down</div>
+            <div class="phrase-chinese">勇敢面对；直面（困难等）</div>
+            <div class="phrase-example">"They still want students to face down the blank page and craft original text." — 他们仍然希望学生能够直面空白页面，创作原创文本。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vocabulary Section -->
+      <div class="section">
+        <h2 class="section-title">&#128218; 考研核心词汇表</h2>
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>单词</th>
+              <th>音标</th>
+              <th>词性</th>
+              <th>中文释义</th>
+              <th>例句</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="vocab-word">ubiquitous</span></td>
+              <td class="vocab-phonetic">/juːˈbɪkwɪtəs/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>无处不在的；普遍存在的</td>
+              <td>A.I. use has become ubiquitous among American students.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">transformation</span></td>
+              <td class="vocab-phonetic">/ˌtrænsfəˈmeɪʃn/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>转变；变革</td>
+              <td>This transformation is happening across the educational landscape.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">plagiarism</span></td>
+              <td class="vocab-phonetic">/ˈpleɪdʒərɪzəm/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>抄袭；剽窃</td>
+              <td>Educators consider many of these uses akin to plagiarism.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">formulaic</span></td>
+              <td class="vocab-phonetic">/ˌfɔːrmjəˈleɪɪk/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>公式化的；刻板的</td>
+              <td>Take-home essays returned sounding eerily similar and formulaic.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">curriculum</span></td>
+              <td class="vocab-phonetic">/kəˈrɪkjələm/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>课程；课程设置</td>
+              <td>The standard curriculum was a thesis-driven research essay.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">overhaul</span></td>
+              <td class="vocab-phonetic">/ˌoʊvərˈhɔːl/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>彻底改造；全面修订</td>
+              <td>Jessica Binney overhauled her English classroom at John Jay High School.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">sophistication</span></td>
+              <td class="vocab-phonetic">/səˌfɪstɪˈkeɪʃn/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>精密；复杂；老练</td>
+              <td>Student reliance on chatbots had gotten worse as the technology gained sophistication.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">authentic</span></td>
+              <td class="vocab-phonetic">/ɔːˈθentɪk/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>真实的；可信的</td>
+              <td>Educators wanted to ensure they were grading authentic student work.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">composition</span></td>
+              <td class="vocab-phonetic">/ˌkɒmpəˈzɪʃn/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>作文；构成</td>
+              <td>He has his freshman composition students write on paper.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">rhetoric</span></td>
+              <td class="vocab-phonetic">/ˈretərɪk/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>修辞学；雄辩术</td>
+              <td>Devin Donovan teaches writing and rhetoric at the University of Virginia.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">imperative</span></td>
+              <td class="vocab-phonetic">/ɪmˈperətɪv/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>必要的；紧迫的</td>
+              <td>She plans to move toward mandatory, in-class writing by hand.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">denounce</span></td>
+              <td class="vocab-phonetic">/dɪˈnaʊns/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>谴责；公开指责</td>
+              <td>Leaders have denounced cheating but also praised the technology's promise.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">polished</span></td>
+              <td class="vocab-phonetic">/ˈpɒlɪʃt/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>润色过的；精良的</td>
+              <td>Chatbots can easily produce polished essays in response to any prompt.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">landscape</span></td>
+              <td class="vocab-phonetic">/ˈlændskeɪp/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>全景；局面；形势</td>
+              <td>This transformation is happening across the educational landscape.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">reshaping</span></td>
+              <td class="vocab-phonetic">/ˌriːˈʃeɪpɪŋ/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>重塑；改变形状</td>
+              <td>A technology that is reshaping the economy and day-to-day life.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">atrocious</span></td>
+              <td class="vocab-phonetic">/əˈtroʊʃəs/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>极差的；糟糕的；残忍的</td>
+              <td>Today's teenagers have little experience writing with pens; their handwriting can be atrocious.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">generative</span></td>
+              <td class="vocab-phonetic">/ˈdʒenərətɪv/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>生成的；有生产力的</td>
+              <td>Generative A.I. is changing writing instruction fundamentally.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">laureate</span></td>
+              <td class="vocab-phonetic">/ˈlɔːriət/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>获奖者；桂冠诗人</td>
+              <td>A poem by the St. Lucian Nobel laureate Derek Walcott.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">stilted</span></td>
+              <td class="vocab-phonetic">/ˈstɪltɪd/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>生硬的；不自然的</td>
+              <td>She found A.I. introduced a stilted voice into her writing.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">symbolism</span></td>
+              <td class="vocab-phonetic">/ˈsɪmbəlɪzəm/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>象征；象征主义</td>
+              <td>Chatbots can analyze symbolism in "The Great Gatsby."</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">diminished</span></td>
+              <td class="vocab-phonetic">/dɪˈmɪnɪʃt/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>减弱的；缩小的；贬值的</td>
+              <td>"The result is a diminished population," he said of students who skip basic learning.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">counteract</span></td>
+              <td class="vocab-phonetic">/ˌkaʊntərˈækt/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>对抗；抵消</td>
+              <td>Educators discuss how to counteract the negative impact of screen time.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">humanities</span></td>
+              <td class="vocab-phonetic">/hjuːˈmænɪtiz/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>人文学科</td>
+              <td>Daniel Herman teaches humanities at Maybeck High School.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">credibly</span></td>
+              <td class="vocab-phonetic">/ˈkredəbli/</td>
+              <td><span class="vocab-pos">adv.</span></td>
+              <td>可信地；可靠地</td>
+              <td>The type of writing that A.I. struggles to credibly produce.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">achievement</span></td>
+              <td class="vocab-phonetic">/əˈtʃiːvmənt/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>成就；成绩</td>
+              <td>There is little evidence technology increased student achievement.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">innovative</span></td>
+              <td class="vocab-phonetic">/ˈɪnəveɪtɪv/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>创新的；革新的</td>
+              <td>Schools are under pressure to show they are embracing innovative technology.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">rephrase</span></td>
+              <td class="vocab-phonetic">/riːˈfreɪz/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>重新措辞；改写</td>
+              <td>Tools can rephrase published writing into new text.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">staple</span></td>
+              <td class="vocab-phonetic">/ˈsteɪpl/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>主要产品；支柱；常备元素</td>
+              <td>Three-to-five-page papers were once a staple of the homework.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">solicit</span></td>
+              <td class="vocab-phonetic">/səˈlɪsɪt/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>征求；请求</td>
+              <td>She has worked with students to use A.I. to solicit feedback on drafts.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Quiz Section -->
+      <div class="section">
+        <h2 class="section-title">&#9997; 阅读理解练习</h2>
+
+        <div class="quiz-item">
+          <div class="quiz-question">1. &#12304;主旨大意题&#12305;What is the main purpose of this article?</div>
+          <div class="quiz-options">
+            <div class="quiz-option">A. To criticize schools for not adopting A.I. technology quickly enough.</div>
+            <div class="quiz-option">B. To report on how A.I. is fundamentally changing writing instruction in American schools and how educators are responding.</div>
+            <div class="quiz-option">C. To argue that A.I. should be completely banned from all educational settings.</div>
+            <div class="quiz-option">D. To compare the writing abilities of A.I. chatbots and human students.</div>
+          </div>
+          <button class="toggle-answer" onclick="this.nextElementSibling.classList.toggle('answer-hidden');this.textContent=this.textContent==='显示答案与解析'?'隐藏答案':'显示答案与解析';">显示答案与解析</button>
+          <div class="quiz-answer answer-hidden">
+            <div class="quiz-answer-label">正确答案：B</div>
+            <div class="quiz-answer-text">文章的核心主旨是报道AI如何根本性地改变了美国学校的写作教学，以及教育工作者如何应对这一变化。文章通过近400位教育工作者的反馈，展现了从"带回家写论文"到"课堂内纸笔写作"的转变，同时呈现了多元的应对策略——有的教师完全回归纸笔，有的则在教学中融入AI工具的使用指导。A选项与文意相反，许多学校已经在拥抱AI；C选项过于极端，文章展示了教育者既有抵制也有利用AI的多种策略；D选项只是文章涉及的细节之一，并非全文主旨。</div>
+          </div>
+        </div>
+
+        <div class="quiz-item">
+          <div class="quiz-question">2. &#12304;细节理解题&#12305;According to the article, why are many teachers moving writing assignments back into the classroom?</div>
+          <div class="quiz-options">
+            <div class="quiz-option">A. Because schools have banned all electronic devices from campus.</div>
+            <div class="quiz-option">B. Because take-home writing assignments have become too difficult for students to complete.</div>
+            <div class="quiz-option">C. Because A.I. detection tools are unreliable and student use of chatbots has made it hard to ensure academic integrity.</div>
+            <div class="quiz-option">D. Because parents have complained about the amount of homework their children receive.</div>
+          </div>
+          <button class="toggle-answer" onclick="this.nextElementSibling.classList.toggle('answer-hidden');this.textContent=this.textContent==='显示答案与解析'?'隐藏答案':'显示答案与解析';">显示答案与解析</button>
+          <div class="quiz-answer answer-hidden">
+            <div class="quiz-answer-label">正确答案：C</div>
+            <div class="quiz-answer-text">文章第一段明确指出"take-home writing assignments have become so difficult to police for integrity"，第三段说教师们放弃了"highly imperfect science of A.I. detection"，Binney老师也表示"Student reliance on chatbots had gotten 'worse and worse'"。这些信息共同说明，由于AI检测工具不可靠、学生使用聊天机器人日益普遍，教师难以保证学术诚信，因此将写作任务移回课堂。A选项文中未提及禁令；B选项与文意相反，不是学生完不成，而是教师无法验证是否原创；D选项文中未提及。</div>
+          </div>
+        </div>
+
+        <div class="quiz-item">
+          <div class="quiz-question">3. &#12304;推理判断题&#12305;What can be inferred about Megan Hart's approach to A.I. in the classroom?</div>
+          <div class="quiz-options">
+            <div class="quiz-option">A. She completely prohibits students from using any A.I. tools.</div>
+            <div class="quiz-option">B. She adopts a balanced approach — requiring in-class writing while also teaching students to use A.I. responsibly for research and revision.</div>
+            <div class="quiz-option">C. She believes A.I. tools are superior to traditional writing instruction and encourages students to use them for all assignments.</div>
+            <div class="quiz-option">D. She is unconcerned about the impact of A.I. on student critical thinking.</div>
+          </div>
+          <button class="toggle-answer" onclick="this.nextElementSibling.classList.toggle('answer-hidden');this.textContent=this.textContent==='显示答案与解析'?'隐藏答案':'显示答案与解析';">显示答案与解析</button>
+          <div class="quiz-answer answer-hidden">
+            <div class="quiz-answer-label">正确答案：B</div>
+            <div class="quiz-answer-text">文章在"Resisting Temptation"部分详细描述了Megan Hart的做法：她一方面"requires students to complete most writing in the classroom"（要求学生在课堂内完成大部分写作），另一方面"teaches them how to use A.I. to find reliable sources for research papers"并"use A.I. to solicit feedback on drafts"（教学生使用AI查找可靠来源和获取反馈）。她强调"The kids have to build that critical thinking, including fact-checking the information A.I. provides"。这说明她采取了平衡的策略。A选项与事实不符；C选项曲解文意，她强调AI只是"assistant"；D选项与她强调批判性思维的立场完全相反。</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Reading Tips -->
+      <div class="tips-box">
+        <h3>&#128640; 阅读技巧提示</h3>
+        <ul>
+          <li><strong>关注人物引用：</strong>本文大量使用直接引语（"...", said Ms. Binney），考研阅读中人物观点常是考点，注意区分不同人的立场——Binney回归纸笔、Hart平衡使用、Sheridan担忧基本功缺失。</li>
+          <li><strong>识别数据论证：</strong>文章引用了RAND的调查数据（48%到62%），考研阅读中数字和百分比常与细节题相关，需精确对应。</li>
+          <li><strong>注意对比结构：</strong>文中反复对比"outside class"与"in-class"、"adults who mastered basics"与"teenagers who haven't"等，考研推理判断题常从对比中出题。</li>
+          <li><strong>理解倒装句：</strong>如"Gone were any errors"为完全倒装，正常语序为"Any errors were gone"，这是考研语法重点，需快速还原。</li>
+          <li><strong>把握让步逻辑：</strong>文中的"while", "even as", "despite"等让步词揭示了文章的辩证视角——教师们既抵制AI对写作的侵蚀，又承认学生需要掌握AI技能。这种平衡观点是考研主旨题的常见正确答案方向。</li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="article-footer">
+    <div class="container">
+      <p>外刊精读材料 | 来源：The New York Times | 仅供学习交流使用</p>
+      <p>Generated on 2026-06-26</p>
+    </div>
+  </footer>
+
+</body>
+</html>
