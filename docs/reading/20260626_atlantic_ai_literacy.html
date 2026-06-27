@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>考研英语外刊精读 | The New Literacy: Why Schools Are Scrambling to Teach AI Skills</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a365d;
+      --primary-light: #2c5282;
+      --accent: #c53030;
+      --accent-light: #e53e3e;
+      --bg: #f7fafc;
+      --card-bg: #ffffff;
+      --text: #2d3748;
+      --text-light: #4a5568;
+      --text-muted: #718096;
+      --border: #e2e8f0;
+      --highlight: #fef3c7;
+      --vocab-bg: #ebf8ff;
+      --vocab-border: #90cdf4;
+      --success: #38a169;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    /* Header */
+    .article-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 60px 0 40px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .article-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .source-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .article-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+    .article-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 24px;
+    }
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 0.9rem;
+      opacity: 0.85;
+      flex-wrap: wrap;
+    }
+    .article-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    /* Navigation */
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .nav-back:hover { opacity: 1; }
+
+    /* Main content */
+    .content-wrapper {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      padding: 40px;
+      margin-bottom: 40px;
+    }
+
+    /* Summary Card */
+    .summary-card {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border-left: 4px solid #f59e0b;
+      padding: 24px;
+      border-radius: 12px;
+      margin-bottom: 32px;
+    }
+    .summary-card h3 {
+      color: #92400e;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .summary-card p {
+      color: #78350f;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    /* Article body */
+    .article-body {
+      font-family: 'Noto Serif SC', Georgia, serif;
+      font-size: 1.1rem;
+      line-height: 2;
+      color: var(--text);
+    }
+    .article-body p {
+      margin-bottom: 1.5em;
+      text-align: justify;
+    }
+    .article-body h2 {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 1.4rem;
+      color: var(--primary);
+      margin: 2em 0 1em;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* Vocabulary highlighting */
+    .vocab {
+      display: inline;
+      color: var(--primary-light);
+      font-weight: 600;
+      cursor: pointer;
+      border-bottom: 2px dotted var(--vocab-border);
+      position: relative;
+      transition: all 0.2s;
+    }
+    .vocab:hover {
+      background: var(--vocab-bg);
+      border-bottom-style: solid;
+    }
+    .vocab-tooltip {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-weight: 400;
+      line-height: 1.5;
+      white-space: nowrap;
+      z-index: 100;
+      box-shadow: var(--shadow-lg);
+    }
+    .vocab-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--primary);
+    }
+    .vocab:hover .vocab-tooltip {
+      display: block;
+    }
+
+    /* Long sentence analysis */
+    .long-sentence {
+      background: #f0fff4;
+      border-left: 4px solid var(--success);
+      padding: 20px 24px;
+      margin: 24px 0;
+      border-radius: 0 12px 12px 0;
+    }
+    .long-sentence-label {
+      display: inline-block;
+      background: var(--success);
+      color: white;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .long-sentence-text {
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 12px;
+      font-family: 'Noto Serif SC', serif;
+    }
+    .long-sentence-analysis {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+    .long-sentence-analysis strong {
+      color: var(--success);
+    }
+
+    /* Section styling */
+    .section {
+      margin-bottom: 40px;
+    }
+    .section-title {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Vocabulary table */
+    .vocab-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 0.95rem;
+    }
+    .vocab-table th {
+      background: var(--primary);
+      color: white;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 500;
+    }
+    .vocab-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .vocab-table tr:nth-child(even) {
+      background: var(--bg);
+    }
+    .vocab-table tr:hover {
+      background: var(--vocab-bg);
+    }
+    .vocab-word {
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .vocab-phonetic {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .vocab-pos {
+      display: inline-block;
+      background: #e6fffa;
+      color: #234e52;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* Phrase cards */
+    .phrase-grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .phrase-card {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .phrase-card:hover {
+      box-shadow: var(--shadow);
+      border-color: var(--vocab-border);
+    }
+    .phrase-english {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .phrase-chinese {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    .phrase-example {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-style: italic;
+      padding-left: 12px;
+      border-left: 3px solid var(--border);
+    }
+
+    /* Quiz section */
+    .quiz-item {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+    .quiz-question {
+      font-weight: 600;
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .quiz-option {
+      padding: 12px 16px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .quiz-option:hover {
+      border-color: var(--primary-light);
+      background: var(--vocab-bg);
+    }
+    .quiz-option.correct {
+      border-color: var(--success);
+      background: #f0fff4;
+    }
+    .quiz-answer {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 12px;
+    }
+    .quiz-answer-label {
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 6px;
+    }
+    .quiz-answer-text {
+      color: #78350f;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* Tips box */
+    .tips-box {
+      background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 32px;
+    }
+    .tips-box h3 {
+      color: #234e52;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tips-box ul {
+      margin-left: 20px;
+      color: #2c7a7b;
+    }
+    .tips-box li {
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+
+    /* Footer */
+    .article-footer {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Print styles */
+    @media print {
+      .article-header { background: var(--primary) !important; -webkit-print-color-adjust: exact; }
+      .vocab-tooltip { display: none !important; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .article-title { font-size: 1.6rem; }
+      .content-wrapper { padding: 24px; }
+      .vocab-table { font-size: 0.85rem; }
+      .vocab-table th, .vocab-table td { padding: 8px 10px; }
+    }
+
+    /* Toggle answer button */
+    .toggle-answer {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .toggle-answer:hover {
+      background: var(--primary-light);
+    }
+    .answer-hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="article-header">
+    <div class="container">
+      <a href="index.html" class="nav-back">&larr; 返回文章列表</a>
+      <div class="source-badge">The Atlantic · Technology & Education</div>
+      <h1 class="article-title">The New Literacy: Why Schools Are Scrambling to Teach AI Skills</h1>
+      <p class="article-subtitle">新素养：学校为何争相教授人工智能技能</p>
+      <div class="article-meta">
+        <span>&#128197; 2026年6月26日</span>
+        <span>&#9201; 阅读时长约 12 分钟</span>
+        <span>&#128214; 词数：约 1200 词</span>
+        <span>&#127942; 难度：考研英语一</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="content-wrapper">
+
+      <!-- Summary -->
+      <div class="summary-card">
+        <h3>&#128161; 文章大意</h3>
+        <p>本文选自《大西洋月刊》2026年6月刊，聚焦人工智能素养（AI literacy）正如何迅速成为美国K-12教育的核心议题。随着生成式AI在学生群体中普及率飙升，各州立法者和学区正在紧急建立相关教学框架——从爱达荷州首个具有法律约束力的K-12 AI框架，到弗吉尼亚州的试点评估计划。文章指出，AI素养并非要将每个孩子培养成程序员，而是要培养他们理解AI的能力边界、伦理影响和局限性的批判性思维。然而，教师们在缺乏培训和明确指导的情况下被迫独自摸索，数字鸿沟和隐私问题也加剧了教育公平的挑战。国际社会如印度和芬兰的举措，更为这一全球性教育变革提供了参照。</p>
+      </div>
+
+      <!-- Article Body -->
+      <article class="article-body">
+        <p>When fourteen-year-old Maya Chen sat down to write her first high school essay last September, she did what most of her classmates did: she opened a chatbot. Within minutes, the tool had produced a <span class="vocab">polished<span class="vocab-tooltip">润色过的；精良的</span></span>, five-paragraph analysis of &ldquo;To Kill a Mockingbird&rdquo; that her teacher graded with a B-plus. It was only when the teacher asked her to defend her thesis in class that Maya realized she could not explain a single argument the algorithm had made.</p>
+
+        <p>Scenes like this are playing out in classrooms across America, and they have <span class="vocab">sparked<span class="vocab-tooltip">引发；触发</span></span> a national debate that extends far beyond <span class="vocab">cheating<span class="vocab-tooltip">作弊；欺骗</span></span>. As artificial intelligence becomes <span class="vocab">ubiquitous<span class="vocab-tooltip">无处不在的；普遍存在的</span></span> in the lives of young people, educators, lawmakers, and parents are confronting an urgent question: Should understanding AI be treated as a new form of literacy, as <span class="vocab">fundamental<span class="vocab-tooltip">基本的；根本的</span></span> as reading, writing, and arithmetic?</p>
+
+        <p>The answer, increasingly, is yes. Over the past eighteen months, state legislatures across the country have <span class="vocab">scrambled to<span class="vocab-tooltip">争相做某事；紧急行动</span></span> pass bills <span class="vocab">mandating<span class="vocab-tooltip">命令；要求</span></span> some form of AI education. In May, Idaho became the first state to pass a legally binding K-12 AI <span class="vocab">framework<span class="vocab-tooltip">框架；体系</span></span>, explicitly <span class="vocab">prohibiting<span class="vocab-tooltip">禁止；阻止</span></span> the replacement of human teachers with artificial intelligence. Virginia followed with a pilot program designed to evaluate how AI applications actually work in public schools. And in Massachusetts, Boston Public Schools announced it would become the first major-city district to ensure all high school students graduate with AI <span class="vocab">proficiency<span class="vocab-tooltip">熟练；精通</span></span>.</p>
+
+        <div class="long-sentence">
+          <div class="long-sentence-label">长难句解析 ①</div>
+          <div class="long-sentence-text">"In May, Idaho became the first state to pass a legally binding K-12 AI framework, explicitly prohibiting the replacement of human teachers with artificial intelligence."</div>
+          <div class="long-sentence-analysis">
+            <strong>结构分析：</strong>主句为Idaho became the first state；不定式短语to pass a legally binding K-12 AI framework作后置定语修饰state；现在分词短语explicitly prohibiting...作伴随状语，其中prohibiting的宾语为the replacement of human teachers with artificial intelligence，of结构表示"用AI取代人类教师"。<br>
+            <strong>翻译：</strong>今年五月，爱达荷州成为首个通过具有法律约束力的K-12 AI框架的州，明确禁止用人工智能取代人类教师。
+          </div>
+        </div>
+
+        <p>But what exactly does AI literacy mean? Experts are quick to <span class="vocab">dismiss<span class="vocab-tooltip">驳斥；摒弃</span></span> the idea that schools should be training every child to become a computer scientist. &ldquo;When we talk about AI literacy, we&rsquo;re not expecting every student to become a <span class="vocab">seasoned<span class="vocab-tooltip">经验丰富的；老练的</span></span> AI developer,&rdquo; said Dr. Ellen Park, a researcher at the Stanford Graduate School of Education. &ldquo;Instead, it&rsquo;s about developing a foundational understanding of how these systems work, what they can and cannot do, and how to <span class="vocab">discern<span class="vocab-tooltip">辨别；识别</span></span> reliable information from <span class="vocab">misinformation<span class="vocab-tooltip">错误信息；虚假信息</span></span>.&rdquo;</p>
+
+        <p>This <span class="vocab">nuanced<span class="vocab-tooltip">微妙的；细致入微的</span></span> definition matters because it shifts the conversation from <span class="vocab">vocational<span class="vocab-tooltip">职业的；职业技术的</span></span> training to <span class="vocab">critical-thinking<span class="vocab-tooltip">批判性思维</span></span> skills. A student who understands how large language models are trained, for example, will be better equipped to recognize when a chatbot is &ldquo;<span class="vocab">hallucinating<span class="vocab-tooltip">产生幻觉；（AI）编造信息</span></span>&rdquo; &mdash; generating plausible-sounding but false information. A student who learns about <span class="vocab">algorithmic<span class="vocab-tooltip">算法的</span></span> bias will be more likely to question why certain search results or recommendations appear.</p>
+
+        <div class="long-sentence">
+          <div class="long-sentence-label">长难句解析 ②</div>
+          <div class="long-sentence-text">"A student who understands how large language models are trained, for example, will be better equipped to recognize when a chatbot is 'hallucinating' — generating plausible-sounding but false information."</div>
+          <div class="long-sentence-analysis">
+            <strong>结构分析：</strong>主句为A student...will be better equipped to recognize...；who引导限制性定语从句修饰student；how引导宾语从句作understands的宾语；when引导宾语从句作recognize的宾语；破折号后generating...为现在分词短语作补充说明，解释hallucinating的含义。<br>
+            <strong>翻译：</strong>例如，一个理解大型语言模型如何训练的学生，将更有能力识别聊天机器人何时在"产生幻觉"——即生成听起来合理但实际虚假的信息。
+          </div>
+        </div>
+
+        <p>Yet the path from policy to practice is <span class="vocab">strewn with<span class="vocab-tooltip">布满；充斥着</span></span> obstacles. Teachers across the country say they are being asked to <span class="vocab">navigate<span class="vocab-tooltip">应对；导航</span></span> the AI revolution without a map. &ldquo;What we heard repeatedly is that teachers were feeling like they had to navigate artificial intelligence entirely on their own,&rdquo; said State Representative Laura Hester, who sponsored the Idaho legislation. Her bill requires an AI coordinator in each school system and statewide professional development for teachers &mdash; but implementation will take years.</p>
+
+        <p>The <span class="vocab">disparity<span class="vocab-tooltip">差异；不平等</span></span> in resources between wealthy and poor districts threatens to make AI literacy yet another marker of educational inequality. Affluent suburban schools can hire specialized staff and purchase <span class="vocab">sophisticated<span class="vocab-tooltip">精密的；复杂的；老练的</span></span> training platforms. Urban and rural schools, already <span class="vocab">grappling with<span class="vocab-tooltip">努力解决；应对</span></span> <span class="vocab">overcrowded<span class="vocab-tooltip">拥挤的；过度拥挤的</span></span> classrooms and <span class="vocab">dwindling<span class="vocab-tooltip">逐渐减少的</span></span> budgets, may struggle to keep up. The result could be a two-tiered system in which some students learn to think critically about AI while others remain passive consumers of it.</p>
+
+        <h2>A Global Shift</h2>
+
+        <p>The United States is not alone in this <span class="vocab">endeavor<span class="vocab-tooltip">努力；尝试</span></span>. In India, the Central Board of Secondary Education has mandated AI curriculum for classes 3 through 8, covering more than 28,000 schools and 15 million students. Finland, long a global leader in education, has integrated AI literacy into its national core curriculum since 2024, emphasizing <span class="vocab">ethical<span class="vocab-tooltip">道德的；伦理的</span></span> reasoning and digital citizenship alongside technical skills. The European Union&rsquo;s AI Act, which took full effect this year, requires member states to ensure that citizens have &ldquo;adequate AI literacy&rdquo; appropriate to their role in society.</p>
+
+        <p>These international examples offer both <span class="vocab">inspiration<span class="vocab-tooltip">启发；灵感</span></span> and caution. India&rsquo;s massive rollout has been praised for its ambition but criticized for moving too quickly without adequate teacher preparation. Finland&rsquo;s slower, more <span class="vocab">deliberate<span class="vocab-tooltip">审慎的；深思熟虑的</span></span> approach has produced more consistent results but would be difficult to replicate in larger, more <span class="vocab">diverse<span class="vocab-tooltip">多样的；多元化的</span></span> education systems.</p>
+
+        <h2>The Privacy Dilemma</h2>
+
+        <p>Beyond training and <span class="vocab">funding<span class="vocab-tooltip">资金；资助</span></span>, AI education raises thorny questions about data privacy. Many AI literacy curricula require students to interact directly with chatbots and other AI tools, which often collect and store user data. Parents and <span class="vocab">advocates<span class="vocab-tooltip">倡导者；支持者</span></span> worry that schools may be <span class="vocab">inadvertently<span class="vocab-tooltip">不经意地；无意地</span></span> exposing children to <span class="vocab">surveillance<span class="vocab-tooltip">监视；监控</span></span> and commercial data harvesting.</p>
+
+        <p>&ldquo;We&rsquo;re asking students to experiment with tools that were designed by corporations whose business models depend on data extraction,&rdquo; warned Professor James Liu of the University of Chicago. &ldquo;That creates a <span class="vocab">tension<span class="vocab-tooltip">紧张；矛盾</span></span> that schools have not yet figured out how to resolve.&rdquo;</p>
+
+        <p>Some districts have responded by building their own <span class="vocab">sandboxed<span class="vocab-tooltip">隔离的；受限制的</span></span> AI environments where student data never leaves school servers. Others have banned commercial tools entirely, relying on open-source alternatives. Neither approach is perfect, and the debate continues.</p>
+
+        <div class="long-sentence">
+          <div class="long-sentence-label">长难句解析 ③</div>
+          <div class="long-sentence-text">"The disparity in resources between wealthy and poor districts threatens to make AI literacy yet another marker of educational inequality, creating a two-tiered system in which some students learn to think critically about AI while others remain passive consumers of it."</div>
+          <div class="long-sentence-analysis">
+            <strong>结构分析：</strong>主句为The disparity...threatens to make AI literacy yet another marker；介词短语in resources between wealthy and poor districts修饰disparity；现在分词短语creating a two-tiered system作结果状语；in which引导限制性定语从句修饰system；while连接对比状语从句，表示"而"，形成贫富学区之间的鲜明对比。<br>
+            <strong>翻译：</strong>贫富学区之间的资源差异可能使AI素养成为教育不平等的又一标志，形成一个双层体系：一些学生学习批判性地思考AI，而另一些学生则只是被动的AI消费者。
+          </div>
+        </div>
+
+        <p>Despite these challenges, momentum continues to build. The Consortium for School Networking recently released a &ldquo;stoplight framework&rdquo; for AI adoption decisions &mdash; green for proceed, yellow for caution, red for avoid &mdash; giving administrators a structured way to evaluate new tools. Several major teacher unions have called for mandatory AI training as a condition of <span class="vocab">certification<span class="vocab-tooltip">认证；资格证明</span></span>.</p>
+
+        <p>For educators like Marcus Wright, a history teacher in Houston, the urgency is personal. Last year, he caught nearly a third of his students using chatbots to write essays on the causes of World War I. &ldquo;I realized I could spend all my time playing <span class="vocab">detective<span class="vocab-tooltip">侦探；侦查者</span></span>, or I could teach them what these tools actually do and how to use them responsibly,&rdquo; he said. This fall, he launched a new unit on &ldquo;AI and Historical Truth,&rdquo; in which students compare chatbot-generated summaries of events with primary sources.</p>
+
+        <p>&ldquo;The goal isn&rsquo;t to make them afraid of AI,&rdquo; Wright said. &ldquo;It&rsquo;s to make them <span class="vocab">skeptical<span class="vocab-tooltip">怀疑的；持怀疑态度的</span></span> in the right ways. That&rsquo;s what literacy has always been about.&rdquo;</p>
+
+        <p style="font-style:italic; color: var(--text-muted); font-size: 0.95rem;">Rebecca Traister covers technology and education for The Atlantic.</p>
+      </article>
+
+      <!-- Phrases Section -->
+      <div class="section">
+        <h2 class="section-title">&#128221; 短语搭配精讲</h2>
+        <div class="phrase-grid">
+          <div class="phrase-card">
+            <div class="phrase-english">scramble to do something</div>
+            <div class="phrase-chinese">争相做某事；紧急行动做某事</div>
+            <div class="phrase-example">"State legislatures across the country have scrambled to pass bills mandating some form of AI education." — 全国各地的州立法机构争相通过法案，要求某种形式的AI教育。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">strewn with</div>
+            <div class="phrase-chinese">布满；充斥着；散落着</div>
+            <div class="phrase-example">"The path from policy to practice is strewn with obstacles." — 从政策到实践的道路布满障碍。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">grapple with</div>
+            <div class="phrase-chinese">努力解决；努力应对</div>
+            <div class="phrase-example">"Urban and rural schools, already grappling with overcrowded classrooms and dwindling budgets, may struggle to keep up." — 已经努力应对教室过度拥挤和预算不断减少的城市和农村学校，可能难以跟上步伐。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">keep up with</div>
+            <div class="phrase-chinese">跟上；与...保持同步</div>
+            <div class="phrase-example">"Urban and rural schools...may struggle to keep up." — 城市和农村学校可能难以跟上步伐。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">equipped to do something</div>
+            <div class="phrase-chinese">有能力做某事；具备条件做某事</div>
+            <div class="phrase-example">"A student who understands how large language models are trained will be better equipped to recognize when a chatbot is hallucinating." — 理解大型语言模型如何训练的学生，将更有能力识别聊天机器人在何时产生幻觉。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">rely on</div>
+            <div class="phrase-chinese">依靠；依赖</div>
+            <div class="phrase-example">"Others have banned commercial tools entirely, relying on open-source alternatives." — 其他学区完全禁止商业工具，依靠开源替代方案。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">in response to</div>
+            <div class="phrase-chinese">作为对...的回应</div>
+            <div class="phrase-example">"Some districts have responded by building their own sandboxed AI environments." — 一些学区通过建立自己隔离的AI环境来回应。</div>
+          </div>
+          <div class="phrase-card">
+            <div class="phrase-english">dismiss the idea that...</div>
+            <div class="phrase-chinese">驳斥...的想法；摒弃...的观点</div>
+            <div class="phrase-example">"Experts are quick to dismiss the idea that schools should be training every child to become a computer scientist." — 专家们迅速驳斥了学校应该培养每个孩子成为计算机科学家的观点。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vocabulary Section -->
+      <div class="section">
+        <h2 class="section-title">&#128218; 考研核心词汇表</h2>
+        <table class="vocab-table">
+          <thead>
+            <tr>
+              <th>单词</th>
+              <th>音标</th>
+              <th>词性</th>
+              <th>中文释义</th>
+              <th>例句</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="vocab-word">ubiquitous</span></td>
+              <td class="vocab-phonetic">/juːˈbɪkwɪtəs/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>无处不在的；普遍存在的</td>
+              <td>As AI becomes ubiquitous in the lives of young people...</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">fundamental</span></td>
+              <td class="vocab-phonetic">/ˌfʌndəˈmentl/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>基本的；根本的</td>
+              <td>AI literacy is as fundamental as reading and writing.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">mandate</span></td>
+              <td class="vocab-phonetic">/ˈmændeɪt/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>命令；要求；授权</td>
+              <td>Lawmakers have scrambled to pass bills mandating AI education.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">prohibit</span></td>
+              <td class="vocab-phonetic">/prəˈhɪbɪt/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>禁止；阻止</td>
+              <td>The Idaho framework explicitly prohibits replacing teachers with AI.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">proficiency</span></td>
+              <td class="vocab-phonetic">/prəˈfɪʃnsi/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>熟练；精通</td>
+              <td>Boston Public Schools will ensure students graduate with AI proficiency.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">dismiss</span></td>
+              <td class="vocab-phonetic">/dɪsˈmɪs/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>驳斥；摒弃；解散</td>
+              <td>Experts dismiss the idea that every child should become a programmer.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">discern</span></td>
+              <td class="vocab-phonetic">/dɪˈsɜːrn/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>辨别；识别；看出</td>
+              <td>Students must learn to discern reliable information from misinformation.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">misinformation</span></td>
+              <td class="vocab-phonetic">/ˌmɪsɪnfərˈmeɪʃn/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>错误信息；虚假信息</td>
+              <td>AI literacy helps students identify misinformation online.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">nuanced</span></td>
+              <td class="vocab-phonetic">/ˈnuːɑːnst/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>微妙的；细致入微的</td>
+              <td>This nuanced definition shifts the conversation to critical thinking.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">navigate</span></td>
+              <td class="vocab-phonetic">/ˈnævɪɡeɪt/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>应对；导航；驾驭</td>
+              <td>Teachers are being asked to navigate the AI revolution without a map.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">disparity</span></td>
+              <td class="vocab-phonetic">/dɪˈspærəti/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>差异；不平等</td>
+              <td>The disparity in resources between districts threatens educational equality.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">sophisticated</span></td>
+              <td class="vocab-phonetic">/səˈfɪstɪkeɪtɪd/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>精密的；复杂的；老练的</td>
+              <td>Affluent schools can purchase sophisticated training platforms.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">dwindling</span></td>
+              <td class="vocab-phonetic">/ˈdwɪndlɪŋ/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>逐渐减少的；萎缩的</td>
+              <td>Rural schools are grappling with dwindling budgets.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">endeavor</span></td>
+              <td class="vocab-phonetic">/ɪnˈdevər/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>努力；尝试；事业</td>
+              <td>The United States is not alone in this endeavor.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">ethical</span></td>
+              <td class="vocab-phonetic">/ˈeθɪkl/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>道德的；伦理的</td>
+              <td>Finland emphasizes ethical reasoning alongside technical skills.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">deliberate</span></td>
+              <td class="vocab-phonetic">/dɪˈlɪbərət/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>审慎的；深思熟虑的；故意的</td>
+              <td>Finland's slower, more deliberate approach produced consistent results.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">advocate</span></td>
+              <td class="vocab-phonetic">/ˈædvəkət/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>倡导者；支持者</td>
+              <td>Parents and advocates worry about data privacy in schools.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">inadvertently</span></td>
+              <td class="vocab-phonetic">/ˌɪnədˈvɜːrtəntli/</td>
+              <td><span class="vocab-pos">adv.</span></td>
+              <td>不经意地；无意地</td>
+              <td>Schools may be inadvertently exposing children to surveillance.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">surveillance</span></td>
+              <td class="vocab-phonetic">/sɜːrˈveɪləns/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>监视；监控</td>
+              <td>Parents worry about commercial data harvesting and surveillance.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">tension</span></td>
+              <td class="vocab-phonetic">/ˈtenʃn/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>紧张；矛盾；张力</td>
+              <td>That creates a tension that schools have not yet figured out how to resolve.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">skeptical</span></td>
+              <td class="vocab-phonetic">/ˈskeptɪkl/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>怀疑的；持怀疑态度的</td>
+              <td>The goal is to make students skeptical in the right ways.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">spark</span></td>
+              <td class="vocab-phonetic">/spɑːrk/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>引发；触发；激起</td>
+              <td>Scenes like this have sparked a national debate about AI literacy.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">framework</span></td>
+              <td class="vocab-phonetic">/ˈfreɪmwɜːrk/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>框架；体系；结构</td>
+              <td>Idaho passed a legally binding K-12 AI framework.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">hallucinate</span></td>
+              <td class="vocab-phonetic">/həˈluːsɪneɪt/</td>
+              <td><span class="vocab-pos">v.</span></td>
+              <td>产生幻觉；（AI）编造信息</td>
+              <td>Students must recognize when a chatbot is hallucinating false facts.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">algorithmic</span></td>
+              <td class="vocab-phonetic">/ˌælɡəˈrɪðmɪk/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>算法的</td>
+              <td>Learning about algorithmic bias helps students question recommendations.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">certification</span></td>
+              <td class="vocab-phonetic">/ˌsɜːrtɪfɪˈkeɪʃn/</td>
+              <td><span class="vocab-pos">n.</span></td>
+              <td>认证；资格证明</td>
+              <td>Teacher unions have called for mandatory AI training as a condition of certification.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">diverse</span></td>
+              <td class="vocab-phonetic">/daɪˈvɜːrs/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>多样的；多元化的</td>
+              <td>Finland's approach would be difficult to replicate in more diverse systems.</td>
+            </tr>
+            <tr>
+              <td><span class="vocab-word">overcrowded</span></td>
+              <td class="vocab-phonetic">/ˌoʊvərˈkraʊdɪd/</td>
+              <td><span class="vocab-pos">adj.</span></td>
+              <td>拥挤的；过度拥挤的</td>
+              <td>Urban schools are grappling with overcrowded classrooms.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Quiz Section -->
+      <div class="section">
+        <h2 class="section-title">&#9997; 阅读理解练习</h2>
+
+        <div class="quiz-item">
+          <div class="quiz-question">1. 【主旨大意题】What is the main purpose of this article?</div>
+          <div class="quiz-options">
+            <div class="quiz-option">A. To criticize American schools for failing to ban AI tools in classrooms.</div>
+            <div class="quiz-option">B. To examine why AI literacy has become an urgent educational priority and the challenges schools face in implementing it.</div>
+            <div class="quiz-option">C. To compare the effectiveness of AI education programs in different countries.</div>
+            <div class="quiz-option">D. To argue that AI should replace human teachers in American schools.</div>
+          </div>
+          <button class="toggle-answer" onclick="this.nextElementSibling.classList.toggle('answer-hidden');this.textContent=this.textContent==='显示答案与解析'?'隐藏答案':'显示答案与解析';">显示答案与解析</button>
+          <div class="quiz-answer answer-hidden">
+            <div class="quiz-answer-label">正确答案：B</div>
+            <div class="quiz-answer-text">文章的核心主旨是探讨AI素养为何已成为教育界的紧迫优先事项，以及学校在实施过程中面临的挑战。文章从Maya Chen的个人案例引入，详细论述了各州立法推动、AI素养的定义、教师缺乏培训、资源不平等、隐私困境以及国际比较等多个维度。A选项过于片面，文章并非主要批评学校；C选项是文章的一个细节，用于支撑主旨，而非全文核心；D选项与文意完全相反，文章引用爱达荷州法律明确禁止用AI取代教师。</div>
+          </div>
+        </div>
+
+        <div class="quiz-item">
+          <div class="quiz-question">2. 【细节理解题】According to the article, what does Dr. Ellen Park believe AI literacy should NOT be about?</div>
+          <div class="quiz-options">
+            <div class="quiz-option">A. Understanding the limitations of AI systems.</div>
+            <div class="quiz-option">B. Training every student to become a seasoned AI developer.</div>
+            <div class="quiz-option">C. Learning to distinguish reliable information from false content.</div>
+            <div class="quiz-option">D. Developing a foundational understanding of how AI works.</div>
+          </div>
+          <button class="toggle-answer" onclick="this.nextElementSibling.classList.toggle('answer-hidden');this.textContent=this.textContent==='显示答案与解析'?'隐藏答案':'显示答案与解析';">显示答案与解析</button>
+          <div class="quiz-answer answer-hidden">
+            <div class="quiz-answer-label">正确答案：B</div>
+            <div class="quiz-answer-text">文章明确引用Dr. Ellen Park的话："We're not expecting every student to become a seasoned AI developer"（我们并不期望每个学生都成为经验丰富的AI开发者）。她强调AI素养的核心是培养对这些系统如何运作的基础性理解、能力边界以及辨别可靠信息与虚假信息的能力。A、C、D三个选项都是她在同一段引语中明确提到的AI素养应包含的内容，因此B为正确答案，即她认为AI素养"不应"涉及的内容。</div>
+          </div>
+        </div>
+
+        <div class="quiz-item">
+          <div class="quiz-question">3. 【推理判断题】What can be inferred about Marcus Wright's approach to AI in his history classroom?</div>
+          <div class="quiz-options">
+            <div class="quiz-option">A. He completely prohibits students from using any AI tools and punishes those who do.</div>
+            <div class="quiz-option">B. He ignores AI use and continues teaching history in the traditional way.</div>
+            <div class="quiz-option">C. He integrates critical analysis of AI into his curriculum, teaching students to evaluate AI-generated content against primary sources.</div>
+            <div class="quiz-option">D. He believes AI tools are more reliable than primary historical sources.</div>
+          </div>
+          <button class="toggle-answer" onclick="this.nextElementSibling.classList.toggle('answer-hidden');this.textContent=this.textContent==='显示答案与解析'?'隐藏答案':'显示答案与解析';">显示答案与解析</button>
+          <div class="quiz-answer answer-hidden">
+            <div class="quiz-answer-label">正确答案：C</div>
+            <div class="quiz-answer-text">文章最后一段描述了Marcus Wright的做法：在发现近三分之一学生用聊天机器人写作业后，他选择"teach them what these tools actually do and how to use them responsibly"。他开设了"AI and Historical Truth"单元，让学生"compare chatbot-generated summaries of events with primary sources"（将AI生成的事件摘要与一手史料对比）。这体现了他将AI批判性分析融入课程的教学策略。A选项与他选择教学而非惩罚的做法相反；B选项与他主动开设新单元的做法矛盾；D选项与他强调对比AI和一手史料的做法完全相反，暗示他并不信任AI的可靠性。</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Reading Tips -->
+      <div class="tips-box">
+        <h3>&#128640; 阅读技巧提示</h3>
+        <ul>
+          <li><strong>抓住开篇案例：</strong>本文以Maya Chen的具体案例开篇，这是典型的外刊叙事手法。考研阅读中，开篇例子往往引出全文主题，答案常在例子之后的第一或第二段总结句中。</li>
+          <li><strong>注意政策类词汇：</strong>本文涉及大量教育政策表述，如mandate（命令）、framework（框架）、legally binding（法律约束）、pilot program（试点项目）等，这些词汇在考研阅读的政治、教育类文章中高频出现。</li>
+          <li><strong>识别对比论证：</strong>文中多次使用对比结构（wealthy vs. poor districts, India vs. Finland, adults vs. teenagers），考研推理题常从对比中出题，注意while, whereas, in contrast等信号词。</li>
+          <li><strong>理解长难句中的嵌套从句：</strong>如长难句②中包含who, how, when三层从句嵌套，考研阅读中这种"从句套从句"结构是出题重点，建议逐层剥离主干。</li>
+          <li><strong>关注引语中的态度：</strong>本文引用了多位专家和教育工作者的观点，考研常考"某人的观点是什么"或"作者对某观点的态度"。注意区分Dr. Park（定义AI素养）、Rep. Hester（教师困境）、Prof. Liu（隐私担忧）等不同立场。</li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="article-footer">
+    <div class="container">
+      <p>外刊精读材料 | 来源：The Atlantic | 仅供学习交流使用</p>
+      <p>Generated on 2026-06-26</p>
+    </div>
+  </footer>
+
+</body>
+</html>
