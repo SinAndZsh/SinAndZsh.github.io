@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | 每日阅读</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            border-radius: 0 0 24px 24px;
+            margin-bottom: 40px;
+        }
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-item .num {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .stat-item .label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        .article-list {
+            display: grid;
+            gap: 20px;
+        }
+        .article-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+        .article-card .date {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        .article-card h3 {
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+        .article-card .meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .article-card .tag {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .article-card .desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        .article-card .read-more {
+            align-self: flex-start;
+            background: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        .article-card .read-more:hover {
+            background: var(--accent);
+        }
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>考研英语外刊精读</h1>
+        <p>每日精选《纽约时报》《经济学人》《大西洋月刊》等权威外刊</p>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="num">1</div>
+                <div class="label">篇精读</div>
+            </div>
+            <div class="stat-item">
+                <div class="num">30+</div>
+                <div class="label">核心词汇</div>
+            </div>
+            <div class="stat-item">
+                <div class="num">8</div>
+                <div class="label">短语搭配</div>
+            </div>
+            <div class="stat-item">
+                <div class="num">3</div>
+                <div class="label">阅读练习</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="article-list">
+            <div class="article-card">
+                <div class="date">2026-06-27</div>
+                <h3>How A.I. Killed Student Writing (and Revived It)</h3>
+                <div class="meta">
+                    <span class="tag">The New York Times</span>
+                    <span class="tag">教育</span>
+                    <span class="tag">科技</span>
+                    <span class="tag">~1500词</span>
+                </div>
+                <div class="desc">
+                    人工智能时代，学生写作正经历一场静默的革命。教育工作者如何将写作任务转回课堂，确保学术诚信？本文探讨AI对写作教学的深刻影响与教师的应对策略。
+                </div>
+                <a href="20260627_nyt_ai_student_writing.html" class="read-more">开始精读 →</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>考研英语外刊精读 | 每日更新</p>
+        <p style="margin-top:8px; font-size:0.85rem;">Sources: The New York Times, The Economist, The Atlantic, The Guardian, The Christian Science Monitor</p>
+    </footer>
+</body>
+</html>
