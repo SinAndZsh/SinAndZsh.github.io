@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>考研英语外刊精读 | The New York Times</title>
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --accent: #c9a227;
+    --bg: #f7f9fb;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --muted: #5a6a7a;
+    --border: #e1e8ed;
+    --highlight: #fff3cd;
+    --vocab: #e74c3c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+  }
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 16px;
+  }
+  header {
+    text-align: center;
+    padding: 40px 0 24px;
+    border-bottom: 3px solid var(--primary);
+    margin-bottom: 32px;
+  }
+  header h1 {
+    font-size: 2rem;
+    color: var(--primary);
+    letter-spacing: 1px;
+  }
+  .meta {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .source-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+  .article-body {
+    background: var(--card);
+    padding: 36px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    font-size: 1.05rem;
+    line-height: 2;
+  }
+  .article-body p {
+    margin-bottom: 1.2em;
+    text-indent: 2em;
+  }
+  .vocab {
+    color: var(--vocab);
+    border-bottom: 2px dotted var(--vocab);
+    cursor: pointer;
+    font-weight: 600;
+    position: relative;
+  }
+  .tooltip {
+    display: none;
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: nowrap;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--primary);
+  }
+  .vocab:hover .tooltip,
+  .vocab.active .tooltip {
+    display: block;
+  }
+  .section-title {
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin: 40px 0 20px;
+    padding-left: 12px;
+    border-left: 4px solid var(--accent);
+  }
+  .summary-box {
+    background: #e8f4f8;
+    padding: 24px;
+    border-radius: 8px;
+    margin: 24px 0;
+  }
+  .phrase-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  .phrase-title {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+  .phrase-meaning {
+    color: var(--vocab);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .phrase-example {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.95rem;
+  }
+  .sentence-analysis {
+    background: #fff8e1;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--accent);
+  }
+  .sentence-en {
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .sentence-cn {
+    color: var(--muted);
+  }
+  .quiz-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .quiz-question {
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--primary);
+  }
+  .quiz-options label {
+    display: block;
+    margin: 6px 0;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .quiz-options label:hover {
+    background: var(--bg);
+  }
+  .quiz-answer {
+    margin-top: 16px;
+    padding: 14px;
+    background: #e8f5e9;
+    border-radius: 6px;
+    display: none;
+  }
+  .quiz-answer.show {
+    display: block;
+  }
+  .btn {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    font-size: 0.95rem;
+    margin-top: 10px;
+  }
+  .btn:hover { opacity: 0.9; }
+  .vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    background: var(--card);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .vocab-table th, .vocab-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .vocab-table th {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+  }
+  .vocab-table tr:last-child td { border-bottom: none; }
+  .tip-box {
+    background: #e3f2fd;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 24px 0;
+    border-left: 4px solid #2196f3;
+  }
+  .tip-box h4 {
+    color: #1565c0;
+    margin-bottom: 8px;
+  }
+  footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="source-badge">The New York Times</div>
+  <h1>How Do You Teach Computer Science in the Age of AI?</h1>
+  <div class="meta">Published: June 29, 2026 | Category: Technology & Education | Length: ~1,150 words</div>
+</header>
+
+<div class="summary-box">
+  <strong>文章大意：</strong>本文探讨了在生成式人工智能迅速普及的背景下，美国高校如何重新思考计算机科学教育。随着AI工具能够自动编写代码，传统的编程教学面临挑战，教育者正将重心从语法记忆转向计算思维、AI素养和批判性判断能力的培养。文章采访了多位教授和学生，呈现出这场教育变革中的困惑、探索与希望。
+</div>
+
+<div class="article-body">
+<p>When <span class="vocab" onclick="this.classList.toggle('active')">generative<span class="tooltip">/ˈdʒenərətɪv/ adj. 生成的；有生产力的</span></span> artificial intelligence burst into the mainstream three years ago, few fields felt the <span class="vocab" onclick="this.classList.toggle('active')">jolt<span class="tooltip">/dʒəʊlt/ n. 震动；冲击</span></span> as sharply as computer science education. Professors who had spent decades teaching students to write code line by line suddenly confronted tools that could produce entire programs in seconds. The question was no longer academic; it was existential. If machines could program, what exactly should humans be learning?</p>
+
+<p>At Stanford University, Professor Mehran Sahami has watched this <span class="vocab" onclick="this.classList.toggle('active')">transformation<span class="tooltip">/ˌtrænsfəˈmeɪʃn/ n. 转变；变革</span></span> unfold from the front lines. "We are not training people to be <span class="vocab" onclick="this.classList.toggle('active')">syntax<span class="tooltip">/ˈsɪntæks/ n. 语法；句法</span></span> compilers," he said in a recent interview. "We are training them to be problem solvers." That <span class="vocab" onclick="this.classList.toggle('active')">distinction<span class="tooltip">/dɪˈstɪŋkʃn/ n. 区别；差别</span></span>, once subtle, has now become the central <span class="vocab" onclick="this.classList.toggle('active')">tenet<span class="tooltip">/ˈtenɪt/ n. 原则；信条</span></span> of a rapidly evolving curriculum. The future of computer science education, Sahami argues, lies less in memorizing the rules of a particular language and more in cultivating computational thinking — the ability to break down complex problems into manageable parts.</p>
+
+<p>This shift is happening across the country. At the Massachusetts Institute of Technology, educators have begun to <span class="vocab" onclick="this.classList.toggle('active')">restructure<span class="tooltip">/ˌriːˈstrʌktʃər/ v. 重组；调整结构</span></span> introductory courses to emphasize <span class="vocab" onclick="this.classList.toggle('active')">algorithmic<span class="tooltip">/ˌælɡəˈrɪðmɪk/ adj. 算法的</span></span> reasoning over rote coding. Students still learn to write software, but they do so with the understanding that their <span class="vocab" onclick="this.classList.toggle('active')">proficiency<span class="tooltip">/prəˈfɪʃnsi/ n. 熟练；精通</span></span> will be measured not by the speed of their keystrokes but by the clarity of their thinking. "The goal is to develop a mindset," explained Professor Armando Solar-Lezama. "Code is just one <span class="vocab" onclick="this.classList.toggle('active')">manifestation<span class="tooltip">/ˌmænɪfeˈsteɪʃn/ n. 表现；显示</span></span> of that mindset."</p>
+
+<p>Not everyone has embraced the change so readily. Some <span class="vocab" onclick="this.classList.toggle('active')">veteran<span class="tooltip">/ˈvetərən/ n. 老手；经验丰富的人</span></span> educators worry that relying too heavily on AI tools will <span class="vocab" onclick="this.classList.toggle('active')">erode<span class="tooltip">/ɪˈrəʊd/ v. 侵蚀；削弱</span></span> the foundational skills that have long defined the discipline. "If you never learn to write code without assistance," argued one professor at Carnegie Mellon, "you may never truly understand what the machine is doing beneath the surface." This concern has <span class="vocab" onclick="this.classList.toggle('active')">ignited<span class="tooltip">/ɪɡˈnaɪt/ v. 点燃；引发</span></span> a lively debate about the proper role of AI in the classroom — a debate that remains far from settled.</p>
+
+<p>For students, the new landscape presents both <span class="vocab" onclick="this.classList.toggle('active')">opportunities<span class="tooltip">/ˌɒpəˈtjuːnətiz/ n. 机会（复数）</span></span> and <span class="vocab" onclick="this.classList.toggle('active')">anxieties<span class="tooltip">/æŋˈzaɪətiz/ n. 焦虑；忧虑（复数）</span></span>. Sarah Chen, a junior at the University of California, Berkeley, described the experience of learning to code alongside AI as "liberating but disorienting." On one hand, she can experiment with ideas far more quickly than previous generations; on the other, she sometimes wonders whether she is truly mastering the material or merely <span class="vocab" onclick="this.classList.toggle('active')">delegating<span class="tooltip">/ˈdelɪɡeɪtɪŋ/ v. 委派；委托</span></span> her thinking to an algorithm. "There is a fine line between using AI as a tool and using it as a <span class="vocab" onclick="this.classList.toggle('active')">crutch<span class="tooltip">/krʌtʃ/ n. 拐杖；依靠</span></span>," she said.</p>
+
+<p>Employers, too, are <span class="vocab" onclick="this.classList.toggle('active')">grappling with<span class="tooltip">/ˈɡræplɪŋ wɪð/ phr. 努力应对；奋力解决</span></span> the implications. Tech companies have begun to adjust their hiring criteria, placing greater weight on candidates' ability to design systems, evaluate trade-offs, and communicate technical concepts to non-technical audiences. Coding challenges still exist in interviews, but they are increasingly supplemented by questions that test a candidate's judgment about when to use AI and when to rely on human expertise.</p>
+
+<p>Underlying all of these discussions is a deeper question about the purpose of education itself. If the <span class="vocab" onclick="this.classList.toggle('active')">raison d'être<span class="tooltip">/ˌreɪzɒn ˈdetrə/ n. （法语）存在的理由；根本目的</span></span> of a computer science degree is to prepare students for the workforce, and the workforce is being transformed by AI, then the degree must transform as well. But critics caution against a <span class="vocab" onclick="this.classList.toggle('active')">reactive<span class="tooltip">/riˈæktɪv/ adj. 被动的；反应式的</span></span> approach that chases every technological trend. "We need to distinguish between what is fashionable and what is fundamental," said Maria Klawe, president of Harvey Mudd College. "The fundamentals do not change as quickly as the headlines suggest."</p>
+
+<p>One emerging consensus is that AI literacy — an understanding of how these systems work, where they fail, and how they shape society — should become as <span class="vocab" onclick="this.classList.toggle('active')">integral<span class="tooltip">/ˈɪntɪɡrəl/ adj. 不可或缺的；构成整体所必需的</span></span> to the curriculum as data structures or software engineering. Students need to know not only how to prompt a model but also how to <span class="vocab" onclick="this.classList.toggle('active')">scrutinize<span class="tooltip">/ˈskruːtənaɪz/ v. 仔细检查；认真审阅</span></span> its output, recognize biases, and think critically about the ethical dimensions of automation. Nurturing what Sahami calls "informed skepticism" has become a pedagogical priority.</p>
+
+<p>Whether these changes will produce better computer scientists remains to be seen. The experiment is still in its early stages, and the <span class="vocab" onclick="this.classList.toggle('active')">verdict<span class="tooltip">/ˈvɜːdɪkt/ n. 裁决；定论</span></span> will not be delivered for years. What is clear, however, is that the age of AI has forced educators to <span class="vocab" onclick="this.classList.toggle('active')">articulate<span class="tooltip">/ɑːˈtɪkjuleɪt/ v. 明确表达；清楚说明</span></span> something they had long taken for granted: the precise value of human thought in a world of increasingly capable machines. And that, perhaps, is a lesson worth learning no matter what the future holds.</p>
+</div>
+
+<h2 class="section-title">短语搭配 Phrases</h2>
+
+<div class="phrase-card">
+  <div class="phrase-title">1. grapple with</div>
+  <div class="phrase-meaning">努力应对；奋力解决</div>
+  <div class="phrase-example">原句：Employers, too, are grappling with the implications.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">2. break down</div>
+  <div class="phrase-meaning">分解；拆散</div>
+  <div class="phrase-example">原句：...the ability to break down complex problems into manageable parts.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">3. rely on</div>
+  <div class="phrase-meaning">依赖；依靠</div>
+  <div class="phrase-example">原句：...rely on human expertise.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">4. take for granted</div>
+  <div class="phrase-meaning">认为…理所当然；不把…当回事</div>
+  <div class="phrase-example">原句：...something they had long taken for granted...</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">5. far from settled</div>
+  <div class="phrase-meaning">远未解决；尚无定论</div>
+  <div class="phrase-example">原句：...a debate that remains far from settled.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">6. line by line</div>
+  <div class="phrase-meaning">逐行地</div>
+  <div class="phrase-example">原句：...teaching students to write code line by line...</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">7. in seconds</div>
+  <div class="phrase-meaning">在几秒钟内</div>
+  <div class="phrase-example">原句：...tools that could produce entire programs in seconds.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">8. remain to be seen</div>
+  <div class="phrase-meaning">尚待观察；有待证明</div>
+  <div class="phrase-example">原句：Whether these changes will produce better computer scientists remains to be seen.</div>
+</div>
+
+<h2 class="section-title">长难句解析 Sentence Analysis</h2>
+
+<div class="sentence-analysis">
+  <div class="sentence-en">Sentence 1: If the raison d'être of a computer science degree is to prepare students for the workforce, and the workforce is being transformed by AI, then the degree must transform as well.</div>
+  <div class="sentence-cn">【结构分析】本句为复合句，主句为"the degree must transform"。前面是两个由and连接的并列条件从句，均使用if引导。整体为"If A, and B, then C"的结构，层层递进。</div>
+</div>
+
+<div class="sentence-analysis">
+  <div class="sentence-en">Sentence 2: What is clear, however, is that the age of AI has forced educators to articulate something they had long taken for granted: the precise value of human thought in a world of increasingly capable machines.</div>
+  <div class="sentence-cn">【结构分析】主语为What引导的主语从句"What is clear"；表语为that引导的表语从句，其中包含定语从句"they had long taken for granted"修饰something；冒号后为同位语，解释something的具体内容。</div>
+</div>
+
+<div class="sentence-analysis">
+  <div class="sentence-en">Sentence 3: On one hand, she can experiment with ideas far more quickly than previous generations; on the other, she sometimes wonders whether she is truly mastering the material or merely delegating her thinking to an algorithm.</div>
+  <div class="sentence-cn">【结构分析】分号连接两个并列句。后句中whether引导宾语从句，从句内部使用"whether...or..."结构，表示"是……还是……"的对比关系。</div>
+</div>
+
+<h2 class="section-title">阅读理解 Reading Comprehension</h2>
+
+<div class="quiz-item">
+  <div class="quiz-question">1. 主旨大意题：What is the main idea of the passage?</div>
+  <div class="quiz-options">
+    <label><input type="radio" name="q1" value="A"> A. AI tools have made coding completely unnecessary for computer science students.</label>
+    <label><input type="radio" name="q1" value="B"> B. Computer science education is shifting from coding skills to computational thinking and AI literacy.</label>
+    <label><input type="radio" name="q1" value="C"> C. Most professors oppose the use of AI in computer science classrooms.</label>
+    <label><input type="radio" name="q1" value="D"> D. Tech companies no longer require coding ability when hiring software engineers.</label>
+  </div>
+  <button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">查看答案</button>
+  <div class="quiz-answer">
+    <strong>正确答案：B</strong><br>
+    【解析】文章围绕AI时代计算机科学教育的转型展开，强调教育重心正从传统编程转向计算思维、AI素养和批判性判断能力的培养。A、C、D均与原文不符或过于绝对。
+  </div>
+</div>
+
+<div class="quiz-item">
+  <div class="quiz-question">2. 推理判断题：What can be inferred about Professor Maria Klawe's attitude toward AI in education?</div>
+  <div class="quiz-options">
+    <label><input type="radio" name="q2" value="A"> A. She believes AI will completely replace traditional computer science courses.</label>
+    <label><input type="radio" name="q2" value="B"> B. She thinks educators should ignore AI trends and continue teaching as before.</label>
+    <label><input type="radio" name="q2" value="C"> C. She cautions against blindly following trends while emphasizing the importance of fundamentals.</label>
+    <label><input type="radio" name="q2" value="D"> D. She argues that AI literacy is more important than data structures.</label>
+  </div>
+  <button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">查看答案</button>
+  <div class="quiz-answer">
+    <strong>正确答案：C</strong><br>
+    【解析】Maria Klawe提到"We need to distinguish between what is fashionable and what is fundamental"，表明她反对盲目追逐技术潮流，同时强调基础的重要性。A、B、D均不符合原文意思。
+  </div>
+</div>
+
+<div class="quiz-item">
+  <div class="quiz-question">3. 词义猜测题：In paragraph 5, the word "crutch" most probably means ______.</div>
+  <div class="quiz-options">
+    <label><input type="radio" name="q3" value="A"> A. a useful tool that enhances productivity</label>
+    <label><input type="radio" name="q3" value="B"> B. an object of dependence that weakens one's own ability</label>
+    <label><input type="radio" name="q3" value="C"> C. a medical device for injured people</label>
+    <label><input type="radio" name="q3" value="D"> D. a teaching method recommended by professors</label>
+  </div>
+  <button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">查看答案</button>
+  <div class="quiz-answer">
+    <strong>正确答案：B</strong><br>
+    【解析】原文语境为"using AI as a tool"与"using it as a crutch"的对比。Crutch本义为"拐杖"，此处比喻过度依赖而削弱自身能力的事物。A、C、D均不符合该对比语境。
+  </div>
+</div>
+
+<div class="tip-box">
+  <h4>阅读技巧提示</h4>
+  <ul style="margin-left:1.2em">
+    <li>遇到对比结构（如 on one hand...on the other...）时，注意作者态度的微妙差别。</li>
+    <li>冒号后的内容通常是对前文的解释说明，可帮助理解抽象概念。</li>
+    <li>引语是考研阅读高频考点，关注专家观点的措辞和态度倾向。</li>
+    <li>结尾段落常出现升华或总结，注意 "what is clear"、"the lesson" 等信号表达。</li>
+  </ul>
+</div>
+
+<h2 class="section-title">词汇表 Vocabulary</h2>
+<table class="vocab-table">
+  <thead>
+    <tr><th>单词</th><th>音标</th><th>词性</th><th>中文释义</th><th>例句</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>generative</td><td>/ˈdʒenərətɪv/</td><td>adj.</td><td>生成的；有生产力的</td><td>Generative AI can create text, images, and code.</td></tr>
+    <tr><td>jolt</td><td>/dʒəʊlt/</td><td>n.</td><td>震动；冲击</td><td>The news gave the market a severe jolt.</td></tr>
+    <tr><td>transformation</td><td>/ˌtrænsfəˈmeɪʃn/</td><td>n.</td><td>转变；变革</td><td>The digital transformation changed every industry.</td></tr>
+    <tr><td>syntax</td><td>/ˈsɪntæks/</td><td>n.</td><td>语法；句法</td><td>Syntax errors are common among beginners.</td></tr>
+    <tr><td>distinction</td><td>/dɪˈstɪŋkʃn/</td><td>n.</td><td>区别；差别</td><td>There is a clear distinction between the two concepts.</td></tr>
+    <tr><td>tenet</td><td>/ˈtenɪt/</td><td>n.</td><td>原则；信条</td><td>Freedom of speech is a core tenet of democracy.</td></tr>
+    <tr><td>restructure</td><td>/ˌriːˈstrʌktʃər/</td><td>v.</td><td>重组；调整结构</td><td>The company decided to restructure its operations.</td></tr>
+    <tr><td>algorithmic</td><td>/ˌælɡəˈrɪðmɪk/</td><td>adj.</td><td>算法的</td><td>Algorithmic thinking is essential for programmers.</td></tr>
+    <tr><td>proficiency</td><td>/prəˈfɪʃnsi/</td><td>n.</td><td>熟练；精通</td><td>She demonstrated high proficiency in Spanish.</td></tr>
+    <tr><td>manifestation</td><td>/ˌmænɪfeˈsteɪʃn/</td><td>n.</td><td>表现；显示</td><td>His anger was a manifestation of deeper frustration.</td></tr>
+    <tr><td>veteran</td><td>/ˈvetərən/</td><td>n.</td><td>老手；经验丰富的人</td><td>The veteran teacher shared valuable insights.</td></tr>
+    <tr><td>erode</td><td>/ɪˈrəʊd/</td><td>v.</td><td>侵蚀；削弱</td><td>Constant criticism can erode one's confidence.</td></tr>
+    <tr><td>ignite</td><td>/ɪɡˈnaɪt/</td><td>v.</td><td>点燃；引发</td><td>The policy ignited a nationwide debate.</td></tr>
+    <tr><td>opportunity</td><td>/ˌɒpəˈtjuːnəti/</td><td>n.</td><td>机会</td><td>The crisis created unexpected opportunities.</td></tr>
+    <tr><td>anxiety</td><td>/æŋˈzaɪəti/</td><td>n.</td><td>焦虑；忧虑</td><td>Students often feel anxiety before exams.</td></tr>
+    <tr><td>delegate</td><td>/ˈdelɪɡeɪt/</td><td>v.</td><td>委派；委托</td><td>Managers should learn to delegate tasks effectively.</td></tr>
+    <tr><td>crutch</td><td>/krʌtʃ/</td><td>n.</td><td>拐杖；依靠</td><td>Over-reliance on notes can become a crutch.</td></tr>
+    <tr><td>integral</td><td>/ˈɪntɪɡrəl/</td><td>adj.</td><td>不可或缺的</td><td>Trust is integral to any healthy relationship.</td></tr>
+    <tr><td>scrutinize</td><td>/ˈskruːtənaɪz/</td><td>v.</td><td>仔细检查；认真审阅</td><td>Investigators scrutinized every document carefully.</td></tr>
+    <tr><td>verdict</td><td>/ˈvɜːdɪkt/</td><td>n.</td><td>裁决；定论</td><td>The jury reached a unanimous verdict.</td></tr>
+    <tr><td>articulate</td><td>/ɑːˈtɪkjuleɪt/</td><td>v.</td><td>明确表达；清楚说明</td><td>She struggled to articulate her feelings.</td></tr>
+    <tr><td>reactive</td><td>/riˈæktɪv/</td><td>adj.</td><td>被动的；反应式的</td><td>A proactive approach is better than a reactive one.</td></tr>
+  </tbody>
+</table>
+
+<footer>
+  <p>SinAndZsh 考研英语外刊精读 | Generated on 2026-06-29</p>
+  <p>来源：The New York Times | 仅供学习交流使用</p>
+</footer>
+
+</div>
+</body>
+</html>
