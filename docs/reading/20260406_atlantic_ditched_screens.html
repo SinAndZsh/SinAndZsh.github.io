@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Happened After a Teacher Ditched Screens | 考研英语外刊精读</title>
+    <style>
+        :root {
+            --primary: #2c5282;
+            --primary-light: #ebf8ff;
+            --accent: #c53030;
+            --accent-light: #fff5f5;
+            --text: #2d3748;
+            --text-light: #4a5568;
+            --bg: #ffffff;
+            --bg-warm: #fffaf0;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0,0,0,0.07);
+            --radius: 12px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: var(--text);
+            line-height: 1.75;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 0 30px;
+            border-bottom: 3px solid var(--primary);
+            margin-bottom: 30px;
+        }
+        .tag {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        .meta {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        .meta span { margin: 0 10px; }
+        .section {
+            background: var(--bg);
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+            padding-left: 14px;
+            margin-bottom: 18px;
+            font-weight: 700;
+        }
+        .summary-box {
+            background: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            padding: 20px 24px;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin-bottom: 24px;
+        }
+        .summary-box h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .article-body {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text);
+        }
+        .article-body p {
+            margin-bottom: 1.2em;
+            text-indent: 2em;
+        }
+        .vocab {
+            color: var(--accent);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--accent);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .vocab:hover {
+            background: var(--accent-light);
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a202c;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: normal;
+            white-space: nowrap;
+            z-index: 100;
+            line-height: 1.5;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: #1a202c transparent transparent transparent;
+        }
+        .vocab:hover .tooltip { display: block; }
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        .vocab-table th {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary);
+        }
+        .vocab-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .vocab-table tr:hover { background: #f7fafc; }
+        .word {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 1.05rem;
+        }
+        .phonetic {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-family: "Segoe UI", serif;
+        }
+        .pos {
+            display: inline-block;
+            background: #edf2f7;
+            color: var(--text-light);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 6px;
+        }
+        .phrase-box {
+            background: var(--bg-warm);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-bottom: 14px;
+            border-left: 4px solid #dd6b20;
+        }
+        .phrase-box .phrase {
+            font-weight: 700;
+            color: #c05621;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+        .phrase-box .meaning {
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .phrase-box .example {
+            color: var(--text-light);
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+        .sentence-analysis {
+            background: #f0fff4;
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border-left: 4px solid #38a169;
+        }
+        .sentence-analysis .original {
+            font-weight: 600;
+            color: #276749;
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        .sentence-analysis .analysis {
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        .sentence-analysis .highlight {
+            background: #c6f6d5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .quiz-item {
+            margin-bottom: 24px;
+            padding: 20px 24px;
+            background: #faf5ff;
+            border-radius: var(--radius);
+            border-left: 4px solid #805ad5;
+        }
+        .quiz-item .question {
+            font-weight: 700;
+            color: #553c9a;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+        .quiz-item .options {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+        .quiz-item .options li {
+            margin-bottom: 6px;
+            list-style: upper-alpha;
+        }
+        .answer-box {
+            background: white;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-top: 10px;
+        }
+        .answer-label {
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .analysis-text {
+            color: var(--text-light);
+            margin-top: 6px;
+            font-size: 0.95rem;
+        }
+        .tips-box {
+            background: #e6fffa;
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            border-left: 4px solid #319795;
+        }
+        .tips-box h3 {
+            color: #285e61;
+            margin-bottom: 10px;
+        }
+        .tips-box ul {
+            margin-left: 20px;
+        }
+        .tips-box li {
+            margin-bottom: 8px;
+        }
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 640px) {
+            .container { padding: 20px 14px; }
+            h1 { font-size: 1.5rem; }
+            .section { padding: 20px 18px; }
+            .tooltip { white-space: normal; width: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="tag">考研英语外刊精读</div>
+            <h1>What Happened After a Teacher Ditched Screens</h1>
+            <div class="meta">
+                <span>📰 The Atlantic</span>
+                <span>📅 April 6, 2026</span>
+                <span>📖 Education & Technology</span>
+            </div>
+        </header>
+
+        <div class="section">
+            <div class="summary-box">
+                <h3>📋 文章大意</h3>
+                <p>本文讲述了美国科罗拉多州一位七年级数学教师Dylan Kane的故事。作为教育技术的早期采用者，他在使用Chromebook十多年后，决定进行一项实验：一个月内移除教室中的所有电子设备。结果显示，没有屏幕后，学生注意力更集中，作业完成率从45%上升到62%，师生互动也更加有效。Kane认为，教育本质上是社会性的集体活动，而屏幕往往分散和割裂了这种联系。他并非完全否定技术价值，但质疑了"技术对所有学生都有益"这一普遍假设。</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">原文精读</h2>
+            <div class="article-body">
+                <p>For more than a decade, Dylan Kane, a seventh-grade math teacher in Leadville, Colorado, <span class="vocab">leaned into<span class="tooltip">积极投身于；全力以赴</span></span> technology as a way to improve his classes. Starting in 2014, he dragged Chromebook carts down hallways to make sure all of his students could use a device. He assessed the available apps, built his own math-instruction website, and embedded software to prevent kids from playing games or exploring <span class="vocab">inappropriate<span class="tooltip">/ˌɪnəˈprəʊpriət/ adj. 不适当的，不合适的</span></span> sites. He kept adapters around the room so everyone could charge up.</p>
+
+                <p>Then, in January, he took the Chromebooks away. He had sensed that the technology was falling short of its promises. Within weeks of ditching the screens, he saw how they had been <span class="vocab">holding back<span class="tooltip">阻碍；抑制</span></span> both him and his students. Given my own research on children and education, I reached out to him when I learned from a colleague about his experiment.</p>
+
+                <p>Laptops and tablets have become <span class="vocab">ubiquitous<span class="tooltip">/juːˈbɪkwɪtəs/ adj. 无处不在的，普遍存在的</span></span> in classrooms across the country. About 90 percent of school districts provide every student with a school-issued laptop or tablet. A nationally representative survey from 2021 of ed-tech use by teachers found that more than half had their students use screens for up to four hours a day, and more than a quarter had students spend at least five hours on screens in a typical school day.</p>
+
+                <p>The great promise of educational technology is <span class="vocab">personalization<span class="tooltip">/ˌpɜːrsənələˈzeɪʃn/ n. 个性化，个人化</span></span>. Every student suffers from "Swiss-cheese gaps" in their knowledge, Sal Khan, the founder of Khan Academy and an <span class="vocab">evangelist<span class="tooltip">/ɪˈvændʒəlɪst/ n. 鼓吹者，倡导者；布道者</span></span> for how tech and tutoring can enhance learning, once told me. Yet finding and filling these holes is a serious challenge for a teacher with 20 or more students who span several grade levels of ability. Specially designed apps, websites, and now AI tutors tout not just ways to measure the abilities of every student, but also software that adapts to each student's interests and skills. <span class="vocab">Algorithms<span class="tooltip">/ˈælɡərɪðəmz/ n. 算法（algorithm的复数）</span></span> are meant to ensure that no student <span class="vocab">falls through the cracks<span class="tooltip">被忽视；从裂缝中漏掉</span></span>.</p>
+
+                <p>Yet Kane found that the reality was more complicated. An early adopter, he helped pioneer an experiment at his school to give eighth graders laptops, and he was a swift <span class="vocab">cheerleader for<span class="tooltip">...的倡导者/支持者</span></span> Desmos, an online graphing tool that lets students drag sliders and <span class="vocab">manipulate<span class="tooltip">/məˈnɪpjuleɪt/ v. 操纵，操作；巧妙处理</span></span> equations. But something was <span class="vocab">nagging at<span class="tooltip">使烦恼；困扰</span></span> him. Even with the best-designed software, built with pause functions so he could remotely freeze students' screens to recapture their attention, he noticed that his students tended to stare at their screens during class discussions. "There's this <span class="vocab">gravity<span class="tooltip">/ˈɡrævəti/ n. 重力；严重性；吸引力</span></span> that the screens <span class="vocab">exert<span class="tooltip">/ɪɡˈzɜːrt/ v. 施加（影响、压力等）</span></span> on student attention," he told me. "They're waiting for it to unpause, waiting for it to pull them back in."</p>
+
+                <p>He tried having them tilt their screens down, but they would slyly tilt them back up. He tried having them close their Chromebooks entirely, but then he was spending precious minutes managing the transition to and from screens, reconnecting to the internet, troubleshooting the inevitable problems: the charger that wouldn't work, the software that inexplicably blocked the wrong websites, the Chromebook that was suddenly dead. "You might be amazed at how much time I spend dealing with stuff like that," he said.</p>
+
+                <p>Already frustrated, Kane read the December book <em>The Digital Delusion</em>, in which Jared Cooney Horvath, a neuroscientist and an educator, blames technology for the widely <span class="vocab">documented<span class="tooltip">/ˈdɒkjumentɪd/ adj. 有记录的，有文献证明的</span></span> decline in student achievement. Although Kane disagreed with Horvath's insistence that screens in classrooms are the primary <span class="vocab">culprit<span class="tooltip">/ˈkʌlprɪt/ n. 罪魁祸首，罪犯</span></span> behind declining test scores, he began to wonder if the Chromebooks in his own classroom were causing <span class="vocab">more harm than good<span class="tooltip">弊大于利</span></span>.</p>
+
+                <p>After years of <span class="vocab">accumulated<span class="tooltip">/əˈkjuːmjəleɪtɪd/ adj. 累积的，积聚的</span></span> doubt, Kane decided to run an experiment: no Chromebooks for a month. He soon discovered that he didn't miss the tech.</p>
+
+                <p>Not only did he lose less time <span class="vocab">futzing<span class="tooltip">/ˈfʌtsɪŋ/ v. 闲混，瞎摆弄（futz的现在分词）</span></span> over lost chargers and bad links, but he also noticed right away that his students paid more attention to what he said. Even more <span class="vocab">striking<span class="tooltip">/ˈstraɪkɪŋ/ adj. 显著的，惊人的</span></span>, Kane found that it was easier to connect with and respond to his students.</p>
+
+                <p>"If I walk by Jimmy and I see he answered the first two questions and the third one is blank, that gives me a ton of information," Kane said. When he sees that Jimmy is clearly confused about No. 3, Kane can stop and help him. Screens, however, made it possible for a student to look busy for an entire class period without Kane ever knowing he was stuck.</p>
+
+                <p>Kane ends every class with a short mixed-practice assignment, a <span class="vocab">retrieval<span class="tooltip">/rɪˈtriːvl/ n. 检索，取回；回忆</span></span> exercise that revisits the day's lesson and older material. He'd been delivering it digitally; in January, he switched to paper. He was surprised to discover that this raised the assignment-completion rate—from 45 to 62 percent—of the students who were the least likely to finish and submit their work before, even though the digital version could technically be finished after class. He now <span class="vocab">speculates<span class="tooltip">/ˈspekjuleɪts/ v. 推测，猜测（speculate的第三人称单数）</span></span> that because working in pencil and paper slows students down and makes their thinking process <span class="vocab">visible<span class="tooltip">/ˈvɪzəbl/ adj. 可见的，明显的</span></span>, they are better able to push through hard concepts.</p>
+
+                <p>Because Kane's <span class="vocab">intervention<span class="tooltip">/ˌɪntərˈvenʃn/ n. 干预，介入；调停</span></span> is so recent, his <span class="vocab">hypothesis<span class="tooltip">/haɪˈpɒθəsɪs/ n. 假设，假说</span></span> has yet to be <span class="vocab">confirmed<span class="tooltip">/kənˈfɜːrmd/ v. 证实，确认（confirm的过去分词）</span></span> by standardized tests. Over and over again, though, Kane discovered that all of the dashboards and data <span class="vocab">analytics<span class="tooltip">/ˌænəˈlɪtɪks/ n. 分析学，数据分析</span></span> of ed tech did not make the individual needs of students clearer, nor did they much help those who were struggling. Instead, the screens offered students cover, a way to appear engaged without any actual sustained effort. Only when he got rid of all the laptops and tablets did the needs of his students become plain. "If I walk by and see what they've done on paper, I can respond to their learning," he said.</p>
+
+                <p>Education, Kane knows, is profoundly and stubbornly social. "There are a lot of students who need accountability," he said. The answer is not more surveillance, but more companionship in the struggle. "Students benefit from being in a room with a bunch of other people who are learning the same thing, the <span class="vocab">collective<span class="tooltip">/kəˈlektɪv/ adj. 集体的，共同的</span></span> <span class="vocab">effervescence<span class="tooltip">/ˌefərˈvesns/ n. 欢腾，兴致勃勃；气泡</span></span> of all trying to make progress together," he said. "And they benefit from an adult who knows them, who is in the room, who says 'I care about your learning.'"</p>
+
+                <p>Screens, Kane noticed, had made it easier for students—and, if he's being honest, for teachers—to <span class="vocab">opt out of<span class="tooltip">选择退出；逃避</span></span> that contract. "Chromebooks can be a classroom-management strategy," he said. "Students tend to be a little more <span class="vocab">docile<span class="tooltip">/ˈdoʊsl/ adj. 温顺的，易控制的</span></span> with a screen in front of them. And it was just so easy for me to sit behind my screen and watch the little dots marching across the dashboard and not really teach." He's noticed that teaching in an <span class="vocab">analog<span class="tooltip">/ˈænəlɔːɡ/ adj. 模拟的，非数字的</span></span> environment is more demanding. "I'm more fatigued," he said. "But I'm happy with that."</p>
+
+                <p>There is no question that technology can support learning. But somewhere along the way, what was once a 30-minute intervention became kids glued to laptops at school—and at home, too, because many homework assignments and materials are virtual. Educators are still trying to figure out how to balance technological tools that can be both enormously helpful and <span class="vocab">perniciously<span class="tooltip">/pərˈnɪʃəsli/ adv. 有害地，恶性地</span></span> distracting. "I've been in classrooms that had lots of ed tech where very little learning was taking place," Natalie Wexler, the author of <em>Beyond the Science of Reading</em> and <em>The Knowledge Gap</em>, writes, "and I've been in classrooms with very little ed tech where lots of learning was taking place. But the absence of ed tech doesn't ensure learning."</p>
+
+                <p>Kane isn't calling for a <span class="vocab">bonfire<span class="tooltip">/ˈbɒnfaɪər/ n. 篝火；火堆</span></span> of the Chromebooks. He still believes that technology has genuine value for highly motivated, self-directed learners, and he plans to still use screens occasionally, maybe once a month, for specific tasks. He's even cautiously optimistic about the potential for AI to help teachers generate better classroom materials.</p>
+
+                <p>What Kane is <span class="vocab">skeptical<span class="tooltip">/ˈskeptɪkl/ adj. 怀疑的，持怀疑态度的</span></span> of is the <span class="vocab">prevailing<span class="tooltip">/prɪˈveɪlɪŋ/ adj. 流行的，普遍的；占优势的</span></span> assumption that technology is a valuable asset for teachers and students in schools. "Classrooms are social spaces and collective <span class="vocab">endeavors<span class="tooltip">/ɪnˈdevərz/ n. 努力，尝试（endeavor的复数）</span></span>," he explained. Screens, however, "tend to distract and divide us."</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">📝 长难句解析</h2>
+            
+            <div class="sentence-analysis">
+                <div class="original">1. Yet finding and filling these holes is a serious challenge for a teacher with 20 or more students who span several grade levels of ability.</div>
+                <div class="analysis">
+                    <span class="highlight">【句子结构】</span> 主语（Yet finding and filling these holes）+ 系动词（is）+ 表语（a serious challenge）+ 介词短语（for a teacher）+ 介词短语（with 20 or more students）+ 定语从句（who span several grade levels of ability）。<br>
+                    <span class="highlight">【核心难点】</span> 动名词短语作主语；who引导的定语从句修饰students。<br>
+                    <span class="highlight">【参考译文】</span> 然而，找到并填补这些知识漏洞，对于一位要面对20多名能力跨度达几个年级的学生的教师来说，是一个严峻的挑战。
+                </div>
+            </div>
+
+            <div class="sentence-analysis">
+                <div class="original">2. He was surprised to discover that this raised the assignment-completion rate—from 45 to 62 percent—of the students who were the least likely to finish and submit their work before, even though the digital version could technically be finished after class.</div>
+                <div class="analysis">
+                    <span class="highlight">【句子结构】</span> 主句（He was surprised to discover）+ 宾语从句（that this raised...）+ 插入语（from 45 to 62 percent）+ 定语从句（who were...）+ 让步状语从句（even though...）。<br>
+                    <span class="highlight">【核心难点】</span> 多重从句嵌套；破折号插入语分隔宾语和修饰成分；who定语从句中包含最高级the least likely；even though让步状语从句。<br>
+                    <span class="highlight">【参考译文】</span> 他惊讶地发现，这提高了那些以前最不可能完成作业并提交的学生——作业完成率从45%上升到62%——尽管数字版本从技术上说可以在课后完成。
+                </div>
+            </div>
+
+            <div class="sentence-analysis">
+                <div class="original">3. Over and over again, though, Kane discovered that all of the dashboards and data analytics of ed tech did not make the individual needs of students clearer, nor did they much help those who were struggling.</div>
+                <div class="analysis">
+                    <span class="highlight">【句子结构】</span> 主句（Kane discovered）+ 宾语从句（that all of...）+ nor引导的倒装句（nor did they much help...）+ 定语从句（who were struggling）。<br>
+                    <span class="highlight">【核心难点】</span> nor引导的否定倒装结构（nor did they...）；who定语从句修饰those。<br>
+                    <span class="highlight">【参考译文】</span> 然而，Kane一次又一次地发现，教育科技所有的仪表盘和数据分析并没有让学生的个体需求变得更清晰，也没有给那些正在挣扎的学生提供多少帮助。
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🔗 短语搭配</h2>
+            
+            <div class="phrase-box">
+                <div class="phrase">1. lean into</div>
+                <div class="meaning"><strong>中文释义：</strong>积极投身于；全力以赴；欣然接受</div>
+                <div class="example">📌 原句：For more than a decade, Dylan Kane... <em>leaned into</em> technology as a way to improve his classes.</div>
+            </div>
+
+            <div class="phrase-box">
+                <div class="phrase">2. fall through the cracks</div>
+                <div class="meaning"><strong>中文释义：</strong>被忽视；从裂缝中漏掉；无人过问</div>
+                <div class="example">📌 原句：Algorithms are meant to ensure that no student <em>falls through the cracks</em>.</div>
+            </div>
+
+            <div class="phrase-box">
+                <div class="phrase">3. hold back</div>
+                <div class="meaning"><strong>中文释义：</strong>阻碍；抑制；隐瞒</div>
+                <div class="example">📌 原句：Within weeks of ditching the screens, he saw how they had been <em>holding back</em> both him and his students.</div>
+            </div>
+
+            <div class="phrase-box">
+                <div class="phrase">4. cheerleader for</div>
+                <div class="meaning"><strong>中文释义：</strong>...的倡导者/支持者；为...摇旗呐喊的人</div>
+                <div class="example">📌 原句：...he was a swift <em>cheerleader for</em> Desmos, an online graphing tool...</div>
+            </div>
+
+            <div class="phrase-box">
+                <div class="phrase">5. nag at</div>
+                <div class="meaning"><strong>中文释义：</strong>使烦恼；困扰；不断烦扰</div>
+                <div class="example">📌 原句：But something was <em>nagging at</em> him.</div>
+            </div>
+
+            <div class="phrase-box">
+                <div class="phrase">6. more harm than good</div>
+                <div class="meaning"><strong>中文释义：</strong>弊大于利；害处多于好处</div>
+                <div class="example">📌 原句：...he began to wonder if the Chromebooks in his own classroom were causing <em>more harm than good</em>.</div>
+            </div>
+
+            <div class="phrase-box">
+                <div class="phrase">7. opt out of</div>
+                <div class="meaning"><strong>中文释义：</strong>选择退出；决定不参加；逃避</div>
+                <div class="example">📌 原句：Screens...had made it easier for students—and...for teachers—to <em>opt out of</em> that contract.</div>
+            </div>
+
+            <div class="phrase-box">
+                <div class="phrase">8. perniciously distracting</div>
+                <div class="meaning"><strong>中文释义：</strong>恶性分散注意力的；有害地使人分心的</div>
+                <div class="example">📌 原句：...technological tools that can be both enormously helpful and <em>perniciously</em> distracting.</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">📚 考研核心词汇表</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>单词</th>
+                        <th>音标</th>
+                        <th>词性</th>
+                        <th>中文释义</th>
+                        <th>例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="word">ubiquitous</span></td>
+                        <td class="phonetic">/juːˈbɪkwɪtəs/</td>
+                        <td><span class="pos">adj.</span></td>
+                        <td>无处不在的，普遍存在的</td>
+                        <td>Laptops have become <strong>ubiquitous</strong> in modern classrooms.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">personalization</span></td>
+                        <td class="phonetic">/ˌpɜːrsənələˈzeɪʃn/</td>
+                        <td><span class="pos">n.</span></td>
+                        <td>个性化，个人化</td>
+                        <td>The great promise of ed-tech is <strong>personalization</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">evangelist</span></td>
+                        <td class="phonetic">/ɪˈvændʒəlɪst/</td>
+                        <td><span class="pos">n.</span></td>
+                        <td>鼓吹者，倡导者；布道者</td>
+                        <td>Sal Khan is an <strong>evangelist</strong> for tech-enhanced learning.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">algorithm</span></td>
+                        <td class="phonetic">/ˈælɡərɪðəm/</td>
+                        <td><span class="pos">n.</span></td>
+                        <td>算法</td>
+                        <td><strong>Algorithms</strong> are meant to ensure no student falls through the cracks.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">manipulate</span></td>
+                        <td class="phonetic">/məˈnɪpjuleɪt/</td>
+                        <td><span class="pos">v.</span></td>
+                        <td>操纵，操作；巧妙处理</td>
+                        <td>Desmos lets students drag sliders and <strong>manipulate</strong> equations.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">gravity</span></td>
+                        <td class="phonetic">/ˈɡrævəti/</td>
+                        <td><span class="pos">n.</span></td>
+                        <td>重力；严重性；吸引力</td>
+                        <td>There's a <strong>gravity</strong> that screens exert on student attention.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">exert</span></td>
+                        <td class="phonetic">/ɪɡˈzɜːrt/</td>
+                        <td><span class="pos">v.</span></td>
+                        <td>施加（影响、压力等）</td>
+                        <td>Screens <strong>exert</strong> a powerful pull on student attention.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">inappropriate</span></td>
+                        <td class="phonetic">/ˌɪnəˈprəʊpriət/</td>
+                        <td><span class="pos">adj.</span></td>
+                        <td>不适当的，不合适的</td>
+                        <td>Software blocked kids from exploring <strong>inappropriate</strong> sites.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">documented</span></td>
+                        <td class="phonetic">/ˈdɒkjumentɪd/</td>
+                        <td><span class="pos">adj.</span></td>
+                        <td>有记录的，有文献证明的</td>
+                        <td>Technology is blamed for the widely <strong>documented</strong> decline.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">culprit</span></td>
+                        <td class="phonetic">/ˈkʌlprɪt/</td>
+                        <td><span class="pos">n.</span></td>
+                        <td>罪魁祸首，罪犯</td>
+                        <td>Screens are seen as the primary <strong>culprit</strong> behind declining scores.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">accumulated</span></td>
+                        <td class="phonetic">/əˈkjuːmjəleɪtɪd/</td>
+                        <td><span class="pos">adj.</span></td>
+                        <td>累积的，积聚的</td>
+                        <td>After years of <strong>accumulated</strong> doubt, he ran an experiment.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">striking</span></td>
+                        <td class="phonetic">/ˈstraɪkɪŋ/</td>
+                        <td><span class="pos">adj.</span></td>
+                        <td>显著的，惊人的</td>
+                        <td>Even more <strong>striking</strong>, it was easier to connect with students.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">retrieval</span></td>
+                        <td class="phonetic">/rɪˈtriːvl/</td>
+                        <td><span class="pos">n.</span></td>
+                        <td>检索，取回；回忆</td>
+                        <td>He ends class with a <strong>retrieval</strong> exercise on paper.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">speculate</span></td>
+                        <td class="phonetic">/ˈspekjuleɪt/</td>
+                        <td><span class="pos">v.</span></td>
+                        <td>推测，猜测</td>
+                        <td>He now <strong>speculates</strong> that paper slows students down helpfully.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">visible</span></td>
+                        <td class="phonetic">/ˈvɪzəbl/</td>
+                        <td><span class="pos">adj.</span></td>
+                        <td>可见的，明显的</td>
+                        <td>Paper makes their thinking process <strong>visible</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">intervention</span></td>
+                        <td class="phonetic">/ˌɪntərˈvenʃn/</td>
+                        <td><span class="pos">n.</span></td>
+                        <td>干预，介入</td>
+                        <td>Because his <strong>intervention</strong> is recent, it's not yet confirmed.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">hypothesis</span></td>
+                        <td class="phonetic">/haɪˈpɒθəsɪs/</td>
+                        <td><span class="pos">n.</span></td>
+                        <td>假设，假说</td>
+                        <td>His <strong>hypothesis</strong> has yet to be confirmed by tests.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">confirm</span></td>
+                        <td class="phonetic">/kənˈfɜːrm/</td>
+                        <td><span class="pos">v.</span></td>
+                        <td>证实，确认</td>
+                        <td>The theory needs to be <strong>confirmed</strong> by further research.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">analytics</span></td>
+                        <td class="phonetic">/ˌænəˈlɪtɪks/</td>
+                        <td><span class="pos">n.</span></td>
+                        <td>分析学，数据分析</td>
+                        <td>Data <strong>analytics</strong> did not make student needs clearer.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">perniciously</span></td>
+                        <td class="phonetic">/pərˈnɪʃəsli/</td>
+                        <td><span class="pos">adv.</span></td>
+                        <td>有害地，恶性地</td>
+                        <td>Tools can be helpful yet <strong>perniciously</strong> distracting.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">docile</span></td>
+                        <td class="phonetic">/ˈdoʊsl/</td>
+                        <td><span class="pos">adj.</span></td>
+                        <td>温顺的，易控制的</td>
+                        <td>Students tend to be more <strong>docile</strong> with a screen.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">analog</span></td>
+                        <td class="phonetic">/ˈænəlɔːɡ/</td>
+                        <td><span class="pos">adj.</span></td>
+                        <td>模拟的，非数字的</td>
+                        <td>Teaching in an <strong>analog</strong> environment is more demanding.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">skeptical</span></td>
+                        <td class="phonetic">/ˈskeptɪkl/</td>
+                        <td><span class="pos">adj.</span></td>
+                        <td>怀疑的，持怀疑态度的</td>
+                        <td>He is <strong>skeptical</strong> of the prevailing assumption.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">prevailing</span></td>
+                        <td class="phonetic">/prɪˈveɪlɪŋ/</td>
+                        <td><span class="pos">adj.</span></td>
+                        <td>流行的，普遍的</td>
+                        <td>He questions the <strong>prevailing</strong> assumption about ed-tech.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">endeavor</span></td>
+                        <td class="phonetic">/ɪnˈdevər/</td>
+                        <td><span class="pos">n.</span></td>
+                        <td>努力，尝试</td>
+                        <td>Classrooms are collective <strong>endeavors</strong>, he explained.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">collective</span></td>
+                        <td class="phonetic">/kəˈlektɪv/</td>
+                        <td><span class="pos">adj.</span></td>
+                        <td>集体的，共同的</td>
+                        <td>Students benefit from the <strong>collective</strong> effervescence.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">effervescence</span></td>
+                        <td class="phonetic">/ˌefərˈvesns/</td>
+                        <td><span class="pos">n.</span></td>
+                        <td>欢腾，兴致勃勃</td>
+                        <td>The <strong>effervescence</strong> of learning together benefits students.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">futz</span></td>
+                        <td class="phonetic">/fʌts/</td>
+                        <td><span class="pos">v.</span></td>
+                        <td>闲混，瞎摆弄</td>
+                        <td>He lost less time <strong>futzing</strong> over chargers and links.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">nag</span></td>
+                        <td class="phonetic">/næɡ/</td>
+                        <td><span class="pos">v.</span></td>
+                        <td>不断困扰，烦扰</td>
+                        <td>Something was <strong>nagging at</strong> him about the tech.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="word">bonfire</span></td>
+                        <td class="phonetic">/ˈbɒnfaɪər/</td>
+                        <td><span class="pos">n.</span></td>
+                        <td>篝火；火堆</td>
+                        <td>He isn't calling for a <strong>bonfire</strong> of the Chromebooks.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">✏️ 阅读理解练习</h2>
+            
+            <div class="quiz-item">
+                <div class="question">1. What is the main idea of the passage?</div>
+                <ol class="options" type="A">
+                    <li>Technology should be completely banned in all classrooms worldwide.</li>
+                    <li>A teacher's experiment of removing screens led to noticeable positive changes in teaching and learning.</li>
+                    <li>All educational software is poorly designed and useless for students.</li>
+                    <li>Students universally prefer paper worksheets to digital devices.</li>
+                </ol>
+                <div class="answer-box">
+                    <div><span class="answer-label">正确答案：B</span></div>
+                    <div class="analysis-text">【答案解析】文章主要讲述教师Dylan Kane进行的一项实验——在教室中移除Chromebook一个月后，学生注意力提高、作业完成率从45%升至62%、师生互动更有效等积极变化，以及他对教育技术的反思。A选项"完全禁止"过于绝对，文中Kane并未呼吁全面禁止技术；C选项"所有软件设计糟糕"与文意不符，Kane认为技术对自驱型学习者仍有价值；D选项"学生普遍更喜欢纸质作业"只是实验细节，不是文章主旨。</div>
+                </div>
+            </div>
+
+            <div class="quiz-item">
+                <div class="question">2. According to Kane, what effect did screens have on students during class discussions?</div>
+                <ol class="options" type="A">
+                    <li>They made students more active and willing to participate.</li>
+                    <li>They helped students focus better on the teacher's explanations.</li>
+                    <li>They distracted students and exerted a "gravity" pulling their attention away.</li>
+                    <li>They improved students' math skills through visualization tools.</li>
+                </ol>
+                <div class="answer-box">
+                    <div><span class="answer-label">正确答案：C</span></div>
+                    <div class="analysis-text">【答案解析】根据文章第五段，Kane注意到"his students tended to stare at their screens during class discussions"，并且他描述屏幕对学生注意力施加了"gravity"（引力），学生"waiting for it to pull them back in"。这明确说明屏幕分散了学生在课堂讨论中的注意力。A、B选项与原文意思相反；D选项虽提及数学工具，但不是关于课堂讨论中屏幕的影响。</div>
+                </div>
+            </div>
+
+            <div class="quiz-item">
+                <div class="question">3. What can be inferred about Kane's attitude toward educational technology?</div>
+                <ol class="options" type="A">
+                    <li>He completely rejects all forms of educational technology in any context.</li>
+                    <li>He believes technology is equally useless for all types of students.</li>
+                    <li>He is cautiously skeptical about its universal benefits while acknowledging specific values.</li>
+                    <li>He thinks AI will soon solve all the problems in classroom teaching.</li>
+                </ol>
+                <div class="answer-box">
+                    <div><span class="answer-label">正确答案：C</span></div>
+                    <div class="analysis-text">【答案解析】从文章最后几段可以推断：Kane并非完全拒绝技术——他"isn't calling for a bonfire of the Chromebooks"，认为技术对"highly motivated, self-directed learners"有真正价值，且对AI辅助教学"cautiously optimistic"。但他质疑"technology is a valuable asset for teachers and students"这一普遍假设（prevailing assumption）。因此C选项"谨慎怀疑其普遍益处，同时承认特定价值"最准确。A、B选项过于绝对，与原文矛盾；D选项曲解了文中他对AI的谨慎乐观态度。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">💡 阅读技巧提示</h2>
+            <div class="tips-box">
+                <h3>考研英语阅读技巧</h3>
+                <ul>
+                    <li><strong>主旨大意题</strong>：关注文章首尾段及各段首句，注意作者的核心论点和反复出现的主题词。本文核心是"教师移除屏幕后的积极变化"，而非简单的"反对技术"。</li>
+                    <li><strong>细节理解题</strong>：定位原文关键词，注意同义替换。如题干中的"effect"对应原文的"gravity""exert""stare at"等表达。</li>
+                    <li><strong>推理判断题</strong>：区分"明确陈述"和"合理推断"。注意作者的态度词（skeptical, cautiously optimistic, questioning等），避免过度推断或选择绝对化选项。</li>
+                    <li><strong>长难句分析</strong>：先找主干（主谓宾/主系表），再分析修饰成分。遇到多重从句嵌套时，逐层拆解，理清各从句之间的关系。</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>📚 考研英语外刊精读 | 来源：The Atlantic | 整理日期：2026-07-01</p>
+            <p style="margin-top:8px;">本文仅供学习交流使用，版权归原作者及出版方所有</p>
+        </footer>
+    </div>
+</body>
+</html>

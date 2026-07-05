@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | How Big Tech Broke Into the Classroom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #dbeafe;
+            --secondary: #f59e0b;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --highlight: #fef3c7;
+            --vocab: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .article-header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            color: white;
+            padding: 60px 0 40px;
+            margin-bottom: 40px;
+        }
+
+        .article-header .source {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .article-header h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+
+        .article-header .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .article-header .meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.875rem;
+            opacity: 0.8;
+            flex-wrap: wrap;
+        }
+
+        /* Reading Progress */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--secondary);
+            z-index: 1000;
+            transition: width 0.1s;
+        }
+
+        /* Article Content */
+        .article-body {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .article-body p {
+            margin-bottom: 1.2em;
+            text-align: justify;
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        /* Vocabulary Highlighting */
+        .vocab {
+            color: var(--vocab);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--vocab);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .vocab:hover {
+            background: var(--highlight);
+        }
+
+        .vocab-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 400;
+            white-space: nowrap;
+            z-index: 100;
+            margin-bottom: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .vocab-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--text);
+        }
+
+        .vocab:hover .vocab-tooltip,
+        .vocab.active .vocab-tooltip {
+            display: block;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left: 4px solid var(--primary);
+            padding: 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 30px 0;
+        }
+
+        .summary-box h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .summary-box p {
+            margin: 0;
+            color: var(--text);
+        }
+
+        /* Difficult Sentences */
+        .sentence-analysis {
+            background: #fefce8;
+            border: 1px solid #fde047;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .sentence-analysis .original {
+            font-style: italic;
+            color: var(--text);
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed #fde047;
+        }
+
+        .sentence-analysis .analysis h4 {
+            color: #a16207;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .sentence-analysis .analysis p {
+            font-size: 0.95rem;
+            margin: 0;
+            color: var(--text-light);
+        }
+
+        /* Vocabulary Table */
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        .vocab-table th {
+            background: var(--primary);
+            color: white;
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .vocab-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .vocab-table tr:hover {
+            background: var(--bg);
+        }
+
+        .vocab-table .word {
+            font-weight: 700;
+            color: var(--vocab);
+        }
+
+        .vocab-table .phonetic {
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        /* Phrases Section */
+        .phrase-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            transition: box-shadow 0.2s;
+        }
+
+        .phrase-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .phrase-card .phrase {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .phrase-card .meaning {
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .phrase-card .example {
+            font-style: italic;
+            color: var(--text);
+            padding-left: 16px;
+            border-left: 3px solid var(--secondary);
+        }
+
+        /* Quiz Section */
+        .quiz-container {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .quiz-question {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .quiz-question:last-child {
+            border-bottom: none;
+        }
+
+        .quiz-question h4 {
+            color: var(--text);
+            margin-bottom: 16px;
+            font-size: 1.05rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .quiz-option {
+            padding: 12px 16px;
+            background: var(--bg);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .quiz-option:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .quiz-answer {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+
+        .quiz-answer .correct {
+            color: #15803d;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .quiz-answer .explanation {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Tips Box */
+        .tips-box {
+            background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%);
+            border-left: 4px solid #a855f7;
+            padding: 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 30px 0;
+        }
+
+        .tips-box h3 {
+            color: #7e22ce;
+            margin-bottom: 12px;
+        }
+
+        .tips-box ul {
+            margin-left: 20px;
+            color: var(--text);
+        }
+
+        .tips-box li {
+            margin-bottom: 8px;
+        }
+
+        /* Back Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: gap 0.2s;
+        }
+
+        .back-link:hover {
+            gap: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .article-header h1 {
+                font-size: 1.5rem;
+            }
+            .article-body {
+                padding: 24px;
+            }
+            .vocab-table {
+                font-size: 0.85rem;
+            }
+            .vocab-table th,
+            .vocab-table td {
+                padding: 10px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="article-header">
+        <div class="container">
+            <span class="source">The New York Times</span>
+            <h1>How Big Tech Broke Into the Classroom</h1>
+            <p class="subtitle">科技巨头如何打入课堂——基于内部文件与法庭记录的深度调查</p>
+            <div class="meta">
+                <span>📅 2026-06-27</span>
+                <span>✍️ Jennifer Valentino-DeVries</span>
+                <span>📖 约1200词</span>
+                <span>🏷️ 教育 / 科技 / 社会</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回文章列表</a>
+
+        <!-- 文章大意 -->
+        <div class="summary-box">
+            <h3>📋 文章大意</h3>
+            <p>本文基于《纽约时报》的调查报道，揭示了科技巨头如何通过内部策略将产品打入美国校园。文章指出，YouTube、Snapchat、Instagram和TikTok等平台在课堂时间内积极吸引学生注意力，导致教育中断。超过1400个学区提起诉讼，指控这些公司故意在学生上学期间推送内容。 Breathitt County学区案件的2.7亿美元和解案仅是开始，更大规模的索赔正在进行中。文章同时展现了科技公司内部的矛盾：教育团队希望提供学习工具，而商业团队则追求用户参与度最大化。</p>
+        </div>
+
+        <div class="article-body">
+            <p>Joanna Houston knew her son spent time on YouTube at school, but the <span class="vocab">scale<span class="vocab-tooltip">n. 规模；程度</span></span> simply surprised her. School records showed that her sixth-grade son in Richmond Hill, Georgia, watched more than 1,500 <span class="vocab">noneducational<span class="vocab-tooltip">adj. 非教育的</span></span> YouTube videos on his Chromebook between August and January.</p>
+
+            <p>Much of that viewing took place during school hours, turning a device <span class="vocab">intended<span class="vocab-tooltip">v. 打算；计划 (intend的过去分词)</span></span> for learning into a <span class="vocab">portal<span class="vocab-tooltip">n. 入口；门户</span></span> for entertainment. Houston's discovery shows a growing concern inside American schools. Teachers, parents and <span class="vocab">administrators<span class="vocab-tooltip">n. 管理者；行政人员</span></span> increasingly describe classrooms as <span class="vocab">battlegrounds<span class="vocab-tooltip">n. 战场；交锋场所</span></span> where lessons compete with notifications, videos and social media feeds designed to <span class="vocab">capture<span class="vocab-tooltip">v. 捕获；吸引</span></span> attention.</p>
+
+            <p>Newly <span class="vocab">disclosed<span class="vocab-tooltip">v. 披露；公开 (disclose的过去分词)</span></span> internal documents, reviewed by The New York Times through <span class="vocab">lawsuits<span class="vocab-tooltip">n. 诉讼； lawsuit的复数</span></span> filed by more than 1,400 school districts, provide an <span class="vocab">unusually<span class="vocab-tooltip">adv. 不寻常地；异常地</span></span> detailed look at how major technology companies <span class="vocab">pursued<span class="vocab-tooltip">v. 追求；寻求 (pursue的过去式)</span></span> young users during the school day. The records show social media platforms reaching students in classrooms while educators, parents and company safety teams <span class="vocab">voiced<span class="vocab-tooltip">v. 表达；发声 (voice的过去式)</span></span> concerns about academic <span class="vocab">disruption<span class="vocab-tooltip">n. 中断；扰乱</span></span>.</p>
+
+            <p>Snapchat sent <span class="vocab">prompts<span class="vocab-tooltip">n. 提示； prompt的复数</span></span> encouraging teenagers to post updates during school hours. Meta <span class="vocab">recruited<span class="vocab-tooltip">v. 招募；招聘 (recruit的过去式)</span></span> high school students to <span class="vocab">promote<span class="vocab-tooltip">v. 推广；促进</span></span> Instagram among their peers. TikTok <span class="vocab">weighed<span class="vocab-tooltip">v. 权衡；考虑 (weigh的过去式)</span></span> proposals that would limit notifications during class time and <span class="vocab">ultimately<span class="vocab-tooltip">adv. 最终；最后</span></span> moved in another direction. Google employees discussed ways to increase YouTube viewing during weekdays, even as education teams worried that students <span class="vocab">drifted<span class="vocab-tooltip">v.  drift的过去式；漂移；偏离</span></span> from schoolwork into unrelated content.</p>
+
+            <p>The <span class="vocab">disclosures<span class="vocab-tooltip">n. 披露；公开 (disclosure的复数)</span></span> came as schools rethink their relationship with technology. Smartphone bans have <span class="vocab">spread<span class="vocab-tooltip">v. 传播；蔓延 (spread的过去分词)</span></span> through districts nationwide. Administrators are <span class="vocab">reassessing<span class="vocab-tooltip">v. 重新评估 (reassess的现在分词)</span></span> digital learning tools that became <span class="vocab">central<span class="vocab-tooltip">adj. 核心的；主要的</span></span> during the <span class="vocab">pandemic<span class="vocab-tooltip">n. 疫情；大流行病</span></span>. Public debate, once focused <span class="vocab">largely<span class="vocab-tooltip">adv.  largely；主要地</span></span> on mental health, now centers on attention, <span class="vocab">concentration<span class="vocab-tooltip">n. 专注；集中</span></span> and learning.</p>
+
+            <p>School districts argue that platforms built around <span class="vocab">engagement<span class="vocab-tooltip">n. 参与度；互动</span></span> have <span class="vocab">imposed<span class="vocab-tooltip">v. 强加；施加 (impose的过去分词)</span></span> <span class="vocab">substantial<span class="vocab-tooltip">adj. 大量的；实质性的</span></span> educational costs. Teachers describe constant competition with apps that provide an <span class="vocab">endless<span class="vocab-tooltip">adj. 无止境的；不断的</span></span> stream of <span class="vocab">personalized<span class="vocab-tooltip">adj. 个性化的</span></span> entertainment. Court filings suggest the financial stakes could prove <span class="vocab">enormous<span class="vocab-tooltip">adj. 巨大的；庞大的</span></span>. Breathitt County Schools in rural Kentucky served as the first major test case.</p>
+
+            <p>The district sought funding for long-term educational and mental health programs. Meta, Snap, TikTok and Google eventually agreed to pay a combined $27 million to <span class="vocab">settle<span class="vocab-tooltip">v. 解决；和解</span></span> the case. Several larger districts continue to <span class="vocab">pursue<span class="vocab-tooltip">v. 追求；继续从事</span></span> claims worth hundreds of millions or even billions of dollars.</p>
+
+            <p>The documents also <span class="vocab">illuminate<span class="vocab-tooltip">v. 阐明；照亮</span></span> how companies viewed teenage users. Years before social media faced <span class="vocab">widespread<span class="vocab-tooltip">adj. 广泛的；普遍的</span></span> public <span class="vocab">scrutiny<span class="vocab-tooltip">n. 审查；监督</span></span>, executives openly discussed the importance of attracting <span class="vocab">adolescents<span class="vocab-tooltip">n. 青少年 (adolescent的复数)</span></span>. Shortly after Snapchat launched in 2012, <span class="vocab">co-founder<span class="vocab-tooltip">n. 联合创始人</span></span> Evan Spiegel celebrated the app's popularity among high school students and <span class="vocab">highlighted<span class="vocab-tooltip">v. 强调；突出 (highlight的过去式)</span></span> heavy activity during school hours.</p>
+
+            <p>Meta pursued students through a <span class="vocab">structured<span class="vocab-tooltip">adj. 结构化的；有组织的</span></span> ambassador program. Internal documents described schools as a <span class="vocab">critical<span class="vocab-tooltip">adj. 关键的；至关重要的</span></span> pathway to winning teenagers. Student <span class="vocab">representatives<span class="vocab-tooltip">n. 代表 (representative的复数)</span></span> received <span class="vocab">branded<span class="vocab-tooltip">adj. 带品牌的；品牌化的</span></span> merchandise and gift cards while promoting Instagram among <span class="vocab">classmates<span class="vocab-tooltip">n. 同学 (classmate的复数)</span></span>.</p>
+
+            <p>Google's approach <span class="vocab">centered on<span class="vocab-tooltip">以...为中心；围绕</span></span> education technology. Chromebooks became a <span class="vocab">fixture<span class="vocab-tooltip">n. 固定设备；固定装置</span></span> in American schools during the past decade, <span class="vocab">particularly<span class="vocab-tooltip">adv. 尤其；特别</span></span> after remote learning expanded device use. Internal presentations described schools as an opportunity to introduce children to Google's <span class="vocab">broader<span class="vocab-tooltip">adj. 更广泛的 (broad的比较级)</span></span> <span class="vocab">ecosystem<span class="vocab-tooltip">n. 生态系统</span></span>.</p>
+
+            <p><span class="vocab">Tension<span class="vocab-tooltip">n. 紧张；张力</span></span> emerged inside the company itself. Education teams promoted <span class="vocab">instructional<span class="vocab-tooltip">adj. 教学的；指导的</span></span> content and classroom tools. Other employees focused on increasing YouTube <span class="vocab">viewership<span class="vocab-tooltip">n. 观众人数；收视率</span></span>. Internal presentations showed how students searching for educational videos could quickly receive <span class="vocab">recommendations<span class="vocab-tooltip">n. 推荐 (recommendation的复数)</span></span> for entertainment content.</p>
+
+            <p>Warnings also <span class="vocab">surfaced<span class="vocab-tooltip">v. 浮现；出现 (surface的过去式)</span></span> inside social media companies. At Snapchat, employees <span class="vocab">questioned<span class="vocab-tooltip">v. 质疑；提问 (question的过去式)</span></span> features that encouraged students to post during the school day. At TikTok, safety teams <span class="vocab">pushed<span class="vocab-tooltip">v. 推动；推进 (push的过去式)</span></span> proposals that would <span class="vocab">disable<span class="vocab-tooltip">v. 禁用；使无效</span></span> notifications for minors during school hours. Internal discussions weighed those concerns against business goals tied to user engagement.</p>
+
+            <p>One TikTok employee <span class="vocab">summarized<span class="vocab-tooltip">v. 总结；概括 (summarize的过去式)</span></span> the likely reaction from educators while discussing a feature that <span class="vocab">urged<span class="vocab-tooltip">v. 敦促；催促 (urge的过去式)</span></span> users to post within minutes. "Teachers are going to hate it," the employee wrote.</p>
+
+            <p>School leaders frequently expressed similar concerns. Administrators described <span class="vocab">bullying<span class="vocab-tooltip">n. 霸凌；欺凌</span></span>, inappropriate images and <span class="vocab">disciplinary<span class="vocab-tooltip">adj. 纪律的；惩处的</span></span> challenges linked to social media use. One superintendent <span class="vocab">characterized<span class="vocab-tooltip">v. 描述； characterize的过去式</span></span> Snapchat as the leading source of student drama.</p>
+
+            <p>The documents reveal another <span class="vocab">dimension<span class="vocab-tooltip">n. 维度；方面</span></span> of the industry's influence: partnerships with parent organizations. TikTok provided millions of dollars to the National PTA through <span class="vocab">sponsorship<span class="vocab-tooltip">n. 赞助；资助</span></span> agreements tied to online safety programs and public outreach efforts. Internal communications discussed improving public <span class="vocab">perception<span class="vocab-tooltip">n. 看法；认知</span></span> among parents during a period of growing scrutiny.</p>
+
+            <p>Those relationships <span class="vocab">sparked<span class="vocab-tooltip">v. 引发；触发 (spark的过去式)</span></span> debate among local leaders who <span class="vocab">participated<span class="vocab-tooltip">v. 参与 (participate的过去式)</span></span> in sponsored events. Some welcomed resources <span class="vocab">devoted<span class="vocab-tooltip">v.  devoted的过去分词；致力于</span></span> to internet safety, others questioned whether the programs served educational goals or <span class="vocab">corporate<span class="vocab-tooltip">adj. 公司的；企业的</span></span> interests.</p>
+
+            <p>The lawsuits will play out over years. Schools have already begun making decisions of their own: phone <span class="vocab">restrictions<span class="vocab-tooltip">n. 限制 (restriction的复数)</span></span> are expanding, digital policies are <span class="vocab">tightening<span class="vocab-tooltip">v. 收紧；变紧 (tighten的现在分词)</span></span>, and classroom technology faces fresh <span class="vocab">examination<span class="vocab-tooltip">n. 审视；检查</span></span>.</p>
+
+            <p>Students entered the digital age carrying powerful devices into school. Internal records now suggest that classrooms also became one of the technology industry's most <span class="vocab">valuable<span class="vocab-tooltip">adj. 有价值的；宝贵的</span></span> frontiers in the competition for attention.</p>
+        </div>
+
+        <!-- 长难句解析 -->
+        <h2 class="section-title">🔍 长难句解析</h2>
+
+        <div class="sentence-analysis">
+            <p class="original">"Newly disclosed internal documents, reviewed by The New York Times through lawsuits filed by more than 1,400 school districts, provide an unusually detailed look at how major technology companies pursued young users during the school day."</p>
+            <div class="analysis">
+                <h4>句子结构分析</h4>
+                <p>主语：Newly disclosed internal documents（新披露的内部文件）<br>
+                插入语：reviewed by...（过去分词短语作后置定语，修饰documents）<br>
+                谓语：provide<br>
+                宾语：an unusually detailed look<br>
+                宾语从句：how major technology companies pursued young users during the school day（how引导的从句作at的宾语）<br><br>
+                <strong>翻译：</strong>《纽约时报》通过1400多个学区提起的诉讼审查了新披露的内部文件，这些文件异常详细地展示了主要科技公司如何在上学期间追求年轻用户。</p>
+            </div>
+        </div>
+
+        <div class="sentence-analysis">
+            <p class="original">"School districts argue that platforms built around engagement have imposed substantial educational costs."</p>
+            <div class="analysis">
+                <h4>句子结构分析</h4>
+                <p>主语：School districts<br>
+                谓语：argue<br>
+                宾语从句：that platforms...have imposed substantial educational costs<br>
+                其中 built around engagement 是过去分词短语作后置定语，修饰platforms<br><br>
+                <strong>翻译：</strong>学区认为，围绕用户参与度构建的平台已经造成了巨大的教育成本。</p>
+            </div>
+        </div>
+
+        <div class="sentence-analysis">
+            <p class="original">"Internal presentations showed how students searching for educational videos could quickly receive recommendations for entertainment content."</p>
+            <div class="analysis">
+                <h4>句子结构分析</h4>
+                <p>主语：Internal presentations<br>
+                谓语：showed<br>
+                宾语从句：how students...could quickly receive recommendations...<br>
+                其中 searching for educational videos 是现在分词短语作后置定语，修饰students<br><br>
+                <strong>翻译：</strong>内部演示文稿显示，搜索教育视频的学生如何能够快速收到娱乐内容的推荐。</p>
+            </div>
+        </div>
+
+        <!-- 短语搭配 -->
+        <h2 class="section-title">🔗 短语搭配</h2>
+
+        <div class="phrase-card">
+            <div class="phrase">1. compete with</div>
+            <div class="meaning">与...竞争；与...争夺</div>
+            <div class="example">"...classrooms as battlegrounds where lessons compete with notifications, videos and social media feeds..."</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">2. be intended for</div>
+            <div class="meaning">为...而设计；打算用于</div>
+            <div class="example">"...turning a device intended for learning into a portal for entertainment."</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">3. center on / center around</div>
+            <div class="meaning">以...为中心；围绕</div>
+            <div class="example">"Public debate...now centers on attention, concentration and learning."</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">4. be linked to</div>
+            <div class="meaning">与...相关联；与...有联系</div>
+            <div class="example">"...disciplinary challenges linked to social media use."</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">5. play out</div>
+            <div class="meaning">展开；发展；发生</div>
+            <div class="example">"The lawsuits will play out over years."</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">6. face scrutiny</div>
+            <div class="meaning">面临审查；受到监督</div>
+            <div class="example">"...social media faced widespread public scrutiny..."</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">7. weigh A against B</div>
+            <div class="meaning">权衡A与B；比较A和B</div>
+            <div class="example">"Internal discussions weighed those concerns against business goals tied to user engagement."</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">8. be tied to</div>
+            <div class="meaning">与...相关联；与...捆绑</div>
+            <div class="example">"...business goals tied to user engagement."</div>
+        </div>
+
+        <!-- 词汇表 -->
+        <h2 class="section-title">📚 考研核心词汇表</h2>
+
+        <table class="vocab-table">
+            <thead>
+                <tr>
+                    <th>单词</th>
+                    <th>音标</th>
+                    <th>词性</th>
+                    <th>中文释义</th>
+                    <th>例句</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="word">scale</td>
+                    <td class="phonetic">/skeɪl/</td>
+                    <td>n.</td>
+                    <td>规模；程度</td>
+                    <td>The scale of the project surprised everyone.</td>
+                </tr>
+                <tr>
+                    <td class="word">intended</td>
+                    <td class="phonetic">/ɪnˈtendɪd/</td>
+                    <td>adj.</td>
+                    <td>打算的；计划的</td>
+                    <td>The device was intended for educational use.</td>
+                </tr>
+                <tr>
+                    <td class="word">capture</td>
+                    <td class="phonetic">/ˈkæptʃər/</td>
+                    <td>v.</td>
+                    <td>捕获；吸引</td>
+                    <td>These apps are designed to capture attention.</td>
+                </tr>
+                <tr>
+                    <td class="word">disclose</td>
+                    <td class="phonetic">/dɪsˈkloʊz/</td>
+                    <td>v.</td>
+                    <td>披露；公开</td>
+                    <td>The company refused to disclose its plans.</td>
+                </tr>
+                <tr>
+                    <td class="word">pursue</td>
+                    <td class="phonetic">/pərˈsuː/</td>
+                    <td>v.</td>
+                    <td>追求；寻求</td>
+                    <td>Tech companies pursued young users aggressively.</td>
+                </tr>
+                <tr>
+                    <td class="word">disruption</td>
+                    <td class="phonetic">/dɪsˈrʌpʃn/</td>
+                    <td>n.</td>
+                    <td>中断；扰乱</td>
+                    <td>Social media causes disruption in classrooms.</td>
+                </tr>
+                <tr>
+                    <td class="word">ultimately</td>
+                    <td class="phonetic">/ˈʌltɪmətli/</td>
+                    <td>adv.</td>
+                    <td>最终；最后</td>
+                    <td>The plan ultimately failed to succeed.</td>
+                </tr>
+                <tr>
+                    <td class="word">substantial</td>
+                    <td class="phonetic">/səbˈstænʃl/</td>
+                    <td>adj.</td>
+                    <td>大量的；实质性的</td>
+                    <td>The project requires substantial funding.</td>
+                </tr>
+                <tr>
+                    <td class="word">enormous</td>
+                    <td class="phonetic">/ɪˈnɔːrməs/</td>
+                    <td>adj.</td>
+                    <td>巨大的；庞大的</td>
+                    <td>The financial stakes could be enormous.</td>
+                </tr>
+                <tr>
+                    <td class="word">illuminate</td>
+                    <td class="phonetic">/ɪˈluːmɪneɪt/</td>
+                    <td>v.</td>
+                    <td>阐明；照亮</td>
+                    <td>The study illuminates the problem clearly.</td>
+                </tr>
+                <tr>
+                    <td class="word">scrutiny</td>
+                    <td class="phonetic">/ˈskruːtəni/</td>
+                    <td>n.</td>
+                    <td>审查；监督</td>
+                    <td>The policy is under public scrutiny.</td>
+                </tr>
+                <tr>
+                    <td class="word">adolescent</td>
+                    <td class="phonetic">/ˌædəˈlesnt/</td>
+                    <td>n./adj.</td>
+                    <td>青少年；青春期的</td>
+                    <td>Adolescents are easily influenced by social media.</td>
+                </tr>
+                <tr>
+                    <td class="word">highlight</td>
+                    <td class="phonetic">/ˈhaɪlaɪt/</td>
+                    <td>v.</td>
+                    <td>强调；突出</td>
+                    <td>The report highlighted several key issues.</td>
+                </tr>
+                <tr>
+                    <td class="word">critical</td>
+                    <td class="phonetic">/ˈkrɪtɪkl/</td>
+                    <td>adj.</td>
+                    <td>关键的；至关重要的</td>
+                    <td>Schools are a critical pathway to winning teens.</td>
+                </tr>
+                <tr>
+                    <td class="word">ecosystem</td>
+                    <td class="phonetic">/ˈiːkoʊsɪstəm/</td>
+                    <td>n.</td>
+                    <td>生态系统</td>
+                    <td>Google wants to introduce kids to its ecosystem.</td>
+                </tr>
+                <tr>
+                    <td class="word">tension</td>
+                    <td class="phonetic">/ˈtenʃn/</td>
+                    <td>n.</td>
+                    <td>紧张；张力</td>
+                    <td>Tension emerged between different teams.</td>
+                </tr>
+                <tr>
+                    <td class="word">recommendation</td>
+                    <td class="phonetic">/ˌrekəmenˈdeɪʃn/</td>
+                    <td>n.</td>
+                    <td>推荐；建议</td>
+                    <td>The system provides video recommendations.</td>
+                </tr>
+                <tr>
+                    <td class="word">disable</td>
+                    <td class="phonetic">/dɪsˈeɪbl/</td>
+                    <td>v.</td>
+                    <td>禁用；使无效</td>
+                    <td>Some proposed to disable notifications.</td>
+                </tr>
+                <tr>
+                    <td class="word">summarize</td>
+                    <td class="phonetic">/ˈsʌməraɪz/</td>
+                    <td>v.</td>
+                    <td>总结；概括</td>
+                    <td>The report summarizes the findings.</td>
+                </tr>
+                <tr>
+                    <td class="word">characterize</td>
+                    <td class="phonetic">/ˈkærəktəraɪz/</td>
+                    <td>v.</td>
+                    <td>描述；刻画</td>
+                    <td>He characterized the app as problematic.</td>
+                </tr>
+                <tr>
+                    <td class="word">dimension</td>
+                    <td class="phonetic">/daɪˈmenʃn/</td>
+                    <td>n.</td>
+                    <td>维度；方面</td>
+                    <td>The documents reveal another dimension.</td>
+                </tr>
+                <tr>
+                    <td class="word">sponsorship</td>
+                    <td class="phonetic">/ˈspɑːnsərʃɪp/</td>
+                    <td>n.</td>
+                    <td>赞助；资助</td>
+                    <td>The deal involved sponsorship agreements.</td>
+                </tr>
+                <tr>
+                    <td class="word">perception</td>
+                    <td class="phonetic">/pərˈsepʃn/</td>
+                    <td>n.</td>
+                    <td>看法；认知</td>
+                    <td>Companies want to improve public perception.</td>
+                </tr>
+                <tr>
+                    <td class="word">corporate</td>
+                    <td class="phonetic">/ˈkɔːrpərət/</td>
+                    <td>adj.</td>
+                    <td>公司的；企业的</td>
+                    <td>Some questioned corporate interests.</td>
+                </tr>
+                <tr>
+                    <td class="word">examination</td>
+                    <td class="phonetic">/ɪɡˌzæmɪˈneɪʃn/</td>
+                    <td>n.</td>
+                    <td>审视；检查</td>
+                    <td>Classroom technology faces fresh examination.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 阅读理解 -->
+        <h2 class="section-title">✏️ 阅读理解练习</h2>
+
+        <div class="quiz-container">
+            <div class="quiz-question">
+                <h4>1. 主旨大意题：What is the main idea of this article?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option">A. Schools should ban all electronic devices to protect students.</div>
+                    <div class="quiz-option">B. Tech companies deliberately targeted students during school hours, causing educational disruption.</div>
+                    <div class="quiz-option">C. Parents are primarily responsible for children's social media addiction.</div>
+                    <div class="quiz-option">D. Google Chromebooks are the best educational tools for students.</div>
+                </div>
+                <div class="quiz-answer">
+                    <div class="correct">正确答案：B</div>
+                    <div class="explanation">文章核心围绕科技巨头（Meta、Snap、TikTok、Google）如何通过内部策略在上课时间吸引学生注意力，导致课堂教育受到严重干扰。文章引用了内部文件、法庭记录和多位教育工作者的观点，揭示了科技公司对学生群体的刻意追求。A选项过于绝对，C选项与文章主旨不符，D选项与文章批评Chromebook被滥用的观点相悖。</div>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>2. 推理判断题：What can be inferred from Google's internal tension mentioned in the article?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option">A. Google's education team completely controlled the company's strategy.</div>
+                    <div class="quiz-option">B. There was a conflict between educational goals and business interests within Google.</div>
+                    <div class="quiz-option">C. Google employees were unanimously against YouTube expansion.</div>
+                    <div class="quiz-option">D. Google decided to stop promoting YouTube in schools.</div>
+                </div>
+                <div class="quiz-answer">
+                    <div class="correct">正确答案：B</div>
+                    <div class="explanation">文章明确提到"Tension emerged inside the company itself"（公司内部出现了紧张关系），教育团队推广教学内容，而其他员工则专注于增加YouTube观看量。这直接表明谷歌内部存在教育目标与商业利益之间的冲突。A选项与事实相反，C选项的"unanimously"（一致地）过于绝对，D选项在文中没有提及。</div>
+                </div>
+            </div>
+
+            <div class="quiz-question">
+                <h4>3. 词义猜测题：The word "drifted" in Paragraph 4 probably means ______.</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option">A. moved gradually away from something</div>
+                    <div class="quiz-option">B. sailed quickly across the ocean</div>
+                    <div class="quiz-option">C. changed suddenly and dramatically</div>
+                    <div class="quiz-option">D. studied carefully and attentively</div>
+                </div>
+                <div class="quiz-answer">
+                    <div class="correct">正确答案：A</div>
+                    <div class="explanation">"drifted"出现在"students drifted from schoolwork into unrelated content"这一语境中，描述学生从课业"漂移"到无关内容的过程。"drift"本义是"漂流；漂移"，引申为"逐渐偏离"。A选项"moved gradually away from something"（逐渐远离某物）最准确地捕捉了这一含义。B选项过于字面化，C选项的"suddenly"与drift的渐进含义矛盾，D选项与文意完全相反。</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 阅读技巧 -->
+        <div class="tips-box">
+            <h3>💡 考研阅读技巧提示</h3>
+            <ul>
+                <li><strong>长难句分析：</strong>遇到包含多个从句和修饰成分的复杂句子，先找出主干（主谓宾），再分析修饰成分。如文中"Newly disclosed internal documents...provide..."一句，核心是"documents provide look"。</li>
+                <li><strong>词义猜测：</strong>通过上下文线索推断生词含义。如"drifted from schoolwork into unrelated content"中，"from...into..."结构暗示了方向性转移。</li>
+                <li><strong>主旨题策略：</strong>关注文章首尾段及各段首句，找出反复出现的关键词。本文高频词：classroom, school, students, tech companies, attention。</li>
+                <li><strong>推理题原则：</strong>答案必须基于原文信息，不能过度推断。正确答案通常是原文的"同义改写"或"合理延伸"。</li>
+                <li><strong>短语积累：</strong>考研英语中，动词短语和固定搭配是高频考点。建议重点记忆本文中的"compete with", "center on", "be linked to"等短语。</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Reading progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+
+        // Vocabulary click toggle for mobile
+        document.querySelectorAll('.vocab').forEach(vocab => {
+            vocab.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.vocab').forEach(v => {
+                    if (v !== vocab) v.classList.remove('active');
+                });
+                vocab.classList.toggle('active');
+            });
+        });
+
+        // Close tooltip when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.vocab')) {
+                document.querySelectorAll('.vocab').forEach(v => v.classList.remove('active'));
+            }
+        });
+    </script>
+</body>
+</html>

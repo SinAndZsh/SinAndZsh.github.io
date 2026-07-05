@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>考研英语外刊精读 | The Guardian</title>
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --accent: #c9a227;
+    --bg: #f7f9fb;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --muted: #5a6a7a;
+    --border: #e1e8ed;
+    --highlight: #fff3cd;
+    --vocab: #e74c3c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+  }
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 16px;
+  }
+  header {
+    text-align: center;
+    padding: 40px 0 24px;
+    border-bottom: 3px solid var(--primary);
+    margin-bottom: 32px;
+  }
+  header h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+  }
+  .meta {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .source-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+  .article-body {
+    background: var(--card);
+    padding: 36px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    font-size: 1.05rem;
+    line-height: 2;
+  }
+  .article-body p {
+    margin-bottom: 1.2em;
+    text-indent: 2em;
+  }
+  .vocab {
+    color: var(--vocab);
+    border-bottom: 2px dotted var(--vocab);
+    cursor: pointer;
+    font-weight: 600;
+    position: relative;
+  }
+  .tooltip {
+    display: none;
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    white-space: normal;
+    min-width: 200px;
+    max-width: 320px;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    font-weight: normal;
+    text-align: left;
+  }
+  .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--primary);
+  }
+  .vocab:hover .tooltip,
+  .vocab.active .tooltip {
+    display: block;
+  }
+  .section-title {
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin: 40px 0 20px;
+    padding-left: 12px;
+    border-left: 4px solid var(--accent);
+  }
+  .summary-box {
+    background: #e8f4f8;
+    padding: 24px;
+    border-radius: 8px;
+    margin: 24px 0;
+    line-height: 1.9;
+  }
+  .phrase-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  .phrase-title {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+  .phrase-meaning {
+    color: var(--vocab);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .phrase-example {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.95rem;
+  }
+  .sentence-analysis {
+    background: #fff8e1;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--accent);
+    line-height: 1.8;
+  }
+  .sentence-en {
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 0.98rem;
+  }
+  .sentence-cn {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .quiz-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .quiz-question {
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--primary);
+  }
+  .quiz-options label {
+    display: block;
+    margin: 6px 0;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .quiz-options label:hover {
+    background: var(--bg);
+  }
+  .quiz-answer {
+    margin-top: 16px;
+    padding: 14px;
+    background: #e8f5e9;
+    border-radius: 6px;
+    display: none;
+    line-height: 1.8;
+  }
+  .quiz-answer.show {
+    display: block;
+  }
+  .btn {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    font-size: 0.95rem;
+    margin-top: 10px;
+  }
+  .btn:hover { opacity: 0.9; }
+  .vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    background: var(--card);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    font-size: 0.95rem;
+  }
+  .vocab-table th, .vocab-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .vocab-table th {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .vocab-table tr:last-child td { border-bottom: none; }
+  .vocab-table tr:nth-child(even) { background: #fafbfc; }
+  .tip-box {
+    background: #e3f2fd;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 24px 0;
+    border-left: 4px solid #2196f3;
+    line-height: 1.9;
+  }
+  .tip-box h4 {
+    color: #1565c0;
+    margin-bottom: 10px;
+  }
+  .tip-box ul { margin-left: 1.5em; }
+  .tip-box li { margin-bottom: 6px; }
+  footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  @media (max-width: 600px) {
+    .article-body { padding: 20px; }
+    header h1 { font-size: 1.4rem; }
+    .vocab-table { font-size: 0.85rem; }
+    .vocab-table th, .vocab-table td { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="source-badge">The Guardian</div>
+  <h1>The Wage Scar of AI: What Society Owes Workers Left Behind</h1>
+  <div class="meta">Published: Jul 02, 2026 | Category: Society & Technology | Length: ~1,200 words</div>
+</header>
+
+<div class="summary-box">
+  <strong>文章大意：</strong>本文通过急诊医生Rebecca Kimble从年薪30-50万美元到成为时薪20-40美元的"AI训练师"的真实案例，深度剖析了人工智能对劳动力市场造成的"工资疤痕"现象。文章结合高盛研究报告与芝加哥大学、哥伦比亚大学经济学者的奠基性研究，揭示技术颠覆性失业者不仅面临收入骤降，更承受职业发展降级、职业身份丧失与退休保障崩塌的多重打击。文章进一步指出，当前各国政府主推的"再培训"政策存在严重局限，无法真正解决AI时代结构性失业的深层问题，最终呼吁社会重新思考我们对被技术抛弃的劳动者负有何种道德责任。
+</div>
+
+<div class="article-body">
+<p>Rebecca Kimble spent more than a decade as an emergency medicine physician, the kind of job described in medical school prospectuses with the word <span class="vocab" onclick="this.classList.toggle('active')">"calling"<span class="tooltip">/ˈkɔːlɪŋ/ n. （强烈的）使命感；天职</span></span>. She earned between $300,000 and $500,000 yearly. By the early months of 2026, after a long spell of unsuccessful applications back into clinical roles, she was logged into an evaluation interface for an AI laboratory, scoring how well a large language model handled queries about chest pain. She had been technically <span class="vocab" onclick="this.classList.toggle('active')">promoted<span class="tooltip">/prəˈməʊtɪd/ v. 晋升；推广（promote的过去分词）</span></span>. She was now an "AI trainer", paid by the task. There were no benefits, no shifts to hand over. The clients were the foundation model providers whose products were absorbing the work she had spent two decades learning to do.</p>
+
+<p>Kimble's case appeared in a Guardian investigation published in early April 2026 alongside an occupational therapy academic and a software architect now living out of <span class="vocab" onclick="this.classList.toggle('active')">motels<span class="tooltip">/məʊˈtelz/ n. 汽车旅馆（motel的复数）</span></span>, all of them past fifty, all of them <span class="vocab" onclick="this.classList.toggle('active')">refugees<span class="tooltip">/ˈrefjuːdʒiːz/ n. 难民；逃亡者（refugee的复数）</span></span> from professions where they had built decades of expertise, all of them now <span class="vocab" onclick="this.classList.toggle('active')">annotating<span class="tooltip">/ˈænəteɪtɪŋ/ v. 注释；标注（annotate的现在分词）</span></span> data through firms such as Mercor, GlobalLogic and TEKsystems. The clients listed on the contracts are OpenAI, Google, Meta. The work is <span class="vocab" onclick="this.classList.toggle('active')">unstable<span class="tooltip">/ʌnˈsteɪbl/ adj. 不稳定的；易变的</span></span>. The pay starts at twenty to forty dollars an hour, with specialists occasionally crossing into the low triple digits. Labour economists in the piece called the category a "bridge job" of a cruel sort: high demand now, designed to disappear as the systems being trained on the workers' expertise become <span class="vocab" onclick="this.classList.toggle('active')">competent<span class="tooltip">/ˈkɒmpɪtənt/ adj. 有能力的；胜任的</span></span> enough not to need them.</p>
+
+<p>In the same week, Goldman Sachs published a research note that gave the Kimble <span class="vocab" onclick="this.classList.toggle('active')">vignette<span class="tooltip">/vɪnˈjet/ n. 小插曲；短文</span></span> its longer arc. Written by economists Pierfrancesco Mei and Jessica Rindels, it drew on four decades of individual-level data covering more than twenty thousand workers and asked what happens to a person who loses their job to a wave of technological change. The answer, in the cool <span class="vocab" onclick="this.classList.toggle('active')">register<span class="tooltip">/ˈredʒɪstə(r)/ n. 语体风格；语域</span></span> of macroeconomic research, is that they do not, on average, recover. Over the ten years following such a job loss, real earnings for technology-displaced workers grow nearly ten percentage points less than for never-displaced workers, and five percentage points less than for workers displaced by other causes. The phenomenon has a name in the labour economics literature. It is called <span class="vocab" onclick="this.classList.toggle('active')">scarring<span class="tooltip">/ˈskɑːrɪŋ/ n. 瘢痕；疤痕效应（此处指工资疤痕）</span></span>, and it is not new. What is new is the suspicion, growing now into something close to <span class="vocab" onclick="this.classList.toggle('active')">consensus<span class="tooltip">/kənˈsensəs/ n. 共识；一致意见</span></span>, that AI will inflict it at a pace and on a population for which no advanced economy has built a meaningful response.</p>
+
+<p>This is a different question from the one that has <span class="vocab" onclick="this.classList.toggle('active')">dominated<span class="tooltip">/ˈdɒmɪneɪtɪd/ v. 主导；支配（dominate的过去分词）</span></span> the AI and jobs debate. That debate has been about <span class="vocab" onclick="this.classList.toggle('active')">aggregates<span class="tooltip">/ˈæɡrɪɡəts/ n. 总数；集合体（aggregate的复数）</span></span>: how many jobs will go, how many will be created, whether the productivity gains will be shared or captured. The question now <span class="vocab" onclick="this.classList.toggle('active')">bearing down<span class="tooltip">/ˈbeərɪŋ daʊn/ 逼近；压过来（习语）</span></span> is about specific people, and what the rest of us owe them when the machine that took their occupation also took the market for the skills it had taken twenty years to acquire. It is about Kimble, the software architect in the motel, and the millions whose <span class="vocab" onclick="this.classList.toggle('active')">trajectories<span class="tooltip">/trəˈdʒektəriz/ n. 轨迹；发展轨迹（trajectory的复数）</span></span> will not show up in headline unemployment numbers because they will eventually find some kind of job, just not one that adds up to the life they had planned.</p>
+
+<p>The labour economics of displacement is one of the <span class="vocab" onclick="this.classList.toggle('active')">bleakest<span class="tooltip">/ˈbliːkɪst/ adj. 最黯淡的；最阴冷的（bleak的最高级）</span></span> sub-fields in the discipline, and it has been bleak for a long time. The foundational <span class="vocab" onclick="this.classList.toggle('active')">empirical<span class="tooltip">/ɪmˈpɪrɪkl/ adj. 实证的；经验主义的</span></span> work belongs to Steven J. Davis of the University of Chicago and Till von Wachter of Columbia, whose 2011 Brookings paper assembled administrative data on US workers laid off in mass events between 1974 and 2008. Their headline finding has the <span class="vocab" onclick="this.classList.toggle('active')">unsettling<span class="tooltip">/ʌnˈsetlɪŋ/ adj. 令人不安的</span></span> quality of a physical law. Workers displaced during a recession lost, in present-value terms, roughly nineteen percent of expected lifetime earnings, a <span class="vocab" onclick="this.classList.toggle('active')">deficit<span class="tooltip">/ˈdefɪsɪt/ n. 赤字；亏损；不足额</span></span> of about $112,100. Workers displaced during expansions lost about half that. Even twenty years after the event, the displaced earned ten to twenty percent less than otherwise comparable workers who had not been displaced.</p>
+
+<p>The <span class="vocab" onclick="this.classList.toggle('active')">mechanism<span class="tooltip">/ˈmekənɪzəm/ n. 机制；原理</span></span>, when you <span class="vocab" onclick="this.classList.toggle('active')">decompose<span class="tooltip">/ˌdiːkəmˈpəʊz/ v. 分解；拆解</span></span> it, is not really about unemployment. It is about what economists call occupational <span class="vocab" onclick="this.classList.toggle('active')">downgrading<span class="tooltip">/ˌdaʊnˈɡreɪdɪŋ/ n. 降级；降职</span></span>. The displaced worker, eventually, finds a job. The job is in a different industry, often a different occupation, frequently a less skilled one. Whatever firm-specific or industry-specific human capital the worker had built up, the relationships, the <span class="vocab" onclick="this.classList.toggle('active')">tacit<span class="tooltip">/ˈtæsɪt/ adj. 心照不宣的；默示的</span></span> knowledge, the accumulated reputation, is largely worthless on the new ladder. The worker starts again, lower down, and never catches up.</p>
+
+<p>Three features of the current AI transition make the lived experience <span class="vocab" onclick="this.classList.toggle('active')">plausibly<span class="tooltip">/ˈplɔːzəbli/ adv. 似乎合理地；貌似可信地</span></span> worse than the <span class="vocab" onclick="this.classList.toggle('active')">precedents<span class="tooltip">/ˈpresɪdənts/ n. 先例；前例（precedent的复数）</span></span>. The first is breadth. Earlier waves of automation tended to <span class="vocab" onclick="this.classList.toggle('active')">concentrate<span class="tooltip">/ˈkɒnsntreɪt/ v. 集中；浓缩</span></span> on particular sectors, often manual ones. AI displacement cuts simultaneously across knowledge work, creative work, administrative work, and professional services. The displaced are <span class="vocab" onclick="this.classList.toggle('active')">scattered<span class="tooltip">/ˈskætəd/ adj. 分散的；散落的（scatter的过去分词）</span></span>. They will not gather in the same union hall.</p>
+
+<p>The second is speed. The Goldman analysis covered forty years of technological transition, much of which played out across decades. AI capability has <span class="vocab" onclick="this.classList.toggle('active')">compressed<span class="tooltip">/kəmˈprest/ v. 压缩；浓缩（compress的过去分词）</span></span> similar shifts into months. Whether or not the most aggressive projections come true, the lived speed of the change has already <span class="vocab" onclick="this.classList.toggle('active')">outrun<span class="tooltip">/ˌaʊtˈrʌn/ v. 超过；跑得比……快（outrun的过去分词）</span></span> the period over which retraining schemes are designed to operate.</p>
+
+<p>The third is the failure mode of the obvious response. The political <span class="vocab" onclick="this.classList.toggle('active')">reflex<span class="tooltip">/ˈriːfleks/ n. 反射反应；本能反应</span></span> to AI displacement, in every English-speaking country and across the EU, is some variant of "learn AI". The UK government's December 2025 announcement of a £965 million plan to push unemployed Gen Z into AI, hospitality, and engineering roles is a <span class="vocab" onclick="this.classList.toggle('active')">faithful<span class="tooltip">/ˈfeɪθfl/ adj. 忠实的；如实的</span></span> illustration. The premise is that workers who acquire AI skills will be lifted by the same wave that displaced them. The premise is partly true and largely <span class="vocab" onclick="this.classList.toggle('active')">insufficient<span class="tooltip">/ˌɪnsəˈfɪʃnt/ adj. 不足的；不充分的</span></span>.</p>
+
+<p>There is a <span class="vocab" onclick="this.classList.toggle('active')">subtler<span class="tooltip">/ˈsʌtlə(r)/ adj. 更微妙的；更精细的（subtle的比较级）</span></span> <span class="vocab" onclick="this.classList.toggle('active')">indignity<span class="tooltip">/ɪnˈdɪɡnəti/ n. 屈辱；轻蔑</span></span> here. The retraining narrative places the moral weight of adjustment on the displaced individual. It assumes the worker has a duty to keep up, a duty to invest in their own continuing <span class="vocab" onclick="this.classList.toggle('active')">employability<span class="tooltip">/ɪmˌplɔɪəˈbɪləti/ n. 就业能力；受雇可能性</span></span>, a duty to be <span class="vocab" onclick="this.classList.toggle('active')">agile<span class="tooltip">/ˈædʒaɪl/ adj. 敏捷的；灵活的</span></span>. Many of the displaced workers in the current wave did exactly that. They acquired AI tools, integrated them into their work, used them to make themselves more productive, and were displaced anyway, because the productivity gain <span class="vocab" onclick="this.classList.toggle('active')">accrued<span class="tooltip">/əˈkruːd/ v. 积累；产生（accrue的过去分词）</span></span> mostly to the firm and was eventually used to justify replacing them or their teams with smaller numbers of even more AI-augmented workers.</p>
+
+<p>The <span class="vocab" onclick="this.classList.toggle('active')">scarring effect<span class="tooltip">/ˈskɑːrɪŋ ɪˈfekt/ 疤痕效应（经济学概念，指失业对收入的长期负面影响）</span></span> documented by Davis and von Wachter shows up in earnings, in unemployment durations, in delayed homeownership, in lower probability of marriage, in shorter life expectancy, in the next generation's earnings. These are measurable outcomes. They sit alongside outcomes that are less measurable but no less real. Among them: the loss of occupational identity. To be a doctor, a lawyer, a teacher, a journalist, a designer, an engineer, is not, for most people who do these things seriously, a means of acquiring income. It is a way of being in the world. The current AI displacement wave is not so much extending this trend as <span class="vocab" onclick="this.classList.toggle('active')">detonating<span class="tooltip">/ˈdetəneɪtɪŋ/ v. 引爆；触发（detonate的现在分词）</span></span> it among populations that thought themselves immune. Professional identity, in many of the most-exposed occupations, was the <span class="vocab" onclick="this.classList.toggle('active')">compensating<span class="tooltip">/ˈkɒmpenseɪtɪŋ/ adj. 补偿的；弥补的（compensate的现在分词）</span></span> premium that justified years of underpaid training and the assumption of debts. Strip the occupation, and the premium goes too.</p>
+</div>
+
+<h2 class="section-title">短语搭配 Phrases & Collocations</h2>
+
+<div class="phrase-card">
+  <div class="phrase-title">1. add up to</div>
+  <div class="phrase-meaning">总计达；意味着；等于</div>
+  <div class="phrase-example">原句：...just not one that adds up to the life they had planned.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">2. bear down</div>
+  <div class="phrase-meaning">逼近；施压；压过来</div>
+  <div class="phrase-example">原句：The question now bearing down is about specific people, and what the rest of us owe them...</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">3. on average</div>
+  <div class="phrase-meaning">平均而言；一般来说</div>
+  <div class="phrase-example">原句：...they do not, on average, recover.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">4. decompose into</div>
+  <div class="phrase-meaning">分解成；拆解为</div>
+  <div class="phrase-example">原句：The mechanism, when you decompose it, is not really about unemployment.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">5. play out</div>
+  <div class="phrase-meaning">展开；上演；发生</div>
+  <div class="phrase-example">原句：...much of which played out across decades.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">6. cut across</div>
+  <div class="phrase-meaning">跨越；横穿；影响（多个领域）</div>
+  <div class="phrase-example">原句：AI displacement cuts simultaneously across knowledge work, creative work, administrative work, and professional services.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">7. keep up</div>
+  <div class="phrase-meaning">跟上；保持；维持</div>
+  <div class="phrase-example">原句：It assumes the worker has a duty to keep up, a duty to invest in their own continuing employability...</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">8. show up</div>
+  <div class="phrase-meaning">出现；显露；表现出来</div>
+  <div class="phrase-example">原句：...whose trajectories will not show up in headline unemployment numbers...</div>
+</div>
+
+<h2 class="section-title">长难句解析 Sentence Analysis</h2>
+
+<div class="sentence-analysis">
+  <div class="sentence-en">Sentence 1: The question now bearing down is about specific people, and what the rest of us owe them when the machine that took their occupation also took the market for the skills it had taken twenty years to acquire.</div>
+  <div class="sentence-cn">【参考译文】当下紧迫的问题关乎具体的个人，关乎当机器夺走了他们的职业，同时也夺走了他们花费二十年才习得技能的市场时，我们其他人对他们负有什么责任。<br>
+  【结构分析】主句主干为The question is about specific people and what...（表语由并列结构组成：specific people + what引导的宾语从句）。when引导时间状语从句，其中包含两个that引导的定语从句：第一个that took their occupation修饰the machine；第二个that took their occupation修饰the skills（注意此处took重复出现，形成修辞上的强调）。it had taken twenty years to acquire为省略了that的定语从句，修饰the skills。全句层层嵌套，是考研英语典型的多层从句结构。</div>
+</div>
+
+<div class="sentence-analysis">
+  <div class="sentence-en">Sentence 2: Whatever firm-specific or industry-specific human capital the worker had built up, the relationships, the tacit knowledge, the accumulated reputation, is largely worthless on the new ladder.</div>
+  <div class="sentence-cn">【参考译文】无论工人积累了多少企业专属或行业专属的人力资本——那些人际关系、默会知识、积累的名望——在新的职业阶梯上几乎都一文不值。<br>
+  【结构分析】Whatever引导让步状语从句（= No matter what），其中the worker had built up为省略了that的定语从句修饰human capital。主句主语为Whatever...human capital，后接三个同位语（the relationships, the tacit knowledge, the accumulated reputation）对human capital进行具体解释。谓语为is largely worthless。注意主谓一致：whatever作主语时视为单数。on the new ladder为地点状语，ladder比喻"职业晋升阶梯"。</div>
+</div>
+
+<div class="sentence-analysis">
+  <div class="sentence-en">Sentence 3: Many of the displaced workers in the current wave did exactly that. They acquired AI tools, integrated them into their work, used them to make themselves more productive, and were displaced anyway, because the productivity gain accrued mostly to the firm and was eventually used to justify replacing them or their teams with smaller numbers of even more AI-augmented workers.</div>
+  <div class="sentence-cn">【参考译文】当前这一波失业潮中的许多被裁员工恰恰就是这么做的。他们掌握了AI工具，将其融入工作，用它们提升自己的生产力——结果仍然被取代了，因为生产力提升带来的收益大多归了公司，最终被用来证明用更少数量、AI辅助程度更高的员工来替代他们或其团队的合理性。<br>
+  【结构分析】第一句为主谓宾结构。第二句是由四个并列谓语构成的长句：acquired, integrated, used, and were displaced。because引导原因状语从句，从句主语为the productivity gain，后接两个并列谓语：accrued mostly to the firm和was eventually used to justify...。replacing...with...为"用……替代……"结构。smaller numbers of even more AI-augmented workers中even more修饰AI-augmented，整体作with的宾语。</div>
+</div>
+
+<h2 class="section-title">阅读理解练习 Reading Comprehension</h2>
+
+<div class="quiz-item">
+  <div class="quiz-question">1. 主旨大意题：What is the main idea of the passage?</div>
+  <div class="quiz-options">
+    <label><input type="radio" name="q1" value="A"> A. AI technology has created numerous high-paying job opportunities in the data annotation industry.</label>
+    <label><input type="radio" name="q1" value="B"> B. The concept of "scarring" in labour economics applies only to workers displaced during economic recessions.</label>
+    <label><input type="radio" name="q1" value="C"> C. AI-driven technological displacement creates long-lasting damage to workers' earnings, careers, and identities that current retraining policies fail to address.</label>
+    <label><input type="radio" name="q1" value="D"> D. Workers displaced by AI should immediately pursue online AI certificates to remain competitive in the job market.</label>
+  </div>
+  <button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">查看答案</button>
+  <div class="quiz-answer">
+    <strong>正确答案：C</strong><br>
+    【解析】文章以Rebecca Kimble的案例开篇，引出"工资疤痕"（scarring）这一核心概念，随后通过高盛研究和芝加哥大学/哥伦比亚大学的实证数据，论证技术失业对收入、职业降级、职业身份丧失的长期影响，并指出政府主推的再培训政策存在根本局限。A项与文意相反（数据标注工作是低薪且不稳定的）；B项片面（文中明确指出scarring也存在于经济扩张期）；D项与作者观点相反（文章批判了"学AI"这一简单化的政策回应）。
+  </div>
+</div>
+
+<div class="quiz-item">
+  <div class="quiz-question">2. 细节理解题：According to the Goldman Sachs research mentioned in the passage, which of the following statements is TRUE?</div>
+  <div class="quiz-options">
+    <label><input type="radio" name="q2" value="A"> A. Workers displaced by technology recover their earnings completely within five years.</label>
+    <label><input type="radio" name="q2" value="B"> B. Technology-displaced workers suffer greater earnings losses than workers displaced by other causes.</label>
+    <label><input type="radio" name="q2" value="C"> C. Retraining programmes have proven fully effective in eliminating the scarring effect for all displaced workers.</label>
+    <label><input type="radio" name="q2" value="D"> D. Older workers with decades of expertise are the least likely to be affected by AI displacement.</label>
+  </div>
+  <button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">查看答案</button>
+  <div class="quiz-answer">
+    <strong>正确答案：B</strong><br>
+    【解析】根据文章第三段，高盛研究报告指出："real earnings for technology-displaced workers grow nearly ten percentage points less than for never-displaced workers, and five percentage points less than for workers displaced by other causes"——即技术失业者的收入损失比其他原因失业者更大。A项错误（文中说they do not recover）；C项错误（文中说retraining是"moderately effective"且"least likely to be sufficient on its own"）；D项错误（文中案例均为五十岁以上的资深专业人士，且明确指出mid-career workers是受影响最严重的群体）。
+  </div>
+</div>
+
+<div class="quiz-item">
+  <div class="quiz-question">3. 推理判断题：What can be inferred from the author's discussion of "occupational identity" in the final paragraph?</div>
+  <div class="quiz-options">
+    <label><input type="radio" name="q3" value="A"> A. The author believes that occupational identity is less important than financial compensation for most professionals.</label>
+    <label><input type="radio" name="q3" value="B"> B. The loss of professional identity is a psychological consequence that only affects a small minority of displaced workers.</label>
+    <label><input type="radio" name="q3" value="C"> C. Professional identity serves as a form of non-monetary compensation that justifies the sacrifices made during career preparation.</label>
+    <label><input type="radio" name="q3" value="D"> D. AI displacement primarily threatens manual labourers who have weak professional identities.</label>
+  </div>
+  <button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">查看答案</button>
+  <div class="quiz-answer">
+    <strong>正确答案：C</strong><br>
+    【解析】文章末段明确指出："Professional identity, in many of the most-exposed occupations, was the compensating premium that justified years of underpaid training and the assumption of debts." 即职业身份是一种"补偿性溢价"（compensating premium），它解释了为什么人们愿意忍受多年的低薪培训和负债——因为职业身份本身构成了非金钱层面的回报。A项与文意相反；B项错误（作者说这是"no less real"的损失，且影响广泛）；D项错误（文中说AI影响的是knowledge work, creative work, professional services等高身份认同职业，而非主要是体力劳动者）。
+  </div>
+</div>
+
+<div class="tip-box">
+  <h4>阅读技巧提示</h4>
+  <ul>
+    <li>议论文中的具体案例（如本文Rebecca Kimble的故事）往往服务于主旨论证。阅读时快速把握案例→观点的对应关系，案例细节通常用于支持段落的中心论点。</li>
+    <li>注意学术文章中的因果链条和对比结构。本文大量使用了"not...but..."、"rather than"、"instead of"等结构，这些往往是作者观点的集中表达区域。</li>
+    <li>遇到多层嵌套从句时，建议先找主干（主谓宾），再逐层分析修饰成分。例如本文Sentence 1，先锁定The question is about...，再处理bearing down、when从句、that从句等修饰成分。</li>
+    <li>考研阅读中，研究数据和研究者的观点往往是出题重点。注意区分：研究发现（finding）、研究者结论（conclusion）和作者评价（evaluation）三者之间的差异。</li>
+    <li>对于词义猜测题，注意同位语、破折号、冒号后的解释说明，以及并列结构中的语义平行关系。如本文中"the relationships, the tacit knowledge, the accumulated reputation"三者为同位语并列，可相互推测词义。</li>
+  </ul>
+</div>
+
+<h2 class="section-title">核心词汇表 Vocabulary</h2>
+<table class="vocab-table">
+  <thead>
+    <tr><th>单词</th><th>音标</th><th>词性</th><th>中文释义</th><th>例句</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>calling</td><td>/ˈkɔːlɪŋ/</td><td>n.</td><td>使命感；天职</td><td>Teaching was her true calling in life.</td></tr>
+    <tr><td>promote</td><td>/prəˈməʊt/</td><td>v.</td><td>晋升；推广</td><td>She was promoted to senior manager last year.</td></tr>
+    <tr><td>motel</td><td>/məʊˈtel/</td><td>n.</td><td>汽车旅馆</td><td>We stayed at a roadside motel during the road trip.</td></tr>
+    <tr><td>refugee</td><td>/ˈrefjuːdʒiː/</td><td>n.</td><td>难民；逃亡者</td><td>Many refugees fled the war-torn region.</td></tr>
+    <tr><td>annotate</td><td>/ˈænəteɪt/</td><td>v.</td><td>注释；标注</td><td>Students were asked to annotate the poem.</td></tr>
+    <tr><td>unstable</td><td>/ʌnˈsteɪbl/</td><td>adj.</td><td>不稳定的</td><td>The political situation remains unstable.</td></tr>
+    <tr><td>competent</td><td>/ˈkɒmpɪtənt/</td><td>adj.</td><td>有能力的；胜任的</td><td>She is highly competent in her field.</td></tr>
+    <tr><td>vignette</td><td>/vɪnˈjet/</td><td>n.</td><td>小插曲；短文</td><td>The film opens with a vignette of daily life.</td></tr>
+    <tr><td>register</td><td>/ˈredʒɪstə(r)/</td><td>n.</td><td>语体风格；语域</td><td>The letter was written in a formal register.</td></tr>
+    <tr><td>scarring</td><td>/ˈskɑːrɪŋ/</td><td>n.</td><td>疤痕；疤痕效应</td><td>Economic scarring can last for decades.</td></tr>
+    <tr><td>consensus</td><td>/kənˈsensəs/</td><td>n.</td><td>共识；一致意见</td><td>There is a growing consensus on climate action.</td></tr>
+    <tr><td>dominate</td><td>/ˈdɒmɪneɪt/</td><td>v.</td><td>主导；支配</td><td>The issue continues to dominate the debate.</td></tr>
+    <tr><td>aggregate</td><td>/ˈæɡrɪɡət/</td><td>n.</td><td>总数；集合体</td><td>The aggregate of consumer spending fell.</td></tr>
+    <tr><td>trajectory</td><td>/trəˈdʒektəri/</td><td>n.</td><td>轨迹；发展轨迹</td><td>His career trajectory has been impressive.</td></tr>
+    <tr><td>bleak</td><td>/bliːk/</td><td>adj.</td><td>黯淡的；阴冷的</td><td>The economic outlook is bleak.</td></tr>
+    <tr><td>empirical</td><td>/ɪmˈpɪrɪkl/</td><td>adj.</td><td>实证的；经验主义的</td><td>The theory lacks empirical support.</td></tr>
+    <tr><td>unsettling</td><td>/ʌnˈsetlɪŋ/</td><td>adj.</td><td>令人不安的</td><td>There was something unsettling about his manner.</td></tr>
+    <tr><td>deficit</td><td>/ˈdefɪsɪt/</td><td>n.</td><td>赤字；亏损</td><td>The trade deficit widened last quarter.</td></tr>
+    <tr><td>mechanism</td><td>/ˈmekənɪzəm/</td><td>n.</td><td>机制；原理</td><td>The mechanism of the disease is still unclear.</td></tr>
+    <tr><td>decompose</td><td>/ˌdiːkəmˈpəʊz/</td><td>v.</td><td>分解；拆解</td><td>Let's decompose the problem into smaller parts.</td></tr>
+    <tr><td>downgrading</td><td>/ˌdaʊnˈɡreɪdɪŋ/</td><td>n.</td><td>降级；降职</td><td>Occupational downgrading is a serious social issue.</td></tr>
+    <tr><td>tacit</td><td>/ˈtæsɪt/</td><td>adj.</td><td>心照不宣的；默示的</td><td>There was tacit approval from the manager.</td></tr>
+    <tr><td>plausibly</td><td>/ˈplɔːzəbli/</td><td>adv.</td><td>似乎合理地</td><td>The theory can plausibly explain the data.</td></tr>
+    <tr><td>precedent</td><td>/ˈpresɪdənt/</td><td>n.</td><td>先例；前例</td><td>The ruling set an important legal precedent.</td></tr>
+    <tr><td>concentrate</td><td>/ˈkɒnsntreɪt/</td><td>v.</td><td>集中；浓缩</td><td>Industry tends to concentrate in urban areas.</td></tr>
+    <tr><td>scattered</td><td>/ˈskætəd/</td><td>adj.</td><td>分散的；散落的</td><td>The villages are scattered across the hills.</td></tr>
+    <tr><td>compress</td><td>/kəmˈpres/</td><td>v.</td><td>压缩；浓缩</td><td>The software compresses large files efficiently.</td></tr>
+    <tr><td>outrun</td><td>/ˌaʊtˈrʌn/</td><td>v.</td><td>超过；跑得比……快</td><td>Demand has outrun supply in this sector.</td></tr>
+    <tr><td>reflex</td><td>/ˈriːfleks/</td><td>n.</td><td>反射反应；本能反应</td><td>His reflex was to check his phone immediately.</td></tr>
+    <tr><td>faithful</td><td>/ˈfeɪθfl/</td><td>adj.</td><td>忠实的；如实的</td><td>The movie is a faithful adaptation of the novel.</td></tr>
+    <tr><td>insufficient</td><td>/ˌɪnsəˈfɪʃnt/</td><td>adj.</td><td>不足的；不充分的</td><td>Evidence against him was insufficient.</td></tr>
+    <tr><td>subtle</td><td>/ˈsʌtl/</td><td>adj.</td><td>微妙的；精细的</td><td>There is a subtle difference between the two.</td></tr>
+    <tr><td>indignity</td><td>/ɪnˈdɪɡnəti/</td><td>n.</td><td>屈辱；轻蔑</td><td>She suffered the indignity of being searched.</td></tr>
+    <tr><td>employability</td><td>/ɪmˌplɔɪəˈbɪləti/</td><td>n.</td><td>就业能力</td><td>The course aims to improve students' employability.</td></tr>
+    <tr><td>agile</td><td>/ˈædʒaɪl/</td><td>adj.</td><td>敏捷的；灵活的</td><td>Successful companies need agile leadership.</td></tr>
+    <tr><td>accrue</td><td>/əˈkruː/</td><td>v.</td><td>积累；产生</td><td>Interest will accrue on the unpaid balance.</td></tr>
+    <tr><td>detonate</td><td>/ˈdetəneɪt/</td><td>v.</td><td>引爆；触发</td><td>The scandal detonated a political crisis.</td></tr>
+    <tr><td>compensating</td><td>/ˈkɒmpenseɪtɪŋ/</td><td>adj.</td><td>补偿的；弥补的</td><td>The job offers compensating benefits.</td></tr>
+  </tbody>
+</table>
+
+<footer>
+  <p>SinAndZsh 考研英语外刊精读 | Generated on 2026-07-02</p>
+  <p>来源：The Guardian | 仅供学习交流使用</p>
+</footer>
+
+</div>
+</body>
+</html>

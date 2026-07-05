@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>考研英语外刊精读 | The Guardian</title>
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --accent: #c9a227;
+    --bg: #f7f9fb;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --muted: #5a6a7a;
+    --border: #e1e8ed;
+    --highlight: #fff3cd;
+    --vocab: #e74c3c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+  }
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 16px;
+  }
+  header {
+    text-align: center;
+    padding: 40px 0 24px;
+    border-bottom: 3px solid var(--primary);
+    margin-bottom: 32px;
+  }
+  header h1 {
+    font-size: 2rem;
+    color: var(--primary);
+    letter-spacing: 1px;
+  }
+  .meta {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .source-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+  .article-body {
+    background: var(--card);
+    padding: 36px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    font-size: 1.05rem;
+    line-height: 2;
+  }
+  .article-body p {
+    margin-bottom: 1.2em;
+    text-indent: 2em;
+  }
+  .vocab {
+    color: var(--vocab);
+    border-bottom: 2px dotted var(--vocab);
+    cursor: pointer;
+    font-weight: 600;
+    position: relative;
+  }
+  .tooltip {
+    display: none;
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: nowrap;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--primary);
+  }
+  .vocab:hover .tooltip,
+  .vocab.active .tooltip {
+    display: block;
+  }
+  .section-title {
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin: 40px 0 20px;
+    padding-left: 12px;
+    border-left: 4px solid var(--accent);
+  }
+  .summary-box {
+    background: #e8f4f8;
+    padding: 24px;
+    border-radius: 8px;
+    margin: 24px 0;
+  }
+  .phrase-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  .phrase-title {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+  .phrase-meaning {
+    color: var(--vocab);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .phrase-example {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.95rem;
+  }
+  .sentence-analysis {
+    background: #fff8e1;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--accent);
+  }
+  .sentence-en {
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .sentence-cn {
+    color: var(--muted);
+  }
+  .quiz-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .quiz-question {
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--primary);
+  }
+  .quiz-options label {
+    display: block;
+    margin: 6px 0;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .quiz-options label:hover {
+    background: var(--bg);
+  }
+  .quiz-answer {
+    margin-top: 16px;
+    padding: 14px;
+    background: #e8f5e9;
+    border-radius: 6px;
+    display: none;
+  }
+  .quiz-answer.show {
+    display: block;
+  }
+  .btn {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    font-size: 0.95rem;
+    margin-top: 10px;
+  }
+  .btn:hover { opacity: 0.9; }
+  .vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    background: var(--card);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .vocab-table th, .vocab-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .vocab-table th {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+  }
+  .vocab-table tr:last-child td { border-bottom: none; }
+  .tip-box {
+    background: #e3f2fd;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 24px 0;
+    border-left: 4px solid #2196f3;
+  }
+  .tip-box h4 {
+    color: #1565c0;
+    margin-bottom: 8px;
+  }
+  footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="source-badge">The Guardian</div>
+  <h1>Estonia's Bold Experiment: Free ChatGPT for Every High School Student</h1>
+  <div class="meta">Published: June 30, 2026 | Category: Technology & Education | Length: ~1,250 words</div>
+</header>
+
+<div class="summary-box">
+  <strong>文章大意：</strong>本文报道了爱沙尼亚一项开创性的国家教育实验：向近两万名高中生免费提供定制版ChatGPT，将生成式AI深度整合进课堂教学。与许多国家禁止或限制AI使用的做法不同，爱沙尼亚选择拥抱技术，通过"苏格拉底式"AI引导学生独立思考。文章探讨了这一激进策略背后的教育理念、课堂实践、学生反响以及全球影响，引发读者对AI时代教育本质的深层思考。
+</div>
+
+<div class="article-body">
+<p>While school districts across the world are still <span class="vocab" onclick="this.classList.toggle('active')">grappling with<span class="tooltip">/ˈɡræplɪŋ wɪð/ phr. 努力应对；奋力解决</span></span> whether artificial intelligence should be <span class="vocab" onclick="this.classList.toggle('active')">permitted<span class="tooltip">/pəˈmɪtɪd/ adj. 被允许的</span></span> in classrooms, one small Baltic nation has chosen a radically different path. Estonia, a country of just 1.3 million people, has <span class="vocab" onclick="this.classList.toggle('active')">distributed<span class="tooltip">/dɪˈstrɪbjuːtɪd/ v. 分发；分配（过去分词）</span></span> free access to customized versions of ChatGPT and Gemini to nearly 20,000 high-school students, making it the first country to <span class="vocab" onclick="this.classList.toggle('active')">embed<span class="tooltip">/ɪmˈbed/ v. 嵌入；使融入</span></span> generative AI at the core of its national education system.</p>
+
+<p>The programme, officially launched in early 2026 and known locally as "AI Leap," targets students in the 10th and 11th grades across the country. Rather than treating chatbots as a threat to <span class="vocab" onclick="this.classList.toggle('active')">academic integrity<span class="tooltip">/ˌækəˈdemɪk ɪnˈteɡrəti/ phr. 学术诚信</span></span>, Estonian officials decided to <span class="vocab" onclick="this.classList.toggle('active')">redesign<span class="tooltip">/ˌriːdɪˈzaɪn/ v. 重新设计</span></span> the entire learning experience around them. "We realised that students were already using these tools <span class="vocab" onclick="this.classList.toggle('active')">extensively<span class="tooltip">/ɪkˈstensɪvli/ adv. 广泛地；大量地</span></span> for homework," said Kristina Kallas, Estonia's Minister of Education and Research. "Banning them would be like banning calculators in a mathematics class. It simply does not reflect reality."</p>
+
+<p>What distinguishes Estonia's approach from simply handing out AI accounts is the <span class="vocab" onclick="this.classList.toggle('active')">sophisticated<span class="tooltip">/səˈfɪstɪkeɪtɪd/ adj. 复杂的；精密的；老练的</span></span> design of the tools themselves. Working in partnership with OpenAI and Google, Estonia has developed "Socratic" versions of ChatGPT that are <span class="vocab" onclick="this.classList.toggle('active')">intentionally<span class="tooltip">/ɪnˈtenʃənəli/ adv. 故意地；有意地</span></span> programmed not to provide direct answers. Instead, when a student asks about a topic — the chemical properties of metals, for instance, or the causes of the First World War — the AI responds with guiding questions, prompts for reflection, and suggestions for further reading. It acts more like a patient tutor than a <span class="vocab" onclick="this.classList.toggle('active')">database<span class="tooltip">/ˈdeɪtəbeɪs/ n. 数据库</span></span> of ready-made solutions.</p>
+
+<p>Teachers across the country have begun to experiment with entirely new <span class="vocab" onclick="this.classList.toggle('active')">pedagogical<span class="tooltip">/ˌpedəˈɡɒdʒɪkl/ adj. 教育学的；教学法的</span></span> methods shaped around these tools. In one English literature class, students conversed with ChatGPT while role-playing as guests at the famous 1816 gathering where Mary Shelley conceived Frankenstein, then discussed the experience together in class. In a physics course, pupils used the AI to explore <span class="vocab" onclick="this.classList.toggle('active')">hypothetical<span class="tooltip">/haɪˈpɒθətɪkl/ adj. 假设的；假定的</span></span> scenarios before conducting real experiments. The classroom, in this model, becomes a space for <span class="vocab" onclick="this.classList.toggle('active')">synthesis<span class="tooltip">/ˈsɪnθəsɪs/ n. 综合；合成</span></span> and debate rather than the passive reception of facts.</p>
+
+<p>The broader concern driving the initiative is what educators increasingly call "AI brain rot" — the fear that students may become overly <span class="vocab" onclick="this.classList.toggle('active')">dependent<span class="tooltip">/dɪˈpendənt/ adj. 依赖的；依靠的</span></span> on chatbots and stop developing critical-thinking skills on their own. This anxiety is not <span class="vocab" onclick="this.classList.toggle('active')">unfounded<span class="tooltip">/ʌnˈfaʊndɪd/ adj. 无根据的；没有事实依据的（此处为双重否定，意为"有根据的"）</span></span>. Research conducted by Stanford University and cited in the project found that students who relied too heavily on unrestricted ChatGPT saw significant performance drops when forced to work independently during exams. The <span class="vocab" onclick="this.classList.toggle('active')">correlation<span class="tooltip">/ˌkɒrəˈleɪʃn/ n. 关联；相关性</span></span> between AI assistance and <span class="vocab" onclick="this.classList.toggle('active')">cognitive atrophy<span class="tooltip">/ˈkɒɡnɪtɪv ˈætrəfi/ phr. 认知萎缩；思维退化</span></span> has become one of the most heated topics in educational research.</p>
+
+<p>Estonia's response to this dilemma is not to remove AI from classrooms but to <span class="vocab" onclick="this.classList.toggle('active')">restructure<span class="tooltip">/ˌriːˈstrʌktʃər/ v. 重组；调整结构</span></span> education so that AI becomes a thinking partner rather than a shortcut. The country's education ministry has developed strict guidelines: AI may be used for brainstorming, revision, and exploring topics, but students must still demonstrate independent reasoning in assessments. Teachers are trained to design assignments that cannot be completed by simply copying AI output — <span class="vocab" onclick="this.classList.toggle('active')">oral presentations<span class="tooltip">/ˈɔːrəl ˌpreznˈteɪʃnz/ phr. 口头报告</span></span>, in-class essays, and collaborative projects now carry greater weight in final grades.</p>
+
+<p>The student response has been <span class="vocab" onclick="this.classList.toggle('active')">mixed<span class="tooltip">/mɪkst/ adj. 混合的；复杂的</span></span>. Some embrace the tools enthusiastically, using them to revise difficult concepts, brainstorm essay ideas, and explore subjects beyond the standard curriculum. Others attempt to bypass the restrictions to get direct answers for assignments. A smaller but <span class="vocab" onclick="this.classList.toggle('active')">notable<span class="tooltip">/ˈnəʊtəbl/ adj. 显著的；值得注意的</span></span> group rejects AI entirely, citing concerns about creativity, ethics, environmental impact, or intellectual dependency. One student told researchers she avoided the tool because of fears of "brain atrophy" — a phrase that has since <span class="vocab" onclick="this.classList.toggle('active')">circulated<span class="tooltip">/ˈsɜːkjuleɪtɪd/ v. 传播；流传（过去式）</span></span> widely in Estonian media.</p>
+
+<p>Researchers from Stanford University and OpenAI are now conducting what may become the most comprehensive study yet of AI's long-term educational impact. They are tracking how <span class="vocab" onclick="this.classList.toggle('active')">coordinated<span class="tooltip">/kəʊˈɔːdɪneɪtɪd/ adj. 协调的；配合的</span></span> AI adoption affects reasoning, retention, confidence, and learning behaviour across a nationally representative sample. Early results are expected later this year, and education ministries from Finland to Singapore are watching closely. "If Estonia succeeds," said one OECD education analyst, "it could become the <span class="vocab" onclick="this.classList.toggle('active')">template<span class="tooltip">/ˈtempleɪt/ n. 模板；样板</span></span> for how every country should approach AI in schools."</p>
+
+<p>The stakes extend far beyond Estonia's borders. OpenAI reportedly sees the Baltic nation as the first step in a broader global rollout of educational AI systems for secondary schools. Other districts worldwide, including parts of the United States and the United Kingdom, are already introducing classroom AI programmes of their own, though none yet match Estonia's national scale. Meanwhile, countries such as France and parts of Australia continue to <span class="vocab" onclick="this.classList.toggle('active')">impose<span class="tooltip">/ɪmˈpəʊz/ v. 强加；强制实行</span></span> strict limits on AI use in examinations, creating a <span class="vocab" onclick="this.classList.toggle('active')">patchwork<span class="tooltip">/ˈpætʃwɜːk/ n. 拼凑物；混杂体</span></span> of policies that reflects deep global disagreement about the technology's proper role.</p>
+
+<p>Underlying all of this is a philosophical question that has <span class="vocab" onclick="this.classList.toggle('active')">puzzled<span class="tooltip">/ˈpʌzld/ v. 使困惑（过去式）</span></span> educators for centuries, now cast in a new technological light: What does it mean to truly learn something? If a student arrives at the correct answer through a dialogue with an AI tutor, has she learned any less than one who found it in a textbook? Estonia's experiment suggests that the answer depends not on whether AI is present, but on how it is designed, guided, and integrated into a broader culture of intellectual curiosity. The tool, after all, is only as <span class="vocab" onclick="this.classList.toggle('active')">enlightening<span class="tooltip">/ɪnˈlaɪtnɪŋ/ adj. 有启发性的；使人领悟的</span></span> as the questions it encourages students to ask.</p>
+</div>
+
+<h2 class="section-title">短语搭配 Phrases</h2>
+
+<div class="phrase-card">
+  <div class="phrase-title">1. grapple with</div>
+  <div class="phrase-meaning">努力应对；奋力解决</div>
+  <div class="phrase-example">原句：While school districts across the world are still grappling with whether artificial intelligence should be permitted in classrooms...</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">2. treat...as...</div>
+  <div class="phrase-meaning">把……视为/当作……</div>
+  <div class="phrase-example">原句：Rather than treating chatbots as a threat to academic integrity...</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">3. distinguish...from...</div>
+  <div class="phrase-meaning">将……与……区分开</div>
+  <div class="phrase-example">原句：What distinguishes Estonia's approach from simply handing out AI accounts is the sophisticated design of the tools themselves.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">4. rely on</div>
+  <div class="phrase-meaning">依赖；依靠</div>
+  <div class="phrase-example">原句：Research...found that students who relied too heavily on unrestricted ChatGPT saw significant performance drops...</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">5. rather than</div>
+  <div class="phrase-meaning">而不是；宁可……也不愿</div>
+  <div class="phrase-example">原句：Estonia's response...is not to remove AI from classrooms but to restructure education so that AI becomes a thinking partner rather than a shortcut.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">6. carry weight</div>
+  <div class="phrase-meaning">有分量；有重要性</div>
+  <div class="phrase-example">原句：...oral presentations, in-class essays, and collaborative projects now carry greater weight in final grades.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">7. extend beyond</div>
+  <div class="phrase-meaning">超越；超出……范围</div>
+  <div class="phrase-example">原句：The stakes extend far beyond Estonia's borders.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">8. cast in a new light</div>
+  <div class="phrase-meaning">以新的角度呈现；置于新的背景下</div>
+  <div class="phrase-example">原句：...a philosophical question that has puzzled educators for centuries, now cast in a new technological light.</div>
+</div>
+
+<h2 class="section-title">长难句解析 Sentence Analysis</h2>
+
+<div class="sentence-analysis">
+  <div class="sentence-en">Sentence 1: What distinguishes Estonia's approach from simply handing out AI accounts is the sophisticated design of the tools themselves, which are intentionally programmed not to provide direct answers but instead to respond with guiding questions, prompts for reflection, and suggestions for further reading.</div>
+  <div class="sentence-cn">【结构分析】主语为What引导的主语从句"What distinguishes Estonia's approach from simply handing out AI accounts"；谓语为is；表语为"the sophisticated design of the tools themselves"。which引导非限制性定语从句修饰tools，从句中使用了"not...but..."结构，表示"不是……而是……"。</div>
+</div>
+
+<div class="sentence-analysis">
+  <div class="sentence-en">Sentence 2: Research conducted by Stanford University and cited in the project found that students who relied too heavily on unrestricted ChatGPT saw significant performance drops when forced to work independently during exams.</div>
+  <div class="sentence-cn">【结构分析】主句主语为Research，后面有两个过去分词短语"conducted by..."和"cited in..."作后置定语。谓语为found，后接that引导的宾语从句。宾语从句中嵌套了who引导的定语从句修饰students，以及when引导的时间状语从句（省略了they were）。</div>
+</div>
+
+<div class="sentence-analysis">
+  <div class="sentence-en">Sentence 3: Estonia's experiment suggests that the answer depends not on whether AI is present, but on how it is designed, guided, and integrated into a broader culture of intellectual curiosity.</div>
+  <div class="sentence-cn">【结构分析】主句为"Estonia's experiment suggests that..."，that引导宾语从句。宾语从句中使用了"not...but..."结构，连接两个由on引导的介词短语。第一个on后为whether引导的宾语从句，第二个on后为how引导的宾语从句，且how从句中使用了三个并列的被动语态谓语动词：is designed, guided, and integrated。</div>
+</div>
+
+<h2 class="section-title">阅读理解 Reading Comprehension</h2>
+
+<div class="quiz-item">
+  <div class="quiz-question">1. 主旨大意题：What is the main idea of the passage?</div>
+  <div class="quiz-options">
+    <label><input type="radio" name="q1" value="A"> A. Estonia has banned the use of AI in schools to protect traditional education methods.</label>
+    <label><input type="radio" name="q1" value="B"> B. Estonia is conducting a nationwide experiment by integrating customized AI tools into high school education to promote independent thinking.</label>
+    <label><input type="radio" name="q1" value="C"> C. Most students in Estonia refuse to use AI tools due to fears of cognitive atrophy.</label>
+    <label><input type="radio" name="q1" value="D"> D. OpenAI and Google have replaced all Estonian teachers with AI tutoring systems.</label>
+  </div>
+  <button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">查看答案</button>
+  <div class="quiz-answer">
+    <strong>正确答案：B</strong><br>
+    【解析】文章围绕爱沙尼亚将定制版AI工具整合进高中教育体系的国家实验展开，强调其"苏格拉底式"设计旨在培养学生的独立思考能力。A项与原文相反（爱沙尼亚是拥抱而非禁止AI）；C项以偏概全（仅有一小部分学生拒绝使用）；D项夸大其词（AI是辅助工具，并未取代教师）。
+  </div>
+</div>
+
+<div class="quiz-item">
+  <div class="quiz-question">2. 推理判断题：What can be inferred about the "Socratic" versions of ChatGPT used in Estonia?</div>
+  <div class="quiz-options">
+    <label><input type="radio" name="q2" value="A"> A. They provide immediate and direct answers to all student questions.</label>
+    <label><input type="radio" name="q2" value="B"> B. They are designed to guide students through reasoning rather than completing work for them.</label>
+    <label><input type="radio" name="q2" value="C"> C. They are identical to the standard ChatGPT available to the general public.</label>
+    <label><input type="radio" name="q2" value="D"> D. They can only be used by teachers, not by students.</label>
+  </div>
+  <button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">查看答案</button>
+  <div class="quiz-answer">
+    <strong>正确答案：B</strong><br>
+    【解析】根据原文第三段，"Socratic"版本被"intentionally programmed not to provide direct answers"，而是通过"guiding questions, prompts for reflection, and suggestions for further reading"来引导学生。A、C、D均与原文描述不符。
+  </div>
+</div>
+
+<div class="quiz-item">
+  <div class="quiz-question">3. 词义猜测题：In paragraph 5, the word "unfounded" most probably means ______.</div>
+  <div class="quiz-options">
+    <label><input type="radio" name="q3" value="A"> A. completely wrong and not based on facts</label>
+    <label><input type="radio" name="q3" value="B"> B. widely accepted and scientifically proven</label>
+    <label><input type="radio" name="q3" value="C"> C. originally proposed by government officials</label>
+    <label><input type="radio" name="q3" value="D"> D. deliberately ignored by most educators</label>
+  </div>
+  <button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">查看答案</button>
+  <div class="quiz-answer">
+    <strong>正确答案：A</strong><br>
+    【解析】原文语境为"This anxiety is not unfounded"，随后引用斯坦福大学的研究证明学生过度依赖AI确实会导致独立工作能力下降。由此可见，这种担忧"并非没有根据"，即unfounded意为"没有事实依据的、无根据的"。因此"not unfounded"表示"有根据的"。A项"完全没有事实依据"为unfounded的正确释义。
+  </div>
+</div>
+
+<div class="tip-box">
+  <h4>阅读技巧提示</h4>
+  <ul style="margin-left:1.2em">
+    <li>注意文章首段的对比结构（while...），常用来引出文章核心话题和作者立场。</li>
+    <li>引语是考研阅读高频考点，特别关注引用人物的身份和观点态度（如教育部长、研究员等）。</li>
+    <li>遇到"not...but..." "rather than"等对比结构时，重点通常在后面的内容，往往是作者真正强调的观点。</li>
+    <li>文章结尾段常以哲学性反思或升华总结全文，注意"Underlying all of this"等信号词。</li>
+    <li>双重否定结构（如not unfounded）是考研难点，需仔细分析逻辑关系。</li>
+  </ul>
+</div>
+
+<h2 class="section-title">词汇表 Vocabulary</h2>
+<table class="vocab-table">
+  <thead>
+    <tr><th>单词</th><th>音标</th><th>词性</th><th>中文释义</th><th>例句</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>grapple with</td><td>/ˈɡræpl wɪð/</td><td>phr.</td><td>努力应对；奋力解决</td><td>The government is grappling with an economic crisis.</td></tr>
+    <tr><td>permit</td><td>/pəˈmɪt/</td><td>v.</td><td>允许；许可</td><td>Smoking is not permitted in the building.</td></tr>
+    <tr><td>distribute</td><td>/dɪˈstrɪbjuːt/</td><td>v.</td><td>分发；分配</td><td>The organization distributed food to the refugees.</td></tr>
+    <tr><td>embed</td><td>/ɪmˈbed/</td><td>v.</td><td>嵌入；使融入</td><td>The video is embedded in the webpage.</td></tr>
+    <tr><td>academic integrity</td><td>/ˌækəˈdemɪk ɪnˈteɡrəti/</td><td>phr.</td><td>学术诚信</td><td>Violations of academic integrity can lead to severe penalties.</td></tr>
+    <tr><td>redesign</td><td>/ˌriːdɪˈzaɪn/</td><td>v.</td><td>重新设计</td><td>We need to redesign the website for mobile users.</td></tr>
+    <tr><td>extensively</td><td>/ɪkˈstensɪvli/</td><td>adv.</td><td>广泛地；大量地</td><td>She has travelled extensively in Europe.</td></tr>
+    <tr><td>sophisticated</td><td>/səˈfɪstɪkeɪtɪd/</td><td>adj.</td><td>复杂的；精密的；老练的</td><td>The system is highly sophisticated and efficient.</td></tr>
+    <tr><td>intentionally</td><td>/ɪnˈtenʃənəli/</td><td>adv.</td><td>故意地；有意地</td><td>He intentionally avoided mentioning her name.</td></tr>
+    <tr><td>database</td><td>/ˈdeɪtəbeɪs/</td><td>n.</td><td>数据库</td><td>All customer information is stored in a secure database.</td></tr>
+    <tr><td>pedagogical</td><td>/ˌpedəˈɡɒdʒɪkl/</td><td>adj.</td><td>教育学的；教学法的</td><td>The course emphasizes pedagogical skills for teachers.</td></tr>
+    <tr><td>hypothetical</td><td>/haɪˈpɒθətɪkl/</td><td>adj.</td><td>假设的；假定的</td><td>Let us consider a hypothetical situation.</td></tr>
+    <tr><td>synthesis</td><td>/ˈsɪnθəsɪs/</td><td>n.</td><td>综合；合成</td><td>The essay requires a synthesis of different viewpoints.</td></tr>
+    <tr><td>dependent</td><td>/dɪˈpendənt/</td><td>adj.</td><td>依赖的；依靠的</td><td>Children are dependent on their parents for support.</td></tr>
+    <tr><td>unfounded</td><td>/ʌnˈfaʊndɪd/</td><td>adj.</td><td>无根据的；没有事实依据的</td><td>The rumours proved to be entirely unfounded.</td></tr>
+    <tr><td>correlation</td><td>/ˌkɒrəˈleɪʃn/</td><td>n.</td><td>关联；相关性</td><td>There is a strong correlation between education and income.</td></tr>
+    <tr><td>cognitive atrophy</td><td>/ˈkɒɡnɪtɪv ˈætrəfi/</td><td>phr.</td><td>认知萎缩；思维退化</td><td>Prolonged inactivity may lead to cognitive atrophy.</td></tr>
+    <tr><td>restructure</td><td>/ˌriːˈstrʌktʃər/</td><td>v.</td><td>重组；调整结构</td><td>The company plans to restructure its debt.</td></tr>
+    <tr><td>oral presentation</td><td>/ˈɔːrəl ˌpreznˈteɪʃn/</td><td>phr.</td><td>口头报告</td><td>Each student must give an oral presentation.</td></tr>
+    <tr><td>mixed</td><td>/mɪkst/</td><td>adj.</td><td>混合的；复杂的</td><td>The reviews for the film were mixed.</td></tr>
+    <tr><td>notable</td><td>/ˈnəʊtəbl/</td><td>adj.</td><td>显著的；值得注意的</td><td>She comes from a notable family of artists.</td></tr>
+    <tr><td>circulate</td><td>/ˈsɜːkjuleɪt/</td><td>v.</td><td>传播；流传</td><td>The news circulated quickly through social media.</td></tr>
+    <tr><td>coordinated</td><td>/kəʊˈɔːdɪneɪtɪd/</td><td>adj.</td><td>协调的；配合的</td><td>The rescue operation was well coordinated.</td></tr>
+    <tr><td>template</td><td>/ˈtempleɪt/</td><td>n.</td><td>模板；样板</td><td>The document serves as a template for future projects.</td></tr>
+    <tr><td>impose</td><td>/ɪmˈpəʊz/</td><td>v.</td><td>强加；强制实行</td><td>The government decided to impose new taxes.</td></tr>
+    <tr><td>patchwork</td><td>/ˈpætʃwɜːk/</td><td>n.</td><td>拼凑物；混杂体</td><td>The policy is a patchwork of different regulations.</td></tr>
+    <tr><td>puzzle</td><td>/ˈpʌzl/</td><td>v.</td><td>使困惑</td><td>The mystery has puzzled detectives for years.</td></tr>
+    <tr><td>enlightening</td><td>/ɪnˈlaɪtnɪŋ/</td><td>adj.</td><td>有启发性的</td><td>The documentary was truly enlightening.</td></tr>
+  </tbody>
+</table>
+
+<footer>
+  <p>SinAndZsh 考研英语外刊精读 | Generated on 2026-06-30</p>
+  <p>来源：The Guardian | 仅供学习交流使用</p>
+</footer>
+
+</div>
+</body>
+</html>
