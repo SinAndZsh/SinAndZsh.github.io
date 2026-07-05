@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | College Students Have Already Changed Forever</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #c53030;
+            --accent-light: #fc8181;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --highlight: #fef3c7;
+            --vocab-bg: #ebf8ff;
+            --vocab-border: #90cdf4;
+            --success: #48bb78;
+            --success-light: #c6f6d5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .article-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .source-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .article-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 16px;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .meta-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Navigation breadcrumb */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-light);
+        }
+
+        /* Article content */
+        .article-content {
+            background: var(--card-bg);
+            padding: 48px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 32px;
+        }
+
+        .lead {
+            font-size: 1.15rem;
+            color: var(--text-light);
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            margin-bottom: 32px;
+        }
+
+        .article-body {
+            font-size: 1.05rem;
+            line-height: 2;
+            text-align: justify;
+        }
+
+        .article-body p {
+            margin-bottom: 1.5em;
+            text-indent: 2em;
+        }
+
+        .article-body p:first-of-type {
+            text-indent: 0;
+        }
+
+        .article-body p:first-of-type::first-letter {
+            font-size: 3.2rem;
+            float: left;
+            line-height: 1;
+            margin-right: 8px;
+            margin-top: 4px;
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Vocabulary highlighting */
+        .vocab {
+            color: var(--primary);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--vocab-border);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .vocab:hover {
+            background: var(--vocab-bg);
+            border-bottom-style: solid;
+        }
+
+        .vocab-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 8px;
+            font-weight: normal;
+            line-height: 1.4;
+        }
+
+        .vocab-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+
+        .vocab:hover .vocab-tooltip {
+            display: block;
+        }
+
+        /* Section styling */
+        .section {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        /* Summary section */
+        .summary-box {
+            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+            border: 1px solid var(--success);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .summary-box p {
+            text-indent: 2em;
+            margin-bottom: 1em;
+        }
+
+        .summary-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Long sentence analysis */
+        .sentence-item {
+            margin-bottom: 28px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sentence-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .sentence-en {
+            background: var(--bg);
+            padding: 16px 20px;
+            border-radius: 8px;
+            font-style: italic;
+            color: var(--primary);
+            margin-bottom: 12px;
+            border-left: 4px solid var(--primary-light);
+        }
+
+        .sentence-analysis h4 {
+            color: var(--accent);
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .sentence-analysis p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .sentence-analysis .highlight {
+            background: var(--highlight);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        /* Phrase section */
+        .phrase-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: var(--bg);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .phrase-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .phrase-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .phrase-num {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .phrase-content {
+            flex: 1;
+        }
+
+        .phrase-en {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .phrase-cn {
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .phrase-example {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* Vocabulary table */
+        .vocab-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .vocab-table th {
+            background: var(--primary);
+            color: white;
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .vocab-table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .vocab-table th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .vocab-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .vocab-table tr:nth-child(even) {
+            background: var(--bg);
+        }
+
+        .vocab-table tr:hover {
+            background: var(--vocab-bg);
+        }
+
+        .vocab-word {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .vocab-phonetic {
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .vocab-pos {
+            display: inline-block;
+            background: var(--primary-light);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        /* Reading comprehension */
+        .question-item {
+            margin-bottom: 32px;
+            padding: 24px;
+            background: var(--bg);
+            border-radius: 12px;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .question-type {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .options {
+            margin: 16px 0;
+        }
+
+        .option {
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option:hover {
+            border-color: var(--primary-light);
+            background: var(--vocab-bg);
+        }
+
+        .option.correct {
+            border-color: var(--success);
+            background: var(--success-light);
+        }
+
+        .answer-section {
+            margin-top: 16px;
+            padding: 16px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--success);
+        }
+
+        .answer-label {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 8px;
+        }
+
+        .answer-analysis {
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* Tips section */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .tip-card {
+            padding: 24px;
+            background: linear-gradient(135deg, #fffaf0 0%, #fff5f5 100%);
+            border-radius: 12px;
+            border: 1px solid #fed7d7;
+        }
+
+        .tip-card h4 {
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .tip-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .page-footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .page-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Print styles */
+        @media print {
+            .article-header {
+                background: white !important;
+                color: black !important;
+                border: 2px solid var(--primary);
+            }
+
+            .section {
+                box-shadow: none;
+                border: 1px solid var(--border);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .article-header {
+                padding: 32px 24px;
+            }
+
+            .article-title {
+                font-size: 1.6rem;
+            }
+
+            .article-content {
+                padding: 24px;
+            }
+
+            .section {
+                padding: 24px;
+            }
+
+            .article-body {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+            <a href="../index.html">首页</a>
+            <span class="breadcrumb-separator">/</span>
+            <a href="index.html">外刊精读</a>
+            <span class="breadcrumb-separator">/</span>
+            <span>文章详情</span>
+        </nav>
+
+        <!-- Article Header -->
+        <header class="article-header">
+            <div class="source-badge">The Atlantic · Technology</div>
+            <h1 class="article-title">College Students Have Already Changed Forever</h1>
+            <div class="article-meta">
+                <div class="meta-item">
+                    <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <span>Ian Bogost</span>
+                </div>
+                <div class="meta-item">
+                    <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>2025年8月</span>
+                </div>
+                <div class="meta-item">
+                    <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>约1500词</span>
+                </div>
+                <div class="meta-item">
+                    <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>难度：★★★★☆</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Article Content -->
+        <article class="article-content">
+            <p class="lead">Members of the class of 2026 have had access to AI since they were freshmen. Almost all of them are using it to do their work.</p>
+            
+            <div class="article-body">
+                <p>A college senior returning to classes this fall has spent nearly their entire undergraduate career under the shadow—or in the <span class="vocab">embrace<span class="vocab-tooltip">n. /ɪmˈbreɪs/ 拥抱；接纳</span></span>—of <span class="vocab">generative<span class="vocab-tooltip">adj. /ˈdʒenərətɪv/ 生成的；有生产力的</span></span> AI. ChatGPT first launched in November 2022, when that student was a freshman. As a department chair at Washington University in St. Louis, I <span class="vocab">witnessed<span class="vocab-tooltip">v. /ˈwɪtnəst/ 目击；见证</span></span> the <span class="vocab">chaos<span class="vocab-tooltip">n. /ˈkeɪɒs/ 混乱；混沌</span></span> it <span class="vocab">unleashed<span class="vocab-tooltip">v. /ʌnˈliːʃt/ 释放；发动</span></span> on campus. Students weren't sure what AI could do, or which uses were appropriate. Faculty were <span class="vocab">blindsided<span class="vocab-tooltip">v. /ˈblaɪndsaɪdɪd/ 使措手不及</span></span> by how effectively ChatGPT could write papers and do homework. College, it seemed to those of us who teach it, was about to be transformed.</p>
+
+                <p>But nobody thought it would happen this quickly. Three years later, the AI transformation is just about complete. By the spring of 2024, almost two-thirds of Harvard undergrads were drawing on the tool at least once a week. In a British survey of full-time undergraduates from December, 92 percent reported using AI in some fashion. Forty percent agreed that "content created by generative AI would get a good grade in my subject," and nearly one in five <span class="vocab">admitted<span class="vocab-tooltip">v. /ədˈmɪtɪd/ 承认；准许进入</span></span> that they've tested that idea directly, by using AI to complete their assignments. Such numbers will only rise in the year ahead.</p>
+
+                <p>"I cannot think that in this day and age that there is a student who is not using it," Vasilis Theoharakis, a strategic-marketing professor at the Cranfield School of Management who has done research on AI in the classroom, told me. That's what I'm seeing in the classes that I teach and hearing from the students at my school: The technology is no longer just a curiosity or a way to cheat; it is a habit, as <span class="vocab">ubiquitous<span class="vocab-tooltip">adj. /juːˈbɪkwɪtəs/ 无处不在的；普遍存在的</span></span> on campus as eating processed foods or scrolling social media. In the coming fall semester, this new reality will be undeniable. Higher education has been changed forever in the span of a single undergraduate career.</p>
+
+                <p>"It can pretty much do everything," says Harrison Lieber, a WashU senior majoring in economics and computer science (who took a class I taught on AI last term). As a college student, he told me, he has mostly inhabited a world with ChatGPT. For those in his position, the many moral questions that AI provokes—for example, whether it is <span class="vocab">exploitative<span class="vocab-tooltip">adj. /ɪkˈsplɔɪtətɪv/ 剥削的；利用的</span></span>, or anti-intellectual, or ecologically unsound—take a back seat to the simple truth of its utility. Lieber <span class="vocab">characterized<span class="vocab-tooltip">v. /ˈkærəktəraɪzd/ 描述...的特征；刻画</span></span> the matter as <span class="vocab">pragmatic<span class="vocab-tooltip">adj. /præɡˈmætɪk/ 实用的；务实的</span></span> above all else: Students don't want to cheat; they certainly don't want to erode the value of an education that may be costing them or their family a small fortune. But if you have seven assignments due in five days, and AI could speed up the work by <span class="vocab">tenfold<span class="vocab-tooltip">adv. /ˈtenfəʊld/ 十倍地</span></span> for the cost of a large pizza, what are you meant to do?</p>
+
+                <p>In spring 2023, I spoke with a WashU student whose paper had been <span class="vocab">flagged<span class="vocab-tooltip">v. /flæɡd/ 标记；做记号</span></span> by one of the generally <span class="vocab">unreliable<span class="vocab-tooltip">adj. /ˌʌnrɪˈlaɪəbl/ 不可靠的</span></span> AI detectors that universities have used to <span class="vocab">stem<span class="vocab-tooltip">v. /stem/ 阻止；堵住</span></span> the tide of cheating. He told me that he'd run his text through grammar-checking software and asked ChatGPT to improve some sentences, and that he'd done this to make time for other activities that he preferred. "Sometimes I want to play basketball," he said. "Sometimes I want to work out."</p>
+
+                <p>His attitude might have been common among large-language-model users during that first, explosive year of AI college: If a computer helps me with my paper, then I'll have more time for other stuff. That appeal persists in 2025, but as these tools have taken over in the dorms, the motivations of their users have diversified. For Lieber, AI's allure seems more about the promise of achievement than efficiency. As with most students who are accepted to and graduate from an elite university, he and his classmates have been striving their whole life. As Lieber put it, if a course won't have "a tangible impact on my ability to get a good job," then "it's not worth putting a lot of my time into." This approach to education, coupled with a dismal outlook for postgraduate employment, justifies an ever more ferocious focus on accomplishment. Lieber is pursuing a minor in film and media studies. He has also started a profitable business while in school. Still, he had to network hard to land a good job after graduation. (He is working in risk management.)</p>
+
+                <p>Da'Juantay Wynter, another rising senior at WashU who has never seen a full semester without AI, told me he always writes his own essays but feels okay about using ChatGPT to summarize readings, especially if he is in a rush. And like the other students I spoke with, he's often in a rush. Wynter is a double major in educational studies and American-culture studies; he has also served as president of the Association of Black Students, and been a member of a student union and various other campus committees. Those roles sometimes feel more urgent than his classwork, he explained. If he does not attend to them, events won't take place. "I really want to polish up all my skills and intellect during college," he said. Even as he knows that AI can't do the work as well, or in a way that will help him learn, "it's always in the back of my mind: Well, AI can get this done in five seconds."</p>
+
+                <p>Another member of his class, Omar Abdelmoity, serves on the university's Academic Integrity Board, the body that <span class="vocab">adjudicates<span class="vocab-tooltip">v. /əˈdʒuːdɪkeɪts/ 裁决；判决</span></span> cases of cheating, with AI or otherwise. In almost every case of AI cheating he's seen, Abdelmoity told me, students really did have the time to write the paper in question—they just got stressed or <span class="vocab">preoccupied<span class="vocab-tooltip">adj. /priˈɒkjupaɪd/ 心事重重的；全神贯注的</span></span> by other things, and turned to AI because it works and it is available. Students also feel the strain of soaring expectations. For those who want to go to medical school, as Abdelmoity does, even getting a 4.0 GPA and solid MCAT scores can seem <span class="vocab">insufficient<span class="vocab-tooltip">adj. /ˌɪnsəˈfɪʃnt/ 不足的；不够的</span></span> for admission to the best programs. Whether or not this is realistic, students have <span class="vocab">internalized<span class="vocab-tooltip">v. /ɪnˈtɜːnəlaɪzd/ 使内在化；内化</span></span> the message that they should be racking up more achievements and experience: putting in clinical hours, publishing research papers, and leading clubs, for example. In response, they seek ways to "time shift," Abdelmoity said, so they can fit more in. And that's at an elite private university, he continued, where the pressure is high but so is the privilege. At a state school, a student might be more likely to work multiple jobs and take care of their family. Those ordinary demands may encourage AI use even more.</p>
+
+                <p>In the end, Abdelmoity said, academic-integrity boards such as the one he sits on can only do so much. For students who have access to AI, an education is what you make of it.</p>
+
+                <p>If the AI takeover of higher ed is nearly complete, plenty of professors are <span class="vocab">oblivious<span class="vocab-tooltip">adj. /əˈblɪviəs/ 未察觉的；不注意的</span></span>. It isn't that they fail to understand the nature of the threat to classroom practice. But my recent interviews with colleagues have led me to believe that, on the whole, faculty simply fail to <span class="vocab">grasp<span class="vocab-tooltip">v. /ɡrɑːsp/ 理解；抓住</span></span> the <span class="vocab">immediacy<span class="vocab-tooltip">n. /ɪˈmiːdiəsi/ 紧迫性；直接性</span></span> of the problem. Many seem unaware of how utterly normal AI has become for students. For them, the coming year could provide a painful revelation.</p>
+
+                <p>Some professors I spoke with have been taking modest steps in self-defense: They're abandoning online and take-home assignments, hoping to <span class="vocab">retain<span class="vocab-tooltip">v. /rɪˈteɪn/ 保持；保留</span></span> the purity of their coursework. Kerri Tobin, an associate professor of education at Louisiana State University, told me that she is making undergrads do a lot more handwritten, in-class writing—a sentiment I heard many times this summer. The in-class exam, and its associated blue book, is also on the rise. And Abdelmoity reported that the grading in his natural-science courses has already been <span class="vocab">rejiggered<span class="vocab-tooltip">v. /rɪˈdʒɪɡəd/ 重新安排；调整</span></span>, <span class="vocab">deemphasizing<span class="vocab-tooltip">v. /diːˈemfəsaɪzɪŋ/ 降低...的重要性</span></span> homework and making tests count for more. These adjustments might be helpful, but they also risk <span class="vocab">alienating<span class="vocab-tooltip">v. /ˈeɪliəneɪtɪŋ/ 使疏远；使不友好</span></span> students. Being forced to write out essays in longhand could make college feel even more old-fashioned than it did before, and less connected to contemporary life.</p>
+
+                <p>Other professors believe that moral appeals may still have teeth. Annabel Rothschild, an assistant professor of computer science at Bard College, said she's found that blanket rules and <span class="vocab">prohibitions<span class="vocab-tooltip">n. /ˌprəʊɪˈbɪʃnz/ 禁止；禁令</span></span> have been less effective than a personal address and appeal to social responsibility. Rothschild is particularly concerned about the "environmental harms" of AI, and she reports that students have responded to discussions that vein. (AI data centers consume a large amount of water and electricity.) The fact that she's a scientist who understands the technology gives her message greater credibility. It also helps that she teaches at a small college with a focus on the arts.</p>
+
+                <p>Today's seniors entered college at the tail end of the coronavirus pandemic, a crisis that once seemed likely to produce its own transformation of higher ed. The sudden switch to Zoom classes in 2020 revealed, over time, just how <span class="vocab">outmoded<span class="vocab-tooltip">adj. /ˌaʊtˈməʊdɪd/ 过时的；老式的</span></span> the standard lecture had become; it also showed that, if forced by circumstance, colleges could turn on a dime. But COVID led to little lasting change in the college classroom. Some of the students I spoke with said the response to AI has been meager too. They wondered why faculty weren't doing more to adjust teaching practices to match the fundamental changes wrought by new technologies—and potentially improve the learning experience in the process.</p>
+
+                <p>Lieber said that he wants to learn to make arguments and communicate complex ideas, as he does in his film minor. But he also wonders why more courses can't assess those skills through classroom discussion (which is hard to fake) instead of written essays or research papers (which may be completed with AI). "People go to a discussion-based class, and 80 percent of the class doesn't participate in discussion," he said.</p>
+
+                <p>The truth is that many professors would like to make this change but simply can't. A lot of us might want to judge students on the merits of their participation in class, but we've been discouraged from doing so out of fear that such evaluations will be deemed <span class="vocab">arbitrary<span class="vocab-tooltip">adj. /ˈɑːbɪtrəri/ 任意的；武断的</span></span> and <span class="vocab">inequitable<span class="vocab-tooltip">adj. /ɪnˈekwɪtəbl/ 不公平的；不公正的</span></span>—and that students and their parents might complain. When professors take class participation into account, they do so carefully: Students tend to be graded on whether they show up or on the number of times they speak in class, rather than the quality of what they say. Erin McGlothlin, the vice dean of undergraduate affairs in WashU's College of Arts & Sciences, told me this stems from the belief that grading <span class="vocab">rubrics<span class="vocab-tooltip">n. /ˈruːbrɪks/ 评分标准；红色标题</span></span> should be crystal clear in spelling out how class discussion is evaluated.</p>
+
+                <p>For professors, this approach avoids the risk of any conflicts related to accommodating students' mental health or politics, or to bureaucratic matters. But it also makes the modern classroom more vulnerable to the <span class="vocab">incursion<span class="vocab-tooltip">n. /ɪnˈkɜːʃn/ 入侵；袭击</span></span> of AI. If what a student says in person can't be <span class="vocab">assessed<span class="vocab-tooltip">v. /əˈsest/ 评估；评价</span></span> <span class="vocab">rigorously<span class="vocab-tooltip">adv. /ˈrɪɡərəsli/ 严格地；严厉地</span></span>, then what they type on their computer—perhaps with automated help—will matter all the more.</p>
+
+                <p>Like the other members of his class, Lieber did experience a bit of college life before ChatGPT appeared. Even then, he said, at the very start of his freshman year, he felt alienated from some of his introductory classes. "I would think to myself, What the hell am I doing, sitting watching this professor give the same lecture that he has given every year for the last 30 years?" But he knew the answer even then: He was there to <span class="vocab">subsidize<span class="vocab-tooltip">v. /ˈsʌbsɪdaɪz/ 资助；补助</span></span> that professor's research. At America's research universities, teaching is a secondary job activity, at times neglected by faculty who want to devote as much time as possible to writing grants, running labs, and publishing academic papers. The classroom experience was suffering even before AI came onto the scene.</p>
+
+                <p>Now professors face their own temptations from AI, which can enable them to get more work done, and faster, just as it does for students. I've heard from colleagues who admit to using AI-generated recommendation letters and course syllabi. Others clearly use AI to write up their research. And still more are eager to discuss the wholesome-seeming ways they have been putting the technology to use—by simulating interactions with historical authors, for example, or launching minors in applied AI.</p>
+
+                <p>But students seem to want a deeper sort of classroom innovation. They're not looking for <span class="vocab">gimmicks<span class="vocab-tooltip">n. /ˈɡɪmɪks/ 噱头；花招</span></span>—such as courses that use AI only to make boring topics seem more current. Students like Lieber, who sees his college education as a means of setting himself up for his career, are demanding something more. Instead of being required to take tests and write in-class essays, they want to do more project-based learning—with assignments that "<span class="vocab">emulate<span class="vocab-tooltip">v. /ˈemjuleɪt/ 模仿；仿真</span></span> the real world," as Lieber put it.</p>
+
+                <p>But designing courses of this kind, which resist AI shortcuts, would require professors to undertake new and time-consuming labor themselves. That assignment comes at the worst possible time. Universities have been under <span class="vocab">systematic<span class="vocab-tooltip">adj. /ˌsɪstəˈmætɪk/ 系统的；有条理的</span></span> attack since President Donald Trump took office in January. Funding for research has been cut, canceled, disrupted, or stymied for months. Labs have laid off workers. Degree programs have cut doctoral admissions. Multi-center research projects have been put on hold. The "college experience" that Americans have pursued for generations may soon be over.</p>
+
+                <p>The existence of these stressors puts higher ed at greater risk from AI. Now professors find themselves with even more demands than they anticipated and fewer ways to get them done. The best, and perhaps the only, way out of AI's college takeover would be to embark on a redesign of classroom practice. But with so many other things to worry about, who has the time? In this way, professors face the same challenge as their students in the year ahead: A college education will be what they make of it too. At some point, everyone on campus will have to do the work.</p>
+            </div>
+        </article>
+
+        <!-- Summary Section -->
+        <section class="section">
+            <h2 class="section-title">
+                <div class="section-icon">概</div>
+                文章大意
+            </h2>
+            <div class="summary-box">
+                <p>本文选自《大西洋月刊》，作者Ian Bogost是华盛顿大学圣路易斯分校的系主任。文章探讨了生成式AI（以ChatGPT为代表）如何从根本上改变了大学教育和学生行为。</p>
+                <p>文章指出，2026届大学生从大一就开始接触AI，如今AI已成为校园中无处不在的习惯。调查显示，92%的英国全日制本科生在使用AI，近五分之一的学生承认直接用AI完成作业。学生使用AI的动机各不相同：有的是为了节省时间从事其他活动，有的是为了在激烈竞争中获得更多成就。</p>
+                <p>作者通过采访多位学生和教授发现，许多教师尚未意识到AI已成为学生的日常工具。一些教授采取防御性措施（如增加手写课堂作业），但这可能适得其反。文章最后指出，面对资金削减和AI冲击的双重压力，高等教育正面临根本性变革，而课堂教学的重新设计或许是唯一的出路。</p>
+            </div>
+        </section>
+
+        <!-- Long Sentences Section -->
+        <section class="section">
+            <h2 class="section-title">
+                <div class="section-icon">析</div>
+                长难句解析
+            </h2>
+            
+            <div class="sentence-item">
+                <div class="sentence-en">"Forty percent agreed that 'content created by generative AI would get a good grade in my subject,' and nearly one in five admitted that they've tested that idea directly, by using AI to complete their assignments."</div>
+                <div class="sentence-analysis">
+                    <h4>句子结构分析</h4>
+                    <p>本句是由<span class="highlight">and</span>连接的并列复合句。前半句主干为<span class="highlight">Forty percent agreed that...</span>，that引导宾语从句；后半句主干为<span class="highlight">nearly one in five admitted that...</span>，that同样引导宾语从句。句末的<span class="highlight">by using AI to complete their assignments</span>为方式状语，说明"tested that idea"的方式。</p>
+                </div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="sentence-en">"In almost every case of AI cheating he's seen, Abdelmoity told me, students really did have the time to write the paper in question—they just got stressed or preoccupied by other things, and turned to AI because it works and it is available."</div>
+                <div class="sentence-analysis">
+                    <h4>句子结构分析</h4>
+                    <p>本句主干为<span class="highlight">students really did have the time to write the paper</span>。句首的<span class="highlight">In almost every case of AI cheating he's seen</span>为介词短语作状语，其中<span class="highlight">he's seen</span>为省略关系代词的定语从句，修饰case。<span class="highlight">Abdelmoity told me</span>为插入语。破折号后内容进一步解释原因，其中<span class="highlight">because it works and it is available</span>为原因状语从句。</p>
+                </div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="sentence-en">"For those who want to go to medical school, as Abdelmoity does, even getting a 4.0 GPA and solid MCAT scores can seem insufficient for admission to the best programs."</div>
+                <div class="sentence-analysis">
+                    <h4>句子结构分析</h4>
+                    <p>本句主干为<span class="highlight">even getting a 4.0 GPA and solid MCAT scores can seem insufficient</span>，其中动名词短语<span class="highlight">getting...</span>作主语。<span class="highlight">For those who want to go to medical school</span>为介词短语作状语，其中包含who引导的定语从句。<span class="highlight">as Abdelmoity does</span>为方式状语从句，表示"正如Abdelmoity一样"。</p>
+                </div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="sentence-en">"If what a student says in person can't be assessed rigorously, then what they type on their computer—perhaps with automated help—will matter all the more."</div>
+                <div class="sentence-analysis">
+                    <h4>句子结构分析</h4>
+                    <p>本句为<span class="highlight">If...then...</span>条件状语从句结构。条件从句中，<span class="highlight">what a student says in person</span>为what引导的主语从句；主句中，<span class="highlight">what they type on their computer</span>同样为what引导的主语从句。<span class="highlight">perhaps with automated help</span>为插入语，补充说明学生可能在AI辅助下打字。</p>
+                </div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="sentence-en">"But designing courses of this kind, which resist AI shortcuts, would require professors to undertake new and time-consuming labor themselves."</div>
+                <div class="sentence-analysis">
+                    <h4>句子结构分析</h4>
+                    <p>本句主干为<span class="highlight">designing courses...would require professors to undertake...labor</span>，其中动名词短语<span class="highlight">designing courses of this kind</span>作主语。<span class="highlight">which resist AI shortcuts</span>为非限制性定语从句，修饰courses。<span class="highlight">require sb. to do sth.</span>为固定搭配，表示"要求某人做某事"。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phrases Section -->
+        <section class="section">
+            <h2 class="section-title">
+                <div class="section-icon">搭</div>
+                短语搭配
+            </h2>
+            
+            <div class="phrase-item">
+                <div class="phrase-num">1</div>
+                <div class="phrase-content">
+                    <div class="phrase-en">in the embrace of</div>
+                    <div class="phrase-cn">在……的怀抱中；被……所接纳</div>
+                    <div class="phrase-example">"...spent nearly their entire undergraduate career under the shadow—or in the embrace—of generative AI."</div>
+                </div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-num">2</div>
+                <div class="phrase-content">
+                    <div class="phrase-en">take a back seat to</div>
+                    <div class="phrase-cn">退居次要地位；让位于……</div>
+                    <div class="phrase-example">"...the many moral questions...take a back seat to the simple truth of its utility."</div>
+                </div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-num">3</div>
+                <div class="phrase-content">
+                    <div class="phrase-en">stem the tide (of)</div>
+                    <div class="phrase-cn">阻止……的浪潮；遏制……的趋势</div>
+                    <div class="phrase-example">"...universities have used to stem the tide of cheating."</div>
+                </div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-num">4</div>
+                <div class="phrase-content">
+                    <div class="phrase-en">in the back of one's mind</div>
+                    <div class="phrase-cn">在某人脑海深处；潜意识中</div>
+                    <div class="phrase-example">"it's always in the back of my mind: Well, AI can get this done in five seconds."</div>
+                </div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-num">5</div>
+                <div class="phrase-content">
+                    <div class="phrase-en">turn on a dime</div>
+                    <div class="phrase-cn">迅速转变；灵活应变</div>
+                    <div class="phrase-example">"...colleges could turn on a dime."</div>
+                </div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-num">6</div>
+                <div class="phrase-content">
+                    <div class="phrase-en">take into account</div>
+                    <div class="phrase-cn">考虑到；顾及</div>
+                    <div class="phrase-example">"When professors take class participation into account, they do so carefully..."</div>
+                </div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-num">7</div>
+                <div class="phrase-content">
+                    <div class="phrase-en">put on hold</div>
+                    <div class="phrase-cn">暂停；搁置</div>
+                    <div class="phrase-example">"Multi-center research projects have been put on hold."</div>
+                </div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-num">8</div>
+                <div class="phrase-content">
+                    <div class="phrase-en">embark on</div>
+                    <div class="phrase-cn">开始；着手进行</div>
+                    <div class="phrase-example">"...embark on a redesign of classroom practice."</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vocabulary Section -->
+        <section class="section">
+            <h2 class="section-title">
+                <div class="section-icon">词</div>
+                考研核心词汇表
+            </h2>
+            <div class="vocab-table-wrapper">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th>单词</th>
+                            <th>音标</th>
+                            <th>词性</th>
+                            <th>中文释义</th>
+                            <th>例句</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="vocab-word">generative</span></td>
+                            <td class="vocab-phonetic">/ˈdʒenərətɪv/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>生成的；有生产力的</td>
+                            <td>Generative AI can create text, images, and code.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">ubiquitous</span></td>
+                            <td class="vocab-phonetic">/juːˈbɪkwɪtəs/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>无处不在的；普遍存在的</td>
+                            <td>Smartphones have become ubiquitous in modern life.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">pragmatic</span></td>
+                            <td class="vocab-phonetic">/præɡˈmætɪk/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>实用的；务实的</td>
+                            <td>We need a pragmatic approach to solve this problem.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">characterize</span></td>
+                            <td class="vocab-phonetic">/ˈkærəktəraɪz/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>描述...的特征；刻画</td>
+                            <td>The era was characterized by rapid technological change.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">exploitative</span></td>
+                            <td class="vocab-phonetic">/ɪkˈsplɔɪtətɪv/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>剥削的；利用的</td>
+                            <td>Critics argue the system is exploitative to workers.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">erode</span></td>
+                            <td class="vocab-phonetic">/ɪˈrəʊd/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>侵蚀；削弱</td>
+                            <td>Inflation can erode the value of savings.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">tenfold</span></td>
+                            <td class="vocab-phonetic">/ˈtenfəʊld/</td>
+                            <td><span class="vocab-pos">adv.</span></td>
+                            <td>十倍地</td>
+                            <td>Profits increased tenfold over the decade.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">flag</span></td>
+                            <td class="vocab-phonetic">/flæɡ/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>标记；做记号</td>
+                            <td>The system automatically flags suspicious transactions.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">unreliable</span></td>
+                            <td class="vocab-phonetic">/ˌʌnrɪˈlaɪəbl/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>不可靠的</td>
+                            <td>The data source proved to be unreliable.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">stem</span></td>
+                            <td class="vocab-phonetic">/stem/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>阻止；堵住</td>
+                            <td>New measures were introduced to stem the flow of illegal immigrants.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">adjudicate</span></td>
+                            <td class="vocab-phonetic">/əˈdʒuːdɪkeɪt/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>裁决；判决</td>
+                            <td>The court will adjudicate the dispute next month.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">preoccupied</span></td>
+                            <td class="vocab-phonetic">/priˈɒkjupaɪd/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>心事重重的；全神贯注的</td>
+                            <td>She seemed preoccupied with her thoughts.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">insufficient</span></td>
+                            <td class="vocab-phonetic">/ˌɪnsəˈfɪʃnt/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>不足的；不够的</td>
+                            <td>There was insufficient evidence to convict him.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">internalize</span></td>
+                            <td class="vocab-phonetic">/ɪnˈtɜːnəlaɪz/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>使内在化；内化</td>
+                            <td>Children internalize cultural norms through socialization.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">oblivious</span></td>
+                            <td class="vocab-phonetic">/əˈblɪviəs/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>未察觉的；不注意的</td>
+                            <td>He seemed oblivious to the danger around him.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">grasp</span></td>
+                            <td class="vocab-phonetic">/ɡrɑːsp/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>理解；抓住</td>
+                            <td>It took me a while to grasp the concept.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">immediacy</span></td>
+                            <td class="vocab-phonetic">/ɪˈmiːdiəsi/</td>
+                            <td><span class="vocab-pos">n.</span></td>
+                            <td>紧迫性；直接性</td>
+                            <td>The immediacy of the crisis required quick action.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">retain</span></td>
+                            <td class="vocab-phonetic">/rɪˈteɪn/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>保持；保留</td>
+                            <td>The company failed to retain its best employees.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">deemphasize</span></td>
+                            <td class="vocab-phonetic">/diːˈemfəsaɪz/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>降低...的重要性</td>
+                            <td>The new policy deemphasizes standardized testing.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">rejigger</span></td>
+                            <td class="vocab-phonetic">/rɪˈdʒɪɡər/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>重新安排；调整</td>
+                            <td>They rejiggered the schedule to accommodate everyone.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">alienate</span></td>
+                            <td class="vocab-phonetic">/ˈeɪliəneɪt/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>使疏远；使不友好</td>
+                            <td>His comments alienated many of his supporters.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">prohibition</span></td>
+                            <td class="vocab-phonetic">/ˌprəʊɪˈbɪʃn/</td>
+                            <td><span class="vocab-pos">n.</span></td>
+                            <td>禁止；禁令</td>
+                            <td>The prohibition on smoking was strictly enforced.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">outmoded</span></td>
+                            <td class="vocab-phonetic">/ˌaʊtˈməʊdɪd/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>过时的；老式的</td>
+                            <td>The factory still uses outmoded equipment.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">arbitrary</span></td>
+                            <td class="vocab-phonetic">/ˈɑːbɪtrəri/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>任意的；武断的</td>
+                            <td>The decision seemed completely arbitrary.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">inequitable</span></td>
+                            <td class="vocab-phonetic">/ɪnˈekwɪtəbl/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>不公平的；不公正的</td>
+                            <td>The distribution of resources was inequitable.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">rubric</span></td>
+                            <td class="vocab-phonetic">/ˈruːbrɪk/</td>
+                            <td><span class="vocab-pos">n.</span></td>
+                            <td>评分标准；红色标题</td>
+                            <td>Students should review the grading rubric before starting.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">incursion</span></td>
+                            <td class="vocab-phonetic">/ɪnˈkɜːʃn/</td>
+                            <td><span class="vocab-pos">n.</span></td>
+                            <td>入侵；袭击</td>
+                            <td>The army repelled the enemy incursion.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">rigorous</span></td>
+                            <td class="vocab-phonetic">/ˈrɪɡərəs/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>严格的；严厉的</td>
+                            <td>The program requires rigorous academic training.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">subsidize</span></td>
+                            <td class="vocab-phonetic">/ˈsʌbsɪdaɪz/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>资助；补助</td>
+                            <td>The government subsidizes housing for low-income families.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">emulate</span></td>
+                            <td class="vocab-phonetic">/ˈemjuleɪt/</td>
+                            <td><span class="vocab-pos">v.</span></td>
+                            <td>模仿；仿真</td>
+                            <td>The software can emulate different operating systems.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">gimmick</span></td>
+                            <td class="vocab-phonetic">/ˈɡɪmɪk/</td>
+                            <td><span class="vocab-pos">n.</span></td>
+                            <td>噱头；花招</td>
+                            <td>The product's main selling point is just a gimmick.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="vocab-word">systematic</span></td>
+                            <td class="vocab-phonetic">/ˌsɪstəˈmætɪk/</td>
+                            <td><span class="vocab-pos">adj.</span></td>
+                            <td>系统的；有条理的</td>
+                            <td>The research followed a systematic methodology.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Reading Comprehension Section -->
+        <section class="section">
+            <h2 class="section-title">
+                <div class="section-icon">练</div>
+                阅读理解练习
+            </h2>
+            
+            <div class="question-item">
+                <div class="question-header">
+                    <span class="question-type">主旨大意题</span>
+                    <span class="question-text">1. What is the main idea of this article?</span>
+                </div>
+                <div class="options">
+                    <div class="option correct">A) Generative AI has fundamentally transformed how college students approach their education and coursework.</div>
+                    <div class="option">B) The history and development of ChatGPT since its launch in 2022.</div>
+                    <div class="option">C) Universities should ban the use of AI in all academic settings.</div>
+                    <div class="option">D) The comparison between online learning during COVID and AI-assisted learning.</div>
+                </div>
+                <div class="answer-section">
+                    <div class="answer-label">正确答案：A</div>
+                    <div class="answer-analysis">
+                        <strong>解析：</strong>文章开篇即指出"College Students Have Already Changed Forever"，随后通过调查数据和学生访谈，详细论述了生成式AI如何从根本上改变了大学生的学习方式和行为。B选项过于狭窄，仅涉及ChatGPT历史；C选项与文章立场相反，作者并未主张禁止AI；D选项中COVID只是文章末尾顺带提及的对比，并非主旨。
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-item">
+                <div class="question-header">
+                    <span class="question-type">细节理解题</span>
+                    <span class="question-text">2. According to the article, what is one major reason students turn to AI for help with assignments?</span>
+                </div>
+                <div class="options">
+                    <div class="option">A) They want to cheat and get higher grades dishonestly.</div>
+                    <div class="option correct">B) They are overwhelmed by multiple demands and tight deadlines.</div>
+                    <div class="option">C) They believe traditional education has no value at all.</div>
+                    <div class="option">D) Their professors explicitly encourage them to use AI tools.</div>
+                </div>
+                <div class="answer-section">
+                    <div class="answer-label">正确答案：B</div>
+                    <div class="answer-analysis">
+                        <strong>解析：</strong>根据文章第四段，Lieber提到"if you have seven assignments due in five days, and AI could speed up the work by tenfold..."；第六段Wynter也提到"he's often in a rush"。第七段进一步指出学生"got stressed or preoccupied by other things, and turned to AI"。这些都表明学生因多重任务和紧迫期限而使用AI。A选项与文中学生不想作弊的表述矛盾；C、D选项文中未提及。
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-item">
+                <div class="question-header">
+                    <span class="question-type">推理判断题</span>
+                    <span class="question-text">3. What can be inferred from the last paragraph about the author's view on solving the AI challenge in higher education?</span>
+                </div>
+                <div class="options">
+                    <div class="option">A) Professors have plenty of time to redesign their courses.</div>
+                    <div class="option correct">B) The combination of funding cuts and AI pressure makes educational reform extremely difficult.</div>
+                    <div class="option">C) Students should be punished more severely for using AI.</div>
+                    <div class="option">D) AI will soon be banned from all university campuses.</div>
+                </div>
+                <div class="answer-section">
+                    <div class="answer-label">正确答案：B</div>
+                    <div class="answer-analysis">
+                        <strong>解析：</strong>最后一段指出"Universities have been under systematic attack...Funding for research has been cut"，同时提到"The existence of these stressors puts higher ed at greater risk from AI"。作者认为教授们"with even more demands than they anticipated and fewer ways to get them done"，而课程改革需要"new and time-consuming labor"，但"who has the time?"，暗示资金削减和AI压力的双重困境使教育改革异常艰难。A与文意相反；C、D文中未提及且与作者立场不符。
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reading Tips Section -->
+        <section class="section">
+            <h2 class="section-title">
+                <div class="section-icon">技</div>
+                阅读技巧提示
+            </h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>🎯 主旨题解题技巧</h4>
+                    <p>主旨大意题通常可通过文章首尾段及各段首句快速把握。本文标题即点明主旨，首段末句"College, it seemed...was about to be transformed"和末段"Higher education has been changed forever"形成首尾呼应。</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🔍 细节定位技巧</h4>
+                    <p>考研阅读细节题占比较大。建议先读题干划关键词，再回原文定位。注意同义替换，如文中"speed up"可能对应选项中的"save time"，"preoccupied"对应"overwhelmed"。</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🧩 长难句分析技巧</h4>
+                    <p>遇到长难句时，先找主干（主谓宾），再分析修饰成分。本文出现大量插入语（如"Abdelmoity told me"）和从句嵌套，可通过括号法将修饰成分暂时括起，理清核心语义。</p>
+                </div>
+                <div class="tip-card">
+                    <h4>💡 推理题解题技巧</h4>
+                    <p>推理判断题需基于原文信息合理推断，不可过度引申。正确选项通常是原文某句话的"言外之意"，错误选项常表现为：与原文矛盾、过度推断、无中生有或偷换概念。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="page-footer">
+            <p>本文仅供考研英语学习使用，版权归原作者及出版方所有</p>
+            <p>来源：<a href="https://www.theatlantic.com" target="_blank">The Atlantic</a> | 编译整理：考研英语外刊精读</p>
+            <p style="margin-top: 8px;">📅 精读日期：2026年7月5日</p>
+        </footer>
+    </div>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add click interaction for vocabulary on mobile
+        document.querySelectorAll('.vocab').forEach(vocab => {
+            vocab.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Toggle active state for mobile tap
+                this.style.background = this.style.background ? '' : 'var(--vocab-bg)';
+            });
+        });
+    </script>
+</body>
+</html>
