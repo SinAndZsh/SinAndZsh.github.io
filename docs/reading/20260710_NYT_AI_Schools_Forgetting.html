@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | The New York Times: What Schools Are Forgetting in Their Race to Embrace A.I.</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --accent-light: #fdf2f2;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+            --highlight: #fff3cd;
+            --vocab-bg: #e8f4f8;
+            --phrase-bg: #f0f8e8;
+            --sentence-bg: #f5f0fa;
+            --tips-bg: #fff8e1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Noto Sans CJK SC", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .article-header {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .article-header .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .article-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .article-header .subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        .article-header .meta {
+            font-size: 13px;
+            opacity: 0.8;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .article-header .meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section-card h2 {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-card h3 {
+            font-size: 17px;
+            color: var(--primary);
+            margin: 20px 0 12px;
+        }
+        .article-body p {
+            margin-bottom: 16px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+        .vocab-word {
+            color: var(--accent);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--accent);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .vocab-word:hover {
+            background: var(--accent-light);
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 1.5;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        .vocab-word.active .tooltip {
+            display: block;
+        }
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .vocab-table th {
+            background: var(--vocab-bg);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+        }
+        .vocab-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .vocab-table tr:hover {
+            background: var(--vocab-bg);
+        }
+        .vocab-table .word-cell {
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .vocab-table .phonetic {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        .phrase-item {
+            background: var(--phrase-bg);
+            border-left: 4px solid #7cb342;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            border-radius: 0 8px 8px 0;
+        }
+        .phrase-item .phrase-en {
+            font-weight: 600;
+            color: #558b2f;
+            font-size: 15px;
+        }
+        .phrase-item .phrase-cn {
+            color: var(--text-light);
+            font-size: 14px;
+            margin: 4px 0;
+        }
+        .phrase-item .phrase-example {
+            font-size: 13px;
+            color: var(--text);
+            margin-top: 6px;
+            font-style: italic;
+        }
+        .sentence-box {
+            background: var(--sentence-bg);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .sentence-box .sentence-en {
+            font-size: 15px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+        .sentence-box .sentence-structure,
+        .sentence-box .sentence-translation {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        .tips-box {
+            background: var(--tips-bg);
+            border-radius: 10px;
+            padding: 18px 22px;
+        }
+        .tips-box ul {
+            padding-left: 20px;
+        }
+        .tips-box li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text);
+        }
+        .quiz-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .quiz-item .quiz-q {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .quiz-item .quiz-options {
+            list-style: none;
+            margin-bottom: 10px;
+        }
+        .quiz-item .quiz-options li {
+            padding: 6px 0;
+            font-size: 15px;
+        }
+        .quiz-item .quiz-answer {
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+        .quiz-item .quiz-analysis {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        .summary-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 18px;
+            border-radius: 0 10px 10px 0;
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text);
+        }
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        @media (max-width: 600px) {
+            .article-header h1 { font-size: 20px; }
+            .section-card { padding: 20px; }
+            .vocab-table { font-size: 12px; }
+            .tooltip { white-space: normal; max-width: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="article-header">
+            <div class="tag">考研英语外刊精读</div>
+            <h1>What Schools Are Forgetting in Their Race to Embrace A.I.</h1>
+            <p class="subtitle">学校在竞相拥抱人工智能的过程中遗忘了什么</p>
+            <div class="meta">
+                <span>来源：The New York Times</span>
+                <span>原文日期：May 21, 2026</span>
+                <span>精读生成：2026-07-10</span>
+                <span>话题：教育 / 科技 / 社会</span>
+            </div>
+        </header>
+
+        <section class="section-card">
+            <h2>文章大意</h2>
+            <div class="summary-box">
+                本文出自《纽约时报》观点版，讨论了美国学校在“禁止手机”与“拥抱人工智能”之间表现出的矛盾：一方面，各州纷纷出台校园手机禁令以保护学生注意力；另一方面，从幼儿园到高中，AI 工具正以惊人速度进入课堂与课程。作者回顾了过去几十年课堂技术（笔记本电脑、平板、MOOC 等）令人失望的效果，指出当前 AI 教育实验同样缺乏充分证据支持，并分析了学校急于采用 AI 的原因： hopeful evangelism、对教育质量停滞的焦虑、怕被时代抛弃，以及“野性思想实验”营造的宿命感。文章呼吁在引入 AI 时应有更多公众参与、透明度、隐私保护和成效评估，而不是在尚未看清未来时就把 AI 视为教育的必然答案。
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>阅读技巧提示</h2>
+            <div class="tips-box">
+                <ul>
+                    <li>议论文常先让步再转折：注意 but / yet / however 后的作者真正态度。</li>
+<li>遇到长难句时，先找主干主谓宾，再处理从句和插入语，避免被细节淹没。</li>
+<li>词义猜测题可借助上下文同义/反义线索，如本文中 “disappointing at best” 与 “blunder” 共同指向作者对技术的负面评价。</li>
+<li>例证题要区分“例子本身”和“例子服务的观点”，如 YouTube 视频案例是为了说明课堂技术导致注意力分散。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>正文精读</h2>
+            <div class="article-body">
+                <p>Emerge from a bunker into 2026 and, among other disorientations, it might seem a bit strange that just as a wave of phone bans is sweeping the nation’s schools, so too is A.I. — with children as young as kindergarten now learning to read on tablets running interactive “learning agents.”</p>
+<p>You might think that the winds of <span class="vocab-word" onclick="toggleTooltip(this)">pedagogical<span class="tooltip">adj. /ˌpedəˈɡɒdʒɪkl/<br>教育学的；教学法的</span></span> change have begun to blow in a bit of a Waldorf direction, but the first lady, Melania Trump, has made the cause of putting A.I. in every classroom her equivalent of crusading for libraries or healthy eating, and 5- and 6-year-olds across New York City are already learning to read from what The New Yorker’s Jessica Winter called a “gamified reading bot” named Amira.</p>
+<p>In New York State, phones are now banned in all public schools, from kindergarten to 12th grade.</p>
+<p>More than two dozen other states have enacted similar policies.</p>
+<p>The early data on such bans looks pretty <span class="vocab-word" onclick="toggleTooltip(this)">ambiguous<span class="tooltip">adj. /æmˈbɪɡjuəs/<br>模棱两可的；含糊的</span></span> to me, less like a silver—bullet cure—all for what ails American teens and more as if we’ve achieved what might be a small uptick in well—being and achievement.</p>
+<p>But I can’t really object to the restrictions, even as a relative skeptic of the smartphone theory of everything.</p>
+<p>That’s because attention in class is pretty precious and there’s no way the presence of phones doesn’t degrade it, even if only on the margins.</p>
+<p>Nobody used to tolerate a Walkman or a gaming console in algebra either, and I can’t say I’m surprised that, in those places where phone bans have been implemented, teachers seem pretty <span class="vocab-word" onclick="toggleTooltip(this)">elated<span class="tooltip">adj. /ɪˈleɪtɪd/<br>兴高采烈的；欢欣鼓舞的</span></span>.</p>
+<p>But in many places where phones are being withdrawn and sealed in Yondr pouches, A.I. has <span class="vocab-word" onclick="toggleTooltip(this)">infiltrated<span class="tooltip">v. /ˈɪnfɪltreɪtɪd/<br>渗透；潜入</span></span> already.</p>
+<p>Not all technology is the same, of course, and A.I. tutors represent a different kind of educational promise, at least in theory.</p>
+<p>But over the past few decades, one dream techno fix has followed the last in the imagination of education reformers, sometimes with great <span class="vocab-word" onclick="toggleTooltip(this)">fanfare<span class="tooltip">n. /ˈfænfeə(r)/<br>大张旗鼓的宣传；号角声</span></span>: laptops in classrooms, tablets, Khan Academy video tutorials or MOOCs.</p>
+<p>The hope, each time, was that technology could do some of what we’d always relied on scarce humans to deliver, allowing more <span class="vocab-word" onclick="toggleTooltip(this)">customization<span class="tooltip">n. /ˌkʌstəmaɪˈzeɪʃn/<br>定制；个性化</span></span> of learning and freeing up overworked teachers to spend their time in more targeted ways.</p>
+<p>And overall, the returns have been disappointing at best.</p>
+<p>Some researchers even suggest that it is precisely the arrival of technology in American classrooms, starting about 25 years ago, that best explains recent declines in American academic performance.</p>
+<p>“This has been the greatest blunder in the past decade of K-12 education,” Molly Worthen wrote in The Times last month — “the decision to give every child a personal computer and to gamify everything from standardized test preparation to recess.”</p>
+<p>“My son’s math homework is essentially just Pokémon,” The Atlantic’s Will Oremus recently <span class="vocab-word" onclick="toggleTooltip(this)">lamented<span class="tooltip">v. /ləˈmentɪd/<br>悲叹；痛惜</span></span>, observing that more than ten minutes of work his 11-year-old had done involved only about thirty seconds of math — and a few bursts of pop-up ads.</p>
+<p>Thanks to technology in the classroom, unsupervised video intrudes, too:</p>
+<p>Last month, The Wall Street Journal <span class="vocab-word" onclick="toggleTooltip(this)">documented<span class="tooltip">adj. /ˈdɒkjumentɪd/<br>有文件记录的；被证实的</span></span> the experience of one seventh grader in Kansas who’d gained access to more than 13,000 YouTube videos during school hours between December 2024 and February 2025.</p>
+<p>In New York, one second grader had watched over 700 videos during school hours in just two months, The Journal’s Shalini Ramachandran reported.</p>
+<p>A 10th grader in Oregon watched 200 in less than three hours on a single day.</p>
+<p>And now comes A.I.</p>
+<p>In New York City, Amira listens to children trying to read, offers feedback and correctives and collects data.</p>
+<p>It’s already in place in approximately 150 schools across the city, teaching many thousands of children, New York magazine recently reported, under the headline “Help! My Kindergarten Is All In on A.I.”</p>
+<p>In San Francisco, Amira administered reading <span class="vocab-word" onclick="toggleTooltip(this)">assessments<span class="tooltip">n. /əˈsesmənts/<br>评估；评价</span></span> for first and second graders.</p>
+<p>In Boston, sixth graders have prepared for year—end standardized tests by working with ChatGPT and Claude, according to The New Yorker; in L.A., fourth graders using A.I. in art class produced a “highly sexualized” Pippi Longstocking book cover.</p>
+<p>These are not exactly isolated incidents, small hallucinations in an otherwise sane and stable system.</p>
+<p>In April 2025, one month after he issued an executive order aimed at abolishing the Department of Education, President Trump issued one calling for A.I. to be <span class="vocab-word" onclick="toggleTooltip(this)">incorporated<span class="tooltip">v. /ɪnˈkɔːpəreɪtɪd/<br>包含；纳入；合并</span></span> into the <span class="vocab-word" onclick="toggleTooltip(this)">curriculums<span class="tooltip">n. /kəˈrɪkjələmz/<br>课程（设置）</span></span> of American public schools at all grade levels.</p>
+<p>A majority of parents and high schoolers believe that doing so would be harmful to students, RAND found last fall.</p>
+<p>But only 22 percent of district leaders agreed.</p>
+<p>When New York City began soliciting public input on guidelines for A.I. use in schools this spring, the Department of Education gestured at the importance of human relationships, but also framed its outreach this way:</p>
+<p>“The question is not whether A.I. belongs in schools. The question is whether we will collectively build a system that governs A.I. to serve every student and every <span class="vocab-word" onclick="toggleTooltip(this)">stakeholder<span class="tooltip">n. /ˈsteɪkhəʊldə(r)/<br>利益相关者</span></span>.”</p>
+<p>As Winter put it last month, “It’s quite the <span class="vocab-word" onclick="toggleTooltip(this)">rhetorical<span class="tooltip">adj. /rɪˈtɒrɪkl/<br>修辞的；修辞学的</span></span> suplex — opening a debate by declaring its central premise off limits.”</p>
+<p>Parents and advocates haven’t entirely <span class="vocab-word" onclick="toggleTooltip(this)">abided<span class="tooltip">v. /əˈbaɪdɪd/<br>遵守；忍受</span></span> by such restrictions, as my colleague Natasha Singer reported last month.</p>
+<p>In late April, the new New York City schools <span class="vocab-word" onclick="toggleTooltip(this)">chancellor<span class="tooltip">n. /ˈtʃɑːnsələ(r)/<br>（大学）校长；大臣</span></span> announced that, in the face of public <span class="vocab-word" onclick="toggleTooltip(this)">outrage<span class="tooltip">n. /ˈaʊtreɪdʒ/<br>愤怒；愤慨</span></span>, an A.I.-focused high school that had been scheduled to open next fall would now be put on hold.</p>
+<p>The city needed more time to plan, he suggested; the chairman of the city’s Panel for Educational Policy admitted that the panel had had no briefings on A.I. research at all.</p>
+<p>Soon thereafter, enough parents flooded a P.E.P. hearing that the meeting ran almost seven hours, with more than a hundred speaking out against A.I. even though it was not meant to be the focus of the meeting.</p>
+<p>“The intense <span class="vocab-word" onclick="toggleTooltip(this)">outrage<span class="tooltip">n. /ˈaʊtreɪdʒ/<br>愤怒；愤慨</span></span> among parents in New York City is as great as I’ve seen it on any education issue that I’ve been working on for 25 years,” the education advocate Leonie Haimson told The Times.</p>
+<p>She put it more baldly to me: “The opposition is growing like a tidal wave.”</p>
+<p>You hear similar things, these days, about the broader A.I. <span class="vocab-word" onclick="toggleTooltip(this)">backlash<span class="tooltip">n. /ˈbæklæʃ/<br>强烈反对；后冲</span></span> that has lately flooded into town halls and community meetings around the country, with data centers offering a focal point around which Americans have clustered various social and political anxieties — about water use and the cost of energy, about <span class="vocab-word" onclick="toggleTooltip(this)">oligarchy<span class="tooltip">n. /ˈɒlɪɡɑːki/<br>寡头政治</span></span> and the immense power of a small handful of A.I. founders, about the rapid conquest of our imagined future by A.I. and how little democratic control has been exercised over that future.</p>
+<p>Whoever can channel the <span class="vocab-word" onclick="toggleTooltip(this)">backlash<span class="tooltip">n. /ˈbæklæʃ/<br>强烈反对；后冲</span></span> into political energy has an enormous advantage in upcoming elections, political analysts have begun to project, as poll after poll shows resentment and hostility growing swiftly.</p>
+<p>But the fight over A.I. in schools isn’t just a piece of the broader opposition.</p>
+<p>The logic of how A.I. infrastructure is being built remains somewhat <span class="vocab-word" onclick="toggleTooltip(this)">intuitive<span class="tooltip">adj. /ɪnˈtjuːɪtɪv/<br>直观的；直觉的</span></span> and recognizably American — big companies with cash to burn buying up plots of land to develop for their own purposes.</p>
+<p>If a protester stands up at a Utah town hall to demand, about a 62—square—mile, $100 billion project proposed for Box Elder County, “who asked for this?,” the answer isn’t difficult to come up with.</p>
+<p>It’s the developer trying to build the data center and the <span class="vocab-word" onclick="toggleTooltip(this)">hyperscalers<span class="tooltip">n. /ˈhaɪpəˌskeɪlərz/<br>超大规模企业</span></span> desperate to make use of it.</p>
+<p>With schools, it’s a lot less obvious how exactly we got here in the first place, with A.I. planted so quickly in classrooms and <span class="vocab-word" onclick="toggleTooltip(this)">curriculums<span class="tooltip">n. /kəˈrɪkjələmz/<br>课程（设置）</span></span> that parents and advocates are left to try to weed it out.</p>
+<p>Or at least institute some common-sense guidelines: more public input, more <span class="vocab-word" onclick="toggleTooltip(this)">transparency<span class="tooltip">n. /trænsˈpærənsi/<br>透明；透明度</span></span> about what products are being used, more restrictions on data collection and student privacy and above all, perhaps, more <span class="vocab-word" onclick="toggleTooltip(this)">rigor<span class="tooltip">n. /ˈrɪɡə(r)/<br>严格；严谨</span></span> regarding whether or to what degree the tools being used are actually helpful to student achievement.</p>
+<p>This isn’t just resistance from the familiar coalition, in other words. It’s parents shocked at how quickly some very new technology has so hastily remade school for their kids.</p>
+<p>These are 5- and 6-year-old brains we’re now running our Amira experiment on.</p>
+<p>Most Americans first heard of L.L.M.s less than four years ago, after all.</p>
+<p>And it isn’t just the smartphone <span class="vocab-word" onclick="toggleTooltip(this)">backlash<span class="tooltip">n. /ˈbæklæʃ/<br>强烈反对；后冲</span></span> that makes this rush to embrace A.I. so <span class="vocab-word" onclick="toggleTooltip(this)">confounding<span class="tooltip">adj. /kənˈfaʊndɪŋ/<br>令人困惑的</span></span>.</p>
+<p>It was just four or five years ago that Covid-era school closures had produced widespread anxiety — among parents, among policymakers — about the <span class="vocab-word" onclick="toggleTooltip(this)">inadequacy<span class="tooltip">n. /ɪnˈædɪkwəsi/<br>不充分；不足</span></span> of remote learning and the costs to students of conducting school through a small, personalized screen.</p>
+<p>Much of that alarm looks to me, in retrospect, excessive, given the way that what was called “pandemic learning loss” did not significantly accelerate long-running declines in test scores that both predated school closures and have outlasted them.</p>
+<p>But the impression lingers enough that parents object when local officials propose that, in the wake of massive snowstorms, schools might go remote for a single day.</p>
+<p>Working from a laptop in class is not the same thing as remote-only school, of course, but the lessons we thought we learned five years ago — about the downsides of screen dependence and the importance of embedding learning in a social environment — would certainly seem to <span class="vocab-word" onclick="toggleTooltip(this)">counsel<span class="tooltip">v. /ˈkaʊnsl/<br>建议；劝告</span></span> some caution.</p>
+<p>Three or four years ago, the arrival of sophisticated A.I. chatbots produced a wave of panic about the catastrophic impacts on learning in high school and especially college: an epidemic of cheating and <span class="vocab-word" onclick="toggleTooltip(this)">plagiarism<span class="tooltip">n. /ˈpleɪdʒərɪzəm/<br>剽窃；抄袭</span></span>; a workaround for deep reading and critical thinking; and the onset of what has been called “cognitive <span class="vocab-word" onclick="toggleTooltip(this)">atrophy<span class="tooltip">n. /ˈætrəfi/<br>萎缩</span></span>,” the result of turning away from education as a kind of intellectual training and toward an approach to schoolwork as a matter of mechanical output.</p>
+<p>(You generate a term paper the way you buy a Snickers at the vending machine.)</p>
+<p>Much of the alarm was about how kids were essentially cheating themselves out of an actual education by using A.I. tools; the basic worry was that A.I. would find its way into the classroom, and into schoolwork, almost regardless of the <span class="vocab-word" onclick="toggleTooltip(this)">precautions<span class="tooltip">n. /prɪˈkɔːʃnz/<br>预防措施</span></span> taken by teachers and administrators.</p>
+<p>But in many cases, now, it is the schools themselves that have <span class="vocab-word" onclick="toggleTooltip(this)">incorporated<span class="tooltip">v. /ɪnˈkɔːpəreɪtɪd/<br>包含；纳入；合并</span></span> A.I. tools into their <span class="vocab-word" onclick="toggleTooltip(this)">curriculums<span class="tooltip">n. /kəˈrɪkjələmz/<br>课程（设置）</span></span>, and while not all such tools are the same, to date there is pretty limited evidence that they might help.</p>
+<p>So how did it happen all over again, and so fast, with yet another new technology?</p>
+<p>One partial explanation comes from genuinely hopeful <span class="vocab-word" onclick="toggleTooltip(this)">evangelism<span class="tooltip">n. /ɪˈvændʒəlɪzəm/<br>狂热宣传；传道</span></span>, the possibility that new tools might allow us to do better.</p>
+<p>Another comes from a kind of related desperation about how hard it has been to end the <span class="vocab-word" onclick="toggleTooltip(this)">stagnation<span class="tooltip">n. /stæɡˈneɪʃn/<br>停滞；不景气</span></span> of American educational achievement.</p>
+<p>(Would—be reformers have worried that American students were falling behind for many decades, and the past dozen years have traced some striking test—score declines.)</p>
+<p>To their boosters, the tools promise to <span class="vocab-word" onclick="toggleTooltip(this)">unburden<span class="tooltip">v. /ʌnˈbɜːdn/<br>卸下负担；倾诉</span></span> teachers and deliver something between a smaller class size and a genuinely personalized tutor—like school experience — a favorite fantasy for tech—minded reformers.</p>
+<p>And while many parents are likely to feel a reflexive <span class="vocab-word" onclick="toggleTooltip(this)">queasiness<span class="tooltip">n. /ˈkwiːzinəs/<br>恶心；不安</span></span> about turning kindergarten over to A.I. tools, it’s not entirely clear how representative those voices are.</p>
+<p>There is also a fear of being left behind — among parents, schools and districts — and a sense that, if the world really is changing this fast, maybe kids really would benefit from early exposure.</p>
+<p>But I’d add another factor, not specific to schools: the fact that technological history is now narrated by way of what the political scientist Henry Farrell called, memorably, “feral thought experiments.”</p>
+<p>By this he meant that, almost daily now, Americans are treated to glib forecasts of the technological future, with neat just—so stories about where we are headed — as though the changes had already happened, and the fights over them, too.</p>
+<p>The natural setting for these thought experiments might be the podcast studio or the conference stage, but they also beam out from opinion pages and congressional hearings.</p>
+<p>The result: Even amid remarkable resistance, the technology appears from many vantages to possess the shimmer and the solidity of a fait accompli.</p>
+<p>We tell ourselves that we know artificial intelligence will remake education and then race to make it so, without asking too many questions about what kind of future we’re actually building.</p>
+<p>“The obvious <span class="vocab-word" onclick="toggleTooltip(this)">rebuttal<span class="tooltip">n. /rɪˈbʌtl/<br>反驳；辩驳</span></span> is no: We actually can’t see the future of A.I.,” Farrell writes.</p>
+<p>And it’s not just in schools that we may be forgetting that.</p>
+            </div>
+            <p style="margin-top:20px;font-size:13px;color:var(--text-light);">点击红色划线词汇可查看中文释义。</p>
+        </section>
+
+        <section class="section-card">
+            <h2>短语搭配</h2>
+            <div class="phrase-item">
+            <div class="phrase-en">silver bullet</div>
+            <div class="phrase-cn">灵丹妙药；万全之策</div>
+            <div class="phrase-example">"The early data looks less like a silver-bullet cure-all for what ails American teens."</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">on the margins</div>
+            <div class="phrase-cn">在边缘；轻微地</div>
+            <div class="phrase-example">"The presence of phones doesn’t degrade attention, even if only on the margins."</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">in the wake of</div>
+            <div class="phrase-cn">紧随…之后；作为…的结果</div>
+            <div class="phrase-example">"Parents object when officials propose remote days in the wake of massive snowstorms."</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">find one’s way into</div>
+            <div class="phrase-cn">进入；渗透到</div>
+            <div class="phrase-example">"The basic worry was that A.I. would find its way into the classroom and schoolwork."</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">to date</div>
+            <div class="phrase-cn">到目前为止</div>
+            <div class="phrase-example">"To date there is pretty limited evidence that A.I. tools might help."</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">left behind</div>
+            <div class="phrase-cn">被抛在后面；落后</div>
+            <div class="phrase-example">"There is also a fear of being left behind among parents, schools and districts."</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">fait accompli</div>
+            <div class="phrase-cn">既成事实</div>
+            <div class="phrase-example">"The technology appears from many vantages to possess the shimmer and solidity of a fait accompli."</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">crusade for</div>
+            <div class="phrase-cn">为…奔走呼吁；大力倡导</div>
+            <div class="phrase-example">"Melania Trump has made putting A.I. in every classroom her equivalent of crusading for libraries."</div>
+        </div>
+        </section>
+
+        <section class="section-card">
+            <h2>长难句解析</h2>
+            <div class="sentence-box">
+            <p class="sentence-en">You might think that the winds of pedagogical change have begun to blow in a bit of a Waldorf direction, but the first lady, Melania Trump, has made the cause of putting A.I. in every classroom her equivalent of crusading for libraries or healthy eating, and 5- and 6-year-olds across New York City are already learning to read from what The New Yorker’s Jessica Winter called a “gamified reading bot” named Amira.</p>
+            <p class="sentence-structure"><strong>结构分析：</strong>You might think that..., but... 为转折结构；后半句主语为 the first lady，谓语为 has made，宾语为 the cause of putting A.I. in every classroom，宾补为 her equivalent of crusading for libraries or healthy eating；what 引导宾语从句，作 from 的宾语。</p>
+            <p class="sentence-translation"><strong>参考译文：</strong>你或许以为教育改革的风开始向华德福方向吹，但第一夫人梅拉尼娅·特朗普已将“把人工智能引入每一间教室”视为她为图书馆或健康饮食奔走呼吁那样的事业，而纽约市五六岁的儿童已经在阅读《纽约客》杰西卡·温特所称的名为 Amira 的“游戏化阅读机器人”。</p>
+        </div>
+<div class="sentence-box">
+            <p class="sentence-en">You hear similar things, these days, about the broader A.I. backlash that has lately flooded into town halls and community meetings around the country, with data centers offering a focal point around which Americans have clustered various social and political anxieties — about water use and the cost of energy, about oligarchy and the immense power of a small handful of A.I. founders, about the rapid conquest of our imagined future by A.I. and how little democratic control has been exercised over that future.</p>
+            <p class="sentence-structure"><strong>结构分析：</strong>主干为 You hear similar things about the broader A.I. backlash；that 引导定语从句修饰 backlash；with + 名词 + doing 构成独立主格；around which 引导定语从句修饰 focal point；破折号后四个 about 并列，解释 anxieties 的具体内容。</p>
+            <p class="sentence-translation"><strong>参考译文：</strong>如今，在全国各地涌入市政厅和社区会议的更广泛的人工智能反对浪潮中，你也会听到类似的声音；数据中心成为一个焦点，美国人围绕它聚集了各种社会与政治焦虑——关于用水与能源成本、关于寡头政治和少数人工智能创始人的巨大权力、关于人工智能对我们想象中的未来的迅速征服，以及我们对那个未来几乎没有行使民主控制。</p>
+        </div>
+<div class="sentence-box">
+            <p class="sentence-en">Working from a laptop in class is not the same thing as remote-only school, of course, but the lessons we thought we learned five years ago — about the downsides of screen dependence and the importance of embedding learning in a social environment — would certainly seem to counsel some caution.</p>
+            <p class="sentence-structure"><strong>结构分析：</strong>but 连接两个转折分句；第一个分句主语为 Working from a laptop in class；第二个分句主语为 the lessons，后接定语从句 we thought we learned five years ago；破折号内为同位语，解释 lessons 的内容；谓语为 would seem to counsel。</p>
+            <p class="sentence-translation"><strong>参考译文：</strong>当然，在课堂上使用笔记本电脑与纯远程教学并非一回事，但我们自以为五年前学到的教训——关于屏幕依赖的弊端，以及将学习嵌入社交环境的重要性——似乎无疑在提醒我们要谨慎行事。</p>
+        </div>
+        </section>
+
+        <section class="section-card">
+            <h2>阅读理解练习</h2>
+            <div class="quiz-item">
+            <p class="quiz-q"><strong>1. What is the author’s main attitude toward the rapid introduction of A.I. into American schools?</strong></p>
+            <ul class="quiz-options">
+                <li>A. Wholehearted support.</li><li>B. Strong opposition.</li><li>C. Cautious skepticism.</li><li>D. Complete indifference.</li>
+            </ul>
+            <p class="quiz-answer"><strong>正确答案：C</strong></p>
+            <p class="quiz-analysis"><strong>解析：</strong>作者在承认手机禁令合理性的同时，通过大量历史案例指出技术进入课堂往往效果不佳；对AI的迅速渗透，作者呼吁透明、隐私保护和更严格的成效评估。因此其主要态度是“谨慎的质疑”。</p>
+        </div>
+<div class="quiz-item">
+            <p class="quiz-q"><strong>2. According to the author, why doesn’t he object to school phone bans?</strong></p>
+            <ul class="quiz-options">
+                <li>A. Because they have dramatically raised test scores.</li><li>B. Because phones inevitably degrade classroom attention.</li><li>C. Because teachers have reported overwhelming satisfaction.</li><li>D. Because phone bans pave the way for A.I. education.</li>
+            </ul>
+            <p class="quiz-answer"><strong>正确答案：B</strong></p>
+            <p class="quiz-analysis"><strong>解析：</strong>文中明确提到：“attention in class is pretty precious and there’s no way the presence of phones doesn’t degrade it, even if only on the margins.” 因此作者不反对手机禁令是因为手机会分散课堂注意力。</p>
+        </div>
+<div class="quiz-item">
+            <p class="quiz-q"><strong>3. What can be inferred from the last paragraph about the future of A.I. in education?</strong></p>
+            <ul class="quiz-options">
+                <li>A. A.I. will certainly transform education for the better.</li><li>B. We are rushing to treat A.I. in education as an inevitable trend without enough questioning.</li><li>C. Schools should completely ban A.I. tools.</li><li>D. Parents’ opposition to A.I. is unreasonable and will soon fade.</li>
+            </ul>
+            <p class="quiz-answer"><strong>正确答案：B</strong></p>
+            <p class="quiz-analysis"><strong>解析：</strong>最后一段引用 Henry Farrell 的话指出：我们其实无法看清 A.I. 的未来，但我们却先认定它会重塑教育，然后急匆匆地去实现它，而不问太多问题。由此可推断：我们过于仓促地把教育中的 AI 视为必然趋势。</p>
+        </div>
+        </section>
+
+        <section class="section-card">
+            <h2>考研核心词汇表</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>单词</th>
+                        <th>词性</th>
+                        <th>中文释义</th>
+                        <th>例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+            <td class="word-cell">disorientation<br><span class="phonetic">/dɪsˌɔːriənˈteɪʃn/</span></td>
+            <td>n.</td>
+            <td>迷失方向；困惑</td>
+            <td>Emerge from a bunker into 2026 and, among other disorientations, it might seem strange that phone bans and A.I. are both sweeping schools.</td>
+        </tr>
+<tr>
+            <td class="word-cell">pedagogical<br><span class="phonetic">/ˌpedəˈɡɒdʒɪkl/</span></td>
+            <td>adj.</td>
+            <td>教育学的；教学法的</td>
+            <td>You might think that the winds of pedagogical change have begun to blow in a Waldorf direction.</td>
+        </tr>
+<tr>
+            <td class="word-cell">ambiguous<br><span class="phonetic">/æmˈbɪɡjuəs/</span></td>
+            <td>adj.</td>
+            <td>模棱两可的；含糊的</td>
+            <td>The early data on such bans looks pretty ambiguous to me.</td>
+        </tr>
+<tr>
+            <td class="word-cell">elated<br><span class="phonetic">/ɪˈleɪtɪd/</span></td>
+            <td>adj.</td>
+            <td>兴高采烈的；欢欣鼓舞的</td>
+            <td>In those places where phone bans have been implemented, teachers seem pretty elated.</td>
+        </tr>
+<tr>
+            <td class="word-cell">infiltrated<br><span class="phonetic">/ˈɪnfɪltreɪtɪd/</span></td>
+            <td>v.</td>
+            <td>渗透；潜入</td>
+            <td>But in many places where phones are being withdrawn, A.I. has infiltrated already.</td>
+        </tr>
+<tr>
+            <td class="word-cell">fanfare<br><span class="phonetic">/ˈfænfeə(r)/</span></td>
+            <td>n.</td>
+            <td>大张旗鼓的宣传；号角声</td>
+            <td>One dream techno fix has followed the last, sometimes with great fanfare: laptops, tablets, Khan Academy or MOOCs.</td>
+        </tr>
+<tr>
+            <td class="word-cell">customization<br><span class="phonetic">/ˌkʌstəmaɪˈzeɪʃn/</span></td>
+            <td>n.</td>
+            <td>定制；个性化</td>
+            <td>Technology was expected to allow more customization of learning.</td>
+        </tr>
+<tr>
+            <td class="word-cell">lamented<br><span class="phonetic">/ləˈmentɪd/</span></td>
+            <td>v.</td>
+            <td>悲叹；痛惜</td>
+            <td>The Atlantic’s Will Oremus recently lamented that his son’s math homework was essentially just Pokémon.</td>
+        </tr>
+<tr>
+            <td class="word-cell">documented<br><span class="phonetic">/ˈdɒkjumentɪd/</span></td>
+            <td>adj.</td>
+            <td>有文件记录的；被证实的</td>
+            <td>The Wall Street Journal documented the experience of one seventh grader in Kansas.</td>
+        </tr>
+<tr>
+            <td class="word-cell">assessments<br><span class="phonetic">/əˈsesmənts/</span></td>
+            <td>n.</td>
+            <td>评估；评价</td>
+            <td>In San Francisco, Amira administered reading assessments for first and second graders.</td>
+        </tr>
+<tr>
+            <td class="word-cell">incorporated<br><span class="phonetic">/ɪnˈkɔːpəreɪtɪd/</span></td>
+            <td>v.</td>
+            <td>包含；纳入；合并</td>
+            <td>President Trump issued an order calling for A.I. to be incorporated into the curriculums of American public schools.</td>
+        </tr>
+<tr>
+            <td class="word-cell">curriculums<br><span class="phonetic">/kəˈrɪkjələmz/</span></td>
+            <td>n.</td>
+            <td>课程（设置）</td>
+            <td>A.I. has been planted so quickly in classrooms and curriculums.</td>
+        </tr>
+<tr>
+            <td class="word-cell">stakeholder<br><span class="phonetic">/ˈsteɪkhəʊldə(r)/</span></td>
+            <td>n.</td>
+            <td>利益相关者</td>
+            <td>The question is whether we will build a system that governs A.I. to serve every student and every stakeholder.</td>
+        </tr>
+<tr>
+            <td class="word-cell">rhetorical<br><span class="phonetic">/rɪˈtɒrɪkl/</span></td>
+            <td>adj.</td>
+            <td>修辞的；修辞学的</td>
+            <td>It’s quite the rhetorical suplex — opening a debate by declaring its central premise off limits.</td>
+        </tr>
+<tr>
+            <td class="word-cell">abided<br><span class="phonetic">/əˈbaɪdɪd/</span></td>
+            <td>v.</td>
+            <td>遵守；忍受</td>
+            <td>Parents and advocates haven’t entirely abided by such restrictions.</td>
+        </tr>
+<tr>
+            <td class="word-cell">outrage<br><span class="phonetic">/ˈaʊtreɪdʒ/</span></td>
+            <td>n.</td>
+            <td>愤怒；愤慨</td>
+            <td>In the face of public outrage, an A.I.-focused high school was put on hold.</td>
+        </tr>
+<tr>
+            <td class="word-cell">chancellor<br><span class="phonetic">/ˈtʃɑːnsələ(r)/</span></td>
+            <td>n.</td>
+            <td>（大学）校长；大臣</td>
+            <td>The new New York City schools chancellor announced that the A.I. high school would be put on hold.</td>
+        </tr>
+<tr>
+            <td class="word-cell">backlash<br><span class="phonetic">/ˈbæklæʃ/</span></td>
+            <td>n.</td>
+            <td>强烈反对；后冲</td>
+            <td>You hear similar things about the broader A.I. backlash that has flooded into town halls.</td>
+        </tr>
+<tr>
+            <td class="word-cell">oligarchy<br><span class="phonetic">/ˈɒlɪɡɑːki/</span></td>
+            <td>n.</td>
+            <td>寡头政治</td>
+            <td>Americans have clustered anxieties about oligarchy and the immense power of A.I. founders.</td>
+        </tr>
+<tr>
+            <td class="word-cell">intuitive<br><span class="phonetic">/ɪnˈtjuːɪtɪv/</span></td>
+            <td>adj.</td>
+            <td>直观的；直觉的</td>
+            <td>The logic of how A.I. infrastructure is being built remains somewhat intuitive.</td>
+        </tr>
+<tr>
+            <td class="word-cell">hyperscalers<br><span class="phonetic">/ˈhaɪpəˌskeɪlərz/</span></td>
+            <td>n.</td>
+            <td>超大规模企业</td>
+            <td>The developer and the hyperscalers desperate to make use of the data center.</td>
+        </tr>
+<tr>
+            <td class="word-cell">transparency<br><span class="phonetic">/trænsˈpærənsi/</span></td>
+            <td>n.</td>
+            <td>透明；透明度</td>
+            <td>Parents ask for more transparency about what products are being used in schools.</td>
+        </tr>
+<tr>
+            <td class="word-cell">rigor<br><span class="phonetic">/ˈrɪɡə(r)/</span></td>
+            <td>n.</td>
+            <td>严格；严谨</td>
+            <td>There should be more rigor regarding whether the tools are helpful to student achievement.</td>
+        </tr>
+<tr>
+            <td class="word-cell">confounding<br><span class="phonetic">/kənˈfaʊndɪŋ/</span></td>
+            <td>adj.</td>
+            <td>令人困惑的</td>
+            <td>It isn’t just the smartphone backlash that makes this rush to embrace A.I. so confounding.</td>
+        </tr>
+<tr>
+            <td class="word-cell">inadequacy<br><span class="phonetic">/ɪnˈædɪkwəsi/</span></td>
+            <td>n.</td>
+            <td>不充分；不足</td>
+            <td>Covid-era closures produced anxiety about the inadequacy of remote learning.</td>
+        </tr>
+<tr>
+            <td class="word-cell">linger<br><span class="phonetic">/ˈlɪŋɡə(r)/</span></td>
+            <td>v.</td>
+            <td>徘徊；持续存在</td>
+            <td>But the impression lingers enough that parents object to remote school days.</td>
+        </tr>
+<tr>
+            <td class="word-cell">counsel<br><span class="phonetic">/ˈkaʊnsl/</span></td>
+            <td>v.</td>
+            <td>建议；劝告</td>
+            <td>The lessons we learned about screen dependence would seem to counsel some caution.</td>
+        </tr>
+<tr>
+            <td class="word-cell">atrophy<br><span class="phonetic">/ˈætrəfi/</span></td>
+            <td>n.</td>
+            <td>萎缩</td>
+            <td>The onset of what has been called cognitive atrophy.</td>
+        </tr>
+<tr>
+            <td class="word-cell">plagiarism<br><span class="phonetic">/ˈpleɪdʒərɪzəm/</span></td>
+            <td>n.</td>
+            <td>剽窃；抄袭</td>
+            <td>A.I. chatbots produced panic about cheating and plagiarism.</td>
+        </tr>
+<tr>
+            <td class="word-cell">precautions<br><span class="phonetic">/prɪˈkɔːʃnz/</span></td>
+            <td>n.</td>
+            <td>预防措施</td>
+            <td>A.I. would find its way into schoolwork almost regardless of the precautions taken.</td>
+        </tr>
+<tr>
+            <td class="word-cell">evangelism<br><span class="phonetic">/ɪˈvændʒəlɪzəm/</span></td>
+            <td>n.</td>
+            <td>狂热宣传；传道</td>
+            <td>One partial explanation comes from genuinely hopeful evangelism.</td>
+        </tr>
+<tr>
+            <td class="word-cell">stagnation<br><span class="phonetic">/stæɡˈneɪʃn/</span></td>
+            <td>n.</td>
+            <td>停滞；不景气</td>
+            <td>Desperation about how hard it has been to end the stagnation of American educational achievement.</td>
+        </tr>
+<tr>
+            <td class="word-cell">unburden<br><span class="phonetic">/ʌnˈbɜːdn/</span></td>
+            <td>v.</td>
+            <td>卸下负担；倾诉</td>
+            <td>The tools promise to unburden teachers and deliver personalized learning.</td>
+        </tr>
+<tr>
+            <td class="word-cell">queasiness<br><span class="phonetic">/ˈkwiːzinəs/</span></td>
+            <td>n.</td>
+            <td>恶心；不安</td>
+            <td>Many parents feel a reflexive queasiness about turning kindergarten over to A.I. tools.</td>
+        </tr>
+<tr>
+            <td class="word-cell">rebuttal<br><span class="phonetic">/rɪˈbʌtl/</span></td>
+            <td>n.</td>
+            <td>反驳；辩驳</td>
+            <td>The obvious rebuttal is no: We actually can’t see the future of A.I.</td>
+        </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer class="footer">
+            <p>本文仅供考研英语学习交流使用，原文版权归原作者及 The New York Times 所有。</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleTooltip(el) {
+            document.querySelectorAll('.vocab-word.active').forEach(function(item) {
+                if (item !== el) item.classList.remove('active');
+            });
+            el.classList.toggle('active');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.vocab-word')) {
+                document.querySelectorAll('.vocab-word.active').forEach(function(item) {
+                    item.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
