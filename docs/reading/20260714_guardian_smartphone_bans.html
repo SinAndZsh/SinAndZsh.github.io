@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | The Guardian: School Smartphone Bans Seen as 'Punitive' by Young People</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --accent-light: #fdf2f2;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+            --highlight: #fff3cd;
+            --vocab-bg: #e8f4f8;
+            --phrase-bg: #f0f8e8;
+            --sentence-bg: #f5f0fa;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Noto Sans CJK SC", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .article-header {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .article-header .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .article-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .article-header .subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        .article-header .meta {
+            font-size: 13px;
+            opacity: 0.8;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .article-header .meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section-card h2 {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-card h3 {
+            font-size: 17px;
+            color: var(--primary);
+            margin: 20px 0 12px;
+        }
+        .article-body p {
+            margin-bottom: 16px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+        .vocab-word {
+            color: var(--accent);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--accent);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .vocab-word:hover {
+            background: var(--accent-light);
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 1.5;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        .vocab-word.active .tooltip {
+            display: block;
+        }
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .vocab-table th {
+            background: var(--vocab-bg);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+        }
+        .vocab-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .vocab-table tr:hover {
+            background: var(--vocab-bg);
+        }
+        .vocab-table .word-cell {
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .vocab-table .phonetic {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        .phrase-item {
+            background: var(--phrase-bg);
+            border-left: 4px solid #7cb342;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            border-radius: 0 8px 8px 0;
+        }
+        .phrase-item .phrase-en {
+            font-weight: 600;
+            color: #558b2f;
+            font-size: 15px;
+        }
+        .phrase-item .phrase-cn {
+            color: var(--text-light);
+            font-size: 14px;
+            margin: 4px 0;
+        }
+        .phrase-item .phrase-example {
+            font-size: 13px;
+            color: var(--text);
+            margin-top: 6px;
+            font-style: italic;
+        }
+        .sentence-box {
+            background: var(--sentence-bg);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .sentence-box .original {
+            font-size: 15px;
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        .sentence-box .analysis {
+            font-size: 14px;
+            color: var(--text);
+        }
+        .sentence-box .analysis .label {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 6px;
+        }
+        .summary-box {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .summary-box p {
+            margin-bottom: 10px;
+        }
+        .quiz-item {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .quiz-item:last-child {
+            border-bottom: none;
+        }
+        .quiz-item .question {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        .quiz-item .options {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+        .quiz-item .options label {
+            display: block;
+            padding: 6px 0;
+            cursor: pointer;
+        }
+        .quiz-item .answer-box {
+            background: var(--highlight);
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 10px;
+        }
+        .quiz-item .answer-box .correct {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        .quiz-item .answer-box .analysis {
+            color: var(--text);
+            font-size: 14px;
+            margin-top: 6px;
+        }
+        .tips-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffa000;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        .tips-box h4 {
+            color: #e65100;
+            margin-bottom: 8px;
+        }
+        .tips-box ul {
+            margin-left: 18px;
+            font-size: 14px;
+        }
+        .tips-box li {
+            margin-bottom: 6px;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .back-link a {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+        .back-link a:hover {
+            opacity: 0.9;
+        }
+        .source-box {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        .source-box a {
+            color: var(--accent);
+            word-break: break-all;
+        }
+        @media (max-width: 600px) {
+            .article-header h1 { font-size: 20px; }
+            .section-card { padding: 18px; }
+            .vocab-table { font-size: 12px; }
+            .vocab-table th, .vocab-table td { padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="article-header">
+            <div class="tag">考研英语外刊精读</div>
+            <h1>School Smartphone Bans Seen as 'Punitive' by Young People, Study Says</h1>
+            <div class="subtitle">研究称：学校手机禁令被年轻人视为"惩罚性"措施</div>
+            <div class="meta">
+                <span>&#128240; The Guardian</span>
+                <span>&#9997; UCL Study Report</span>
+                <span>&#128197; June 30, 2026</span>
+                <span>&#127919; 教育 · 科技 · 社会</span>
+            </div>
+        </div>
+
+        <div class="section-card article-body">
+            <h2>&#128214; 正文精读</h2>
+            <p>Across the United Kingdom and an increasing number of countries, policymakers and school leaders have been racing to <span class="vocab-word" onclick="toggleTooltip(this)">restrict<span class="tooltip">restrict /rɪˈstrɪkt/ v. 限制，约束</span></span> or ban smartphones in classrooms. The aim is clear: to reduce <span class="vocab-word" onclick="toggleTooltip(this)">distraction<span class="tooltip">distraction /dɪˈstrækʃn/ n. 分心，干扰</span></span>, improve <span class="vocab-word" onclick="toggleTooltip(this)">concentration<span class="tooltip">concentration /ˌkɑːnsnˈtreɪʃn/ n. 专注，集中</span></span>, and <span class="vocab-word" onclick="toggleTooltip(this)">protect<span class="tooltip">protect /prəˈtekt/ v. 保护</span></span> young people from the <span class="vocab-word" onclick="toggleTooltip(this)">pressures<span class="tooltip">pressure /ˈpreʃər/ n. 压力</span></span> of social media during the school day. Yet a new study from University College London (UCL) suggests that outright bans may not be quite as <span class="vocab-word" onclick="toggleTooltip(this)">straightforward<span class="tooltip">straightforward /ˌstreɪtˈfɔːrwərd/ adj. 简单的，直截了当的</span></span> as they seem, and that the voices of young people themselves deserve greater attention.</p>
+
+            <p>The study, <span class="vocab-word" onclick="toggleTooltip(this)">published<span class="tooltip">publish /ˈpʌblɪʃ/ v. 发表，出版</span></span> at the end of June 2026, questioned 732 <span class="vocab-word" onclick="toggleTooltip(this)">secondary<span class="tooltip">secondary /ˈsekənderi/ adj. 中学的；次要的</span></span> school students aged 11 to 18, along with 27 teachers and 41 parents. Researchers used <span class="vocab-word" onclick="toggleTooltip(this)">questionnaires<span class="tooltip">questionnaire /ˌkwestʃəˈner/ n. 调查问卷</span></span>, <span class="vocab-word" onclick="toggleTooltip(this)">interviews<span class="tooltip">interview /ˈɪntərvjuː/ n./v. 采访；面试</span></span>, and focus groups to understand how different groups view the growing movement to keep phones out of schools. Their findings <span class="vocab-word" onclick="toggleTooltip(this)">reveal<span class="tooltip">reveal /rɪˈviːl/ v. 揭示，透露</span></span> a sharp <span class="vocab-word" onclick="toggleTooltip(this)">generational<span class="tooltip">generational /ˌdʒenəˈreɪʃənl/ adj. 代际的</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">divide<span class="tooltip">divide /dɪˈvaɪd/ n. 分歧，差异</span></span> that could reshape how educators think about technology policy.</p>
+
+            <p>There was widespread agreement among all participants that smartphones can be <span class="vocab-word" onclick="toggleTooltip(this)">disruptive<span class="tooltip">disruptive /dɪsˈrʌptɪv/ adj. 破坏性的，扰乱性的</span></span> in the classroom. The constant ping of <span class="vocab-word" onclick="toggleTooltip(this)">notifications<span class="tooltip">notification /ˌnoʊtɪfɪˈkeɪʃn/ n. 通知</span></span>, the <span class="vocab-word" onclick="toggleTooltip(this)">temptation<span class="tooltip">temptation /tempˈteɪʃn/ n. 诱惑</span></span> to scroll through social media, and the distraction of messaging friends are all familiar problems for teachers trying to hold students' attention. Most adults see a ban as a simple and sensible solution to a problem that has become impossible to ignore.</p>
+
+            <p>The numbers tell a striking story. While 87% of teachers and 88% of parents were <span class="vocab-word" onclick="toggleTooltip(this)">in favour of<span class="tooltip">in favour of 支持，赞成</span></span> a <span class="vocab-word" onclick="toggleTooltip(this)">blanket<span class="tooltip">blanket /ˈblæŋkɪt/ adj. 总括的，全面的</span></span> ban on smartphones during the school day, 75% of pupils disagreed with the policy. For young people, the issue looks very different from how adults see it. They do not deny that phones can be distracting; rather, they question whether a total ban is the right way to address the problem.</p>
+
+            <p>Students argued that banning smartphones restricted their access to tools they considered <span class="vocab-word" onclick="toggleTooltip(this)">essential<span class="tooltip">essential /ɪˈsenʃl/ adj. 必不可少的</span></span> for <span class="vocab-word" onclick="toggleTooltip(this)">navigating<span class="tooltip">navigate /ˈnævɪɡeɪt/ v. 导航；驾驭</span></span> daily life and supporting their learning. They <span class="vocab-word" onclick="toggleTooltip(this)">pointed to<span class="tooltip">point to 指向；指出</span></span> practical uses such as checking bus <span class="vocab-word" onclick="toggleTooltip(this)">timetables<span class="tooltip">timetable /ˈtaɪmteɪbl/ n. 时间表</span></span>, looking up weather <span class="vocab-word" onclick="toggleTooltip(this)">forecasts<span class="tooltip">forecast /ˈfɔːrkæst/ n. 预报；预测</span></span>, and using homework apps. In an age when much of modern life runs through a screen, many teenagers do not see their phones simply as devices for <span class="vocab-word" onclick="toggleTooltip(this)">entertainment<span class="tooltip">entertainment /ˌentərˈteɪnmənt/ n. 娱乐</span></span>. Instead, they view them as organisers, navigators, and learning aids.</p>
+
+            <p>Beyond practical tasks, students valued the fact that smartphones offered direct access to helpful support networks. This was especially true for girls, who said their phones helped them feel safer when travelling alone. For some young people, a phone is not just a device for amusement; it is a source of connection, <span class="vocab-word" onclick="toggleTooltip(this)">reassurance<span class="tooltip">reassurance /ˌriːəˈʃʊrəns/ n. 安慰，安心</span></span>, and even protection. The ability to contact family or friends at any moment can reduce anxiety and make public spaces feel less threatening.</p>
+
+            <p>The research also uncovered a range of ways that schools are <span class="vocab-word" onclick="toggleTooltip(this)">implementing<span class="tooltip">implement /ˈɪmplɪmənt/ v. 实施，执行</span></span> phone bans. Some require students to <span class="vocab-word" onclick="toggleTooltip(this)">place<span class="tooltip">place /pleɪs/ v. 放置</span></span> their phones in <span class="vocab-word" onclick="toggleTooltip(this)">specialised<span class="tooltip">specialised /ˈspeʃəlaɪzd/ adj. 专门的，专业的</span></span>, sealed <span class="vocab-word" onclick="toggleTooltip(this)">magnetic<span class="tooltip">magnetic /mæɡˈnetɪk/ adj. 磁性的</span></span> pouches that remain locked during the school day and are opened by staff at dismissal. Others use <span class="vocab-word" onclick="toggleTooltip(this)">designated<span class="tooltip">designated /ˈdezɪɡneɪtɪd/ adj. 指定的</span></span> lockers or charging stations where devices must be left upon arrival. A few institutions have gone further, <span class="vocab-word" onclick="toggleTooltip(this)">mandating<span class="tooltip">mandate /ˈmændeɪt/ v. 强制执行；授权</span></span> that students swap smartphones for basic, non-internet-capable "brick phones" while commuting. Still others rely on hand-in policies, with pupils placing devices in lock-boxes or bins at the start of each day or class period. Most schools also allow <span class="vocab-word" onclick="toggleTooltip(this)">discretionary<span class="tooltip">discretionary /dɪˈskreʃəneri/ adj. 自由裁量的</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">exceptions<span class="tooltip">exception /ɪkˈsepʃn/ n. 例外</span></span> for students with medical conditions, special educational needs, or specific safeguarding concerns.</p>
+
+            <p>Despite these varied approaches, the researchers warn that simply pushing all phone use until after the school day does not remove the issue from young people's lives. Instead, many students experienced blanket bans as <span class="vocab-word" onclick="toggleTooltip(this)">punitive<span class="tooltip">punitive /ˈpjuːnɪtɪv/ adj. 惩罚性的</span></span> - something imposed on them without enough consideration of their needs and perspectives. Such a feeling can <span class="vocab-word" onclick="toggleTooltip(this)">undermine<span class="tooltip">undermine /ˌʌndərˈmaɪn/ v. 削弱，破坏</span></span> trust between students and school leaders, and may even reduce young people's willingness to engage with wider school rules.</p>
+
+            <p>The UCL team suggests that the debate over phones in schools needs a more <span class="vocab-word" onclick="toggleTooltip(this)">nuanced<span class="tooltip">nuanced /ˈnuːɑːnst/ adj. 微妙的，有细微差别的</span></span> approach. Rather than treating all smartphone use as harmful, educators and policymakers might benefit from distinguishing between disruptive use during lessons and <span class="vocab-word" onclick="toggleTooltip(this)">legitimate<span class="tooltip">legitimate /lɪˈdʒɪtɪmət/ adj. 合法的，合理的</span></span> uses during breaks or travel. The goal, the researchers argue, should be to help students develop healthy digital habits, <span class="vocab-word" onclick="toggleTooltip(this)">rather than<span class="tooltip">rather than 而不是</span></span> simply to remove technology from their hands.</p>
+
+            <p>The findings come at a critical moment. Governments in several countries are considering stricter <span class="vocab-word" onclick="toggleTooltip(this)">restrictions<span class="tooltip">restriction /rɪˈstrɪkʃn/ n. 限制</span></span> on young people's access to social media and smartphones. Some politicians have put forward <span class="vocab-word" onclick="toggleTooltip(this)">proposals<span class="tooltip">proposal /prəˈpoʊzl/ n. 提议，建议</span></span> for age limits on social media accounts, while others want phones banned from all schools. These proposals respond to real concerns, from cyberbullying and online <span class="vocab-word" onclick="toggleTooltip(this)">harassment<span class="tooltip">harassment /həˈræsmənt/ n. 骚扰</span></span> to the mental health pressures created by constant <span class="vocab-word" onclick="toggleTooltip(this)">connectivity<span class="tooltip">connectivity /ˌkɑːnekˈtɪvəti/ n. 连通性</span></span>.</p>
+
+            <p>However, the UCL study is a reminder that the most restrictive option is not always the most effective one. If students feel that rules are unfair, they may find ways to break them rather than to follow them. Understanding how young people actually experience these rules may be the first step toward policies that protect them without making them feel punished.</p>
+
+            <p>Digital literacy experts argue that schools have an opportunity to do more than regulate devices. They could teach students how to manage their own screen time, recognise manipulative design features, and use technology in ways that support rather than harm their wellbeing. This approach treats young people as active participants in shaping their digital lives, rather than as passive recipients of adult decisions.</p>
+
+            <p>The question of phones in schools is part of a much larger conversation about childhood, technology, and public health. In recent years, researchers have documented rising rates of anxiety and depression among teenagers, and many have pointed to social media as a contributing factor. Parents and teachers who support bans often say they are trying to give children a break from the endless demands of online life.</p>
+
+            <p>Yet the UCL researchers caution against assuming that removing phones from school will automatically improve mental health. For some students, especially those who are already isolated or anxious, a phone may be an important link to friends, family, or support services. Taking it away without offering alternatives could do more harm than good.</p>
+
+            <p>One recommendation from the study is that schools should involve students in designing phone policies. When young people are asked for their views, they are more likely to understand the reasons behind a rule and to accept it. This does not mean giving students complete control, but it does mean listening to their experiences and taking their concerns seriously.</p>
+
+            <p>Another suggestion is that schools should provide clear guidance on when and how phones can be used, rather than relying on vague or <span class="vocab-word" onclick="toggleTooltip(this)">arbitrary<span class="tooltip">arbitrary /ˈɑːrbɪtreri/ adj. 任意的，武断的</span></span> restrictions. Students who know exactly what is expected of them are less likely to feel that a policy is unfair. At the same time, teachers need training and support to enforce rules consistently and fairly.</p>
+
+            <p>In the end, the smartphone is neither purely a tool for learning nor purely a source of harm. Like many technologies, its effects depend on how, when, and why it is used. The UCL study suggests that the most thoughtful school policies will recognise this <span class="vocab-word" onclick="toggleTooltip(this)">complexity<span class="tooltip">complexity /kəmˈpleksəti/ n. 复杂性</span></span> and work with students, rather than against them, to build healthier relationships with the devices that have become central to modern life.</p>
+        </div>
+
+        <div class="section-card">
+            <h2>&#128221; 文章大意</h2>
+            <div class="summary-box">
+                <p><strong>主题：</strong>本文基于伦敦大学学院（UCL）2026年6月底发布的一项研究，探讨英国学校智能手机禁令引发的代际分歧。</p>
+                <p><strong>主要内容：</strong>研究发现，尽管教师和家长普遍支持在校期间全面禁止使用手机（支持率分别为87%和88%），但75%的学生反对这一政策。学生认为手机是日常生活和学习中不可或缺的工具，可用于查公交时刻表、天气预报和作业应用，同时也是安全感和社交支持的重要来源。研究还介绍了学校实施禁令的多种方式，如磁吸袋、储物柜、"砖块机"替代、上缴政策等，并指出一刀切禁令容易被学生视为"惩罚性"措施，可能损害师生信任。</p>
+                <p><strong>核心观点：</strong>学校手机政策不应简单地全面禁止，而应采取更细致、更具包容性的方法：区分课堂干扰性使用与课间、通勤等合理用途，让学生参与政策制定，帮助他们建立健康的数字使用习惯，而不是把技术从手中夺走。</p>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>&#128292; 考研核心词汇表（30个）</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr><th>单词</th><th>音标</th><th>词性</th><th>中文释义</th><th>例句</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="word-cell">restrict</td><td class="phonetic">/rɪˈstrɪkt/</td><td>v.</td><td>限制，约束</td><td>Schools are moving to restrict phone use in class.</td></tr>
+                    <tr><td class="word-cell">distraction</td><td class="phonetic">/dɪˈstrækʃn/</td><td>n.</td><td>分心，干扰</td><td>Notifications are a major distraction for students.</td></tr>
+                    <tr><td class="word-cell">concentration</td><td class="phonetic">/ˌkɑːnsnˈtreɪʃn/</td><td>n.</td><td>专注，集中</td><td>Bans aim to improve students' concentration.</td></tr>
+                    <tr><td class="word-cell">protect</td><td class="phonetic">/prəˈtekt/</td><td>v.</td><td>保护</td><td>The policy is meant to protect young people online.</td></tr>
+                    <tr><td class="word-cell">pressure</td><td class="phonetic">/ˈpreʃər/</td><td>n.</td><td>压力</td><td>Social media creates enormous pressure on teens.</td></tr>
+                    <tr><td class="word-cell">straightforward</td><td class="phonetic">/ˌstreɪtˈfɔːrwərd/</td><td>adj.</td><td>简单的，直截了当的</td><td>The issue is not as straightforward as it seems.</td></tr>
+                    <tr><td class="word-cell">publish</td><td class="phonetic">/ˈpʌblɪʃ/</td><td>v.</td><td>发表，出版</td><td>The study was published at the end of June.</td></tr>
+                    <tr><td class="word-cell">secondary</td><td class="phonetic">/ˈsekənderi/</td><td>adj.</td><td>中学的；次要的</td><td>The study covered secondary school students.</td></tr>
+                    <tr><td class="word-cell">questionnaire</td><td class="phonetic">/ˌkwestʃəˈner/</td><td>n.</td><td>调查问卷</td><td>Researchers distributed questionnaires to pupils.</td></tr>
+                    <tr><td class="word-cell">interview</td><td class="phonetic">/ˈɪntərvjuː/</td><td>n./v.</td><td>采访；面试</td><td>They conducted interviews with teachers and parents.</td></tr>
+                    <tr><td class="word-cell">reveal</td><td class="phonetic">/rɪˈviːl/</td><td>v.</td><td>揭示，透露</td><td>The findings reveal a sharp generational divide.</td></tr>
+                    <tr><td class="word-cell">generational</td><td class="phonetic">/ˌdʒenəˈreɪʃənl/</td><td>adj.</td><td>代际的</td><td>There is a generational gap in attitudes toward phones.</td></tr>
+                    <tr><td class="word-cell">divide</td><td class="phonetic">/dɪˈvaɪd/</td><td>n.</td><td>分歧，差异</td><td>The divide between parents and pupils is striking.</td></tr>
+                    <tr><td class="word-cell">disruptive</td><td class="phonetic">/dɪsˈrʌptɪv/</td><td>adj.</td><td>破坏性的，扰乱性的</td><td>Phones can be disruptive during lessons.</td></tr>
+                    <tr><td class="word-cell">notification</td><td class="phonetic">/ˌnoʊtɪfɪˈkeɪʃn/</td><td>n.</td><td>通知</td><td>Constant notifications interrupt learning.</td></tr>
+                    <tr><td class="word-cell">temptation</td><td class="phonetic">/tempˈteɪʃn/</td><td>n.</td><td>诱惑</td><td>The temptation to scroll can be hard to resist.</td></tr>
+                    <tr><td class="word-cell">blanket</td><td class="phonetic">/ˈblæŋkɪt/</td><td>adj.</td><td>总括的，全面的</td><td>A blanket ban may ignore students' real needs.</td></tr>
+                    <tr><td class="word-cell">essential</td><td class="phonetic">/ɪˈsenʃl/</td><td>adj.</td><td>必不可少的</td><td>Students see phones as essential tools.</td></tr>
+                    <tr><td class="word-cell">navigate</td><td class="phonetic">/ˈnævɪɡeɪt/</td><td>v.</td><td>导航；驾驭</td><td>Phones help them navigate daily life.</td></tr>
+                    <tr><td class="word-cell">timetable</td><td class="phonetic">/ˈtaɪmteɪbl/</td><td>n.</td><td>时间表</td><td>They check bus timetables on their phones.</td></tr>
+                    <tr><td class="word-cell">forecast</td><td class="phonetic">/ˈfɔːrkæst/</td><td>n.</td><td>预报；预测</td><td>Weather forecasts are another common use.</td></tr>
+                    <tr><td class="word-cell">entertainment</td><td class="phonetic">/ˌentərˈteɪnmənt/</td><td>n.</td><td>娱乐</td><td>Teenagers do not see phones only as entertainment.</td></tr>
+                    <tr><td class="word-cell">reassurance</td><td class="phonetic">/ˌriːəˈʃʊrəns/</td><td>n.</td><td>安慰，安心</td><td>Phones provide reassurance and a sense of safety.</td></tr>
+                    <tr><td class="word-cell">implement</td><td class="phonetic">/ˈɪmplɪmənt/</td><td>v.</td><td>实施，执行</td><td>Schools are implementing bans in different ways.</td></tr>
+                    <tr><td class="word-cell">specialised</td><td class="phonetic">/ˈspeʃəlaɪzd/</td><td>adj.</td><td>专门的，专业的</td><td>Some schools use specialised magnetic pouches.</td></tr>
+                    <tr><td class="word-cell">magnetic</td><td class="phonetic">/mæɡˈnetɪk/</td><td>adj.</td><td>磁性的</td><td>The pouches are sealed with magnetic locks.</td></tr>
+                    <tr><td class="word-cell">designated</td><td class="phonetic">/ˈdezɪɡneɪtɪd/</td><td>adj.</td><td>指定的</td><td>Students leave devices in designated lockers.</td></tr>
+                    <tr><td class="word-cell">mandate</td><td class="phonetic">/ˈmændeɪt/</td><td>v./n.</td><td>强制执行；授权</td><td>A few schools mandate the use of basic phones.</td></tr>
+                    <tr><td class="word-cell">discretionary</td><td class="phonetic">/dɪˈskreʃəneri/</td><td>adj.</td><td>自由裁量的</td><td>Most schools allow discretionary exceptions.</td></tr>
+                    <tr><td class="word-cell">exception</td><td class="phonetic">/ɪkˈsepʃn/</td><td>n.</td><td>例外</td><td>Exceptions exist for medical conditions.</td></tr>
+                    <tr><td class="word-cell">punitive</td><td class="phonetic">/ˈpjuːnɪtɪv/</td><td>adj.</td><td>惩罚性的</td><td>Students experienced the ban as punitive.</td></tr>
+                    <tr><td class="word-cell">undermine</td><td class="phonetic">/ˌʌndərˈmaɪn/</td><td>v.</td><td>削弱，破坏</td><td>Harsh rules can undermine trust in schools.</td></tr>
+                    <tr><td class="word-cell">nuanced</td><td class="phonetic">/ˈnuːɑːnst/</td><td>adj.</td><td>微妙的，有细微差别的</td><td>The debate needs a more nuanced approach.</td></tr>
+                    <tr><td class="word-cell">legitimate</td><td class="phonetic">/lɪˈdʒɪtɪmət/</td><td>adj.</td><td>合法的，合理的</td><td>Some phone use during breaks is legitimate.</td></tr>
+                    <tr><td class="word-cell">restriction</td><td class="phonetic">/rɪˈstrɪkʃn/</td><td>n.</td><td>限制</td><td>Governments are considering stricter restrictions.</td></tr>
+                    <tr><td class="word-cell">proposal</td><td class="phonetic">/prəˈpoʊzl/</td><td>n.</td><td>提议，建议</td><td>Several proposals for age limits have emerged.</td></tr>
+                    <tr><td class="word-cell">harassment</td><td class="phonetic">/həˈræsmənt/</td><td>n.</td><td>骚扰</td><td>Online harassment is a serious concern.</td></tr>
+                    <tr><td class="word-cell">connectivity</td><td class="phonetic">/ˌkɑːnekˈtɪvəti/</td><td>n.</td><td>连通性</td><td>Constant connectivity affects mental health.</td></tr>
+                    <tr><td class="word-cell">arbitrary</td><td class="phonetic">/ˈɑːrbɪtreri/</td><td>adj.</td><td>任意的，武断的</td><td>Students resist rules they see as arbitrary.</td></tr>
+                    <tr><td class="word-cell">complexity</td><td class="phonetic">/kəmˈpleksəti/</td><td>n.</td><td>复杂性</td><td>Policymakers must recognise the complexity of phone use.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section-card">
+            <h2>&#128279; 短语搭配</h2>
+            <div class="phrase-item">
+                <div class="phrase-en">1. in favour of</div>
+                <div class="phrase-cn">支持，赞成</div>
+                <div class="phrase-example">原句：While 87% of teachers and 88% of parents were <strong>in favour of</strong> a blanket ban on smartphones during the school day, 75% of pupils disagreed.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">2. rely on</div>
+                <div class="phrase-cn">依赖，依靠</div>
+                <div class="phrase-example">原句：Students argued that banning smartphones restricted their access to tools they considered essential and that they <strong>relied on</strong> to navigate daily life.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">3. point to</div>
+                <div class="phrase-cn">指向；指出</div>
+                <div class="phrase-example">原句：They <strong>pointed to</strong> practical uses such as checking bus timetables, looking up weather forecasts, and using homework apps.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">4. be essential for</div>
+                <div class="phrase-cn">对……必不可少</div>
+                <div class="phrase-example">原句：Students argued that banning smartphones restricted their access to tools they considered <strong>essential for</strong> navigating daily life.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">5. place...in</div>
+                <div class="phrase-cn">把……放入</div>
+                <div class="phrase-example">原句：Some require students to <strong>place</strong> their phones <strong>in</strong> specialised, sealed magnetic pouches.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">6. go further</div>
+                <div class="phrase-cn">更进一步</div>
+                <div class="phrase-example">原句：A few institutions have <strong>gone further</strong>, mandating that students swap smartphones for basic "brick phones" while commuting.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">7. rather than</div>
+                <div class="phrase-cn">而不是</div>
+                <div class="phrase-example">原句：The goal should be to help students develop healthy digital habits, <strong>rather than</strong> simply to remove technology from their hands.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">8. find a balance</div>
+                <div class="phrase-cn">找到平衡</div>
+                <div class="phrase-example">原句：The challenge for educators is to <strong>find a balance</strong> between protecting classroom focus and respecting students' needs.</div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>&#128269; 长难句解析</h2>
+            <div class="sentence-box">
+                <div class="original">"While 87% of teachers and 88% of parents were in favour of a blanket ban on smartphones during the school day, 75% of pupils disagreed with the policy, revealing a sharp generational divide that could reshape how educators think about technology policy."</div>
+                <div class="analysis">
+                    <span class="label">主干</span>75% of pupils disagreed with the policy...<br><br>
+                    <span class="label">结构分析</span><br>
+                    • While 引导让步状语从句，表示"尽管"，其中包含教师和家长的数据对比；<br>
+                    • 主句为 75% of pupils disagreed with the policy；<br>
+                    • 现在分词短语 revealing... 作结果状语；<br>
+                    • that 引导定语从句修饰 divide，其中 how 引导宾语从句作 think about 的宾语。<br><br>
+                    <span class="label">翻译</span>尽管87%的教师和88%的家长支持在校期间全面禁止智能手机，但75%的学生反对这一政策，这揭示出可能重塑教育工作者科技政策思维的尖锐代际分歧。
+                </div>
+            </div>
+            <div class="sentence-box">
+                <div class="original">"Students argued that banning smartphones restricted their access to tools they considered essential for navigating daily life and supporting their learning, such as checking bus timetables, looking up weather forecasts, and using homework apps."</div>
+                <div class="analysis">
+                    <span class="label">主干</span>Students argued that...<br><br>
+                    <span class="label">结构分析</span><br>
+                    • that 引导宾语从句：banning smartphones restricted their access to tools；<br>
+                    • they considered essential... 为省略关系代词的定语从句，修饰 tools；<br>
+                    • for navigating daily life and supporting their learning 为介词短语表用途；<br>
+                    • such as 后接三个并列的动名词短语作举例。<br><br>
+                    <span class="label">翻译</span>学生们认为，禁止智能手机限制了他们获取一些工具的机会，他们认为这些工具对于驾驭日常生活和支持学习至关重要，例如查看公交时刻表、查询天气预报以及使用作业应用程序。
+                </div>
+            </div>
+            <div class="sentence-box">
+                <div class="original">"The UCL team suggests that the debate over phones in schools needs a more nuanced approach, one that distinguishes between disruptive use during lessons and legitimate uses during breaks or travel, so that students can develop healthy digital habits rather than simply having technology removed from their hands."</div>
+                <div class="analysis">
+                    <span class="label">主干</span>The UCL team suggests that...<br><br>
+                    <span class="label">结构分析</span><br>
+                    • that 引导宾语从句：the debate... needs a more nuanced approach；<br>
+                    • one that distinguishes between... 为同位语，补充说明 approach；<br>
+                    • between... and... 连接 disruptive use 和 legitimate uses；<br>
+                    • so that 引导目的状语从句；<br>
+                    • rather than 连接 develop healthy digital habits 与 having technology removed。<br><br>
+                    <span class="label">翻译</span>UCL研究团队认为，关于学校手机的争论需要一种更细致的方法——一种能够区分课堂上的干扰性使用与课间或通勤途中的合理使用的方法，以便学生能够养成健康的数字习惯，而不是简单地把技术从他们手中夺走。
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>&#9989; 阅读理解练习</h2>
+            <div class="quiz-item">
+                <div class="question">1. 主旨大意题：What is the main idea of the article?</div>
+                <div class="options">
+                    <label>A. Smartphones should be completely banned in all schools to improve learning.</label>
+                    <label>B. A UCL study shows that most students strongly support school smartphone bans.</label>
+                    <label>C. A UCL study finds a sharp generational divide over school smartphone bans and suggests a more nuanced approach.</label>
+                    <label>D. Smartphones are more helpful than harmful for students and should be allowed without restrictions.</label>
+                </div>
+                <div class="answer-box">
+                    <div class="correct">正确答案：C</div>
+                    <div class="analysis">解析：文章通篇围绕UCL关于学校手机禁令的研究展开，核心发现是教师、家长与学生之间存在尖锐的代际分歧，并呼吁采取更细致的政策。A项"全面禁止"过于绝对，与文章观点相反；B项"学生支持禁令"与原文75%学生反对相悖；D项"应无限制允许"也不符合文章主张的"区分使用场景、培养健康习惯"的 nuanced 立场。</div>
+                </div>
+            </div>
+            <div class="quiz-item">
+                <div class="question">2. 细节理解题：According to the article, why do some students oppose blanket smartphone bans?</div>
+                <div class="options">
+                    <label>A. They want to play games and chat with friends during lessons.</label>
+                    <label>B. They rely on phones for daily tools, safety, and support networks.</label>
+                    <label>C. They believe smartphones have no negative effects on learning.</label>
+                    <label>D. They think school rules should be decided entirely by students.</label>
+                </div>
+                <div class="answer-box">
+                    <div class="correct">正确答案：B</div>
+                    <div class="analysis">解析：根据文章第五、六段，学生们反对全面禁令的原因包括：手机是查公交时刻表、天气预报、作业应用等日常生活与学习工具；手机提供社交支持网络；女孩尤其认为手机能带来安全感。A项是片面推测，C项与文中"学生不否认手机会分心"矛盾，D项"完全由学生决定"过于绝对。</div>
+                </div>
+            </div>
+            <div class="quiz-item">
+                <div class="question">3. 推理判断题：What can be inferred about the researchers' attitude toward school smartphone policies?</div>
+                <div class="options">
+                    <label>A. They believe all smartphone use should be banned without exception.</label>
+                    <label>B. They think students should be allowed to use phones whenever they want.</label>
+                    <label>C. They support policies that involve students and distinguish between different types of phone use.</label>
+                    <label>D. They argue that smartphone bans have already solved the distraction problem.</label>
+                </div>
+                <div class="answer-box">
+                    <div class="correct">正确答案：C</div>
+                    <div class="analysis">解析：从文章倒数几段可以推断，研究者主张 nuanced approach（细致方法），建议让学生参与政策制定、区分课堂干扰性使用与课间/通勤的合理使用、提供明确指导而非武断限制。A项"全面禁止"与原文相反；B项"随意使用"和D项"已解决问题"均无原文依据。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>&#128161; 阅读技巧提示</h2>
+            <div class="tips-box">
+                <h4>考研英语阅读技巧</h4>
+                <ul>
+                    <li><strong>主旨题定位法：</strong>考研英语主旨大意题通常可通过首段+各段首句快速把握。本文首段即点明"学校手机禁令并非看似简单"这一核心话题，结尾段再次强调需要 nuanced approach。</li>
+                    <li><strong>数据题注意：</strong>遇到百分比、数字等数据时，要准确定位其修饰对象。本文中87%/88%修饰教师和家长，75%修饰学生，不可混淆。</li>
+                    <li><strong>长难句拆解：</strong>遇到 while, although 等让步状语从句时，先抓主句，再理解对比关系。本文多个长句使用 while 连接成人与学生观点。</li>
+                    <li><strong>观点态度题：</strong>注意区分"作者/研究者观点"与"各方观点"。研究者观点常通过 suggest, argue, recommend 等动词引出。</li>
+                    <li><strong>词汇题策略：</strong>生词含义可通过上下文逻辑推断。如 punitive 可通过后文"imposed on them without enough consideration"推测为"惩罚性的"；nuanced 可通过"distinguishing between..."推测为"细致的、有差别的"。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>&#128240; 文章来源</h2>
+            <div class="source-box">
+                <p><strong>原文标题：</strong>School smartphone ban seen as 'punitive' by young people, report says</p>
+                <p><strong>来源：</strong>The Guardian</p>
+                <p><strong>发布日期：</strong>June 30, 2026</p>
+                <p><strong>原文链接：</strong><a href="https://www.theguardian.com/politics/2026/jun/30/school-smartphone-ban-seen-as-punitive-by-young-people-report" target="_blank" rel="noopener">https://www.theguardian.com/politics/2026/jun/30/school-smartphone-ban-seen-as-punitive-by-young-people-report</a></p>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">&#8592; 返回文章列表</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleTooltip(el) {
+            document.querySelectorAll('.vocab-word').forEach(function(word) {
+                if (word !== el) word.classList.remove('active');
+            });
+            el.classList.toggle('active');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.vocab-word')) {
+                document.querySelectorAll('.vocab-word').forEach(function(word) {
+                    word.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
