@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | The Atlantic: Generative AI Is an Engineering Disaster</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --accent-light: #fdf2f2;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+            --highlight: #fff3cd;
+            --vocab-bg: #e8f4f8;
+            --phrase-bg: #f0f8e8;
+            --sentence-bg: #f5f0fa;
+            --tips-bg: #fff8e1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Noto Sans CJK SC", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .article-header {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .article-header .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .article-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .article-header .subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        .article-header .meta {
+            font-size: 13px;
+            opacity: 0.8;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .article-header .meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section-card h2 {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-card h3 {
+            font-size: 17px;
+            color: var(--primary);
+            margin: 20px 0 12px;
+        }
+        .article-body p {
+            margin-bottom: 16px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+        .vocab-word {
+            color: var(--accent);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--accent);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .vocab-word:hover {
+            background: var(--accent-light);
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 1.5;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        .vocab-word.active .tooltip {
+            display: block;
+        }
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .vocab-table th {
+            background: var(--vocab-bg);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+        }
+        .vocab-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .vocab-table tr:hover {
+            background: var(--vocab-bg);
+        }
+        .vocab-table .word-cell {
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .vocab-table .phonetic {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        .phrase-item {
+            background: var(--phrase-bg);
+            border-left: 4px solid #7cb342;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            border-radius: 0 8px 8px 0;
+        }
+        .phrase-item .phrase-en {
+            font-weight: 600;
+            color: #558b2f;
+            font-size: 15px;
+        }
+        .phrase-item .phrase-cn {
+            color: var(--text-light);
+            font-size: 14px;
+            margin: 4px 0;
+        }
+        .phrase-item .phrase-example {
+            font-size: 13px;
+            color: var(--text);
+            margin-top: 6px;
+            font-style: italic;
+        }
+        .sentence-box {
+            background: var(--sentence-bg);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .sentence-box .sentence-en {
+            font-size: 15px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        .sentence-box .sentence-analysis {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+        .summary-box {
+            background: linear-gradient(135deg, #fff9e6, #fff3cd);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #f0ad4e;
+        }
+        .summary-box p {
+            margin-bottom: 10px;
+        }
+        .tips-box {
+            background: var(--tips-bg);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #ffc107;
+        }
+        .tips-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .tips-box li {
+            margin-bottom: 8px;
+        }
+        .question-item {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .question-item .question-type {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        .question-item .question-text {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .question-item .options {
+            margin-bottom: 10px;
+            line-height: 1.9;
+        }
+        .question-item .answer {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .question-item .explanation {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .source-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .source-link:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        @media (max-width: 600px) {
+            .article-header h1 { font-size: 22px; }
+            .section-card { padding: 20px; }
+            .vocab-table { font-size: 13px; }
+            .tooltip { white-space: normal; max-width: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="article-header">
+            <div class="tag">考研英语外刊精读</div>
+            <h1>Generative AI Is an Engineering Disaster</h1>
+            <div class="subtitle">The Atlantic, July 2026 | Technology</div>
+            <div class="meta">
+                <span>来源：The Atlantic</span>
+                <span>日期：2026-07-15</span>
+                <span>难度：考研英语一</span>
+                <span>字数：约 1,650 词</span>
+            </div>
+        </header>
+
+        <div class="section-card">
+            <h2>文章正文</h2>
+            <div class="article-body">
+                <p>As they <span class="vocab-word" onclick="toggleTooltip(this)">scramble<span class="tooltip">scramble /ˈskræmbl/ v. 争抢，匆忙做</span></span> to keep their systems online, AI companies are making things expensive for the rest of us. Large language models such as ChatGPT and Claude are so <span class="vocab-word" onclick="toggleTooltip(this)">resource-hungry<span class="tooltip">resource-hungry /rɪˈsɔːs ˈhʌŋɡri/ adj. 资源消耗巨大的</span></span> that tech companies may be purchasing 70 percent of the world’s supply of high-end computer memory, causing a <span class="vocab-word" onclick="toggleTooltip(this)">shortage<span class="tooltip">shortage /ˈʃɔːtɪdʒ/ n. 短缺，不足</span></span>. As a result, the prices of computer memory and storage are <span class="vocab-word" onclick="toggleTooltip(this)">skyrocketing<span class="tooltip">skyrocket /ˈskaɪrɒkɪt/ v. 飞涨，猛升</span></span>: Hard drives that I bought for my reporting two years ago for $350 each were $800 when I checked two weeks ago, and are now out of stock. The prices of some laptops have gone up as much as 50 percent, and low-cost computers are being hit the hardest. Affordable entry-level computers may “disappear by 2028” according to one forecast. And the memory <span class="vocab-word" onclick="toggleTooltip(this)">shortage<span class="tooltip">shortage /ˈʃɔːtɪdʒ/ n. 短缺，不足</span></span> is expected to continue for years.</p>
+<p>The memory is being put into data centers, which tech firms are expanding at <span class="vocab-word" onclick="toggleTooltip(this)">incredible<span class="tooltip">incredible /ɪnˈkredəbl/ adj. 难以置信的，惊人的</span></span> speed. They are planning to <span class="vocab-word" onclick="toggleTooltip(this)">multiply<span class="tooltip">multiply /ˈmʌltɪplaɪ/ v. 使成倍增加，乘以</span></span> total U.S.-data-center <span class="vocab-word" onclick="toggleTooltip(this)">capacity<span class="tooltip">capacity /kəˈpæsəti/ n. 容量，能力</span></span> by a factor of eight over the next few years. The demand for electricity at these sites is already so great that some companies are <span class="vocab-word" onclick="toggleTooltip(this)">repurposing<span class="tooltip">repurpose /ˌriːˈpɜːpəs/ v. 改变用途，重新利用</span></span> jet engines to power them.</p>
+<p>The problem is not simply that AI is being <span class="vocab-word" onclick="toggleTooltip(this)">deployed<span class="tooltip">deploy /dɪˈplɔɪ/ v. 部署，应用</span></span> so widely or quickly. Other computer technologies have seen similarly <span class="vocab-word" onclick="toggleTooltip(this)">massive<span class="tooltip">massive /ˈmæsɪv/ adj. 巨大的，大规模的</span></span> growth without <span class="vocab-word" onclick="toggleTooltip(this)">triggering<span class="tooltip">trigger /ˈtrɪɡə(r)/ v. 引发，触发</span></span> such a large spike in electricity or a <span class="vocab-word" onclick="toggleTooltip(this)">shortage<span class="tooltip">shortage /ˈʃɔːtɪdʒ/ n. 短缺，不足</span></span> of computer <span class="vocab-word" onclick="toggleTooltip(this)">components<span class="tooltip">component /kəmˈpəʊnənt/ n. 组件，部件</span></span>: Video and music are now streamed around the globe, accounting for many terabytes of internet traffic daily; the smartphone boom required the manufacturing of billions of devices that are now transferring huge amounts of data; billions of household devices are also now part of the Internet of Things; and whole industries have moved their operations to cloud software, which is hosted not in the sky but in, yes, data centers.</p>
+<p>The problem with generative AI, in the industry’s own jargon, is that it does not <span class="vocab-word" onclick="toggleTooltip(this)">scale<span class="tooltip">scale /skeɪl/ v./n. 扩展；规模</span></span>. The cost of growing from, say, a thousand users to a million is a key factor that <span class="vocab-word" onclick="toggleTooltip(this)">venture capitalists<span class="tooltip">venture capitalist /ˈventʃə(r) ˈkæpɪtəlɪst/ n. 风险投资家</span></span> examine when they <span class="vocab-word" onclick="toggleTooltip(this)">evaluate<span class="tooltip">evaluate /ɪˈvæljueɪt/ v. 评估，评价</span></span> start-ups. They want to see that the cost of adding each new user decreases over time, so that the company can support millions of users and make increasing profits. This is achieved partly through the careful engineering of computer systems that can <span class="vocab-word" onclick="toggleTooltip(this)">efficiently<span class="tooltip">efficient /ɪˈfɪʃnt/ adj. 高效的</span></span> handle more users who want to post photos, hail Ubers, or stream music.</p>
+<p>With generative AI, the work of building <span class="vocab-word" onclick="toggleTooltip(this)">efficient<span class="tooltip">efficient /ɪˈfɪʃnt/ adj. 高效的</span></span>, <span class="vocab-word" onclick="toggleTooltip(this)">scalable<span class="tooltip">scalable /ˈskeɪləbl/ adj. 可扩展的</span></span> systems has not been done. And the problem is <span class="vocab-word" onclick="toggleTooltip(this)">exacerbated<span class="tooltip">exacerbate /ɪɡˈzæsəbeɪt/ v. 使加剧，使恶化</span></span> by the ever-larger generative-AI models, which have grown from 175 billion <span class="vocab-word" onclick="toggleTooltip(this)">parameters<span class="tooltip">parameter /pəˈræmɪtə(r)/ n. 参数</span></span> in 2020 to more than 1 trillion today, according to independent <span class="vocab-word" onclick="toggleTooltip(this)">estimates<span class="tooltip">estimate /ˈestɪmət/ n./v. 估计，估算</span></span> (the actual sizes of the models powering products such as Claude and ChatGPT are secret). The large in large language model should not be a selling point. But the industry’s observation that bigger models tend to <span class="vocab-word" onclick="toggleTooltip(this)">outperform<span class="tooltip">outperform /ˌaʊtpəˈfɔːm/ v. 表现优于</span></span> smaller ones has given rise to a <span class="vocab-word" onclick="toggleTooltip(this)">totemic<span class="tooltip">totemic /təʊˈtemɪk/ adj. 图腾的，象征性的</span></span> belief in “<span class="vocab-word" onclick="toggleTooltip(this)">scaling<span class="tooltip">scale /skeɪl/ v./n. 扩展；规模</span></span> laws” that suggest any problem can be solved by simply making models bigger. “Maybe with 10 gigawatts of compute, AI can figure out how to cure cancer,” OpenAI CEO Sam Altman wrote on his blog in September.</p>
+<p>Yet the returns are <span class="vocab-word" onclick="toggleTooltip(this)">diminishing<span class="tooltip">diminish /dɪˈmɪnɪʃ/ v. 减少，削弱</span></span>. The bigger an AI model is, the less it improves with each added <span class="vocab-word" onclick="toggleTooltip(this)">parameter<span class="tooltip">parameter /pəˈræmɪtə(r)/ n. 参数</span></span>, and so it must be made bigger at a faster rate just to <span class="vocab-word" onclick="toggleTooltip(this)">sustain<span class="tooltip">sustain /səˈsteɪn/ v. 维持，支撑</span></span> steady progress. I asked a few AI researchers whether they could name any other real-world software that <span class="vocab-word" onclick="toggleTooltip(this)">scales<span class="tooltip">scale /skeɪl/ v./n. 扩展；规模</span></span> so poorly. None of them could think of any. Even outside the world of software, it’s hard to find a <span class="vocab-word" onclick="toggleTooltip(this)">comparable<span class="tooltip">comparable /ˈkɒmpərəbl/ adj. 可比较的，类似的</span></span> example, given that <span class="vocab-word" onclick="toggleTooltip(this)">economy of scale<span class="tooltip">economy of scale /ɪˈkɒnəmi əv skeɪl/ n. 规模经济</span></span> is the principle that has made light bulbs, cars, and clothing so affordable. By economic and engineering measures, generative AI might be the worst technology ever <span class="vocab-word" onclick="toggleTooltip(this)">deployed<span class="tooltip">deploy /dɪˈplɔɪ/ v. 部署，应用</span></span>.</p>
+<p>But with the <span class="vocab-word" onclick="toggleTooltip(this)">massive<span class="tooltip">massive /ˈmæsɪv/ adj. 巨大的，大规模的</span></span> investment behind the current <span class="vocab-word" onclick="toggleTooltip(this)">bloated<span class="tooltip">bloated /ˈbləʊtɪd/ adj. 臃肿的，膨胀的</span></span> approach, there may not be much will to change. Ilya Sutskever, a co-founder and former chief scientist at OpenAI, said in a November interview that companies take the <span class="vocab-word" onclick="toggleTooltip(this)">brute-force<span class="tooltip">brute-force /ˌbruːt ˈfɔːs/ adj. 暴力的，蛮力的</span></span> approach “because it gives you a very low-risk way of investing your resources.” It’s harder, he argued, to invest in research that would reengineer a product currently <span class="vocab-word" onclick="toggleTooltip(this)">accruing<span class="tooltip">accrue /əˈkruː/ v. 累积，积累</span></span> trillion-dollar valuations. Those who suspect we are in an AI-driven bubble economy have pointed out that the <span class="vocab-word" onclick="toggleTooltip(this)">profitability<span class="tooltip">profitability /ˌprɒfɪtəˈbɪləti/ n. 盈利能力</span></span> of these companies remains an open question, largely because of the high cost and inefficiency of the technology.</p>
+<p>Efficiency is a core principle of computer science. One of the first things <span class="vocab-word" onclick="toggleTooltip(this)">undergraduates<span class="tooltip">undergraduate /ˌʌndəˈɡrædʒuət/ n. 本科生</span></span> learn is that writing a program that sorts a list of 50 words is easy. But if you give that program 50 million words, it will likely run out of memory or take hours to finish. Much of computer science is learning the clever coding techniques that prevent this from happening. Many of these techniques take advantage of repeating patterns in the data so that as the program receives more input, it takes less time or memory to process each additional bit. Such <span class="vocab-word" onclick="toggleTooltip(this)">efficiency<span class="tooltip">efficiency /ɪˈfɪʃnsi/ n. 效率</span></span> is one reason that modern smartphones and computers are so capable and affordable. This is called <span class="vocab-word" onclick="toggleTooltip(this)">logarithmic<span class="tooltip">logarithmic /ˌlɒɡəˈrɪðmɪk/ adj. 对数的</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">scaling<span class="tooltip">scale /skeɪl/ v./n. 扩展；规模</span></span>, and it looks like this when you graph it:</p>
+<p>Large language models do not <span class="vocab-word" onclick="toggleTooltip(this)">scale<span class="tooltip">scale /skeɪl/ v./n. 扩展；规模</span></span> logarithmically. When they’re given more words to process, they get slower and use more memory—the time and resources increase faster as the input grows. In technical terms, LLMs <span class="vocab-word" onclick="toggleTooltip(this)">scale<span class="tooltip">scale /skeɪl/ v./n. 扩展；规模</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">quadratically<span class="tooltip">quadratically /kwɒˈdrætɪkli/ adv. 按二次方地</span></span>. Any computer-science student knows that this is very bad.</p>
+<p>Epoch AI, an organization that tries to determine the costs of operating AI models, published a graph last year, which is reproduced here with permission. It shows the <span class="vocab-word" onclick="toggleTooltip(this)">exponentially<span class="tooltip">exponentially /ˌekspəˈnenʃəli/ adv. 指数地</span></span> increasing costs of serving more “tokens”—the words users type to chatbots—with several public AI models.</p>
+<p>AI does not have to be built this way. Traditionally, the goal of AI was to solve problems in ways that <span class="vocab-word" onclick="toggleTooltip(this)">simulated<span class="tooltip">simulate /ˈsɪmjuleɪt/ v. 模拟</span></span> human mental processes. Researchers observed their own thinking and tried to <span class="vocab-word" onclick="toggleTooltip(this)">implement<span class="tooltip">implement /ˈɪmplɪmənt/ v. 实施，执行</span></span> their mental habits in code. This approach has mostly been <span class="vocab-word" onclick="toggleTooltip(this)">abandoned<span class="tooltip">abandon /əˈbændən/ v. 放弃，抛弃</span></span>, partly due to the difficulty of discerning and <span class="vocab-word" onclick="toggleTooltip(this)">articulating<span class="tooltip">articulate /ɑːˈtɪkjuleɪt/ v. 明确表达</span></span> the rules of human thought, but it did have the benefit of consuming far fewer resources and data.</p>
+<p>Today’s approach to AI doesn’t try to describe the rules of human thought; instead, it gives a computer millions of examples to <span class="vocab-word" onclick="toggleTooltip(this)">imitate<span class="tooltip">imitate /ˈɪmɪteɪt/ v. 模仿</span></span>. The huge quantity of examples is one reason that large models can perform better than small ones when generating language, images, and music—they have more material to draw from. Some researchers want to bring back the old, more <span class="vocab-word" onclick="toggleTooltip(this)">efficient<span class="tooltip">efficient /ɪˈfɪʃnt/ adj. 高效的</span></span> approach and combine it with the modern approach, but so far these projects have not drawn nearly as much attention or funding as the models that power chatbots.</p>
+<p>Chatbot companies are aware that their products are inefficient. Some have found techniques for improving performance, but they have not yielded significant gains. Occasionally, companies claim to have made breakthroughs—Anthropic CEO Dario Amodei has called them “compute multipliers”—but they are usually described in vague terms, and there is no evidence that the basic problems of quadratic <span class="vocab-word" onclick="toggleTooltip(this)">scaling<span class="tooltip">scale /skeɪl/ v./n. 扩展；规模</span></span> and exploding model size have been overcome. (Anthropic declined to comment on the record when I reached out to ask about this.)</p>
+<p>Some researchers are working on extremely small models that require fewer data and less computing power. I spoke with Alexia Jolicoeur-Martineau, an AI researcher at Microsoft who independently designed one of these, and asked her about the industry’s <span class="vocab-word" onclick="toggleTooltip(this)">brute-force<span class="tooltip">brute-force /ˌbruːt ˈfɔːs/ adj. 暴力的，蛮力的</span></span> approach. “It’s a bit insane,” she told me. “At some point you have to learn to be a bit more <span class="vocab-word" onclick="toggleTooltip(this)">efficient<span class="tooltip">efficient /ɪˈfɪʃnt/ adj. 高效的</span></span>.”</p>
+<p>Last year, Jolicoeur-Martineau won a $50,000 prize for her paper on a “tiny recursive model” that doesn’t consume huge quantities of computing resources. “The idea that one must rely on <span class="vocab-word" onclick="toggleTooltip(this)">massive<span class="tooltip">massive /ˈmæsɪv/ adj. 巨大的，大规模的</span></span> foundational models trained for millions of dollars by some big corporation in order to achieve success on hard tasks is a trap,” she wrote. Her model isn’t a substitute for an LLM—it’s designed to solve logic problems in fields such as biology and electrical engineering, rather than generate language—but it can do some of the tasks that much larger AI models are currently being used for.</p>
+<p>Yet we seem stuck with LLMs, perhaps because they have been so <span class="vocab-word" onclick="toggleTooltip(this)">aggressively<span class="tooltip">aggressively /əˈɡresɪvli/ adv. 激进地，积极地</span></span> marketed. They are now being added to everything, whether you want them or not. In 2024 and 2025, they were <span class="vocab-word" onclick="toggleTooltip(this)">integrated<span class="tooltip">integrate /ˈɪntɪɡreɪt/ v. 整合，集成</span></span> into both Windows and Mac OS, which means that more computing power is now needed to run a basic personal computer. Smartphones are also being sold with upgraded hardware as companies <span class="vocab-word" onclick="toggleTooltip(this)">anticipate<span class="tooltip">anticipate /ænˈtɪsɪpeɪt/ v. 预期，预料</span></span> new AI features. Inefficient AI is also being added to common programs such as Adobe Photoshop and Microsoft Word, meaning that computers need to be more powerful to run this software.</p>
+<p>This is all especially bad because computers are no longer improving at the rate they used to. Since the 1950s, manufacturers have learned to make microchips steadily faster, smaller, and cheaper, a trend known colloquially as Moore’s Law. But in the past few years, <span class="vocab-word" onclick="toggleTooltip(this)">components<span class="tooltip">component /kəmˈpəʊnənt/ n. 组件，部件</span></span> have gotten so small that manufacturers have run into molecular-level <span class="vocab-word" onclick="toggleTooltip(this)">limitations<span class="tooltip">limitation /ˌlɪmɪˈteɪʃn/ n. 限制，局限</span></span> on shrinking them any further, which has slowed progress significantly.</p>
+<p>Instead of shrinking <span class="vocab-word" onclick="toggleTooltip(this)">components<span class="tooltip">component /kəmˈpəʊnənt/ n. 组件，部件</span></span>, manufacturers have been focused on developing new hardware that is tailored to AI. This has provided occasional <span class="vocab-word" onclick="toggleTooltip(this)">incremental<span class="tooltip">incremental /ˌɪnkrɪˈmentl/ adj. 渐进的，递增的</span></span> improvements in performance, but none has come close to keeping up with the exponential curve of AI’s increasing demands.</p>
+<p>Ultimately, inefficiency may be of little concern to the people within the tech industry who believe that they are replicating intelligence itself. There is an almost-religious <span class="vocab-word" onclick="toggleTooltip(this)">conviction<span class="tooltip">conviction /kənˈvɪkʃn/ n. 信念，坚信</span></span> among many in Silicon Valley that something mindlike could arise from LLMs, which are ultimately just <span class="vocab-word" onclick="toggleTooltip(this)">statistical<span class="tooltip">statistical /stəˈtɪstɪkl/ adj. 统计的</span></span> language-generating software—this, despite the software’s inability to recall basic facts, its lack of common sense, and its complete <span class="vocab-word" onclick="toggleTooltip(this)">dissimilarity<span class="tooltip">dissimilarity /ˌdɪsɪmɪˈlærəti/ n. 差异，不同</span></span> to a biological brain. Even Yann LeCun, one of AI’s “godfathers,” told The New York Times recently that “LLMs are not a path to superintelligence or even human-level intelligence.” But the <span class="vocab-word" onclick="toggleTooltip(this)">mythological<span class="tooltip">mythological /ˌmɪθəˈlɒdʒɪkl/ adj. 神话的</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">lure<span class="tooltip">lure /lʊə(r)/ n. 诱惑，吸引力</span></span> of AI is so strong that many engineers believe that nothing should stand in their way. Not even the basic task of writing <span class="vocab-word" onclick="toggleTooltip(this)">efficient<span class="tooltip">efficient /ɪˈfɪʃnt/ adj. 高效的</span></span> software.</p>
+            </div>
+            <a href="https://www.theatlantic.com/technology/2026/07/generative-ai-engineering-disaster/687901/" target="_blank" class="source-link">查看原文 →</a>
+        </div>
+
+        <div class="section-card">
+            <h2>文章大意</h2>
+            <div class="summary-box">
+                <p>本文出自《大西洋月刊》2026年7月科技版块，聚焦生成式 AI 的工程效率危机。作者指出，为维持大语言模型运行，科技公司正抢购全球约七成高端内存，导致硬盘、笔记本价格上涨，数据中心耗电量激增，甚至需要改装喷气发动机供电。</p>
+                <p>文章核心论点在于：生成式 AI 的“大”并非优势，而是工程灾难。与传统软件的对数级扩展不同，大语言模型呈二次方扩展，模型越大边际收益越低，却必须以更快增速扩张才能维持进步。行业虽明知其低效，却因万亿估值、营销狂热和“规模定律”迷信而继续蛮力投入。</p>
+                <p>作者还对比了传统 AI 研究注重模拟人类思维、消耗资源更少的研究路径，以及当下“用海量数据模仿”的路线，警示在摩尔定律放缓的背景下，这种低效 AI 被集成进操作系统与日常软件，将让普通消费者也付出代价。文章最后以硅谷工程师对 AI 近乎宗教般的信念作结，质疑其连“写出高效软件”这一基本任务都无暇顾及。</p>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>阅读技巧提示</h2>
+            <div class="tips-box">
+                <ul>
+                    <li><strong>抓数字信号：</strong>外刊科技文常用具体数字支撑论点（70 percent、175 billion parameters、1 trillion 等）。阅读时把数字与对应结论关联，可快速定位细节题答案。</li>
+                    <li><strong>识别对比结构：</strong>本文大量运用对比（传统软件 vs. 生成式 AI、对数扩展 vs. 二次方扩展、旧 AI 路径 vs. 新路径），把握对比关系即可把握作者态度。</li>
+                    <li><strong>理解术语：</strong>scale、logarithmic、quadratically、economy of scale 等是本文关键词，遇到术语先看上下文解释，再回查词表。</li>
+                    <li><strong>推断作者态度：</strong>作者观点常藏于结尾句。本文末句 “Not even the basic task of writing efficient software” 以反讽收束，明确表达对行业忽视工程效率的批评。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>考研核心词汇表</h2>
+            <p style="margin-bottom: 15px; color: var(--text-light); font-size: 14px;">点击正文中红色下划线单词可查看释义；下表汇总全部核心词汇。</p>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>单词</th>
+                        <th>词性</th>
+                        <th>中文释义</th>
+                        <th>例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+            <td class="word-cell">scramble<br><span class="phonetic">/ˈskræmbl/</span></td>
+            <td>v.</td>
+            <td>争抢，匆忙做</td>
+            <td>As they scramble to keep their systems online, AI companies are making things expensive for the rest of us.</td>
+        </tr><tr>
+            <td class="word-cell">resource-hungry<br><span class="phonetic">/rɪˈsɔːs ˈhʌŋɡri/</span></td>
+            <td>adj.</td>
+            <td>资源消耗巨大的</td>
+            <td>Large language models such as ChatGPT and Claude are so resource-hungry that tech companies may be purchasing 70 percent of the world’s supply of high-end co...</td>
+        </tr><tr>
+            <td class="word-cell">shortage<br><span class="phonetic">/ˈʃɔːtɪdʒ/</span></td>
+            <td>n.</td>
+            <td>短缺，不足</td>
+            <td>Large language models such as ChatGPT and Claude are so resource-hungry that tech companies may be purchasing 70 percent of the world’s supply of high-end co...</td>
+        </tr><tr>
+            <td class="word-cell">skyrocket<br><span class="phonetic">/ˈskaɪrɒkɪt/</span></td>
+            <td>v.</td>
+            <td>飞涨，猛升</td>
+            <td>As a result, the prices of computer memory and storage are skyrocketing: Hard drives that I bought for my reporting two years ago for $350 each were $800 whe...</td>
+        </tr><tr>
+            <td class="word-cell">incredible<br><span class="phonetic">/ɪnˈkredəbl/</span></td>
+            <td>adj.</td>
+            <td>难以置信的，惊人的</td>
+            <td>The memory is being put into data centers, which tech firms are expanding at incredible speed.</td>
+        </tr><tr>
+            <td class="word-cell">multiply<br><span class="phonetic">/ˈmʌltɪplaɪ/</span></td>
+            <td>v.</td>
+            <td>使成倍增加，乘以</td>
+            <td>They are planning to multiply total U.</td>
+        </tr><tr>
+            <td class="word-cell">capacity<br><span class="phonetic">/kəˈpæsəti/</span></td>
+            <td>n.</td>
+            <td>容量，能力</td>
+            <td>-data-center capacity by a factor of eight over the next few years.</td>
+        </tr><tr>
+            <td class="word-cell">repurpose<br><span class="phonetic">/ˌriːˈpɜːpəs/</span></td>
+            <td>v.</td>
+            <td>改变用途，重新利用</td>
+            <td>The demand for electricity at these sites is already so great that some companies are repurposing jet engines to power them.</td>
+        </tr><tr>
+            <td class="word-cell">deploy<br><span class="phonetic">/dɪˈplɔɪ/</span></td>
+            <td>v.</td>
+            <td>部署，应用</td>
+            <td>The problem is not simply that AI is being deployed so widely or quickly.</td>
+        </tr><tr>
+            <td class="word-cell">trigger<br><span class="phonetic">/ˈtrɪɡə(r)/</span></td>
+            <td>v.</td>
+            <td>引发，触发</td>
+            <td>Other computer technologies have seen similarly massive growth without triggering such a large spike in electricity or a shortage of computer components: Vid...</td>
+        </tr><tr>
+            <td class="word-cell">massive<br><span class="phonetic">/ˈmæsɪv/</span></td>
+            <td>adj.</td>
+            <td>巨大的，大规模的</td>
+            <td>Other computer technologies have seen similarly massive growth without triggering such a large spike in electricity or a shortage of computer components: Vid...</td>
+        </tr><tr>
+            <td class="word-cell">component<br><span class="phonetic">/kəmˈpəʊnənt/</span></td>
+            <td>n.</td>
+            <td>组件，部件</td>
+            <td>Other computer technologies have seen similarly massive growth without triggering such a large spike in electricity or a shortage of computer components: Vid...</td>
+        </tr><tr>
+            <td class="word-cell">scale<br><span class="phonetic">/skeɪl/</span></td>
+            <td>v./n.</td>
+            <td>扩展；规模</td>
+            <td>The problem with generative AI, in the industry’s own jargon, is that it does not scale.</td>
+        </tr><tr>
+            <td class="word-cell">scalable<br><span class="phonetic">/ˈskeɪləbl/</span></td>
+            <td>adj.</td>
+            <td>可扩展的</td>
+            <td>With generative AI, the work of building efficient, scalable systems has not been done.</td>
+        </tr><tr>
+            <td class="word-cell">venture capitalist<br><span class="phonetic">/ˈventʃə(r) ˈkæpɪtəlɪst/</span></td>
+            <td>n.</td>
+            <td>风险投资家</td>
+            <td>The cost of growing from, say, a thousand users to a million is a key factor that venture capitalists examine when they evaluate start-ups.</td>
+        </tr><tr>
+            <td class="word-cell">evaluate<br><span class="phonetic">/ɪˈvæljueɪt/</span></td>
+            <td>v.</td>
+            <td>评估，评价</td>
+            <td>The cost of growing from, say, a thousand users to a million is a key factor that venture capitalists examine when they evaluate start-ups.</td>
+        </tr><tr>
+            <td class="word-cell">efficient<br><span class="phonetic">/ɪˈfɪʃnt/</span></td>
+            <td>adj.</td>
+            <td>高效的</td>
+            <td>This is achieved partly through the careful engineering of computer systems that can efficiently handle more users who want to post photos, hail Ubers, or st...</td>
+        </tr><tr>
+            <td class="word-cell">efficiency<br><span class="phonetic">/ɪˈfɪʃnsi/</span></td>
+            <td>n.</td>
+            <td>效率</td>
+            <td>Efficiency is a core principle of computer science.</td>
+        </tr><tr>
+            <td class="word-cell">exacerbate<br><span class="phonetic">/ɪɡˈzæsəbeɪt/</span></td>
+            <td>v.</td>
+            <td>使加剧，使恶化</td>
+            <td>And the problem is exacerbated by the ever-larger generative-AI models, which have grown from 175 billion parameters in 2020 to more than 1 trillion today, a...</td>
+        </tr><tr>
+            <td class="word-cell">parameter<br><span class="phonetic">/pəˈræmɪtə(r)/</span></td>
+            <td>n.</td>
+            <td>参数</td>
+            <td>And the problem is exacerbated by the ever-larger generative-AI models, which have grown from 175 billion parameters in 2020 to more than 1 trillion today, a...</td>
+        </tr><tr>
+            <td class="word-cell">estimate<br><span class="phonetic">/ˈestɪmət/</span></td>
+            <td>n./v.</td>
+            <td>估计，估算</td>
+            <td>And the problem is exacerbated by the ever-larger generative-AI models, which have grown from 175 billion parameters in 2020 to more than 1 trillion today, a...</td>
+        </tr><tr>
+            <td class="word-cell">outperform<br><span class="phonetic">/ˌaʊtpəˈfɔːm/</span></td>
+            <td>v.</td>
+            <td>表现优于</td>
+            <td>But the industry’s observation that bigger models tend to outperform smaller ones has given rise to a totemic belief in “scaling laws” that suggest any probl...</td>
+        </tr><tr>
+            <td class="word-cell">totemic<br><span class="phonetic">/təʊˈtemɪk/</span></td>
+            <td>adj.</td>
+            <td>图腾的，象征性的</td>
+            <td>But the industry’s observation that bigger models tend to outperform smaller ones has given rise to a totemic belief in “scaling laws” that suggest any probl...</td>
+        </tr><tr>
+            <td class="word-cell">sustain<br><span class="phonetic">/səˈsteɪn/</span></td>
+            <td>v.</td>
+            <td>维持，支撑</td>
+            <td>The bigger an AI model is, the less it improves with each added parameter, and so it must be made bigger at a faster rate just to sustain steady progress.</td>
+        </tr><tr>
+            <td class="word-cell">diminish<br><span class="phonetic">/dɪˈmɪnɪʃ/</span></td>
+            <td>v.</td>
+            <td>减少，削弱</td>
+            <td>Yet the returns are diminishing.</td>
+        </tr><tr>
+            <td class="word-cell">comparable<br><span class="phonetic">/ˈkɒmpərəbl/</span></td>
+            <td>adj.</td>
+            <td>可比较的，类似的</td>
+            <td>Even outside the world of software, it’s hard to find a comparable example, given that economy of scale is the principle that has made light bulbs, cars, and...</td>
+        </tr><tr>
+            <td class="word-cell">economy of scale<br><span class="phonetic">/ɪˈkɒnəmi əv skeɪl/</span></td>
+            <td>n.</td>
+            <td>规模经济</td>
+            <td>Even outside the world of software, it’s hard to find a comparable example, given that economy of scale is the principle that has made light bulbs, cars, and...</td>
+        </tr><tr>
+            <td class="word-cell">bloated<br><span class="phonetic">/ˈbləʊtɪd/</span></td>
+            <td>adj.</td>
+            <td>臃肿的，膨胀的</td>
+            <td>But with the massive investment behind the current bloated approach, there may not be much will to change.</td>
+        </tr><tr>
+            <td class="word-cell">brute-force<br><span class="phonetic">/ˌbruːt ˈfɔːs/</span></td>
+            <td>adj.</td>
+            <td>暴力的，蛮力的</td>
+            <td>Ilya Sutskever, a co-founder and former chief scientist at OpenAI, said in a November interview that companies take the brute-force approach “because it give...</td>
+        </tr><tr>
+            <td class="word-cell">accrue<br><span class="phonetic">/əˈkruː/</span></td>
+            <td>v.</td>
+            <td>累积，积累</td>
+            <td>” It’s harder, he argued, to invest in research that would reengineer a product currently accruing trillion-dollar valuations.</td>
+        </tr><tr>
+            <td class="word-cell">profitability<br><span class="phonetic">/ˌprɒfɪtəˈbɪləti/</span></td>
+            <td>n.</td>
+            <td>盈利能力</td>
+            <td>Those who suspect we are in an AI-driven bubble economy have pointed out that the profitability of these companies remains an open question, largely because ...</td>
+        </tr><tr>
+            <td class="word-cell">undergraduate<br><span class="phonetic">/ˌʌndəˈɡrædʒuət/</span></td>
+            <td>n.</td>
+            <td>本科生</td>
+            <td>One of the first things undergraduates learn is that writing a program that sorts a list of 50 words is easy.</td>
+        </tr><tr>
+            <td class="word-cell">logarithmic<br><span class="phonetic">/ˌlɒɡəˈrɪðmɪk/</span></td>
+            <td>adj.</td>
+            <td>对数的</td>
+            <td>This is called logarithmic scaling, and it looks like this when you graph it:
+
+Large language models do not scale logarithmically.</td>
+        </tr><tr>
+            <td class="word-cell">quadratically<br><span class="phonetic">/kwɒˈdrætɪkli/</span></td>
+            <td>adv.</td>
+            <td>按二次方地</td>
+            <td>In technical terms, LLMs scale quadratically.</td>
+        </tr><tr>
+            <td class="word-cell">exponentially<br><span class="phonetic">/ˌekspəˈnenʃəli/</span></td>
+            <td>adv.</td>
+            <td>指数地</td>
+            <td>It shows the exponentially increasing costs of serving more “tokens”—the words users type to chatbots—with several public AI models.</td>
+        </tr><tr>
+            <td class="word-cell">simulate<br><span class="phonetic">/ˈsɪmjuleɪt/</span></td>
+            <td>v.</td>
+            <td>模拟</td>
+            <td>Traditionally, the goal of AI was to solve problems in ways that simulated human mental processes.</td>
+        </tr><tr>
+            <td class="word-cell">implement<br><span class="phonetic">/ˈɪmplɪmənt/</span></td>
+            <td>v.</td>
+            <td>实施，执行</td>
+            <td>Researchers observed their own thinking and tried to implement their mental habits in code.</td>
+        </tr><tr>
+            <td class="word-cell">abandon<br><span class="phonetic">/əˈbændən/</span></td>
+            <td>v.</td>
+            <td>放弃，抛弃</td>
+            <td>This approach has mostly been abandoned, partly due to the difficulty of discerning and articulating the rules of human thought, but it did have the benefit ...</td>
+        </tr><tr>
+            <td class="word-cell">articulate<br><span class="phonetic">/ɑːˈtɪkjuleɪt/</span></td>
+            <td>v.</td>
+            <td>明确表达</td>
+            <td>This approach has mostly been abandoned, partly due to the difficulty of discerning and articulating the rules of human thought, but it did have the benefit ...</td>
+        </tr><tr>
+            <td class="word-cell">imitate<br><span class="phonetic">/ˈɪmɪteɪt/</span></td>
+            <td>v.</td>
+            <td>模仿</td>
+            <td>Today’s approach to AI doesn’t try to describe the rules of human thought; instead, it gives a computer millions of examples to imitate.</td>
+        </tr><tr>
+            <td class="word-cell">aggressively<br><span class="phonetic">/əˈɡresɪvli/</span></td>
+            <td>adv.</td>
+            <td>激进地，积极地</td>
+            <td>Yet we seem stuck with LLMs, perhaps because they have been so aggressively marketed.</td>
+        </tr><tr>
+            <td class="word-cell">integrate<br><span class="phonetic">/ˈɪntɪɡreɪt/</span></td>
+            <td>v.</td>
+            <td>整合，集成</td>
+            <td>In 2024 and 2025, they were integrated into both Windows and Mac OS, which means that more computing power is now needed to run a basic personal computer.</td>
+        </tr><tr>
+            <td class="word-cell">anticipate<br><span class="phonetic">/ænˈtɪsɪpeɪt/</span></td>
+            <td>v.</td>
+            <td>预期，预料</td>
+            <td>Smartphones are also being sold with upgraded hardware as companies anticipate new AI features.</td>
+        </tr><tr>
+            <td class="word-cell">molecular<br><span class="phonetic">/məˈlekjələ(r)/</span></td>
+            <td>adj.</td>
+            <td>分子的</td>
+            <td>But in the past few years, components have gotten so small that manufacturers have run into molecular-level limitations on shrinking them any further, which ...</td>
+        </tr><tr>
+            <td class="word-cell">limitation<br><span class="phonetic">/ˌlɪmɪˈteɪʃn/</span></td>
+            <td>n.</td>
+            <td>限制，局限</td>
+            <td>But in the past few years, components have gotten so small that manufacturers have run into molecular-level limitations on shrinking them any further, which ...</td>
+        </tr><tr>
+            <td class="word-cell">incremental<br><span class="phonetic">/ˌɪnkrɪˈmentl/</span></td>
+            <td>adj.</td>
+            <td>渐进的，递增的</td>
+            <td>This has provided occasional incremental improvements in performance, but none has come close to keeping up with the exponential curve of AI’s increasing dem...</td>
+        </tr><tr>
+            <td class="word-cell">conviction<br><span class="phonetic">/kənˈvɪkʃn/</span></td>
+            <td>n.</td>
+            <td>信念，坚信</td>
+            <td>There is an almost-religious conviction among many in Silicon Valley that something mindlike could arise from LLMs, which are ultimately just statistical lan...</td>
+        </tr><tr>
+            <td class="word-cell">statistical<br><span class="phonetic">/stəˈtɪstɪkl/</span></td>
+            <td>adj.</td>
+            <td>统计的</td>
+            <td>There is an almost-religious conviction among many in Silicon Valley that something mindlike could arise from LLMs, which are ultimately just statistical lan...</td>
+        </tr><tr>
+            <td class="word-cell">dissimilarity<br><span class="phonetic">/ˌdɪsɪmɪˈlærəti/</span></td>
+            <td>n.</td>
+            <td>差异，不同</td>
+            <td>There is an almost-religious conviction among many in Silicon Valley that something mindlike could arise from LLMs, which are ultimately just statistical lan...</td>
+        </tr><tr>
+            <td class="word-cell">mythological<br><span class="phonetic">/ˌmɪθəˈlɒdʒɪkl/</span></td>
+            <td>adj.</td>
+            <td>神话的</td>
+            <td>” But the mythological lure of AI is so strong that many engineers believe that nothing should stand in their way.</td>
+        </tr><tr>
+            <td class="word-cell">lure<br><span class="phonetic">/lʊə(r)/</span></td>
+            <td>n.</td>
+            <td>诱惑，吸引力</td>
+            <td>” But the mythological lure of AI is so strong that many engineers believe that nothing should stand in their way.</td>
+        </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section-card">
+            <h2>短语搭配</h2>
+            <div class="phrase-item">
+            <div class="phrase-en">scramble to</div>
+            <div class="phrase-cn">争抢做某事，匆忙做某事</div>
+            <div class="phrase-example">原文：As they scramble to keep their systems online, AI companies are making things expensive for the rest of us.</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">resource-hungry</div>
+            <div class="phrase-cn">资源消耗巨大的</div>
+            <div class="phrase-example">原文：Large language models such as ChatGPT and Claude are so resource-hungry that tech companies may be purchasing 70 percent of the world’s supply of high-end computer memory.</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">at incredible speed</div>
+            <div class="phrase-cn">以惊人的速度</div>
+            <div class="phrase-example">原文：The memory is being put into data centers, which tech firms are expanding at incredible speed.</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">in one's own jargon</div>
+            <div class="phrase-cn">用某行业自己的术语</div>
+            <div class="phrase-example">原文：The problem with generative AI, in the industry’s own jargon, is that it does not scale.</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">give rise to</div>
+            <div class="phrase-cn">引起，导致</div>
+            <div class="phrase-example">原文：The industry’s observation that bigger models tend to outperform smaller ones has given rise to a totemic belief in “scaling laws”.</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">economy of scale</div>
+            <div class="phrase-cn">规模经济</div>
+            <div class="phrase-example">原文：Economy of scale is the principle that has made light bulbs, cars, and clothing so affordable.</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">brute-force approach</div>
+            <div class="phrase-cn">暴力/蛮力方法</div>
+            <div class="phrase-example">原文：Companies take the brute-force approach because it gives you a very low-risk way of investing your resources.</div>
+        </div>
+<div class="phrase-item">
+            <div class="phrase-en">keep up with</div>
+            <div class="phrase-cn">跟上，赶上</div>
+            <div class="phrase-example">原文：This has provided occasional incremental improvements in performance, but none has come close to keeping up with the exponential curve of AI’s increasing demands.</div>
+        </div>
+        </div>
+
+        <div class="section-card">
+            <h2>长难句解析</h2>
+            <div class="sentence-box">
+            <div class="sentence-en">Large language models such as ChatGPT and Claude are so resource-hungry that tech companies may be purchasing 70 percent of the world’s supply of high-end computer memory, causing a shortage.</div>
+            <div class="sentence-analysis">主干为 “Large language models ... are so resource-hungry that ...”。so...that... 引导结果状语从句，说明大语言模型资源消耗之大；现在分词短语 “causing a shortage” 作结果状语，补充造成内存短缺的结果。</div>
+        </div>
+<div class="sentence-box">
+            <div class="sentence-en">With generative AI, the work of building efficient, scalable systems has not been done, and the problem is exacerbated by the ever-larger generative-AI models, which have grown from 175 billion parameters in 2020 to more than 1 trillion today, according to independent estimates.</div>
+            <div class="sentence-analysis">本句为并列复合句。第一分句主干 “the work ... has not been done”；第二分句主干 “the problem is exacerbated by ... models”，其中 which 引导非限制性定语从句，修饰 models，说明模型规模从 1750 亿增长到 1 万亿参数；“according to independent estimates” 为插入语，表明数据来源。</div>
+        </div>
+<div class="sentence-box">
+            <div class="sentence-en">There is an almost-religious conviction among many in Silicon Valley that something mindlike could arise from LLMs, which are ultimately just statistical language-generating software—this, despite the software’s inability to recall basic facts, its lack of common sense, and its complete dissimilarity to a biological brain.</div>
+            <div class="sentence-analysis">主干为 “There is an almost-religious conviction ... that ...”。that 引导同位语从句，解释 conviction 的内容；which 引导非限制性定语从句，修饰 LLMs；破折号后的 “despite ...” 为让步状语，列举 LLM 的不足：无法回忆基本事实、缺乏常识、与生物大脑完全不同。</div>
+        </div>
+        </div>
+
+        <div class="section-card">
+            <h2>阅读理解练习</h2>
+            <div class="question-item">
+            <div class="question-type">主旨大意题</div>
+            <div class="question-text">1. What is the main argument of the passage?</div>
+            <div class="options">A) Generative AI is transforming education positively.<br>B) Generative AI suffers from poor engineering scalability and is driving up hardware costs.<br>C) Large language models will soon replace human workers.<br>D) Moore’s Law guarantees that AI costs will keep falling.</div>
+            <div class="answer">正确答案：B</div>
+            <div class="explanation">解析：文章开篇即指出 AI 公司为确保系统在线而让全社会承担更高成本，随后从内存短缺、数据中心扩张、电力需求、扩展性差、收益递减等多个角度论证：生成式 AI 的工程可扩展性极差，可能是“有史以来部署过的最差技术”。B 项准确概括主旨。</div>
+        </div>
+<div class="question-item">
+            <div class="question-type">细节理解题</div>
+            <div class="question-text">2. According to the passage, how do large language models scale compared with traditional software?</div>
+            <div class="options">A) They scale logarithmically, becoming cheaper per user as they grow.<br>B) They scale quadratically, requiring more time and memory as input grows.<br>C) They follow economy of scale, becoming cheaper with larger production.<br>D) They scale linearly, keeping costs stable as user numbers increase.</div>
+            <div class="answer">正确答案：B</div>
+            <div class="explanation">解析：文章明确指出 “LLMs scale quadratically”，即输入增加时，时间和资源消耗增长更快；而传统软件通常实现对数级扩展（logarithmic scaling）。因此答案为 B。</div>
+        </div>
+<div class="question-item">
+            <div class="question-type">推理判断题</div>
+            <div class="question-text">3. What can be inferred about the author’s view on the current AI industry?</div>
+            <div class="options">A) The author believes bigger models will inevitably lead to artificial general intelligence.<br>B) The author thinks AI companies are investing wisely in efficient research.<br>C) The author suggests the industry prioritizes marketing and brute-force scaling over engineering efficiency.<br>D) The author argues that Moore’s Law will soon solve AI’s cost problems.</div>
+            <div class="answer">正确答案：C</div>
+            <div class="explanation">解析：作者在文中批评行业迷信“规模定律”、采用蛮力方法、将 LLM 整合进各种产品，并引用研究人员的话指出“你必须学会更高效”。最后一句“Not even the basic task of writing efficient software”点明作者认为行业忽视工程效率。C 项符合推断。</div>
+        </div>
+        </div>
+
+        <footer>
+            <p>考研英语外刊精读 · 每日更新 · 来源：The Atlantic</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleTooltip(element) {
+            document.querySelectorAll('.vocab-word.active').forEach(el => {
+                if (el !== element) el.classList.remove('active');
+            });
+            element.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.vocab-word')) {
+                document.querySelectorAll('.vocab-word.active').forEach(el => el.classList.remove('active'));
+            }
+        });
+    </script>
+</body>
+</html>
