@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | The Guardian: Britain to Ban Social Media for Under-16s</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --accent-light: #fdf2f2;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+            --highlight: #fff3cd;
+            --vocab-bg: #e8f4f8;
+            --phrase-bg: #f0f8e8;
+            --sentence-bg: #f5f0fa;
+            --tips-bg: #fff8e1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Noto Sans CJK SC", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .article-header {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .article-header .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .article-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .article-header .subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        .article-header .meta {
+            font-size: 13px;
+            opacity: 0.8;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .article-header .meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section-card h2 {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-card h3 {
+            font-size: 17px;
+            color: var(--primary);
+            margin: 20px 0 12px;
+        }
+        .article-body p {
+            margin-bottom: 16px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+        .vocab-word {
+            color: var(--accent);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--accent);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .vocab-word:hover {
+            background: var(--accent-light);
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 1.5;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        .vocab-word.active .tooltip {
+            display: block;
+        }
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .vocab-table th {
+            background: var(--vocab-bg);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+        }
+        .vocab-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .vocab-table tr:hover {
+            background: var(--vocab-bg);
+        }
+        .vocab-table .word-cell {
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .vocab-table .phonetic {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        .phrase-item {
+            background: var(--phrase-bg);
+            border-left: 4px solid #7cb342;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            border-radius: 0 8px 8px 0;
+        }
+        .phrase-item .phrase-en {
+            font-weight: 600;
+            color: #558b2f;
+            font-size: 15px;
+        }
+        .phrase-item .phrase-cn {
+            color: var(--text-light);
+            font-size: 14px;
+            margin: 4px 0;
+        }
+        .phrase-item .phrase-example {
+            font-size: 13px;
+            color: var(--text);
+            margin-top: 6px;
+            font-style: italic;
+        }
+        .sentence-box {
+            background: var(--sentence-bg);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .sentence-box .sentence-en {
+            font-size: 15px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        .sentence-box .sentence-analysis {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+        .summary-box {
+            background: linear-gradient(135deg, #fff9e6, #fff3cd);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #f0ad4e;
+        }
+        .summary-box p {
+            margin-bottom: 10px;
+        }
+        .tips-box {
+            background: var(--tips-bg);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #ffc107;
+        }
+        .tips-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .tips-box li {
+            margin-bottom: 8px;
+        }
+        .question-item {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .question-item .question-type {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        .question-item .question-text {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .question-item .options {
+            margin-bottom: 10px;
+            line-height: 1.9;
+        }
+        .question-item .answer {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .question-item .explanation {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .source-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .source-link:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        @media (max-width: 600px) {
+            .article-header h1 { font-size: 22px; }
+            .section-card { padding: 20px; }
+            .vocab-table { font-size: 13px; }
+            .tooltip { white-space: normal; max-width: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="article-header">
+            <div class="tag">考研英语外刊精读</div>
+            <h1>Britain to Ban Social Media for Under-16s in World-Leading Child Safety Push</h1>
+            <div class="subtitle">The Guardian, July 2026 | Society / Technology</div>
+            <div class="meta">
+                <span>来源：The Guardian</span>
+                <span>日期：2026-07-15</span>
+                <span>难度：考研英语一</span>
+                <span>字数：约 1,200 词</span>
+            </div>
+        </header>
+
+        <div class="section-card">
+            <h2>文章正文</h2>
+            <div class="article-body">
+                <p>The UK government has announced plans to <span class="vocab-word" onclick="toggleTooltip(this)">prohibit<span class="tooltip">prohibit /prəˈhɪbɪt/ v. 禁止，阻止</span></span> mainstream social-media platforms from offering their services to children under 16, a move ministers describe as the most ambitious attempt anywhere in the world to protect young people from the <span class="vocab-word" onclick="toggleTooltip(this)">proliferation<span class="tooltip">proliferation /prəˌlɪfəˈreɪʃn/ n. 激增，扩散</span></span> of online harms. Prime Minister Keir Starmer confirmed that <span class="vocab-word" onclick="toggleTooltip(this)">legislation<span class="tooltip">legislation /ˌledʒɪsˈleɪʃn/ n. 立法，法律</span></span> would be introduced before Christmas, with the new rules expected to <span class="vocab-word" onclick="toggleTooltip(this)">come into effect<span class="tooltip">come into effect 生效，实施</span></span> in the spring of 2027.</p>
+
+                <p>Under the proposals, <span class="vocab-word" onclick="toggleTooltip(this)">platforms<span class="tooltip">platform /ˈplætfɔːm/ n. 平台</span></span> including TikTok, Instagram, YouTube, Snapchat, Facebook and X would <span class="vocab-word" onclick="toggleTooltip(this)">fall within scope<span class="tooltip">fall within scope 在范围内，被纳入范围</span></span> of the ban. Messaging services such as WhatsApp and Signal, as well as the YouTube Kids app, are expected to be <span class="vocab-word" onclick="toggleTooltip(this)">exempt<span class="tooltip">exempt /ɪɡˈzempt/ v./adj. 豁免；被免除的</span></span> because they do not operate primarily as open, user-to-user networks. The restrictions would be backed by the regulator Ofcom, which could fine companies up to £18 million or 10 percent of their global annual turnover for failing to <span class="vocab-word" onclick="toggleTooltip(this)">implement<span class="tooltip">implement /ˈɪmplɪmənt/ v. 实施，执行</span></span> adequate age checks.</p>
+
+                <p>The policy follows a model pioneered in Australia, which became the first country to <span class="vocab-word" onclick="toggleTooltip(this)">prohibit<span class="tooltip">prohibit /prəˈhɪbɪt/ v. 禁止，阻止</span></span> social media for children under 16 late last year. Since then, more than a dozen nations have announced similar measures, ranging from outright bans to tighter age-assurance systems. France, Indonesia and Spain have all moved to restrict access for those under 15 or 16, while Ireland is working with European Union partners on age-verification standards.</p>
+
+                <p>Ministers insist the decision is a direct response to mounting evidence that heavy social-media use can harm adolescent mental health. "We are going further than any country in the world by banning social media for under-16s and putting wider protections in place to give kids their childhood back," Starmer said at the launch. The government also plans to block harmful functions such as livestreaming and stranger-to-stranger contact for users under 18 by default.</p>
+
+                <p>Supporters include a broad <span class="vocab-word" onclick="toggleTooltip(this)">coalition<span class="tooltip">coalition /ˌkəʊəˈlɪʃn/ n. 联盟，联合</span></span> of parents, teachers and mental-health <span class="vocab-word" onclick="toggleTooltip(this)">advocates<span class="tooltip">advocate /ˈædvəkət/ n. 拥护者，倡导者</span></span>, who argue that the harms are both <span class="vocab-word" onclick="toggleTooltip(this)">compelling<span class="tooltip">compelling /kəmˈpelɪŋ/ adj. 令人信服的，有说服力的</span></span> and urgent. A growing body of research has <span class="vocab-word" onclick="toggleTooltip(this)">correlated<span class="tooltip">correlate /ˈkɒrəleɪt/ v. 使相互关联，相关联</span></span> extensive use of image- and video-based platforms with anxiety, depression and <span class="vocab-word" onclick="toggleTooltip(this)">deteriorating<span class="tooltip">deteriorate /dɪˈtɪəriəreɪt/ v. 恶化，退化</span></span> sleep patterns among teenagers. In the UK, the NHS has reported rising numbers of children and adolescents seeking help for eating disorders and self-harm, trends that campaigners say are partly driven by algorithms that promote comparison and perfectionism.</p>
+
+                <p>Yet the plan has also drawn fierce criticism from children's-rights groups, civil-liberties organisations and some technology experts. They warn that a <span class="vocab-word" onclick="toggleTooltip(this)">blanket<span class="tooltip">blanket /ˈblæŋkɪt/ adj. 总括的，一刀切的</span></span> ban could be <span class="vocab-word" onclick="toggleTooltip(this)">circumvented<span class="tooltip">circumvent /ˌsɜːkəmˈvent/ v. 规避，绕过</span></span> by tech-savvy teenagers using virtual private networks or borrowed accounts, while <span class="vocab-word" onclick="toggleTooltip(this)">inadvertently<span class="tooltip">inadvertently /ˌɪnədˈvɜːtəntli/ adv. 不经意地，非故意地</span></span> driving more <span class="vocab-word" onclick="toggleTooltip(this)">vulnerable<span class="tooltip">vulnerable /ˈvʌlnərəbl/ adj. 脆弱的，易受伤害的</span></span> children toward unregulated corners of the internet where oversight is weaker.</p>
+
+                <p>Enforcement presents another formidable challenge. To comply, platforms must <span class="vocab-word" onclick="toggleTooltip(this)">verify<span class="tooltip">verify /ˈverɪfaɪ/ v. 核实，验证</span></span> the ages of their users, but no method is foolproof. Options include credit-card checks, government-ID uploads and facial-age-estimation technology, yet each raises concerns about privacy, accuracy and access. Privacy campaigners fear that requiring official identification could create new surveillance risks, while critics point out that families without passports or bank accounts may find it harder to prove their children's ages, potentially <span class="vocab-word" onclick="toggleTooltip(this)">marginalizing<span class="tooltip">marginalize /ˈmɑːdʒɪnəlaɪz/ v. 使边缘化，排斥</span></span> disadvantaged households.</p>
+
+                <p>The government acknowledges these difficulties but frames them as technical problems to be solved rather than reasons to abandon the policy. Technology Secretary Liz Kendall said that Ofcom would <span class="vocab-word" onclick="toggleTooltip(this)">scrutinize<span class="tooltip">scrutinize /ˈskruːtənaɪz/ v. 仔细审查，详细检查</span></span> the methods platforms choose and that only privacy-preserving, accurate systems would be permitted. Ministers also argue that the law sends a powerful signal about the limits of corporate responsibility in an era when attention has become a commodity.</p>
+
+                <p>Beyond the practical hurdles, the debate raises deeper questions about how societies should <span class="vocab-word" onclick="toggleTooltip(this)">weigh<span class="tooltip">weigh /weɪ/ v. 权衡，认真考虑</span></span> children's digital rights against the <span class="vocab-word" onclick="toggleTooltip(this)">imperative<span class="tooltip">imperative /ɪmˈperətɪv/ n. 必要的事，紧急的事</span></span> to protect them. Some educators argue that an outright ban risks displacing the harder work of teaching media literacy, emotional resilience and healthy online habits. "If we simply remove the technology without addressing why young people are drawn to it, we may <span class="vocab-word" onclick="toggleTooltip(this)">exacerbate<span class="tooltip">exacerbate /ɪɡˈzæsəbeɪt/ v. 使加剧，使恶化</span></span> the very isolation we are trying to prevent," one secondary-school headteacher told The Guardian.</p>
+
+                <p>Other experts favour a more <span class="vocab-word" onclick="toggleTooltip(this)">nuanced<span class="tooltip">nuanced /ˈnjuːɑːnst/ adj. 微妙的，细致入微的</span></span> approach. They point to evidence that not all screen time is harmful: educational content, creative communities and peer support networks can benefit young users. Rather than a universal cutoff at 16, they suggest differentiated rules that account for platform design, content type and parental involvement. Such proposals, however, are harder to draft into law and more expensive to enforce.</p>
+
+                <p>Public opinion appears broadly supportive. Polling conducted after the announcement suggests that roughly two-thirds of British adults back the ban, with parents of teenagers among the most enthusiastic. Among young people themselves, surveys paint a more mixed picture: many report that social media is essential to their social lives and sense of belonging, while also recognising its negative effects on mood and self-esteem.</p>
+
+                <p>The international context adds urgency. As governments from Canberra to Paris race to <span class="vocab-word" onclick="toggleTooltip(this)">keep pace with<span class="tooltip">keep pace with 跟上，与……并驾齐驱</span></span> rapidly evolving technology, there is little international <span class="vocab-word" onclick="toggleTooltip(this)">consensus<span class="tooltip">consensus /kənˈsensəs/ n. 共识，一致意见</span></span> on what works. Australia has yet to see the full effects of its ban, which came into force only recently, and early reports suggest that implementation has been patchy. If the UK scheme succeeds, it could become a template for other democracies; if it fails, it may strengthen the hand of those who argue for education and <span class="vocab-word" onclick="toggleTooltip(this)">oversight<span class="tooltip">oversight /ˈəʊvəsaɪt/ n. 监督，监管</span></span> over prohibition.</p>
+
+                <p>For now, the government is betting that the promise of a safer childhood will outweigh concerns about enforcement and digital exclusion. The legislation, when it reaches Parliament, is likely to test whether politicians can <span class="vocab-word" onclick="toggleTooltip(this)">keep pace with<span class="tooltip">keep pace with 跟上，与……并驾齐驱</span></span> both the speed of technological change and the patience required to craft laws that protect without <span class="vocab-word" onclick="toggleTooltip(this)">punitive<span class="tooltip">punitive /ˈpjuːnɪtɪv/ adj. 惩罚性的，处罚的</span></span> overreach. Whatever the outcome, the experiment will be watched closely by parents, platforms and policymakers around the world.</p>
+            </div>
+            <a href="https://www.theguardian.com/technology" target="_blank" class="source-link">查看原文 →</a>
+        </div>
+
+        <div class="section-card">
+            <h2>文章大意</h2>
+            <div class="summary-box">
+                <p>本文选自《卫报》2026年7月社会/科技版块，聚焦英国政府计划禁止16岁以下儿童使用主流社交媒体这一重大政策。首相基尔·斯塔默宣布相关立法将在圣诞节前提交议会，预计2027年春季生效，TikTok、Instagram、YouTube、Snapchat、Facebook 和 X 等平台将纳入禁令范围，而 WhatsApp、Signal 及 YouTube Kids 等可获得豁免。</p>
+                <p>文章呈现了支持与反对两种声音：支持者包括家长、教师和心理健康倡导者，他们认为大量研究已将青少年重度使用社交媒体与焦虑、抑郁、睡眠恶化等问题相关联；反对者则担忧一刀切禁令可能被青少年用 VPN 或借用账户规避，反而将脆弱儿童推向监管更弱的网络角落，同时引发隐私、数字排斥和执行成本等问题。</p>
+                <p>文章最后指出，这一政策的成败将成为全球民主国家监管青少年网络空间的试金石：若成功，可能成为他国模板；若失败，则可能强化“教育与监督优于禁止”的立场。整体而言，文章以平衡的视角探讨了儿童数字权利与保护之间的张力。</p>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>阅读技巧提示</h2>
+            <div class="tips-box">
+                <ul>
+                    <li><strong>把握政策类文章结构：</strong>本文是典型的“政策宣布—实施细则—各方反应—潜在挑战—国际影响”结构。阅读时先定位政府动作，再梳理支持/反对观点，最后关注结论句，可快速抓住全文脉络。</li>
+                    <li><strong>注意同义替换：</strong>考研阅读常将原文词汇替换为选项中的同义表达。例如文中的 prohibit、ban、restrict access 可相互对应；advocates、supporters、campaigners 表达相近立场。</li>
+                    <li><strong>识别让步与转折：</strong>Yet、However、While 等转折词后常出现作者或反对者观点，是细节题和推理题的高频考点。本文第二段介绍政策后，第五段以 Yet 引出批评声音，需特别留意。</li>
+                    <li><strong>关注结尾的“如果……”结构：</strong>文章末段使用 If...it could...; if...it may... 的对比句式，常用于推断题，提示政策的不确定性和全球示范意义。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>考研核心词汇表</h2>
+            <p style="margin-bottom: 15px; color: var(--text-light); font-size: 14px;">点击正文中红色下划线单词可查看释义；下表汇总全部核心词汇。</p>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>单词</th>
+                        <th>词性</th>
+                        <th>中文释义</th>
+                        <th>例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="word-cell">prohibit<br><span class="phonetic">/prəˈhɪbɪt/</span></td>
+                        <td>v.</td>
+                        <td>禁止，阻止</td>
+                        <td>The UK government has announced plans to prohibit mainstream social-media platforms from offering their services to children under 16.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">proliferation<br><span class="phonetic">/prəˌlɪfəˈreɪʃn/</span></td>
+                        <td>n.</td>
+                        <td>激增，扩散</td>
+                        <td>...protect young people from the proliferation of online harms.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">legislation<br><span class="phonetic">/ˌledʒɪsˈleɪʃn/</span></td>
+                        <td>n.</td>
+                        <td>立法，法律</td>
+                        <td>Prime Minister Keir Starmer confirmed that legislation would be introduced before Christmas.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">platform<br><span class="phonetic">/ˈplætfɔːm/</span></td>
+                        <td>n.</td>
+                        <td>平台</td>
+                        <td>Platforms including TikTok, Instagram and YouTube would fall within scope of the ban.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">exempt<br><span class="phonetic">/ɪɡˈzempt/</span></td>
+                        <td>v./adj.</td>
+                        <td>豁免；被免除的</td>
+                        <td>Messaging services such as WhatsApp and Signal are expected to be exempt.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">implement<br><span class="phonetic">/ˈɪmplɪmənt/</span></td>
+                        <td>v.</td>
+                        <td>实施，执行</td>
+                        <td>Ofcom could fine companies for failing to implement adequate age checks.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">coalition<br><span class="phonetic">/ˌkəʊəˈlɪʃn/</span></td>
+                        <td>n.</td>
+                        <td>联盟，联合</td>
+                        <td>Supporters include a broad coalition of parents, teachers and mental-health advocates.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">advocate<br><span class="phonetic">/ˈædvəkət/</span></td>
+                        <td>n.</td>
+                        <td>拥护者，倡导者</td>
+                        <td>Supporters include parents, teachers and mental-health advocates.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">compelling<br><span class="phonetic">/kəmˈpelɪŋ/</span></td>
+                        <td>adj.</td>
+                        <td>令人信服的，有说服力的</td>
+                        <td>Supporters argue that the harms are both compelling and urgent.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">correlate<br><span class="phonetic">/ˈkɒrəleɪt/</span></td>
+                        <td>v.</td>
+                        <td>使相互关联，相关联</td>
+                        <td>Research has correlated extensive use of image-based platforms with anxiety and depression.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">deteriorate<br><span class="phonetic">/dɪˈtɪəriəreɪt/</span></td>
+                        <td>v.</td>
+                        <td>恶化，退化</td>
+                        <td>...deteriorating sleep patterns among teenagers.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">circumvent<br><span class="phonetic">/ˌsɜːkəmˈvent/</span></td>
+                        <td>v.</td>
+                        <td>规避，绕过</td>
+                        <td>They warn that a blanket ban could be circumvented by tech-savvy teenagers.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">inadvertently<br><span class="phonetic">/ˌɪnədˈvɜːtəntli/</span></td>
+                        <td>adv.</td>
+                        <td>不经意地，非故意地</td>
+                        <td>...while inadvertently driving more vulnerable children toward unregulated corners of the internet.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">vulnerable<br><span class="phonetic">/ˈvʌlnərəbl/</span></td>
+                        <td>adj.</td>
+                        <td>脆弱的，易受伤害的</td>
+                        <td>...driving more vulnerable children toward unregulated corners of the internet.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">verify<br><span class="phonetic">/ˈverɪfaɪ/</span></td>
+                        <td>v.</td>
+                        <td>核实，验证</td>
+                        <td>To comply, platforms must verify the ages of their users.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">marginalize<br><span class="phonetic">/ˈmɑːdʒɪnəlaɪz/</span></td>
+                        <td>v.</td>
+                        <td>使边缘化，排斥</td>
+                        <td>...potentially marginalizing disadvantaged households.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">scrutinize<br><span class="phonetic">/ˈskruːtənaɪz/</span></td>
+                        <td>v.</td>
+                        <td>仔细审查，详细检查</td>
+                        <td>Ofcom would scrutinize the methods platforms choose.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">weigh<br><span class="phonetic">/weɪ/</span></td>
+                        <td>v.</td>
+                        <td>权衡，认真考虑</td>
+                        <td>...how societies should weigh children's digital rights against the imperative to protect them.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">imperative<br><span class="phonetic">/ɪmˈperətɪv/</span></td>
+                        <td>n.</td>
+                        <td>必要的事，紧急的事</td>
+                        <td>...the imperative to protect them.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">exacerbate<br><span class="phonetic">/ɪɡˈzæsəbeɪt/</span></td>
+                        <td>v.</td>
+                        <td>使加剧，使恶化</td>
+                        <td>...we may exacerbate the very isolation we are trying to prevent.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">nuanced<br><span class="phonetic">/ˈnjuːɑːnst/</span></td>
+                        <td>adj.</td>
+                        <td>微妙的，细致入微的</td>
+                        <td>Other experts favour a more nuanced approach.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">consensus<br><span class="phonetic">/kənˈsensəs/</span></td>
+                        <td>n.</td>
+                        <td>共识，一致意见</td>
+                        <td>...there is little international consensus on what works.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">oversight<br><span class="phonetic">/ˈəʊvəsaɪt/</span></td>
+                        <td>n.</td>
+                        <td>监督，监管</td>
+                        <td>...those who argue for education and oversight over prohibition.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">punitive<br><span class="phonetic">/ˈpjuːnɪtɪv/</span></td>
+                        <td>adj.</td>
+                        <td>惩罚性的，处罚的</td>
+                        <td>...laws that protect without punitive overreach.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">blanket<br><span class="phonetic">/ˈblæŋkɪt/</span></td>
+                        <td>adj.</td>
+                        <td>总括的，一刀切的</td>
+                        <td>They warn that a blanket ban could be circumvented by tech-savvy teenagers.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section-card">
+            <h2>短语搭配</h2>
+            <div class="phrase-item">
+                <div class="phrase-en">come into effect</div>
+                <div class="phrase-cn">生效，实施</div>
+                <div class="phrase-example">原文：...with the new rules expected to come into effect in the spring of 2027.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">fall within scope</div>
+                <div class="phrase-cn">在范围内，被纳入范围</div>
+                <div class="phrase-example">原文：Platforms including TikTok, Instagram, YouTube, Snapchat, Facebook and X would fall within scope of the ban.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">in response to</div>
+                <div class="phrase-cn">作为对……的回应</div>
+                <div class="phrase-example">原文：Ministers insist the decision is a direct response to mounting evidence that heavy social-media use can harm adolescent mental health.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">keep pace with</div>
+                <div class="phrase-cn">跟上，与……并驾齐驱</div>
+                <div class="phrase-example">原文：As governments from Canberra to Paris race to keep pace with rapidly evolving technology...</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">weigh A against B</div>
+                <div class="phrase-cn">权衡 A 与 B</div>
+                <div class="phrase-example">原文：...how societies should weigh children's digital rights against the imperative to protect them.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">drive toward</div>
+                <div class="phrase-cn">推向，驱使前往</div>
+                <div class="phrase-example">原文：...driving more vulnerable children toward unregulated corners of the internet.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">by default</div>
+                <div class="phrase-cn">默认地，自动地</div>
+                <div class="phrase-example">原文：The government also plans to block harmful functions such as livestreaming and stranger-to-stranger contact for users under 18 by default.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">a growing body of</div>
+                <div class="phrase-cn">越来越多的（证据/研究）</div>
+                <div class="phrase-example">原文：A growing body of research has correlated extensive use of image- and video-based platforms with anxiety and depression.</div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>长难句解析</h2>
+            <div class="sentence-box">
+                <div class="sentence-en">The UK government has announced plans to prohibit mainstream social-media platforms from offering their services to children under 16, a move ministers describe as the most ambitious attempt anywhere in the world to protect young people from the proliferation of online harms.</div>
+                <div class="sentence-analysis">主干为 "The UK government has announced plans"。不定式 "to prohibit..." 作后置定语修饰 plans；"a move ministers describe as..." 为同位语，补充说明前文整项计划，其中 "ministers describe as" 为省略了关系代词的定语从句，修饰 move；"to protect young people..." 为不定式作后置定语修饰 attempt。</div>
+            </div>
+            <div class="sentence-box">
+                <div class="sentence-en">They warn that a blanket ban could be circumvented by tech-savvy teenagers using virtual private networks or borrowed accounts, while inadvertently driving more vulnerable children toward unregulated corners of the internet where oversight is weaker.</div>
+                <div class="sentence-analysis">主干为 "They warn that..."，that 引导宾语从句。从句中 "a blanket ban could be circumvented" 为被动语态；"using virtual private networks or borrowed accounts" 为现在分词短语作方式状语；"while inadvertently driving..." 为省略结构，相当于 "while it is inadvertently driving..."；"where oversight is weaker" 为定语从句修饰 corners。</div>
+            </div>
+            <div class="sentence-box">
+                <div class="sentence-en">If the UK scheme succeeds, it could become a template for other democracies; if it fails, it may strengthen the hand of those who argue for education and oversight over prohibition.</div>
+                <div class="sentence-analysis">本句为两个并列的条件句，用分号连接。前一分句中 "If the UK scheme succeeds" 为条件状语从句，主句 "it could become a template for other democracies"；后一分句结构相同。"who argue for education and oversight over prohibition" 为定语从句修饰 those，说明支持“教育与监督而非禁止”立场的人群。</div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>阅读理解练习</h2>
+            <div class="question-item">
+                <div class="question-type">主旨大意题</div>
+                <div class="question-text">1. What is the passage mainly about?</div>
+                <div class="options">A) The history of social media regulation in the European Union.<br>B) The UK government's plan to ban social media for children under 16 and the surrounding debate.<br>C) A comparison of mental-health treatments for adolescents in Britain and Australia.<br>D) The technical details of age-verification systems used by social-media platforms.</div>
+                <div class="answer">正确答案：B</div>
+                <div class="explanation">解析：文章开篇即点明英国政府计划禁止16岁以下儿童使用主流社交媒体，随后介绍覆盖范围、豁免对象、支持理由、批评声音、执行挑战及国际影响。B 项准确概括全文主旨；A、C、D 三项均为局部细节或偏离主题。</div>
+            </div>
+            <div class="question-item">
+                <div class="question-type">细节理解题</div>
+                <div class="question-text">2. According to the passage, which of the following is likely to be exempt from the ban?</div>
+                <div class="options">A) TikTok and Instagram.<br>B) Snapchat and Facebook.<br>C) WhatsApp and YouTube Kids.<br>D) X and YouTube.</div>
+                <div class="answer">正确答案：C</div>
+                <div class="explanation">解析：文章第二段明确指出，"Messaging services such as WhatsApp and Signal, as well as the YouTube Kids app, are expected to be exempt"，因此 C 项正确。A、B、D 中的平台均在禁令范围内。</div>
+            </div>
+            <div class="question-item">
+                <div class="question-type">推理判断题</div>
+                <div class="question-text">3. What can be inferred about the critics' attitude toward the proposed ban?</div>
+                <div class="options">A) They believe the ban will completely eliminate online harms for teenagers.<br>B) They think the ban is too lenient and should apply to users under 18.<br>C) They doubt its practical effectiveness and worry about unintended negative consequences.<br>D) They argue that social media has no connection to adolescent mental-health problems.</div>
+                <div class="answer">正确答案：C</div>
+                <div class="explanation">解析：批评者认为一刀切禁令可能被懂技术的青少年规避（circumvented），同时可能 inadvertently 将脆弱儿童推向监管更弱的网络角落，还可能因身份验证要求而使弱势家庭边缘化。这些都体现了他们对执行效果和意外后果的担忧，故 C 项正确。</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>考研英语外刊精读 · 每日更新 · 来源：The Guardian</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleTooltip(element) {
+            document.querySelectorAll('.vocab-word.active').forEach(el => {
+                if (el !== element) el.classList.remove('active');
+            });
+            element.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.vocab-word')) {
+                document.querySelectorAll('.vocab-word.active').forEach(el => el.classList.remove('active'));
+            }
+        });
+    </script>
+</body>
+</html>
