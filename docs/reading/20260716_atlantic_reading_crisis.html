@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026-07-16 | The Atlantic | The End of Reading Is Here</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --accent-color: #2c5282;
+            --accent-light: #ebf4ff;
+            --accent-soft: #e2e8f0;
+            --border-color: #e2e8f0;
+            --highlight-bg: #fff3cd;
+            --highlight-border: #f6ad55;
+            --success-color: #276749;
+            --success-bg: #c6f6d5;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --vocab-color: #c53030;
+            --vocab-bg: #fff5f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 30px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .source-badge {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border: 1px solid var(--border-color);
+        }
+
+        .card h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent-soft);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 {
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            margin: 24px 0 12px;
+            font-weight: 600;
+        }
+
+        .article-body {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem;
+            line-height: 2;
+            color: var(--text-primary);
+        }
+
+        .article-body p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .vocab {
+            color: var(--vocab-color);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--vocab-color);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .vocab:hover {
+            background: var(--vocab-bg);
+        }
+
+        .vocab .tooltip {
+            visibility: hidden;
+            width: 280px;
+            background: var(--text-primary);
+            color: white;
+            text-align: left;
+            border-radius: 10px;
+            padding: 14px;
+            position: absolute;
+            z-index: 100;
+            bottom: 130%;
+            left: 50%;
+            margin-left: -140px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 0.9rem;
+            font-weight: normal;
+            line-height: 1.6;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .vocab .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: var(--text-primary) transparent transparent transparent;
+        }
+
+        .vocab:hover .tooltip,
+        .vocab.active .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .vocab .tooltip .phonetic {
+            color: #a0aec0;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+
+        .vocab .tooltip .pos {
+            color: #90cdf4;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, var(--accent-light) 0%, #f7fafc 100%);
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+        }
+
+        .summary-box p {
+            margin-bottom: 0;
+            color: var(--text-secondary);
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 0.95rem;
+        }
+
+        .vocab-table th,
+        .vocab-table td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .vocab-table th {
+            background: var(--accent-light);
+            color: var(--accent-color);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .vocab-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .vocab-table .word {
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .vocab-table .phonetic {
+            color: var(--text-muted);
+            font-family: Georgia, serif;
+        }
+
+        .phrase-item {
+            background: #f0fff4;
+            border-left: 4px solid var(--success-color);
+            padding: 18px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 16px;
+        }
+
+        .phrase-item .phrase {
+            font-weight: 700;
+            color: var(--success-color);
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        .phrase-item .meaning {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .phrase-item .example {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        .sentence-item {
+            background: #faf5ff;
+            border-left: 4px solid #805ad5;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 18px;
+        }
+
+        .sentence-item .original {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        .sentence-item .analysis {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .sentence-item .analysis strong {
+            color: #805ad5;
+        }
+
+        .question-item {
+            background: #fffaf0;
+            border: 1px solid #fbd38d;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        .question-item .question {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 14px;
+            font-size: 1.05rem;
+        }
+
+        .question-item .options {
+            margin-bottom: 14px;
+            padding-left: 20px;
+        }
+
+        .question-item .options li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .question-item .answer {
+            background: var(--success-bg);
+            color: var(--success-color);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .question-item .explanation {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips-list li {
+            padding: 12px 0 12px 32px;
+            position: relative;
+            color: var(--text-secondary);
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .tips-list li:last-child {
+            border-bottom: none;
+        }
+
+        .tips-list li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            top: 12px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #1a365d;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.7rem; }
+            .card { padding: 22px; }
+            .article-body { font-size: 1rem; }
+            .vocab .tooltip { width: 240px; margin-left: -120px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回文章列表</a>
+
+        <header>
+            <span class="source-badge">The Atlantic</span>
+            <h1>The End of Reading Is Here</h1>
+            <p class="subtitle">Optimists once believed that universal literacy was inevitable. Now it seems that the age of reading might be a short anomaly in human history.</p>
+            <div class="meta">
+                <span>✍️ Rose Horowitch</span>
+                <span>📅 原文：2026-07-09 / 精读：2026-07-16</span>
+                <span>📖 约 1,450 词</span>
+                <span>🎯 考研英语一难度</span>
+            </div>
+        </header>
+
+        <section class="card">
+            <h2>📋 文章大意</h2>
+            <div class="summary-box">
+                <p>本文选自《大西洋月刊》2026年7月刊封面长文，作者以亚历山大图书馆的兴衰为历史隐喻，系统呈现了美国社会正在经历的“阅读衰退”危机。文章援引多项调查数据指出：美国成年人阅读量骤降、阅读能力退化、年轻一代将阅读视为陌生行为；与此同时，碎片化数字文本正侵蚀人们的深度理解与综合思维能力，社会逐渐步入“后识字时代”。作者进一步从认知神经科学、教育实践与文明史角度，警示阅读衰落将深刻改变人类心智、政治文化与文明叙事方式。</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>📰 正文精读</h2>
+            <div class="article-body">
+                <p><span class="vocab">Optimists<span class="tooltip"><div class="phonetic">/ˈɒptɪmɪst/</div><div class="pos">n. 乐观主义者</div>对事物持积极乐观态度的人</span></span> once believed that universal <span class="vocab">literacy<span class="tooltip"><div class="phonetic">/ˈlɪtərəsi/</div><div class="pos">n. 读写能力；识字</div>指阅读和写作的能力</span></span> was inevitable. Now it seems that the age of reading might be a short <span class="vocab">anomaly<span class="tooltip"><div class="phonetic">/əˈnɒməli/</div><div class="pos">n. 异常事物；反常现象</div>与常规不同的事物或现象</span></span> in human history.</p>
+
+                <p>Twenty-three hundred years ago, the legend goes, King Ptolemy I of Egypt asked his court adviser to assemble a <span class="vocab">comprehensive<span class="tooltip"><div class="phonetic">/ˌkɒmprɪˈhensɪv/</div><div class="pos">adj. 全面的；综合的</div>包含所有或几乎所有相关内容的</span></span> collection of the world's written works. Ptolemy, who had served under Alexander the Great, envisioned a library that would safeguard the sum total of humanity's knowledge. His <span class="vocab">successors<span class="tooltip"><div class="phonetic">/səkˈsesəz/</div><div class="pos">n. 继任者；接班人</div>继承职位或遗产的人</span></span> inherited this <span class="vocab">mandate<span class="tooltip"><div class="phonetic">/ˈmændeɪt/</div><div class="pos">n. 命令；授权；任期</div>官方命令或授权去做某事</span></span>. Royal forces <span class="vocab">ransacked<span class="tooltip"><div class="phonetic">/ˈrænsækt/</div><div class="pos">v. 洗劫；彻底搜查</div>粗暴地搜寻并掠夺</span></span> every ship that arrived at Alexandria, searching for <span class="vocab">scrolls<span class="tooltip"><div class="phonetic">/skrəʊlz/</div><div class="pos">n. 卷轴；纸卷</div>古代书写用的长条纸或羊皮纸卷</span></span>. These were stored at the Mouseion, a shrine to the Muses modeled after Aristotle's Lyceum. Aristotle's own book collection was said to be among the holdings.</p>
+
+                <p>Much of the history of the Library of Alexandria has been lost. But we know that it was the site of many of the premodern world's greatest intellectual achievements. The king paid scholars to live and work in the library, and the collection was available to anyone "eager to study, an encouragement for the entire city to gain wisdom," a visiting Greek rhetorician wrote. It was at the library that Eratosthenes calculated Earth's circumference and Zenodotus edited the earliest <span class="vocab">manuscripts<span class="tooltip"><div class="phonetic">/ˈmænjʊskrɪpts/</div><div class="pos">n. 手稿；原稿</div>手写或打印的原始文本</span></span> of Homer's epics.</p>
+
+                <p>This run of scholarship would not last. By 400 C.E., the library had disappeared. Many scholars regard its <span class="vocab">destruction<span class="tooltip"><div class="phonetic">/dɪˈstrʌkʃn/</div><div class="pos">n. 破坏；毁灭</div>被摧毁的行为或过程</span></span> as the greatest loss of knowledge in history and the beginning of the Dark Ages. Historians have spent centuries parsing fragments of papyrus in an effort to understand what went wrong.</p>
+
+                <p>Traditionally, the answer was believed to be war. During the Siege of Alexandria, in 48 B.C.E., Julius Caesar started a fire that incinerated at least 40,000 scrolls. The library survived in diminished form until the fourth century C.E., when followers of the archbishop of Alexandria sacked the pagan temple that housed the remaining manuscripts. But contemporary historians tend to dismiss the importance of these dramatic incidents in favor of a more mundane cause of death: <span class="vocab">negligence<span class="tooltip"><div class="phonetic">/ˈneɡlɪdʒəns/</div><div class="pos">n. 疏忽；忽视</div>未能给予足够关心或注意</span></span>.</p>
+
+                <p>Maintaining the collection was an enormous expense. Humidity, mice, and insects slowly ate away at the papyrus scrolls. Scribes had to continually copy old texts before they deteriorated and became illegible. Eventually, the challenges of maintaining the library became greater than the will to preserve it. "It is not that the disappearance of a library led to a dark age, nor that its survival would have improved those ages," the classics scholar Roger Bagnall has written. The fact that the library was allowed to die showed that the dark age had already arrived.</p>
+
+                <p>Some 2,000 years later, under very different circumstances, the darkness is gathering again. Americans, once members of a proudly <span class="vocab">literate<span class="tooltip"><div class="phonetic">/ˈlɪtərət/</div><div class="pos">adj. 有读写能力的；受过教育的</div>能够阅读和写作的</span></span> society, read much less than they used to. According to the National Endowment for the Arts, which conducts the most comprehensive survey of the nation's reading habits, fewer than half of all adults reported having read a book of any kind in 2022. Only 38 percent read a novel or short story. A study analyzing 236,000 responses to the American Time Use Survey found that the <span class="vocab">proportion<span class="tooltip"><div class="phonetic">/prəˈpɔːʃn/</div><div class="pos">n. 比例；份额</div>某物在整体中所占的部分</span></span> of Americans who read for pleasure on any given day fell from 28 percent in 2004 to 16 percent in 2023.</p>
+
+                <p>The decline in reading cuts across age groups, gender, and education levels. Even the <span class="vocab">demographics<span class="tooltip"><div class="phonetic">/ˌdeməˈɡræfɪks/</div><div class="pos">n. 人口群体；人口统计数据</div>按年龄、性别等划分的人群</span></span> that traditionally read the most—retirees, women, and college graduates—have seen a collapse.</p>
+
+                <p>The books that people do read are simpler than they used to be. <em>New York Times</em> best sellers today have sentences that are about one-third shorter than they were a century ago. Longer sentences aren't inherently better. But their former <span class="vocab">ubiquity<span class="tooltip"><div class="phonetic">/juːˈbɪkwəti/</div><div class="pos">n. 普遍存在；无处不在</div>在某处随处可见的状态</span></span> suggests an age when Americans had the <span class="vocab">inclination<span class="tooltip"><div class="phonetic">/ˌɪnklɪˈneɪʃn/</div><div class="pos">n. 倾向；意愿</div>做某事的自然倾向或愿望</span></span> and ability to read serious works of literature.</p>
+
+                <p>Americans also get much less of their news through reading than they once did. In 1975, about half of 20-somethings said they read the newspaper every day. Today less than 10 percent do. Most Americans now get the news on their phones and laptops, and 40 percent say they prefer to watch or listen to online news rather than read it.</p>
+
+                <p>This shift is often referred to as a literacy crisis. And it's true that Americans' basic reading skills are declining. Fourth- and eighth-grade reading scores have slid for the past decade. In 2024, in a national test, just 35 percent of high-school seniors were "<span class="vocab">proficient<span class="tooltip"><div class="phonetic">/prəˈfɪʃnt/</div><div class="pos">adj. 熟练的；精通的</div>在某方面具有高水平技能</span></span>" at skills such as analyzing complex fictional themes and evaluating the effectiveness of an author's argument. About the same number scored below "basic," meaning that they may struggle to draw conclusions from concepts <span class="vocab">explicitly<span class="tooltip"><div class="phonetic">/ɪkˈsplɪsɪtli/</div><div class="pos">adv. 明确地；清楚地</div>以清楚直接的方式</span></span> included in a text, or to use context clues to determine the meaning of an unknown word. Adult-literacy scores have also dropped: Nearly 30 percent of American adults cannot <span class="vocab">paraphrase<span class="tooltip"><div class="phonetic">/ˈpærəfreɪz/</div><div class="pos">v. 改述；释义</div>用不同的话表达相同意思</span></span> or make <span class="vocab">inferences<span class="tooltip"><div class="phonetic">/ˈɪnfərənsɪz/</div><div class="pos">n. 推断；推理</div>基于证据和推理得出的结论</span></span> from a multipage text.</p>
+
+                <p>And yet, strangely, Americans are probably reading more words than ever before. What has changed is what they read, and how. People are <span class="vocab">bombarded<span class="tooltip"><div class="phonetic">/bɒmˈbɑːdɪd/</div><div class="pos">v. 轰炸；使应接不暇</div>大量信息使人不堪重负</span></span> with emails, text messages, X posts, Reddit threads, Instagram captions. This explosion of textual <span class="vocab">fragments<span class="tooltip"><div class="phonetic">/ˈfræɡmənts/</div><div class="pos">n. 片段；碎片</div>某物的一小部分或残片</span></span> has come at the expense of devoting <span class="vocab">sustained<span class="tooltip"><div class="phonetic">/səˈsteɪnd/</div><div class="pos">adj. 持续的；持久的</div>在较长时间内保持的</span></span> attention to longer written works that convey rich and complicated information. Maryanne Wolf, a cognitive neuroscientist at UCLA, argues that people are losing the ability to think deeply about writing. That doesn't mean they are forgetting how to decode individual words. Rather, they are losing the higher-order abilities of <span class="vocab">comprehension<span class="tooltip"><div class="phonetic">/ˌkɒmprɪˈhenʃn/</div><div class="pos">n. 理解；领悟</div>理解文字或言语含义的能力</span></span> and <span class="vocab">synthesis<span class="tooltip"><div class="phonetic">/ˈsɪnθəsɪs/</div><div class="pos">n. 综合；合成</div>将不同部分组合成整体</span></span>. America, in other words, isn't illiterate. It's <span class="vocab">postliterate<span class="tooltip"><div class="phonetic">/ˌpəʊstˈlɪtərət/</div><div class="pos">adj. 后识字的</div>能认字但丧失深度阅读能力的</span></span>.</p>
+
+                <p>Things are about to get worse, and fast. The next generation reads much less than today's adults did when they were kids. From 1984 to 2025, the percentage of 13-year-olds who said they rarely or never read for fun rose from 8 to 29 percent. Every year older a child gets, the less they like to read. Robert Townsend, a program director at the American Academy of Arts and Sciences, recently ran focus groups asking high-school students how they felt about reading for pleasure. He told me that most thought of it as an alien practice.</p>
+
+                <p>Reading has come to seem <span class="vocab">extraneous<span class="tooltip"><div class="phonetic">/ɪkˈstreɪniəs/</div><div class="pos">adj. 多余的；无关的</div>非必要的或不相关的</span></span> even to some of the best-educated members of society. Margaret Rennix, Harvard's assistant director for humanities and social-sciences support, told me she'd spoken with a student who was struggling to read a book written in Old English. The <span class="vocab">culprit<span class="tooltip"><div class="phonetic">/ˈkʌlprɪt/</div><div class="pos">n. 罪魁祸首；元凶</div>造成问题的原因或人</span></span>: Anthony Burgess's 1962 novel <em>A Clockwork Orange</em>. The student used ChatGPT to "translate" the book into easier language. Not long ago, a Harvard sociology professor, troubled by course evaluations in which students said they resented the amount of <span class="vocab">dense<span class="tooltip"><div class="phonetic">/dens/</div><div class="pos">adj. 密集的；难懂的</div>信息量大且难以理解的</span></span> reading they were assigned, asked Rennix to speak to his class in defense of reading. She had to explain—to students at America's most elite university, taking a course in a discipline rooted in written observation, argumentation, and analysis—that <span class="vocab">excerpts<span class="tooltip"><div class="phonetic">/ˈeksɜːpts/</div><div class="pos">n. 摘录；节选</div>从较长文本中选取的段落</span></span> and summaries cannot capture the depth and sophistication of a complete primary text. Rennix told me that some students now view reading as an unnecessarily burdensome way of acquiring knowledge. "By asking them to read," she said, "professors are <span class="vocab">arbitrarily<span class="tooltip"><div class="phonetic">/ˈɑːbɪtrəli/</div><div class="pos">adv. 任意地；武断地</div>基于随机选择或个人意愿而非规则</span></span> withholding information from students by forcing them to get it through this more difficult medium."</p>
+
+                <p>Reading has never been natural. Humans have no innate cognitive machinery designed to string letters into words and connect them to their real-world analogues. To read, people had to repurpose regions of their brain used for speech and object recognition. The practice first emerged 6,000 years ago in Mesopotamia. For millennia afterward, most of the population was illiterate. Literacy became a mass phenomenon relatively recently, after Johannes Gutenberg invented the printing press in 1440.</p>
+
+                <p>The written word is fundamentally different from oral language. Writing detaches the message from the messenger, allowing for a more dispassionate spread of information than was possible in oral societies. Because writing a phrase takes longer than speaking it, writing forces the author to slow down and reflect. Written language tends to employ more complex sentence structures and vocabulary than spoken language. And unlike speech, it doesn't disappear into the ether. Readers can return to a text and plumb it for new meaning and understanding.</p>
+
+                <p>"More than any other single invention, writing has transformed human consciousness," Walter J. Ong, a historian and Jesuit priest, wrote in his 1982 book, <em>Orality and Literacy</em>. He argued that literacy created the conditions for inner concentration, extended focus, and logical deduction. It allowed for a new kind of rational, linear, and analytical thought.</p>
+
+                <p>It may seem self-serving for a writer at a 169-year-old magazine to carry a torch for reading. But the people who make a living from words are not the only ones who lose out in a postliterate age. Reading is more than a skill, or one mode of communication among many. The media we use to interact with one another shape the world we inhabit. The decline of reading will bring about changes of the same magnitude. It will affect our innermost thoughts, our society's politics and culture, and how we tell the history of our civilization. If we look closely, we can see that these changes have already begun.</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>📝 考研核心词汇表</h2>
+            <div class="table-wrap">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th>单词</th>
+                            <th>音标</th>
+                            <th>词性</th>
+                            <th>中文释义</th>
+                            <th>例句</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="word">literacy</td><td class="phonetic">/ˈlɪtərəsi/</td><td>n.</td><td>读写能力；识字</td><td>Universal literacy remains a key goal for many developing nations.</td></tr>
+                        <tr><td class="word">anomaly</td><td class="phonetic">/əˈnɒməli/</td><td>n.</td><td>异常事物；反常现象</td><td>The sudden drop in sales was an anomaly in an otherwise successful year.</td></tr>
+                        <tr><td class="word">comprehensive</td><td class="phonetic">/ˌkɒmprɪˈhensɪv/</td><td>adj.</td><td>全面的；综合的</td><td>The report provides a comprehensive analysis of the current market.</td></tr>
+                        <tr><td class="word">successor</td><td class="phonetic">/səkˈsesə(r)/</td><td>n.</td><td>继任者；接班人</td><td>The CEO's successor will be announced next month.</td></tr>
+                        <tr><td class="word">mandate</td><td class="phonetic">/ˈmændeɪt/</td><td>n.</td><td>命令；授权</td><td>The government has a clear mandate to reform the education system.</td></tr>
+                        <tr><td class="word">ransack</td><td class="phonetic">/ˈrænsæk/</td><td>v.</td><td>洗劫；彻底搜查</td><td>The thieves ransacked the office looking for valuable documents.</td></tr>
+                        <tr><td class="word">scroll</td><td class="phonetic">/skrəʊl/</td><td>n.</td><td>卷轴；纸卷</td><td>Ancient scrolls discovered in the cave revealed lost historical texts.</td></tr>
+                        <tr><td class="word">manuscript</td><td class="phonetic">/ˈmænjuskrɪpt/</td><td>n.</td><td>手稿；原稿</td><td>The museum displays a medieval manuscript of great scholarly value.</td></tr>
+                        <tr><td class="word">destruction</td><td class="phonetic">/dɪˈstrʌkʃn/</td><td>n.</td><td>破坏；毁灭</td><td>The fire caused the destruction of thousands of historical records.</td></tr>
+                        <tr><td class="word">negligence</td><td class="phonetic">/ˈneɡlɪdʒəns/</td><td>n.</td><td>疏忽；忽视</td><td>The accident was attributed to the company's negligence in safety checks.</td></tr>
+                        <tr><td class="word">literate</td><td class="phonetic">/ˈlɪtərət/</td><td>adj.</td><td>有读写能力的；受过教育的</td><td>A highly literate population is essential for economic development.</td></tr>
+                        <tr><td class="word">proportion</td><td class="phonetic">/prəˈpɔːʃn/</td><td>n.</td><td>比例；份额</td><td>The proportion of elderly people in the population is increasing.</td></tr>
+                        <tr><td class="word">demographic</td><td class="phonetic">/ˌdeməˈɡræfɪk/</td><td>n.</td><td>人口群体；人口统计</td><td>The product targets the young adult demographic.</td></tr>
+                        <tr><td class="word">ubiquity</td><td class="phonetic">/juːˈbɪkwəti/</td><td>n.</td><td>普遍存在；无处不在</td><td>The ubiquity of smartphones has transformed modern communication.</td></tr>
+                        <tr><td class="word">inclination</td><td class="phonetic">/ˌɪnklɪˈneɪʃn/</td><td>n.</td><td>倾向；意愿</td><td>She has little inclination to work in a large corporation.</td></tr>
+                        <tr><td class="word">proficient</td><td class="phonetic">/prəˈfɪʃnt/</td><td>adj.</td><td>熟练的；精通的</td><td>To pass the exam, students must be proficient in basic grammar.</td></tr>
+                        <tr><td class="word">explicitly</td><td class="phonetic">/ɪkˈsplɪsɪtli/</td><td>adv.</td><td>明确地；清楚地</td><td>The contract explicitly states the responsibilities of each party.</td></tr>
+                        <tr><td class="word">paraphrase</td><td class="phonetic">/ˈpærəfreɪz/</td><td>v.</td><td>改述；释义</td><td>Can you paraphrase the author's main argument in your own words?</td></tr>
+                        <tr><td class="word">inference</td><td class="phonetic">/ˈɪnfərəns/</td><td>n.</td><td>推断；推理</td><td>The reader must draw an inference from the evidence provided.</td></tr>
+                        <tr><td class="word">bombard</td><td class="phonetic">/bɒmˈbɑːd/</td><td>v.</td><td>轰炸；使应接不暇</td><td>Consumers are bombarded with advertisements on every platform.</td></tr>
+                        <tr><td class="word">fragment</td><td class="phonetic">/ˈfræɡmənt/</td><td>n.</td><td>片段；碎片</td><td>Only fragments of the original manuscript have survived.</td></tr>
+                        <tr><td class="word">sustained</td><td class="phonetic">/səˈsteɪnd/</td><td>adj.</td><td>持续的；持久的</td><td>Sustained effort is required to master a foreign language.</td></tr>
+                        <tr><td class="word">comprehension</td><td class="phonetic">/ˌkɒmprɪˈhenʃn/</td><td>n.</td><td>理解；领悟</td><td>Reading comprehension is a crucial skill tested in the exam.</td></tr>
+                        <tr><td class="word">synthesis</td><td class="phonetic">/ˈsɪnθəsɪs/</td><td>n.</td><td>综合；合成</td><td>The essay requires a synthesis of ideas from multiple sources.</td></tr>
+                        <tr><td class="word">postliterate</td><td class="phonetic">/ˌpəʊstˈlɪtərət/</td><td>adj.</td><td>后识字的</td><td>A postliterate society may lose the ability to engage with complex texts.</td></tr>
+                        <tr><td class="word">extraneous</td><td class="phonetic">/ɪkˈstreɪniəs/</td><td>adj.</td><td>多余的；无关的</td><td>Please avoid extraneous details and focus on the main points.</td></tr>
+                        <tr><td class="word">culprit</td><td class="phonetic">/ˈkʌlprɪt/</td><td>n.</td><td>罪魁祸首；元凶</td><td>The main culprit behind the delay was poor project management.</td></tr>
+                        <tr><td class="word">dense</td><td class="phonetic">/dens/</td><td>adj.</td><td>密集的；难懂的</td><td>The philosopher's writing is dense and difficult to summarize.</td></tr>
+                        <tr><td class="word">excerpt</td><td class="phonetic">/ˈeksɜːpt/</td><td>n.</td><td>摘录；节选</td><td>The magazine published a short excerpt from her new novel.</td></tr>
+                        <tr><td class="word">arbitrarily</td><td class="phonetic">/ˈɑːbɪtrəli/</td><td>adv.</td><td>任意地；武断地</td><td>The rules seemed to be applied arbitrarily rather than fairly.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🔗 短语搭配</h2>
+
+            <div class="phrase-item">
+                <div class="phrase">in favor of</div>
+                <div class="meaning">支持，赞成；以……取代</div>
+                <div class="example">原文：But contemporary historians tend to dismiss the importance of these dramatic incidents in favor of a more mundane cause of death: negligence.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">come at the expense of</div>
+                <div class="meaning">以……为代价；牺牲……</div>
+                <div class="example">原文：This explosion of textual fragments has come at the expense of devoting sustained attention to longer written works.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">lose out</div>
+                <div class="meaning">失利；吃亏；被排挤</div>
+                <div class="example">原文：But the people who make a living from words are not the only ones who lose out in a postliterate age.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">carry a torch for</div>
+                <div class="meaning">为……奋斗；支持，捍卫</div>
+                <div class="example">原文：It may seem self-serving for a writer at a 169-year-old magazine to carry a torch for reading.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">string... into...</div>
+                <div class="meaning">把……串成……</div>
+                <div class="example">原文：Humans have no innate cognitive machinery designed to string letters into words and connect them to their real-world analogues.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">detach... from...</div>
+                <div class="meaning">使……脱离……；将……与……分离</div>
+                <div class="example">原文：Writing detaches the message from the messenger, allowing for a more dispassionate spread of information.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">slow down</div>
+                <div class="meaning">放慢；减速</div>
+                <div class="example">原文：Because writing a phrase takes longer than speaking it, writing forces the author to slow down and reflect.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">plumb... for...</div>
+                <div class="meaning">深入探索……以寻找……</div>
+                <div class="example">原文：Readers can return to a text and plumb it for new meaning and understanding.</div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🔍 长难句解析</h2>
+
+            <div class="sentence-item">
+                <div class="original">"It is not that the disappearance of a library led to a dark age, nor that its survival would have improved those ages," the classics scholar Roger Bagnall has written. The fact that the library was allowed to die showed that the dark age had already arrived.</div>
+                <div class="analysis"><strong>【结构分析】</strong>第一句为"It is not that... nor that..."平行结构，表示"并非……也不是……"；第二句主语为 The fact，后接 that 引导的同位语从句"the library was allowed to die"，谓语 showed 后接 that 引导的宾语从句。<strong>【句意】</strong>"并非图书馆的消失导致了黑暗时代，也不是它的存留能够改善那些时代，"古典学者罗杰·巴格纳尔写道。图书馆被放任消亡这一事实表明，黑暗时代已经到来。</div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="original">A study analyzing 236,000 responses to the American Time Use Survey found that the proportion of Americans who read for pleasure on any given day fell from 28 percent in 2004 to 16 percent in 2023.</div>
+                <div class="analysis"><strong>【结构分析】</strong>主语为 A study，analyzing 236,000 responses... 为现在分词短语作后置定语；found 为谓语，后接 that 宾语从句；从句中"of Americans who read for pleasure on any given day"为 proportion 的定语，其中 who 引导定语从句修饰 Americans。<strong>【句意】</strong>一项分析了23.6万份《美国人时间使用调查》回复的研究发现，美国人在任意一天为 pleasure 阅读的比例从2004年的28%下降至2023年的16%。</div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="original">She had to explain—to students at America's most elite university, taking a course in a discipline rooted in written observation, argumentation, and analysis—that excerpts and summaries cannot capture the depth and sophistication of a complete primary text.</div>
+                <div class="analysis"><strong>【结构分析】</strong>主句为"She had to explain... that..."，explain 的宾语为 that 引导的从句；两个破折号之间的"to students..."与"taking a course..."为插入语，对听众进行补充说明；"rooted in written observation, argumentation, and analysis"为过去分词短语作后置定语修饰 discipline。<strong>【句意】</strong>她不得不向这些美国最精英大学的学生解释——他们正修读一门根植于书面观察、论证与分析的学科——摘录与摘要无法捕捉完整原始文本的深度与精妙之处。</div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>✅ 阅读理解练习</h2>
+
+            <div class="question-item">
+                <div class="question">1. 【主旨大意题】What is the main idea of the passage?</div>
+                <ol class="options" type="A">
+                    <li>The history of the Library of Alexandria and its destruction.</li>
+                    <li>The decline of reading in America and its profound implications.</li>
+                    <li>The benefits of digital technology for modern communication.</li>
+                    <li>The life and works of classical scholar Roger Bagnall.</li>
+                </ol>
+                <div class="answer">正确答案：B</div>
+                <div class="explanation"><strong>解析：</strong>文章以亚历山大图书馆的兴衰为引入，但主体部分通过大量数据与案例论述美国社会阅读量下降、阅读能力退化，并警示其深层影响。A 仅为引入；C 与文章主旨相反；D 只是文中提到的一个学者。因此 B 最能概括全文主旨。</div>
+            </div>
+
+            <div class="question-item">
+                <div class="question">2. 【细节理解题】According to the passage, what percentage of American adults read for pleasure on any given day in 2023?</div>
+                <ol class="options" type="A">
+                    <li>28%</li>
+                    <li>38%</li>
+                    <li>16%</li>
+                    <li>35%</li>
+                </ol>
+                <div class="answer">正确答案：C</div>
+                <div class="explanation"><strong>解析：</strong>根据文章第七段，"the proportion of Americans who read for pleasure on any given day fell from 28 percent in 2004 to 16 percent in 2023"，可知2023年为16%。A 为2004年数据；B 为2022年读小说或短篇的比例；D 为高中毕业生"熟练"阅读的比例。</div>
+            </div>
+
+            <div class="question-item">
+                <div class="question">3. 【词义猜测题】The word "postliterate" in Paragraph 12 most probably means ______.</div>
+                <ol class="options" type="A">
+                    <li>unable to read or write any words</li>
+                    <li>able to read words but losing deeper comprehension skills</li>
+                    <li>highly educated in literature and classics</li>
+                    <li>preferring oral communication to written language</li>
+                </ol>
+                <div class="answer">正确答案：B</div>
+                <div class="explanation"><strong>解析：</strong>第十二段指出，美国人并非"illiterate（文盲）"——他们仍能解码单个单词，但正在失去高阶的 comprehension 与 synthesis 能力。post- 表示"在……之后"，因此 postliterate 指"能认字但丧失深度阅读能力"的状态。A 为 illiterate 的含义；C、D 均与文意不符。</div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>💡 阅读技巧提示</h2>
+            <ul class="tips-list">
+                <li><strong>把握“历史—现状—影响”结构：</strong>本文先以亚历山大图书馆隐喻引入，再转向美国阅读现状数据，最后讨论对心智与文明的影响。识别这种结构有助于快速定位主旨。</li>
+                <li><strong>关注转折与对比信号词：</strong>如 but, yet, rather, in other words, and yet 等，这些词常引出作者真正想强调的观点，是考研阅读题的设题重点。</li>
+                <li><strong>积累学术高频词汇：</strong>comprehension, synthesis, inference, demographic, proportion, proficient 等是考研英语一阅读与写作中的高频词，建议结合例句记忆。</li>
+                <li><strong>长难句抓主干：</strong>遇到多重从句或插入语时，先找主谓宾，再处理修饰成分，避免被破折号、逗号之间的内容干扰。</li>
+                <li><strong>数字与年份定位细节：</strong>文章中包含大量数据（28%→16%、8%→29%、35%等），阅读时可快速标记，便于解答细节题。</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>考研英语外刊精读 · 每日更新 · 来源：The Atlantic</p>
+            <p style="margin-top: 8px; font-size: 0.85rem;">原文链接：https://www.theatlantic.com/magazine/2026/08/reading-crisis-postliterate-age/687618/</p>
+        </footer>
+    </div>
+</body>
+</html>
