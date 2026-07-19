@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | The New York Times: AI Has Created a Cheating Crisis. Universities Must Change.</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --accent-light: #fdf2f2;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+            --highlight: #fff3cd;
+            --vocab-bg: #e8f4f8;
+            --phrase-bg: #f0f8e8;
+            --sentence-bg: #f5f0fa;
+            --tips-bg: #fff8e1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Noto Sans CJK SC", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .article-header {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .article-header .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .article-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .article-header .subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        .article-header .meta {
+            font-size: 13px;
+            opacity: 0.8;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .article-header .meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section-card h2 {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-card h3 {
+            font-size: 17px;
+            color: var(--primary);
+            margin: 20px 0 12px;
+        }
+        .article-body p {
+            margin-bottom: 16px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+        .vocab-word {
+            color: var(--accent);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--accent);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .vocab-word:hover {
+            background: var(--accent-light);
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 1.5;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        .vocab-word.active .tooltip {
+            display: block;
+        }
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .vocab-table th {
+            background: var(--vocab-bg);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+        }
+        .vocab-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .vocab-table tr:hover {
+            background: var(--vocab-bg);
+        }
+        .vocab-table .word-cell {
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .vocab-table .phonetic {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        .phrase-item {
+            background: var(--phrase-bg);
+            border-left: 4px solid #7cb342;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            border-radius: 0 8px 8px 0;
+        }
+        .phrase-item .phrase-en {
+            font-weight: 600;
+            color: #558b2f;
+            font-size: 15px;
+        }
+        .phrase-item .phrase-cn {
+            color: var(--text-light);
+            font-size: 14px;
+            margin: 4px 0;
+        }
+        .phrase-item .phrase-example {
+            font-size: 13px;
+            color: var(--text);
+            margin-top: 6px;
+            font-style: italic;
+        }
+        .sentence-box {
+            background: var(--sentence-bg);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .sentence-box .sentence-en {
+            font-size: 15px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+        .sentence-box .sentence-structure,
+        .sentence-box .sentence-translation {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        .tips-box {
+            background: var(--tips-bg);
+            border-radius: 10px;
+            padding: 18px 22px;
+        }
+        .tips-box ul {
+            padding-left: 20px;
+        }
+        .tips-box li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text);
+        }
+        .quiz-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .quiz-item .quiz-q {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .quiz-item .quiz-options {
+            list-style: none;
+            margin-bottom: 10px;
+        }
+        .quiz-item .quiz-options li {
+            padding: 6px 0;
+            font-size: 15px;
+        }
+        .quiz-item .quiz-answer {
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+        .quiz-item .quiz-analysis {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        .summary-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 18px;
+            border-radius: 0 10px 10px 0;
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text);
+        }
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        @media (max-width: 600px) {
+            .article-header h1 { font-size: 20px; }
+            .section-card { padding: 20px; }
+            .vocab-table { font-size: 12px; }
+            .tooltip { white-space: normal; max-width: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="article-header">
+            <div class="tag">考研英语外刊精读</div>
+            <h1>AI Has Created a Cheating Crisis. Universities Must Change.</h1>
+            <p class="subtitle">人工智能引发大学作弊危机，高校必须改变评估方式</p>
+            <div class="meta">
+                <span>来源：The New York Times</span>
+                <span>原文日期：July 14, 2026</span>
+                <span>精读生成：2026-07-19</span>
+                <span>话题：教育 / 科技</span>
+            </div>
+        </header>
+
+        <section class="section-card">
+            <h2>文章大意</h2>
+            <div class="summary-box">
+                本文出自《纽约时报》2026年7月14日评论版，作者为纽约大学副校长克莱·舍基（Clay Shirky）。文章指出，生成式人工智能已在大学生中造成普遍性作弊危机：即便是最积极好学的学生，也开始用 ChatGPT 等工具完成课后作业。作者认为，简单的 AI 使用规范或检测工具无法解决问题，因为 AI 检测器误报率高，而学生只需轻微编辑就能规避检测。真正的出路是重新设计大学评估方式——从课后论文转向课堂写作、口头答辩、苏格拉底式对话和“真实评估”。作者进一步以中世纪大学 oral examination 的历史为例，说明书面作业并非高等教育的古老传统，当前变革只是回归一种更古老、更人际化的教育模式。大学不应被视为信息传递机构，而是塑造学生身份与思维习惯的场所。
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>阅读技巧提示</h2>
+            <div class="tips-box">
+                <ul>
+                    <li>本文是典型的“问题—解决方案”结构：先指出 AI 作弊危机，再提出评估方式改革，最后展望教育的未来形态。阅读时注意这一主线。</li>
+                    <li>作者多次使用历史对比（中世纪大学 → 19 世纪德国研究型大学 → 二战后美国通识教育），帮助读者理解“书面作业并非自古不变”。</li>
+                    <li>遇到 philosophy professor, vice provost, freshman comp 等学术场景词汇时，结合上下文推断其角色与功能。</li>
+                    <li>词义猜测题注意同义替换：如 active engagement 与 lazy uses 形成反义对照；information-transfer 与 identity-formation 构成概念对比。</li>
+                    <li>长难句常含插入语、同位语或分号连接的并列结构，先抓主干再处理修饰成分。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>正文精读</h2>
+            <div class="article-body">
+                <p>I remember the moment I knew my <span class="vocab-word" onclick="toggleTooltip(this)">approach<span class="tooltip">n. /əˈprəʊtʃ/<br>方法；途径</span></span> to student AI use was not working. Last fall, at the beginning of a meeting on the Abu Dhabi campus of New York University, a philosophy professor, arms crossed, told me that he had tried one of the strategies my office had suggested—talking with students about how AI might <span class="vocab-word" onclick="toggleTooltip(this)">interfere with<span class="tooltip">phr. /ˌɪntəˈfɪə wɪð/<br>干扰；妨碍</span></span> their learning—and it had failed. His students had listened politely, and then, several of them had used AI to write their papers anyway. In <span class="vocab-word" onclick="toggleTooltip(this)">particular<span class="tooltip">adv. /pəˈtɪkjələ(r)/<br>尤其；特别</span></span>, he wanted me to know that “even the good students,” the ones who came to class eager to discuss the readings, were using AI to avoid work done outside the classroom.</p>
+
+                <p>This was something I heard <span class="vocab-word" onclick="toggleTooltip(this)">over and over<span class="tooltip">phr. /ˌəʊvər ənd ˈəʊvə(r)/<br>反复；一再</span></span>, from professors in different disciplines at the end of the semester: even some of the students who were <span class="vocab-word" onclick="toggleTooltip(this)">evidently<span class="tooltip">adv. /ˈevɪdəntli/<br>明显地；显然</span></span> interested in the class and seemed to enjoy the lessons were no longer making the complex effort of trying to figure out what the texts meant. Our AI-use strategy had assumed that encouraging uses of AI that require active engagement—that students could use software like ChatGPT to practice, challenge themselves, explore new ideas, or ask for feedback—would <span class="vocab-word" onclick="toggleTooltip(this)">persuade<span class="tooltip">v. /pəˈsweɪd/<br>说服；劝说</span></span> students to give up lazy uses of those tools. It did not.</p>
+
+                <p>We cannot simply redesign assignments to prevent <span class="vocab-word" onclick="toggleTooltip(this)">negligent<span class="tooltip">adj. /ˈneɡlɪdʒənt/<br>疏忽的；马虎的</span></span> AI use. (We have tried.) If you ask students to use AI and also to critique what it produces, they can do the critique with AI. If you give them AI tutors trained only to guide them, they can keep using tools that just hand out answers. And the detectors of these tools are too <span class="vocab-word" onclick="toggleTooltip(this)">prone to<span class="tooltip">phr. /prəʊn tuː/<br>易于；倾向于</span></span> false accusations of cheating and too poor at detecting lightly edited output for professors to <span class="vocab-word" onclick="toggleTooltip(this)">rely on<span class="tooltip">phr. /rɪˈlaɪ ɒn/<br>依赖；依靠</span></span> them.</p>
+
+                <p>Learning is a change in long-term memory; that is the <span class="vocab-word" onclick="toggleTooltip(this)">biological<span class="tooltip">adj. /ˌbaɪəˈlɒdʒɪkl/<br>生物的；生物学的</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">correlate<span class="tooltip">n. /ˈkɒrələt/<br>相关物；对应物</span></span> of what we do in classrooms. Now that most of the mental effort associated with writing is <span class="vocab-word" onclick="toggleTooltip(this)">optional<span class="tooltip">adj. /ˈɒpʃənl/<br>可选择的；非强制的</span></span>, we need new ways to demand the effort necessary for learning. That means moving away from take-home assignments and essays and toward asking students to write in class, choosing oral exams, holding mandatory office hours, and using other assessments that require students to <span class="vocab-word" onclick="toggleTooltip(this)">demonstrate<span class="tooltip">v. /ˈdemənstreɪt/<br>证明；展示</span></span> their knowledge in real time. The shift is already happening: The Wall Street Journal reported rising sales last school year of the composition notebooks used in the United States for in-class essays.</p>
+
+                <p>Both students and teachers seem <span class="vocab-word" onclick="toggleTooltip(this)">skeptical<span class="tooltip">adj. /ˈskeptɪkl/<br>怀疑的</span></span> of these changes. A professor I know described her new dependence on in-class work as “teaching high school.” But these strategies are not a loss of <span class="vocab-word" onclick="toggleTooltip(this)">rigor<span class="tooltip">n. /ˈrɪɡə(r)/<br>严格；严谨</span></span>. They are simply a return to an older, more <span class="vocab-word" onclick="toggleTooltip(this)">relational<span class="tooltip">adj. /rɪˈleɪʃənl/<br>关系的；人际的</span></span> model of higher education.</p>
+
+                <h3>The Medieval Roots of Assessment</h3>
+
+                <p>Talking, listening, and reading have been part of academic culture from the beginning, but written assignments—the classic five-paragraph essay, the research paper, the critical reading essay—have not. In the first universities, which arose in a handful of European cities about a thousand years ago, books were <span class="vocab-word" onclick="toggleTooltip(this)">scarce<span class="tooltip">adj. /skeəs/<br>稀缺的；不足的</span></span>, movable type did not exist, and education was organized around oral lessons and examination. The words “lecture” and “lecturer” <span class="vocab-word" onclick="toggleTooltip(this)">derive from<span class="tooltip">phr. /dɪˈraɪv frɒm/<br>源于；来自</span></span> the Latin verb “lego,” which commonly means “to read.” In the medieval university, lectures consisted of professors reading a book to students, sometimes the only copy the institution owned. Sometimes professors added their own comments to the reading; sometimes they did not. Some students had to write down what they heard; others simply had to listen. At times, writing was actively discouraged. In 1355, the Faculty of Arts at the University of Paris <span class="vocab-word" onclick="toggleTooltip(this)">prohibited<span class="tooltip">v. /prəˈhɪbɪtɪd/<br>禁止</span></span> masters from lecturing at a slow enough pace that students could transcribe their words.</p>
+
+                <p><span class="vocab-word" onclick="toggleTooltip(this)">Vestiges<span class="tooltip">n. /ˈvestɪdʒɪz/<br>遗迹；残余</span></span> of that old academic culture can still be seen in doctoral programs, where students must pass oral exams and defend their thesis <span class="vocab-word" onclick="toggleTooltip(this)">viva voce<span class="tooltip">adv. /ˌvaɪvə ˈvəʊtʃi/<br>口头地；通过口试</span></span>—“with living voice”—in conversation with their examiners. Cambridge and Oxford, which inspired most early American universities, did not significantly <span class="vocab-word" onclick="toggleTooltip(this)">adopt<span class="tooltip">v. /əˈdɒpt/<br>采用；采纳</span></span> written exams until the 18th and 19th centuries, half a millennium after their founding. The shift toward original written student work was due partly to increasingly technical subjects and partly to the fact that written work made it easier to teach larger numbers of students.</p>
+
+                <p>Even in the United States, our earliest universities followed the tradition of oral examinations. The <span class="vocab-word" onclick="toggleTooltip(this)">emphasis<span class="tooltip">n. /ˈemfəsɪs/<br>强调；重点</span></span> on students producing written texts did not spread until American universities began to imitate German research universities in the 1870s. Freshman comp, the standard introductory writing class in the United States, came to expect more singular and expressive student texts only after World War II.</p>
+
+                <p>All of this is to say that our current practices around student writing are not part of an ancient tradition. Which tasks are written and which should be oral is something that has changed over the centuries. It is changing again, this time moving away from original student writing done outside class and toward something more <span class="vocab-word" onclick="toggleTooltip(this)">interactive<span class="tooltip">adj. /ˌɪntərˈæktɪv/<br>互动的；交互的</span></span> between student and professor—or at least between student and study assistant.</p>
+
+                <h3>What the Future Classroom Looks Like</h3>
+
+                <p>Although the return of the in-class written essay is one sign of this shift, a range of old practices is being revived to assess student learning. Professors can engage students in conversation, through Socratic dialogue or simple question-and-answer. They can talk with students directly or have them pose questions to one another. This may require device-free classrooms, since many professors have also reported students using ChatGPT in class itself to craft answers to questions asked in the room.</p>
+
+                <p>Professors can require students to attend in-person office hours, have similar unscripted interactions, or ask them to perform tasks they can only carry out if they have actually learned the material—what is called <span class="vocab-word" onclick="toggleTooltip(this)">authentic assessment<span class="tooltip">n. /ɔːˈθentɪk əˈsesmənt/<br>真实评估；实作评估</span></span>. We can ask students to write something in class one week and revise it in class the next. There are also tools to monitor or lock browsers remotely to prevent students from using AI while working, even when they are not in class. Some schools are building internet-free rooms for exams. The goal is for students to show what they have <span class="vocab-word" onclick="toggleTooltip(this)">internalized<span class="tooltip">v. /ɪnˈtɜːnəlaɪzd/<br>内化；使成为自己的</span></span> from their coursework.</p>
+
+                <p>There is the problem of <span class="vocab-word" onclick="toggleTooltip(this)">scale<span class="tooltip">n. /skeɪl/<br>规模；范围</span></span>. Classroom conversation, in the case of some lecture courses with hundreds of students, is <span class="vocab-word" onclick="toggleTooltip(this)">destined to<span class="tooltip">phr. /ˈdestɪnd tuː/<br>注定；势必</span></span> fail. We may need to hold more assessments in sections led by teaching assistants or organize in-person writing sessions. Studies on large-scale oral exams are already being published.</p>
+
+                <p>I have spoken with hundreds of professors at New York University over the years, and few of them like this. Part of the discomfort is simply the annoyance anyone feels when their work routine changes: rethinking assignments, reworking syllabi, and a considerable restructuring of class time. But more importantly, this shift to an <span class="vocab-word" onclick="toggleTooltip(this)">extemporaneous<span class="tooltip">adj. /ɪkˌstempəˈreɪniəs/<br>即席的；临时的</span></span> and oral model means losing the ability to give students moderately complex tasks that they must struggle with on their own. Timed assessments can benefit those who think quickly, but not those who think deeply. What we might call the medieval alternatives are reactions to the sudden arrival of AI, an attempt to insist that students do the work, not just <span class="vocab-word" onclick="toggleTooltip(this)">pantomime<span class="tooltip">v. /ˈpæntəmaɪm/<br>模仿；做手势</span></span> doing it.</p>
+
+                <p>Students tell me they do not like the new forms of assessment either. In part, it is simply the annoyance anyone feels when a tool that saves labor is taken away. But some students may struggle with the practical aspects of this new system. This is a generation that never learned <span class="vocab-word" onclick="toggleTooltip(this)">cursive<span class="tooltip">n. /ˈkɜːsɪv/<br>草书；手写体</span></span>; they grew up typing. For many of them, writing timed essays is not a return to a familiar habit but a new and unfamiliar mode. Some have become so dependent on AI that working without it <span class="vocab-word" onclick="toggleTooltip(this)">disorients<span class="tooltip">v. /dɪsˈɔːriənts/<br>使迷失方向；使困惑</span></span> them, even upsets them. The <span class="vocab-word" onclick="toggleTooltip(this)">cohort<span class="tooltip">n. /ˈkəʊhɔːt/<br>一批人；同辈群体</span></span> of students entering university this fall will have had access to generative AI for most of their school years. A colleague at another university recently reported that a student said, regarding the return to in-class exams and limited device access: “It’s like they want us to fail.”</p>
+
+                <p>We do not, of course, want our students to fail, but we do not want them to fail to learn either. A student who copies and pastes a history paper is enrolled in a copy-and-paste class, not a history class. If a student’s preferred working methods reduce mental effort, we have to reintroduce that effort somehow.</p>
+
+                <p>On Tuesday, it was 1,000 days since the launch of ChatGPT. In that short time, it is already clear that the arrival of software that can generate unlimited amounts of moderately acceptable text will <span class="vocab-word" onclick="toggleTooltip(this)">devalue<span class="tooltip">v. /diːˈvæljuː/<br>使贬值；降低…的价值</span></span> many kinds of writing. There will still be a market for quality, just as there is still a market for movies even though TikTok exists, but the production of ordinary writing now requires far less skill. As writing in the business world becomes automated, university writing will return to its historic state, with more emphasis on students writing to remember things rather than to create a written artifact.</p>
+
+                <p>In time, however, we will adapt. (Constant, <span class="vocab-word" onclick="toggleTooltip(this)">incremental<span class="tooltip">adj. /ˌɪnkrəˈmentl/<br>渐进的；递增的</span></span> adaptation is how professional schools and universities work.) Despite frequent claims that the university is doomed because students can now educate themselves through free online courses, television, radio, or the printing press, those revolutions never <span class="vocab-word" onclick="toggleTooltip(this)">abolished<span class="tooltip">v. /əˈbɒlɪʃt/<br>废除；废止</span></span> us. Contrary to widespread opinion, the university is not in the information-transfer business; it is in the identity-formation business. Our medieval turn will not be a total reversal. In-class written essays and viva voce exams will coexist with modern innovations like active learning and authentic assessment. But the return to a more conversational and extemporaneous style will make higher education more interpersonal, more improvised, and more <span class="vocab-word" onclick="toggleTooltip(this)">idiosyncratic<span class="tooltip">adj. /ˌɪdiəʊˈsɪŋkrətɪk/<br>独特的；与众不同的</span></span>, bringing a sense of community back to our institutions.</p>
+            </div>
+            <p style="margin-top:20px;font-size:13px;color:var(--text-light);">点击红色划线词汇可查看中文释义。</p>
+        </section>
+
+        <section class="section-card">
+            <h2>短语搭配</h2>
+            <div class="phrase-item">
+                <div class="phrase-en">interfere with</div>
+                <div class="phrase-cn">干扰；妨碍</div>
+                <div class="phrase-example">"Talking with students about how AI might interfere with their learning—and it had failed."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">in particular</div>
+                <div class="phrase-cn">尤其；特别</div>
+                <div class="phrase-example">"In particular, he wanted me to know that 'even the good students' were using AI to avoid work."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">over and over</div>
+                <div class="phrase-cn">反复；一再</div>
+                <div class="phrase-example">"This was something I heard over and over, from professors in different disciplines."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">prone to</div>
+                <div class="phrase-cn">易于；倾向于</div>
+                <div class="phrase-example">"The detectors of these tools are too prone to false accusations of cheating."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">move away from</div>
+                <div class="phrase-cn">远离；从…转向</div>
+                <div class="phrase-example">"It is changing again, this time moving away from original student writing done outside class."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">in real time</div>
+                <div class="phrase-cn">实时地</div>
+                <div class="phrase-example">"Assessments that require students to demonstrate their knowledge in real time."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">derive from</div>
+                <div class="phrase-cn">源于；来自</div>
+                <div class="phrase-example">"The words 'lecture' and 'lecturer' derive from the Latin verb 'lego.'"</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">rely on</div>
+                <div class="phrase-cn">依赖；依靠</div>
+                <div class="phrase-example">"Detectors are too poor at detecting lightly edited output for professors to rely on them."</div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>长难句解析</h2>
+            <div class="sentence-box">
+                <p class="sentence-en">Our AI-use strategy had assumed that encouraging uses of AI that require active engagement—that students could use software like ChatGPT to practice, challenge themselves, explore new ideas, or ask for feedback—would persuade students to give up lazy uses of those tools.</p>
+                <p class="sentence-structure"><strong>结构分析：</strong>主句为 Our AI-use strategy had assumed that...，that 引导宾语从句；宾语从句的主语是动名词短语 encouraging uses of AI that require active engagement，其中 that require active engagement 为定语从句修饰 uses；两个破折号之间为同位语，具体说明 active engagement 的含义；谓语为 would persuade，宾语为 students，不定式 to give up lazy uses of those tools 作宾补。</p>
+                <p class="sentence-translation"><strong>参考译文：</strong>我们关于 AI 使用的策略曾假设，鼓励学生使用需要积极参与的 AI——即学生可以使用 ChatGPT 等软件进行练习、自我挑战、探索新想法或寻求反馈——会说服他们放弃对这些工具的懒惰使用。</p>
+            </div>
+            <div class="sentence-box">
+                <p class="sentence-en">Learning is a change in long-term memory; that is the biological correlate of what we do in classrooms.</p>
+                <p class="sentence-structure"><strong>结构分析：</strong>分号连接两个并列分句。第一个分句为主系表结构；第二个分句中，what we do in classrooms 为宾语从句，作介词 of 的宾语，biological correlate 意为“生物学上的对应物/表现”。</p>
+                <p class="sentence-translation"><strong>参考译文：</strong>学习是长期记忆的一种改变；这是我们在课堂上所做之事的生物学对应表现。</p>
+            </div>
+            <div class="sentence-box">
+                <p class="sentence-en">Contrary to widespread opinion, the university is not in the information-transfer business; it is in the identity-formation business.</p>
+                <p class="sentence-structure"><strong>结构分析：</strong>分号连接两个并列分句。Contrary to widespread opinion 为介词短语作状语，意为“与普遍看法相反”；两个分句均为主系表结构，表语为 in the ... business，表示“从事…业务/领域”。</p>
+                <p class="sentence-translation"><strong>参考译文：</strong>与普遍看法相反，大学不是从事信息传递的机构，而是从事身份塑造的机构。</p>
+            </div>
+            <div class="sentence-box">
+                <p class="sentence-en">The shift toward original written student work was due partly to increasingly technical subjects and partly to the fact that written work made it easier to teach larger numbers of students.</p>
+                <p class="sentence-structure"><strong>结构分析：</strong>主干为 The shift was due partly to... and partly to...；toward original written student work 为介词短语修饰 shift；第二个 to 的宾语为 the fact，其后 that written work made it easier to teach larger numbers of students 为同位语从句，其中 it 为形式宾语，真正宾语为 to teach larger numbers of students。</p>
+                <p class="sentence-translation"><strong>参考译文：</strong>向学生原创书面作业的转变，一方面是由于学科日益技术化，另一方面是因为书面作业使大规模教学变得更容易。</p>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>阅读理解练习</h2>
+            <div class="quiz-item">
+                <p class="quiz-q"><strong>1. What is the main argument of the article?</strong></p>
+                <ul class="quiz-options">
+                    <li>A. Universities should ban AI completely to restore academic honesty.</li>
+                    <li>B. AI detectors are reliable tools for identifying cheating students.</li>
+                    <li>C. The AI cheating crisis requires universities to redesign how they assess student learning.</li>
+                    <li>D. Written essays should remain the dominant form of university assessment.</li>
+                </ul>
+                <p class="quiz-answer"><strong>正确答案：C</strong></p>
+                <p class="quiz-analysis"><strong>解析：</strong>文章开篇指出 AI 作弊已成危机，随后论证简单的 AI 规范或检测工具无效，并提出高校应转向课堂写作、口头答辩、真实评估等方式。A 项“全面禁止 AI”并非作者观点；B 项与原文“检测器不可靠”相反；D 项与作者主张的“减少课后书面作业”相悖。</p>
+            </div>
+            <div class="quiz-item">
+                <p class="quiz-q"><strong>2. Why does the author think AI detectors are not a good solution to the cheating crisis?</strong></p>
+                <ul class="quiz-options">
+                    <li>A. They are too expensive for most universities to afford.</li>
+                    <li>B. They tend to falsely accuse students and fail to catch edited AI output.</li>
+                    <li>C. Students do not know how to use them properly.</li>
+                    <li>D. They encourage students to use AI more creatively.</li>
+                </ul>
+                <p class="quiz-answer"><strong>正确答案：B</strong></p>
+                <p class="quiz-analysis"><strong>解析：</strong>原文明确提到：AI 检测工具“too prone to false accusations of cheating and too poor at detecting lightly edited output”，即误报率高且难以识别经过轻微编辑的 AI 文本。A、C、D 三项在文中均未提及或与文意不符。</p>
+            </div>
+            <div class="quiz-item">
+                <p class="quiz-q"><strong>3. What can be inferred from the author’s view that “the university is not in the information-transfer business; it is in the identity-formation business”?</strong></p>
+                <ul class="quiz-options">
+                    <li>A. Universities should focus on transmitting facts rather than shaping students’ character.</li>
+                    <li>B. The value of higher education lies mainly in transforming who students become, not just what they know.</li>
+                    <li>C. Online courses will soon replace traditional universities entirely.</li>
+                    <li>D. Students should rely on AI to acquire information more efficiently.</li>
+                </ul>
+                <p class="quiz-answer"><strong>正确答案：B</strong></p>
+                <p class="quiz-analysis"><strong>解析：</strong>作者通过对比 information-transfer 与 identity-formation，强调大学的核心价值不仅在于传递信息，更在于塑造学生的身份、思维习惯与学习能力。A 项与文意相反；C 项过度推断；D 项与作者反对学生依赖 AI 的立场不符。</p>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>考研核心词汇表</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>单词</th>
+                        <th>词性</th>
+                        <th>中文释义</th>
+                        <th>例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="word-cell">approach<br><span class="phonetic">/əˈprəʊtʃ/</span></td>
+                        <td>n.</td>
+                        <td>方法；途径</td>
+                        <td>I remember the moment I knew my approach to student AI use was not working.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">interfere with<br><span class="phonetic">/ˌɪntəˈfɪə wɪð/</span></td>
+                        <td>phr.</td>
+                        <td>干扰；妨碍</td>
+                        <td>Talking with students about how AI might interfere with their learning.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">particular<br><span class="phonetic">/pəˈtɪkjələ(r)/</span></td>
+                        <td>adv.</td>
+                        <td>尤其；特别</td>
+                        <td>In particular, he wanted me to know that even the good students were using AI.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">evidently<br><span class="phonetic">/ˈevɪdəntli/</span></td>
+                        <td>adv.</td>
+                        <td>明显地；显然</td>
+                        <td>Even some students who were evidently interested in the class used AI.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">persuade<br><span class="phonetic">/pəˈsweɪd/</span></td>
+                        <td>v.</td>
+                        <td>说服；劝说</td>
+                        <td>We assumed active engagement would persuade students to give up lazy uses.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">negligent<br><span class="phonetic">/ˈneɡlɪdʒənt/</span></td>
+                        <td>adj.</td>
+                        <td>疏忽的；马虎的</td>
+                        <td>We cannot simply redesign assignments to prevent negligent AI use.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">prone to<br><span class="phonetic">/prəʊn tuː/</span></td>
+                        <td>phr.</td>
+                        <td>易于；倾向于</td>
+                        <td>The detectors are too prone to false accusations of cheating.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">rely on<br><span class="phonetic">/rɪˈlaɪ ɒn/</span></td>
+                        <td>phr.</td>
+                        <td>依赖；依靠</td>
+                        <td>Detectors are too unreliable for professors to rely on them.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">correlate<br><span class="phonetic">/ˈkɒrələt/</span></td>
+                        <td>n.</td>
+                        <td>相关物；对应物</td>
+                        <td>Learning is the biological correlate of what we do in classrooms.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">optional<br><span class="phonetic">/ˈɒpʃənl/</span></td>
+                        <td>adj.</td>
+                        <td>可选择的；非强制的</td>
+                        <td>Most of the mental effort associated with writing is now optional.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">demonstrate<br><span class="phonetic">/ˈdemənstreɪt/</span></td>
+                        <td>v.</td>
+                        <td>证明；展示</td>
+                        <td>Assessments that require students to demonstrate knowledge in real time.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">skeptical<br><span class="phonetic">/ˈskeptɪkl/</span></td>
+                        <td>adj.</td>
+                        <td>怀疑的</td>
+                        <td>Both students and teachers seem skeptical of these changes.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">rigor<br><span class="phonetic">/ˈrɪɡə(r)/</span></td>
+                        <td>n.</td>
+                        <td>严格；严谨</td>
+                        <td>These strategies are not a loss of rigor.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">relational<br><span class="phonetic">/rɪˈleɪʃənl/</span></td>
+                        <td>adj.</td>
+                        <td>关系的；人际的</td>
+                        <td>A return to an older, more relational model of higher education.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">scarce<br><span class="phonetic">/skeəs/</span></td>
+                        <td>adj.</td>
+                        <td>稀缺的；不足的</td>
+                        <td>In the first universities, books were scarce.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">derive from<br><span class="phonetic">/dɪˈraɪv frɒm/</span></td>
+                        <td>phr.</td>
+                        <td>源于；来自</td>
+                        <td>The words "lecture" and "lecturer" derive from the Latin verb "lego."</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">prohibit<br><span class="phonetic">/prəˈhɪbɪt/</span></td>
+                        <td>v.</td>
+                        <td>禁止</td>
+                        <td>The Faculty of Arts prohibited masters from lecturing too slowly.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">vestige<br><span class="phonetic">/ˈvestɪdʒ/</span></td>
+                        <td>n.</td>
+                        <td>遗迹；残余</td>
+                        <td>Vestiges of that old academic culture can still be seen in doctoral programs.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">viva voce<br><span class="phonetic">/ˌvaɪvə ˈvəʊtʃi/</span></td>
+                        <td>adv.</td>
+                        <td>口头地；通过口试</td>
+                        <td>Students must defend their thesis viva voce in conversation with examiners.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">adopt<br><span class="phonetic">/əˈdɒpt/</span></td>
+                        <td>v.</td>
+                        <td>采用；采纳</td>
+                        <td>Oxford and Cambridge did not significantly adopt written exams until the 19th century.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">emphasis<br><span class="phonetic">/ˈemfəsɪs/</span></td>
+                        <td>n.</td>
+                        <td>强调；重点</td>
+                        <td>The emphasis on written texts did not spread until the 1870s.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">interactive<br><span class="phonetic">/ˌɪntərˈæktɪv/</span></td>
+                        <td>adj.</td>
+                        <td>互动的；交互的</td>
+                        <td>Moving toward something more interactive between student and professor.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">authentic assessment<br><span class="phonetic">/ɔːˈθentɪk əˈsesmənt/</span></td>
+                        <td>n.</td>
+                        <td>真实评估；实作评估</td>
+                        <td>Tasks they can only carry out if they have learned the material—authentic assessment.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">internalize<br><span class="phonetic">/ɪnˈtɜːnəlaɪz/</span></td>
+                        <td>v.</td>
+                        <td>内化；使成为自己的</td>
+                        <td>The goal is for students to show what they have internalized.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">scale<br><span class="phonetic">/skeɪl/</span></td>
+                        <td>n.</td>
+                        <td>规模；范围</td>
+                        <td>There is the problem of scale in large lecture courses.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">extemporaneous<br><span class="phonetic">/ɪkˌstempəˈreɪniəs/</span></td>
+                        <td>adj.</td>
+                        <td>即席的；临时的</td>
+                        <td>This shift to an extemporaneous and oral model changes assessment.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">pantomime<br><span class="phonetic">/ˈpæntəmaɪm/</span></td>
+                        <td>v.</td>
+                        <td>模仿；做样子</td>
+                        <td>Students must do the work, not just pantomime doing it.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">disorient<br><span class="phonetic">/dɪsˈɔːriənt/</span></td>
+                        <td>v.</td>
+                        <td>使迷失方向；使困惑</td>
+                        <td>Working without AI disorients some students who have become dependent on it.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">cohort<br><span class="phonetic">/ˈkəʊhɔːt/</span></td>
+                        <td>n.</td>
+                        <td>一批人；同辈群体</td>
+                        <td>The cohort of students entering university this fall grew up with AI.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">devalue<br><span class="phonetic">/diːˈvæljuː/</span></td>
+                        <td>v.</td>
+                        <td>使贬值；降低…的价值</td>
+                        <td>Software that generates unlimited text will devalue many kinds of writing.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">incremental<br><span class="phonetic">/ˌɪnkrəˈmentl/</span></td>
+                        <td>adj.</td>
+                        <td>渐进的；递增的</td>
+                        <td>Constant, incremental adaptation is how universities work.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">abolish<br><span class="phonetic">/əˈbɒlɪʃ/</span></td>
+                        <td>v.</td>
+                        <td>废除；废止</td>
+                        <td>Those earlier revolutions never abolished universities.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">idiosyncratic<br><span class="phonetic">/ˌɪdiəʊˈsɪŋkrətɪk/</span></td>
+                        <td>adj.</td>
+                        <td>独特的；与众不同的</td>
+                        <td>Higher education will become more interpersonal, improvised, and idiosyncratic.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer class="footer">
+            <p>Generated by Trae Work | 考研英语外刊精读</p>
+            <p>原文来源：The New York Times, July 14, 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleTooltip(element) {
+            document.querySelectorAll('.vocab-word.active').forEach(function(el) {
+                if (el !== element) el.classList.remove('active');
+            });
+            element.classList.toggle('active');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.vocab-word')) {
+                document.querySelectorAll('.vocab-word.active').forEach(function(el) {
+                    el.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
