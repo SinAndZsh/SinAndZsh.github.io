@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chromebook Remorse: Tech Backlash at Schools Extends Beyond Phones | 考研英语外刊精读</title>
+    <style>
+        :root {
+            --primary: #1e3a5f;
+            --accent: #c9a227;
+            --bg: #f7f9fb;
+            --card: #ffffff;
+            --text: #2c3e50;
+            --muted: #6c7a89;
+            --border: #e1e8ed;
+            --highlight: #fff3cd;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Noto Sans CJK SC", "WenQuanYi Micro Hei", "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
+            color: #fff;
+            padding: 48px 32px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 24px rgba(30,58,95,0.18);
+        }
+        header h1 { margin: 0 0 12px; font-size: 1.85rem; line-height: 1.3; }
+        .meta { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.95rem; opacity: 0.92; }
+        .meta span { display: inline-flex; align-items: center; gap: 6px; }
+        .badge {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+        .source-link { color: #fff; text-decoration: underline; }
+        .section {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+        }
+        .section-title {
+            font-size: 1.35rem;
+            color: var(--primary);
+            margin: 0 0 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 22px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+        .paragraph {
+            text-align: justify;
+            margin-bottom: 16px;
+            font-size: 1.08rem;
+            line-height: 1.95;
+            text-indent: 2em;
+        }
+        .word {
+            color: #1e3a5f;
+            background: var(--highlight);
+            border-bottom: 2px dotted var(--accent);
+            cursor: pointer;
+            padding: 0 3px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .word:hover { background: #ffe9a8; }
+        .tooltip {
+            position: absolute;
+            background: var(--primary);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            max-width: 320px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+            z-index: 1000;
+            display: none;
+            line-height: 1.6;
+        }
+        .tooltip .tt-word { font-weight: 700; font-size: 1.05rem; color: var(--accent); }
+        .tooltip .tt-phonetic { opacity: 0.85; margin-left: 8px; }
+        .tooltip .tt-pos { color: #a8d0ff; margin-right: 6px; }
+        .vocab-grid, .phrase-grid, .sentence-grid, .question-grid {
+            display: grid;
+            gap: 16px;
+        }
+        .vocab-card, .phrase-card, .sentence-card, .question-card {
+            background: #fafcff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+        }
+        .vocab-word { font-size: 1.15rem; font-weight: 700; color: var(--primary); }
+        .phonetic { color: var(--muted); font-weight: 400; font-size: 0.95rem; margin-left: 6px; }
+        .pos { color: var(--accent); font-weight: 700; margin-left: 6px; }
+        .vocab-meaning { margin-top: 6px; color: #34495e; }
+        .vocab-example { margin-top: 8px; color: var(--muted); font-size: 0.92rem; }
+        .phrase-en { font-weight: 700; color: var(--primary); font-size: 1.1rem; }
+        .phrase-cn { color: #34495e; margin-top: 4px; }
+        .phrase-example { margin-top: 8px; color: var(--muted); font-size: 0.94rem; font-style: italic; }
+        .sentence-en { color: var(--primary); font-style: italic; margin-bottom: 8px; }
+        .sentence-analysis { color: #34495e; font-size: 0.95rem; }
+        .question-type { display: inline-block; background: #e8f4fd; color: var(--primary); padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; margin-bottom: 8px; }
+        .question-text { font-weight: 600; margin-bottom: 10px; }
+        .option { margin: 4px 0; padding: 6px 10px; background: #f1f5f9; border-radius: 6px; }
+        .answer { margin-top: 12px; color: #c0392b; font-weight: 700; }
+        .explanation { margin-top: 8px; color: #34495e; font-size: 0.95rem; }
+        .summary { background: #fffbf0; border-left: 4px solid var(--accent); padding: 18px; border-radius: 0 10px 10px 0; }
+        .tips { list-style: none; padding: 0; margin: 0; }
+        .tips li {
+            padding: 10px 0 10px 28px;
+            position: relative;
+            border-bottom: 1px dashed var(--border);
+        }
+        .tips li:last-child { border-bottom: none; }
+        .tips li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+        footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.85rem;
+            padding: 24px 0;
+        }
+        @media (max-width: 640px) {
+            header { padding: 28px 20px; }
+            header h1 { font-size: 1.45rem; }
+            .section { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="tooltip" id="tooltip"></div>
+    <div class="container">
+        <header>
+            <span class="badge">考研英语外刊精读</span>
+            <h1>Chromebook Remorse: Tech Backlash at Schools Extends Beyond Phones</h1>
+            <div class="meta">
+                <span>来源：The New York Times</span>
+                <span>作者：Natasha Singer</span>
+                <span>原文发表：March 29, 2026</span>
+                <span>精读生成：2026-07-20</span>
+                <span>字数：约 1101 词</span>
+            </div>
+            <div style="margin-top:12px;font-size:0.9rem;">
+                原文链接：<a class="source-link" href="https://www.nytimes.com/2026/03/29/technology/chromebook-remorse-kansas-school-laptops.html" target="_blank" rel="noopener">https://www.nytimes.com/2026/03/29/technology/chromebook-remorse-kansas-school-laptops.html</a>
+            </div>
+        </header>
+
+        <section class="section">
+            <h2 class="section-title">文章正文</h2>
+            <p style="color:var(--muted);font-size:0.95rem;margin-top:-8px;margin-bottom:18px;">
+                提示：点击高亮词汇即可查看中文释义、音标与词性。
+            </p>
+            <p class="paragraph">No more YouTube or video games on school laptops. In a rising number of American schools, textbooks and pencils are back.</p>
+<p class="paragraph">Inge Esping, the principal of McPherson Middle School, has spent years battling digital devices for children's attention. Four years ago, her school in the US state of Kansas banned student cellphones during the school day. But digital distractions continued. Many children watched YouTube videos or played video games on their school-issued Chromebook laptops. Some used school Gmail accounts to bully fellow students.</p>
+<p class="paragraph">In December, the middle school asked all 480 students to return the Chromebooks they had freely used in class and at home. Now the school keeps the laptops, which run on Google's Chrome operating system, in carts parked in classrooms. Children take notes mostly by hand, and laptops are used <span class="word" data-word="sparingly" data-phonetic="/ˈspeərɪŋli/" data-pos="adv." data-meaning="节俭地；有限地">sparingly</span>, for specific activities assigned by teachers.</p>
+<p class="paragraph">'We just felt we couldn't have Chromebooks be that huge <span class="word" data-word="distraction" data-phonetic="/dɪˈstrækʃn/" data-pos="n." data-meaning="分心，干扰">distraction</span>,' said Esping, 43, Kansas' 2025 middle school principal of the year. 'This technology can be a tool. It is not the answer to education.'</p>
+<p class="paragraph">McPherson Middle School, about an hour's drive from Wichita, is at the <span class="word" data-word="forefront" data-phonetic="/ˈfɔːfrʌnt/" data-pos="n." data-meaning="最前线，最前沿">forefront</span> of a new tech <span class="word" data-word="backlash" data-phonetic="/ˈbæklæʃ/" data-pos="n." data-meaning="强烈反对，抵制">backlash</span> spreading in education: Chromebook remorse. For years, giants like Apple, Google and Microsoft have fiercely competed to capture the classroom and train schoolchildren on their tech products in the hopes of hooking students as lifelong customers. For more than a decade, tech companies have urged schools to buy one laptop per child, arguing that the devices would <span class="word" data-word="democratise" data-phonetic="/dɪˈmɒkrətaɪz/" data-pos="v." data-meaning="使民主化；使普及">democratise</span> education and <span class="word" data-word="bolster" data-phonetic="/ˈbəʊlstə(r)/" data-pos="v." data-meaning="支持，加强">bolster</span> learning. Now Google and Microsoft, along with newcomers like OpenAI, are vying to spread their artificial intelligence chatbots in schools.</p>
+<p class="paragraph">But after tens of billions of dollars of school spending on Chromebooks, iPads and learning apps, studies have found that digital tools have generally not improved students' academic results or graduation rates. Some researchers and organisations like UNESCO even warn that <span class="word" data-word="over-reliance" data-phonetic="/ˌəʊvərɪˈlaɪəns/" data-pos="n." data-meaning="过度依赖">over-reliance</span> on technology can distract students and <span class="word" data-word="impede" data-phonetic="/ɪmˈpiːd/" data-pos="v." data-meaning="阻碍，妨碍">impede</span> learning.</p>
+<p class="paragraph">Schools in North Carolina, Virginia, Maryland and Michigan that once bought devices for each student are now <span class="word" data-word="reevaluating" data-phonetic="/ˌriːɪˈvæljueɪtɪŋ/" data-pos="v." data-meaning="重新评估">reevaluating</span> heavy classroom technology use. And Chromebooks, the laptops most popular with US schools, have emerged as a <span class="word" data-word="focal" data-phonetic="/ˈfəʊkl/" data-pos="adj." data-meaning="焦点的，中心的">focal</span> point. School leaders, educators and parents described the laptop curbs as an effort to refocus schooling on skills like student collaboration and conversation.</p>
+<p class="paragraph">'We're not going back to stone tablets,' said Shiloh Vincent, the superintendent of McPherson Public Schools. 'This is intentional tech use.' The classroom device pullback is the latest sign of a growing global <span class="word" data-word="reckoning" data-phonetic="/ˈrekənɪŋ/" data-pos="n." data-meaning="清算，反思">reckoning</span> over how tech giants and their products have upended childhood, adolescence and education.</p>
+<p class="paragraph">In a <span class="word" data-word="landmark" data-phonetic="/ˈlændmɑːk/" data-pos="n./adj." data-meaning="里程碑；有重大意义的">landmark</span> verdict last week, a US jury found the social media company Meta and the Google-owned YouTube <span class="word" data-word="liable" data-phonetic="/ˈlaɪəbl/" data-pos="adj." data-meaning="有责任的，有义务的">liable</span> for hooking and harming a minor. More than 30 states have limited or banned student cellphone use at school. Last year, Australia began requiring social media companies to disable the accounts of children under 16, a move that other countries are considering.</p>
+<p class="paragraph">Now children's groups and educators concerned about screen time are turning their attention to school-issued laptops and learning apps. Parents are flocking to support efforts, like Schools Beyond Screens and the <span class="word" data-word="distraction" data-phonetic="/dɪˈstrækʃn/" data-pos="n." data-meaning="分心，干扰">Distraction</span>-Free Schools Policy Project, to vet and limit school tech. At least 10 American states, including Kansas, Vermont and Virginia, have recently introduced bills to restrict students' screen time, require proof of safety and <span class="word" data-word="efficacy" data-phonetic="/ˈefɪkəsi/" data-pos="n." data-meaning="功效，效力">efficacy</span> for school tech tools or allow parents to <span class="word" data-word="opt" data-phonetic="/ɒpt/" data-pos="v." data-meaning="选择，决定">opt</span> their child out of using digital devices for learning.</p>
+<p class="paragraph">In 2016, as part of the national trend, administrators at McPherson decided to buy a $225 Chromebook for every middle schooler. Google had introduced the low-cost laptops five years earlier, with a pitch that the tech would help <span class="word" data-word="equalise" data-phonetic="/ˈiːkwəlaɪz/" data-pos="v." data-meaning="使平等，使均衡">equalise</span> learning opportunities and equip students with vital career skills. 'The individual use of Chromebooks is a way to <span class="word" data-word="empower" data-phonetic="/ɪmˈpaʊə(r)/" data-pos="v." data-meaning="授权，使能够">empower</span> students to maximise their full potential,' the middle school's device policy explained in 2016. School leaders were enthusiastic. 'The general idea was: students are going to be more engaged because it's online – and how exciting for them!' Esping recalled.</p>
+<p class="paragraph">To <span class="word" data-word="capitalise" data-phonetic="/ˈkæpɪtəlaɪz/" data-pos="v." data-meaning="利用；使资本化">capitalise</span> on the Chromebooks, the middle school invested in online textbooks and learning apps. But administrators, parents and students found that some of the platforms seemed too <span class="word" data-word="gamelike" data-phonetic="/ˈɡeɪmlaɪk/" data-pos="adj." data-meaning="游戏化的">gamelike</span> or did not work as advertised. The coronavirus pandemic only increased school reliance on tech tools. In 2021, Chromebook shipments to schools more than doubled to nearly 16.8 million, compared with shipments in 2016, according to Futuresource Consulting, a market research firm.</p>
+<p class="paragraph">When Esping took over as principal in 2022, she worried that <span class="word" data-word="rampant" data-phonetic="/ˈræmpənt/" data-pos="adj." data-meaning="猖獗的，泛滥的">rampant</span> tech use was hindering learning. So the school banned student cellphones. Online bullying and disciplinary incidents quickly decreased, she said. But online distractions continued. Some students became so hooked on playing video games on their Chromebooks that teachers had difficulty getting them to concentrate on their schoolwork, administrators and teachers said.</p>
+<p class="paragraph">Even then, some educators said they were spending so much time <span class="word" data-word="policing" data-phonetic="/pəˈliːsɪŋ/" data-pos="v." data-meaning="监督，管理">policing</span> student Chromebook use that it was detracting from teaching. Some parents complained their children were spending hours playing video games on their school-issued devices. Although the idea of taking back students' Chromebooks seemed <span class="word" data-word="unorthodox" data-phonetic="/ʌnˈɔːθədɒks/" data-pos="adj." data-meaning="非正统的，异端的">unorthodox</span>, given US schools' deep reliance on Google's <span class="word" data-word="sprawling" data-phonetic="/ˈsprɔːlɪŋ/" data-pos="adj." data-meaning=" sprawling，庞大的">sprawling</span> education platform, the middle school went ahead. The changes took effect in January.</p>
+<p class="paragraph">The new laptop <span class="word" data-word="minimalism" data-phonetic="/ˈmɪnɪməlɪzəm/" data-pos="n." data-meaning="极简主义；最小化">minimalism</span> has also changed core courses. During a recent English class on writing thesis statements, Jenny Vernon, the teacher, gave seventh graders a choice. They could answer questions by hand on bright salmon-coloured paper or use a class Chromebook. Most students chose the paper. In a sixth grade lesson on fractions, a teacher asked the class to <span class="word" data-word="convert" data-phonetic="/kənˈvɜːt/" data-pos="v." data-meaning="转换，换算">convert</span> three-twentieths into a percentage. Students each worked on the problem on whiteboards. They balanced the boards on their heads to indicate they were ready to be called on.</p>
+<p class="paragraph">Computer science classes promote <span class="word" data-word="purposeful" data-phonetic="/ˈpɜːpəsfl/" data-pos="adj." data-meaning="有目的的，有意义的">purposeful</span> tech use. In one recent lesson, students used Chromebooks to programme sensors and LED lights. 'It's coding the physical world,' said Courtney Klassen, the computing teacher. 'It's not just staring at the screen.' Some students have welcomed the changes. Jade LeGron, 13, said curtailing Chromebooks had been 'super beneficial' because students had stopped fighting with teachers over video games and had less opportunity 'to be mean to each other'.</p>
+<p class="paragraph">Schools like McPherson say they are not just curbing Chromebooks to reduce children's screen time. They are also aiming to refocus learning on child development, student-teacher interactions and old-fashioned fun. 'They've learned how to make darts again!' Esping exclaimed, pointing up at a student-made dart jutting out from a school hallway ceiling. 'They are going back to the old ways of being <span class="word" data-word="ornery" data-phonetic="/ˈɔːnəri/" data-pos="adj." data-meaning="脾气暴躁的；倔强的">ornery</span>.'</p>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">文章大意</h2>
+            <div class="summary">本文节选自《纽约时报》2026年3月的报道，聚焦美国中小学校对课堂科技的反思。文章以堪萨斯州 McPherson 中学回收学生 Chromebook 为切入点，指出在科技公司多年推广'一人一机'后，许多学校发现数字设备并未显著提升学业成绩，反而成为游戏、网络霸凌和课堂分心的源头。随着各州限制学生屏幕时间、立法规范校园科技的呼声渐起，越来越多的教育者开始倡导'有意识的科技使用'，把教学重心重新放回手写笔记、师生互动和学生全面发展上。</div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">核心词汇表</h2>
+            <div class="vocab-grid">
+                <div class="vocab-card" id="vocab-backlash">
+            <div class="vocab-word">backlash <span class="phonetic">/ˈbæklæʃ/</span> <span class="pos">n.</span></div>
+            <div class="vocab-meaning">强烈反对，抵制</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-bolster">
+            <div class="vocab-word">bolster <span class="phonetic">/ˈbəʊlstə(r)/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">支持，加强</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-capitalise">
+            <div class="vocab-word">capitalise <span class="phonetic">/ˈkæpɪtəlaɪz/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">利用；使资本化</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-convert">
+            <div class="vocab-word">convert <span class="phonetic">/kənˈvɜːt/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">转换，换算</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-curb">
+            <div class="vocab-word">curb <span class="phonetic">/kɜːb/</span> <span class="pos">n./v.</span></div>
+            <div class="vocab-meaning">限制，约束</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-curtail">
+            <div class="vocab-word">curtail <span class="phonetic">/kɜːˈteɪl/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">削减，限制</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-democratise">
+            <div class="vocab-word">democratise <span class="phonetic">/dɪˈmɒkrətaɪz/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">使民主化；使普及</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-detract">
+            <div class="vocab-word">detract <span class="phonetic">/dɪˈtrækt/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">减损，贬低</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-distraction">
+            <div class="vocab-word">distraction <span class="phonetic">/dɪˈstrækʃn/</span> <span class="pos">n.</span></div>
+            <div class="vocab-meaning">分心，干扰</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-efficacy">
+            <div class="vocab-word">efficacy <span class="phonetic">/ˈefɪkəsi/</span> <span class="pos">n.</span></div>
+            <div class="vocab-meaning">功效，效力</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-empower">
+            <div class="vocab-word">empower <span class="phonetic">/ɪmˈpaʊə(r)/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">授权，使能够</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-equalise">
+            <div class="vocab-word">equalise <span class="phonetic">/ˈiːkwəlaɪz/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">使平等，使均衡</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-focal">
+            <div class="vocab-word">focal <span class="phonetic">/ˈfəʊkl/</span> <span class="pos">adj.</span></div>
+            <div class="vocab-meaning">焦点的，中心的</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-forefront">
+            <div class="vocab-word">forefront <span class="phonetic">/ˈfɔːfrʌnt/</span> <span class="pos">n.</span></div>
+            <div class="vocab-meaning">最前线，最前沿</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-gamelike">
+            <div class="vocab-word">gamelike <span class="phonetic">/ˈɡeɪmlaɪk/</span> <span class="pos">adj.</span></div>
+            <div class="vocab-meaning">游戏化的</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-impede">
+            <div class="vocab-word">impede <span class="phonetic">/ɪmˈpiːd/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">阻碍，妨碍</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-issue">
+            <div class="vocab-word">issue <span class="phonetic">/ˈɪʃuː/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">发放，分发</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-landmark">
+            <div class="vocab-word">landmark <span class="phonetic">/ˈlændmɑːk/</span> <span class="pos">n./adj.</span></div>
+            <div class="vocab-meaning">里程碑；有重大意义的</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-liable">
+            <div class="vocab-word">liable <span class="phonetic">/ˈlaɪəbl/</span> <span class="pos">adj.</span></div>
+            <div class="vocab-meaning">有责任的，有义务的</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-minimalism">
+            <div class="vocab-word">minimalism <span class="phonetic">/ˈmɪnɪməlɪzəm/</span> <span class="pos">n.</span></div>
+            <div class="vocab-meaning">极简主义；最小化</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-opt">
+            <div class="vocab-word">opt <span class="phonetic">/ɒpt/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">选择，决定</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-ornery">
+            <div class="vocab-word">ornery <span class="phonetic">/ˈɔːnəri/</span> <span class="pos">adj.</span></div>
+            <div class="vocab-meaning">脾气暴躁的；倔强的</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-over-reliance">
+            <div class="vocab-word">over-reliance <span class="phonetic">/ˌəʊvərɪˈlaɪəns/</span> <span class="pos">n.</span></div>
+            <div class="vocab-meaning">过度依赖</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-policing">
+            <div class="vocab-word">policing <span class="phonetic">/pəˈliːsɪŋ/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">监督，管理</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-purposeful">
+            <div class="vocab-word">purposeful <span class="phonetic">/ˈpɜːpəsfl/</span> <span class="pos">adj.</span></div>
+            <div class="vocab-meaning">有目的的，有意义的</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-rampant">
+            <div class="vocab-word">rampant <span class="phonetic">/ˈræmpənt/</span> <span class="pos">adj.</span></div>
+            <div class="vocab-meaning">猖獗的，泛滥的</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-reckoning">
+            <div class="vocab-word">reckoning <span class="phonetic">/ˈrekənɪŋ/</span> <span class="pos">n.</span></div>
+            <div class="vocab-meaning">清算，反思</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-reevaluating">
+            <div class="vocab-word">reevaluating <span class="phonetic">/ˌriːɪˈvæljueɪtɪŋ/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">重新评估</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-sparingly">
+            <div class="vocab-word">sparingly <span class="phonetic">/ˈspeərɪŋli/</span> <span class="pos">adv.</span></div>
+            <div class="vocab-meaning">节俭地；有限地</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-sprawling">
+            <div class="vocab-word">sprawling <span class="phonetic">/ˈsprɔːlɪŋ/</span> <span class="pos">adj.</span></div>
+            <div class="vocab-meaning"> sprawling，庞大的</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-unorthodox">
+            <div class="vocab-word">unorthodox <span class="phonetic">/ʌnˈɔːθədɒks/</span> <span class="pos">adj.</span></div>
+            <div class="vocab-meaning">非正统的，异端的</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-upend">
+            <div class="vocab-word">upend <span class="phonetic">/ʌpˈend/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">颠覆，打倒</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+<div class="vocab-card" id="vocab-vie">
+            <div class="vocab-word">vie <span class="phonetic">/vaɪ/</span> <span class="pos">v.</span></div>
+            <div class="vocab-meaning">竞争，争夺</div>
+            <div class="vocab-example">例句：请结合文章正文中的高亮标注记忆该词。</div>
+        </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">短语搭配</h2>
+            <div class="phrase-grid">
+                <div class="phrase-card">
+            <div class="phrase-en">at the forefront of</div>
+            <div class="phrase-cn">处于……的最前沿</div>
+            <div class="phrase-example">原句：McPherson Middle School is at the forefront of a new tech backlash spreading in education: Chromebook remorse.</div>
+        </div>
+<div class="phrase-card">
+            <div class="phrase-en">compete to</div>
+            <div class="phrase-cn">竞相，争夺</div>
+            <div class="phrase-example">原句：For years, giants like Apple, Google and Microsoft have fiercely competed to capture the classroom.</div>
+        </div>
+<div class="phrase-card">
+            <div class="phrase-en">hook ... as</div>
+            <div class="phrase-cn">把……吸引为</div>
+            <div class="phrase-example">原句：...in the hopes of hooking students as lifelong customers.</div>
+        </div>
+<div class="phrase-card">
+            <div class="phrase-en">bolster learning</div>
+            <div class="phrase-cn">促进学习</div>
+            <div class="phrase-example">原句：...arguing that the devices would democratise education and bolster learning.</div>
+        </div>
+<div class="phrase-card">
+            <div class="phrase-en">rely on</div>
+            <div class="phrase-cn">依赖，依靠</div>
+            <div class="phrase-example">原句：Some researchers warn that over-reliance on technology can distract students and impede learning.</div>
+        </div>
+<div class="phrase-card">
+            <div class="phrase-en">emerge as</div>
+            <div class="phrase-cn">成为，凸显为</div>
+            <div class="phrase-example">原句：Chromebooks have emerged as a focal point.</div>
+        </div>
+<div class="phrase-card">
+            <div class="phrase-en">opt out of</div>
+            <div class="phrase-cn">选择退出，不参加</div>
+            <div class="phrase-example">原句：...allow parents to opt their child out of using digital devices for learning.</div>
+        </div>
+<div class="phrase-card">
+            <div class="phrase-en">take effect</div>
+            <div class="phrase-cn">生效，实施</div>
+            <div class="phrase-example">原句：The changes took effect in January.</div>
+        </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">长难句解析</h2>
+            <div class="sentence-grid">
+                <div class="sentence-card">
+            <div class="sentence-en">For years, giants like Apple, Google and Microsoft have fiercely competed to capture the classroom and train schoolchildren on their tech products in the hopes of hooking students as lifelong customers.</div>
+            <div class="sentence-analysis">主句为 giants have competed and trained schoolchildren。like 引出举例；in the hopes of 表示'怀着……的希望'，后接动名词短语；hooking students as lifelong customers 意为'把学生吸引为终身客户'。</div>
+        </div>
+<div class="sentence-card">
+            <div class="sentence-en">But after tens of billions of dollars of school spending on Chromebooks, iPads and learning apps, studies have found that digital tools have generally not improved students' academic results or graduation rates.</div>
+            <div class="sentence-analysis">after 引导时间状语。主句 studies have found 后接 that 宾语从句；从句中 not improved... or... 表示'既没有提高学业成绩，也没有提高毕业率'。</div>
+        </div>
+<div class="sentence-card">
+            <div class="sentence-en">At least 10 American states, including Kansas, Vermont and Virginia, have recently introduced bills to restrict students' screen time, require proof of safety and efficacy for school tech tools or allow parents to opt their child out of using digital devices for learning.</div>
+            <div class="sentence-analysis">主语 At least 10 American states，谓语 have introduced，宾语 bills。不定式 to restrict..., require..., or allow... 作目的状语，说明法案目的。opt their child out of 是固定搭配，意为'让孩子选择不参加/不使用'。</div>
+        </div>
+<div class="sentence-card">
+            <div class="sentence-en">Although the idea of taking back students' Chromebooks seemed unorthodox, given US schools' deep reliance on Google's sprawling education platform, the middle school went ahead.</div>
+            <div class="sentence-analysis">Although 引导让步状语从句。given 是介词，表示'考虑到'，后接名词短语。主句 the middle school went ahead 中 go ahead 意为'继续实施（计划）'。</div>
+        </div>
+<div class="sentence-card">
+            <div class="sentence-en">Schools like McPherson say they are not just curbing Chromebooks to reduce children's screen time; they are also aiming to refocus learning on child development, student-teacher interactions and old-fashioned fun.</div>
+            <div class="sentence-analysis">分号连接两个并列句。前句中 say 后接省略 that 的宾语从句；not just... but/also... 表示'不仅……而且……'。refocus learning on... 意为'把学习重心重新放到……上'。</div>
+        </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">阅读理解练习</h2>
+            <div class="question-grid">
+                <div class="question-card">
+            <div class="question-type">主旨大意题</div>
+            <div class="question-text">1. What is the main idea of the passage?</div>
+            <div class="options">
+                <div class="option">A. Tech companies should stop selling laptops to schools.</div> <div class="option">B. Many American schools are reconsidering heavy use of Chromebooks and refocusing on traditional learning methods.</div> <div class="option">C. Students prefer playing video games to doing homework on Chromebooks.</div> <div class="option">D. The coronavirus pandemic forced all schools to adopt one-to-one laptop programs.</div>
+            </div>
+            <div class="answer">正确答案：B</div>
+            <div class="explanation">解析：文章以 McPherson 中学回收 Chromebook 为例，说明美国多所学校正在反思过度依赖课堂技术，转向'有意识的科技使用'，重视手写、师生互动等传统学习方式。A 过于绝对；C、D 仅为细节，不是主旨。</div>
+        </div>
+<div class="question-card">
+            <div class="question-type">细节理解题</div>
+            <div class="question-text">2. Why did McPherson Middle School decide to take back students' Chromebooks?</div>
+            <div class="options">
+                <div class="option">A. The Chromebooks were too expensive to maintain.</div> <div class="option">B. The school wanted to buy new iPads for every student.</div> <div class="option">C. Chromebooks had become a major distraction and caused online bullying.</div> <div class="option">D. Parents demanded that the school teach only computer science.</div>
+            </div>
+            <div class="answer">正确答案：C</div>
+            <div class="explanation">解析：文中提到学生用 Chromebook 看 YouTube、玩游戏，还用学校 Gmail 霸凌同学；教师花费大量时间监督设备使用，影响教学。因此学校决定回收。A、B、D 文中均未提及。</div>
+        </div>
+<div class="question-card">
+            <div class="question-type">推理判断题</div>
+            <div class="question-text">3. What can be inferred from the passage about schools' attitude toward technology?</div>
+            <div class="options">
+                <div class="option">A. Schools believe technology is the only answer to education.</div> <div class="option">B. Schools want to abandon all digital devices and return to paper textbooks only.</div> <div class="option">C. Schools are moving toward more intentional and limited use of classroom technology.</div> <div class="option">D. Schools think Chromebooks have significantly improved graduation rates.</div>
+            </div>
+            <div class="answer">正确答案：C</div>
+            <div class="explanation">解析：文中反复强调'intentional tech use'，如把 Chromebook 放在教室推车中、按教师指定活动使用、计算机课用于编程传感器等，说明学校并非完全排斥技术，而是追求有目的、有限度的使用。A 与 Esping 的话相反；B 过于绝对（'We're not going back to stone tablets'）；D 与文中'数字工具并未普遍提高毕业率'矛盾。</div>
+        </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">阅读技巧提示</h2>
+            <ul class="tips">
+                <li>主旨题：关注首尾段及反复出现的关键词（如 Chromebook remorse, intentional tech use），提炼作者核心观点。</li>
+<li>细节题：题干中的人名、地名、数字是定位信号，如 McPherson、480 students、2022、January。</li>
+<li>推理题：避免选绝对化选项（only, all, never），优先选择概括性强、与原文同向的表述。</li>
+<li>词义猜测题：利用同义/反义关系、举例、定义从句推断，如 gamelike 后接 or did not work as advertised 提示含贬义。</li>
+<li>精读建议：外刊常使用直接引语推动论述，读引语可快速把握人物态度和论据。</li>
+            </ul>
+        </section>
+
+        <footer>
+            Generated by SinAndZsh Reading Club · 外刊精读仅供学习交流
+        </footer>
+    </div>
+
+    <script>
+        const tooltip = document.getElementById('tooltip');
+        document.querySelectorAll('.word').forEach(span => {
+            span.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const word = this.dataset.word;
+                const phonetic = this.dataset.phonetic;
+                const pos = this.dataset.pos;
+                const meaning = this.dataset.meaning;
+                tooltip.innerHTML = `<span class="tt-word">${word}</span><span class="tt-phonetic">${phonetic}</span><br><span class="tt-pos">${pos}</span>${meaning}`;
+                const rect = this.getBoundingClientRect();
+                tooltip.style.display = 'block';
+                const ttRect = tooltip.getBoundingClientRect();
+                let left = rect.left + window.scrollX;
+                let top = rect.bottom + window.scrollY + 8;
+                if (left + ttRect.width > window.innerWidth + window.scrollX) {
+                    left = window.innerWidth + window.scrollX - ttRect.width - 16;
+                }
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+            });
+        });
+        document.addEventListener('click', function() {
+            tooltip.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
