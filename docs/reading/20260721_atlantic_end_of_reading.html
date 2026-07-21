@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | The End of Reading Is Here</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --accent-light: #fdf2f2;
+            --bg: #fafafa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+            --highlight: #fff3cd;
+            --vocab: #2980b9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Noto Sans CJK SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .article-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #34495e 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .article-header::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            right: 40px;
+            font-size: 200px;
+            opacity: 0.1;
+            font-family: Georgia, serif;
+        }
+        
+        .source-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .article-title {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: 24px;
+            font-size: 15px;
+            opacity: 0.9;
+        }
+        
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* Info Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        
+        .info-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .info-card h4 {
+            font-size: 13px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .info-card p {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        /* Article Content */
+        .content-card {
+            background: var(--card-bg);
+            padding: 48px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            margin-bottom: 32px;
+        }
+        
+        .article-body {
+            font-size: 18px;
+            line-height: 2;
+            color: var(--text);
+        }
+        
+        .article-body p {
+            margin-bottom: 24px;
+            text-align: justify;
+        }
+        
+        /* Vocabulary */
+        .vocab {
+            color: var(--vocab);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--vocab);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        
+        .vocab:hover {
+            background: #e8f4f8;
+        }
+        
+        .vocab-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: normal;
+            white-space: nowrap;
+            z-index: 100;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .vocab-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        
+        .vocab:hover .vocab-tooltip {
+            display: block;
+        }
+        
+        /* Section Headers */
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 48px 0 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--accent);
+            display: inline-block;
+        }
+        
+        /* Summary Box */
+        .summary-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            padding: 32px;
+            border-radius: 12px;
+            margin: 32px 0;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .summary-box h3 {
+            color: var(--primary);
+            margin-bottom: 16px;
+            font-size: 20px;
+        }
+        
+        .summary-box p {
+            color: var(--text);
+            line-height: 1.8;
+        }
+        
+        /* Long Sentence Analysis */
+        .sentence-card {
+            background: var(--accent-light);
+            padding: 28px;
+            border-radius: 12px;
+            margin: 24px 0;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .sentence-original {
+            font-size: 17px;
+            color: var(--primary);
+            font-style: italic;
+            margin-bottom: 16px;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .sentence-analysis h4 {
+            color: var(--accent);
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        
+        .sentence-analysis p {
+            font-size: 15px;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        /* Vocabulary Table */
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 15px;
+        }
+        
+        .vocab-table th {
+            background: var(--primary);
+            color: white;
+            padding: 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .vocab-table td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .vocab-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .vocab-table tr:hover {
+            background: #e8f4f8;
+        }
+        
+        .phonetic {
+            color: var(--accent);
+            font-family: "Times New Roman", serif;
+        }
+        
+        .pos {
+            color: var(--text-light);
+            font-style: italic;
+        }
+        
+        /* Phrase Section */
+        .phrase-card {
+            background: #f0f7ff;
+            padding: 24px;
+            border-radius: 12px;
+            margin: 16px 0;
+            border-left: 4px solid var(--vocab);
+        }
+        
+        .phrase-en {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--vocab);
+            margin-bottom: 8px;
+        }
+        
+        .phrase-cn {
+            font-size: 15px;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+        
+        .phrase-example {
+            font-size: 14px;
+            color: var(--text-light);
+            font-style: italic;
+            padding-left: 16px;
+            border-left: 2px solid var(--border);
+        }
+        
+        /* Reading Comprehension */
+        .quiz-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        
+        .quiz-item {
+            margin-bottom: 40px;
+            padding-bottom: 32px;
+            border-bottom: 1px dashed var(--border);
+        }
+        
+        .quiz-item:last-child {
+            border-bottom: none;
+        }
+        
+        .quiz-question {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .quiz-options {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .quiz-options li {
+            padding: 12px 16px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            cursor: default;
+        }
+        
+        .quiz-options li.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        
+        .quiz-answer {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e8f5e9;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .quiz-answer h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        
+        .quiz-answer p {
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        /* Tips Box */
+        .tips-box {
+            background: #fff8e1;
+            padding: 28px;
+            border-radius: 12px;
+            margin: 32px 0;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .tips-box h3 {
+            color: #f57c00;
+            margin-bottom: 16px;
+        }
+        
+        .tips-box ul {
+            padding-left: 20px;
+        }
+        
+        .tips-box li {
+            margin: 10px 0;
+            color: var(--text);
+        }
+        
+        /* Footer */
+        .article-footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        /* Back to top */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--vocab);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 600px) {
+            .article-title {
+                font-size: 26px;
+            }
+            .content-card {
+                padding: 24px;
+            }
+            .article-header {
+                padding: 40px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="article-header">
+            <div class="source-badge">The Atlantic &bull; July 2026</div>
+            <h1 class="article-title">The End of Reading Is Here</h1>
+            <div class="article-meta">
+                <span>By Rose Horowitch</span>
+                <span>Cover Story</span>
+                <span>Word Count: ~1,200</span>
+            </div>
+        </header>
+        
+        <!-- Info Grid -->
+        <div class="info-grid">
+            <div class="info-card">
+                <h4>文章来源</h4>
+                <p>The Atlantic</p>
+            </div>
+            <div class="info-card">
+                <h4>文章类型</h4>
+                <p>社会文化 / 教育</p>
+            </div>
+            <div class="info-card">
+                <h4>阅读难度</h4>
+                <p>考研英语一 / 六级</p>
+            </div>
+            <div class="info-card">
+                <h4>建议用时</h4>
+                <p>15-18 分钟</p>
+            </div>
+        </div>
+        
+        <!-- Summary -->
+        <div class="summary-box">
+            <h3>文章大意</h3>
+            <p>本文出自《大西洋月刊》2026年7月封面故事，作者Rose Horowitch深入探讨了美国社会正经历的"阅读终结"现象。文章指出，美国人正从曾经的"自豪的识字社会"滑向"后识字时代"（postliterate era）：2022年不到一半成年人读过任何书籍，高中生阅读理解能力降至三十年来最低，而社交媒体短视频和生成式AI正在加速这一趋势。作者通过大量数据、教育专家访谈和政治观察，警示这种阅读能力衰退不仅威胁个人认知发展，更可能动摇民主社会的根基。</p>
+        </div>
+        
+        <!-- Article Body -->
+        <div class="content-card">
+            <div class="article-body">
+                <p>Americans, once members of a proudly <span class="vocab">literate<span class="vocab-tooltip">有读写能力的；受过良好教育的</span></span> society, read much less than they used to. According to the National Endowment for the Arts, which conducts the most comprehensive survey of the nation's reading habits, fewer than half of all adults reported having read a book of any kind in 2022. Only 38 percent read a novel or short story. A study analyzing 236,000 responses to the American Time Use Survey found that the proportion of Americans who read for pleasure on any given day fell from 28 percent in 2004 to 16 percent in 2023. Gambling has become a more common leisure activity than reading a book: Last year, 57 percent of Americans placed a bet.</p>
+                
+                <p>In 2024, in a national test, just 35 percent of high-school seniors were "<span class="vocab">proficient<span class="vocab-tooltip">熟练的；精通的</span></span>" at skills such as analyzing complex fictional themes and evaluating the effectiveness of an author's argument. About the same number scored below "basic," meaning that they may struggle to draw conclusions from concepts explicitly included in a text, or to use context clues to determine the meaning of an unknown word. Adult-literacy scores have also dropped: Nearly 30 percent of American adults cannot <span class="vocab">paraphrase<span class="vocab-tooltip">释义；改述</span></span> or make inferences from a multipage text. In 2017, that number was less than 20 percent.</p>
+                
+                <p>Maryanne Wolf, a cognitive <span class="vocab">neuroscientist<span class="vocab-tooltip">神经科学家</span></span> at UCLA, argues that people are losing the ability to think deeply about writing. That doesn't mean they are forgetting how to decode individual words. Rather, they are losing the higher-order abilities of comprehension and synthesis. America, in other words, isn't illiterate. It's <span class="vocab">postliterate<span class="vocab-tooltip">后识字的；后文字时代的</span></span>.</p>
+                
+                <p>A 2025 survey found that most middle- and high-school English teachers assigned zero to four books a year. Successive waves of education reforms have led districts to favor short passages over full books, the better to mimic multiple-choice reading-comprehension exams. Many of the most popular school <span class="vocab">curricula<span class="vocab-tooltip">课程（复数）</span></span> now rely on excerpts. Annemarie Cortez, the principal at an elementary school in Corona, California, told me that many administrators are instructing teachers not to assign full books; they're supposed to be running discrete reading drills with short excerpts.</p>
+                
+                <p>In the recent past, people were at least reading something online, but that's changing fast. Social media, once mainly text-based, has been overrun with short-form videos. TikTok, YouTube Shorts, and Instagram Reels dominate the <span class="vocab">attention economy<span class="vocab-tooltip">注意力经济</span></span>, especially among young people. According to a recent data analysis by Jean Twenge, a psychology professor who studies generational change, by eighth grade, the average kid spends four and a half hours a day on social media. For much of that time, it appears, they are watching videos, often at 2x speed. Even text messages have taken on characteristics of the spoken word. People use all caps to indicate heightened emotion and avoid the formality of proper punctuation, which now seems <span class="vocab">stilted<span class="vocab-tooltip">不自然的；呆板的</span></span>, even stern.</p>
+                
+                <p>Reading has come to seem <span class="vocab">extraneous<span class="vocab-tooltip">多余的；无关紧要的</span></span> even to some of the best-educated members of society. Margaret Rennix, Harvard's assistant director for humanities and social-sciences support, told me she'd spoken with a student who was struggling to read a book written in Old English. The culprit: Anthony Burgess's 1962 novel <em>A Clockwork Orange</em>. (The student used ChatGPT to "translate" the book into easier language.) Not long ago, a Harvard sociology professor, troubled by course evaluations in which students said they <span class="vocab">resented<span class="vocab-tooltip">怨恨；不满</span></span> the amount of dense reading they were assigned, asked Rennix to speak to his class in defense of reading. She had to explain — to students at America's most elite university, taking a course in a discipline rooted in written observation, argumentation, and analysis — that excerpts and summaries cannot capture the depth and sophistication of a complete primary text.</p>
+                
+                <p>If Trump is the first postliterate president, he won't be the last. The political strategist David Plouffe, an architect of Barack Obama's presidential campaigns, recently argued that candidates should focus each day on content creation. He advised shrinking every idea into something short enough for screen-addled voters to concentrate on. "If it can't be communicated in an Instagram post or 10-second TikTok, go back to the drawing board," Plouffe wrote in a <em>New York Times</em> op-ed. That may very well be good advice on how to campaign for office in the postliterate era. As a way to practice informed self-government, it <span class="vocab">portends<span class="vocab-tooltip">预示；预兆</span></span> disaster.</p>
+                
+                <p>Americans are probably reading more words than ever before. What has changed is what they read, and how. People are <span class="vocab">bombarded<span class="vocab-tooltip">轰炸；使应接不暇</span></span> with emails, text messages, X posts, Reddit threads, Instagram captions. This explosion of textual fragments has come at the expense of devoting sustained attention to longer written works that convey rich and complicated information. Kids watch more and more videos, and read less and less. While "video contains more information than text," watching videos is "a more passive form of <span class="vocab">engagement<span class="vocab-tooltip">参与；投入</span></span> than reading" and generally "does not stimulate deeper thinking." Student reading and writing scores on standardized tests are at their lowest level in more than three decades.</p>
+                
+                <p>When these students get to college, their professors find that they have to teach them how to <span class="vocab">comprehend<span class="vocab-tooltip">理解；领悟</span></span> a text. Rennix told me that some students now view reading as an unnecessarily burdensome way of acquiring knowledge. "By asking them to read," she said, "professors are arbitrarily withholding information from students by forcing them to get it through this more difficult medium." A course's being difficult will, more and more, be understood as a professor being "difficult." When that is the <span class="vocab">prevailing<span class="vocab-tooltip">普遍的；盛行的</span></span> interpretive framework, it is education that will be increasingly difficult.</p>
+                
+                <p>Perhaps, 126 years from now, this essay will seem like the latest exercise in hand-wringing. But the data suggest otherwise. The decline in reading cuts across age groups, gender, and education levels. It is not a <span class="vocab">transient<span class="vocab-tooltip">短暂的；暂时的</span></span> trend but a civilizational shift — one that threatens the very foundations of informed citizenship and critical thought.</p>
+            </div>
+        </div>
+        
+        <!-- Reading Tips -->
+        <div class="tips-box">
+            <h3>阅读技巧提示</h3>
+            <ul>
+                <li><strong>数据定位法：</strong>本文包含大量统计数据（百分比、年份），阅读时可先快速浏览这些数字，帮助把握文章论证脉络。</li>
+                <li><strong>观点识别法：</strong>注意区分事实陈述（如"38 percent read a novel"）和作者观点（如"it portends disaster"），考研阅读常考此类区分。</li>
+                <li><strong>逻辑连接词：</strong>关注 "That doesn't mean... Rather..."、"In other words" 等逻辑转换，往往是出题点。</li>
+                <li><strong>例证功能：</strong>文中引用哈佛学生的例子，是为了说明什么观点？注意例子前后的总结句。</li>
+            </ul>
+        </div>
+        
+        <!-- Long Sentences Analysis -->
+        <div class="content-card">
+            <h2 class="section-title">长难句解析</h2>
+            
+            <div class="sentence-card">
+                <div class="sentence-original">"A study analyzing 236,000 responses to the American Time Use Survey found that the proportion of Americans who read for pleasure on any given day fell from 28 percent in 2004 to 16 percent in 2023."</div>
+                <div class="sentence-analysis">
+                    <h4>句子结构分析</h4>
+                    <p>主语：A study；谓语：found；宾语从句：that the proportion... fell...。其中 analyzing 236,000 responses 是现在分词短语作后置定语修饰 study；who read for pleasure 是定语从句修饰 Americans。句子的主干是 "A study found that the proportion fell from... to..."。</p>
+                </div>
+            </div>
+            
+            <div class="sentence-card">
+                <div class="sentence-original">"She had to explain — to students at America's most elite university, taking a course in a discipline rooted in written observation, argumentation, and analysis — that excerpts and summaries cannot capture the depth and sophistication of a complete primary text."</div>
+                <div class="sentence-analysis">
+                    <h4>句子结构分析</h4>
+                    <p>主语：She；谓语：had to explain；宾语从句：that excerpts and summaries cannot capture...。两个破折号之间是插入语，其中 "taking a course..." 是现在分词短语，"rooted in..." 是过去分词短语，层层修饰。注意多重后置定语的逐层拆解。</p>
+                </div>
+            </div>
+            
+            <div class="sentence-card">
+                <div class="sentence-original">"By asking them to read, professors are arbitrarily withholding information from students by forcing them to get it through this more difficult medium."</div>
+                <div class="sentence-analysis">
+                    <h4>句子结构分析</h4>
+                    <p>本句是引用部分，采用了 "By doing A, sb. is doing B by doing C" 的结构，即"通过做A，某人通过做C来实现B"。两个 by 短语分别表示方式和手段。arbitrarily（武断地）一词带有强烈感情色彩，暗示学生认为教授的做法不合理。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Phrases -->
+        <div class="content-card">
+            <h2 class="section-title">短语搭配精析</h2>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">1. at the expense of</div>
+                <div class="phrase-cn">以……为代价；牺牲……</div>
+                <div class="phrase-example">原文：This explosion of textual fragments has come at the expense of devoting sustained attention to longer written works.</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">2. draw conclusions from</div>
+                <div class="phrase-cn">从……得出结论</div>
+                <div class="phrase-example">原文：They may struggle to draw conclusions from concepts explicitly included in a text.</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">3. in defense of</div>
+                <div class="phrase-cn">为……辩护；捍卫</div>
+                <div class="phrase-example">原文：A Harvard professor asked Rennix to speak to his class in defense of reading.</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">4. come at the expense of</div>
+                <div class="phrase-cn">以牺牲……为代价</div>
+                <div class="phrase-example">原文：This explosion of textual fragments has come at the expense of devoting sustained attention.</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">5. go back to the drawing board</div>
+                <div class="phrase-cn">从头再来；重新构思</div>
+                <div class="phrase-example">原文："If it can't be communicated in an Instagram post or 10-second TikTok, go back to the drawing board."</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">6. at one's lowest level</div>
+                <div class="phrase-cn">处于最低水平</div>
+                <div class="phrase-example">原文：Student reading and writing scores are at their lowest level in more than three decades.</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">7. come across</div>
+                <div class="phrase-cn">偶然遇到；给人以……印象</div>
+                <div class="phrase-example">原文：The decline in reading cuts across age groups, gender, and education levels.（cut across 意为"跨越；影响"）</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">8. at the expense of</div>
+                <div class="phrase-cn">以……为代价</div>
+                <div class="phrase-example">原文：This explosion of textual fragments has come at the expense of devoting sustained attention.</div>
+            </div>
+        </div>
+        
+        <!-- Vocabulary List -->
+        <div class="content-card">
+            <h2 class="section-title">考研核心词汇表</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>单词</th>
+                        <th>音标</th>
+                        <th>词性</th>
+                        <th>中文释义</th>
+                        <th>例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>literate</strong></td>
+                        <td class="phonetic">/ˈlɪtərət/</td>
+                        <td class="pos">adj.</td>
+                        <td>有读写能力的；受过良好教育的</td>
+                        <td>Members of a proudly literate society.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>proficient</strong></td>
+                        <td class="phonetic">/prəˈfɪʃnt/</td>
+                        <td class="pos">adj.</td>
+                        <td>熟练的；精通的</td>
+                        <td>Just 35 percent were proficient at analyzing complex themes.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>paraphrase</strong></td>
+                        <td class="phonetic">/ˈpærəfreɪz/</td>
+                        <td class="pos">v./n.</td>
+                        <td>释义；改述</td>
+                        <td>Adults cannot paraphrase or make inferences from a text.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>neuroscientist</strong></td>
+                        <td class="phonetic">/ˌnjʊərəʊˈsaɪəntɪst/</td>
+                        <td class="pos">n.</td>
+                        <td>神经科学家</td>
+                        <td>A cognitive neuroscientist at UCLA.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>postliterate</strong></td>
+                        <td class="phonetic">/ˌpəʊstˈlɪtərət/</td>
+                        <td class="pos">adj.</td>
+                        <td>后识字的；后文字时代的</td>
+                        <td>America isn't illiterate. It's postliterate.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>curricula</strong></td>
+                        <td class="phonetic">/kəˈrɪkjʊlə/</td>
+                        <td class="pos">n.</td>
+                        <td>课程（复数）</td>
+                        <td>The most popular school curricula rely on excerpts.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>excerpt</strong></td>
+                        <td class="phonetic">/ˈeksɜːpt/</td>
+                        <td class="pos">n.</td>
+                        <td>摘录；节选</td>
+                        <td>Teachers are running reading drills with short excerpts.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>stilted</strong></td>
+                        <td class="phonetic">/ˈstɪltɪd/</td>
+                        <td class="pos">adj.</td>
+                        <td>不自然的；呆板的</td>
+                        <td>Proper punctuation now seems stilted, even stern.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>extraneous</strong></td>
+                        <td class="phonetic">/ɪkˈstreɪniəs/</td>
+                        <td class="pos">adj.</td>
+                        <td>多余的；无关紧要的</td>
+                        <td>Reading has come to seem extraneous even to the educated.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>resent</strong></td>
+                        <td class="phonetic">/rɪˈzent/</td>
+                        <td class="pos">v.</td>
+                        <td>怨恨；不满</td>
+                        <td>Students resented the amount of dense reading assigned.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>sophistication</strong></td>
+                        <td class="phonetic">/səˌfɪstɪˈkeɪʃn/</td>
+                        <td class="pos">n.</td>
+                        <td>复杂精妙；老练</td>
+                        <td>Excerpts cannot capture the sophistication of a complete text.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>portend</strong></td>
+                        <td class="phonetic">/pɔːˈtend/</td>
+                        <td class="pos">v.</td>
+                        <td>预示；预兆</td>
+                        <td>It portends disaster for informed self-government.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>bombard</strong></td>
+                        <td class="phonetic">/bɒmˈbɑːd/</td>
+                        <td class="pos">v.</td>
+                        <td>轰炸；使应接不暇</td>
+                        <td>People are bombarded with emails and text messages.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>engagement</strong></td>
+                        <td class="phonetic">/ɪnˈɡeɪdʒmənt/</td>
+                        <td class="pos">n.</td>
+                        <td>参与；投入</td>
+                        <td>Watching videos is a more passive form of engagement.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>comprehend</strong></td>
+                        <td class="phonetic">/ˌkɒmprɪˈhend/</td>
+                        <td class="pos">v.</td>
+                        <td>理解；领悟</td>
+                        <td>Professors have to teach them how to comprehend a text.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>prevailing</strong></td>
+                        <td class="phonetic">/prɪˈveɪlɪŋ/</td>
+                        <td class="pos">adj.</td>
+                        <td>普遍的；盛行的</td>
+                        <td>When that is the prevailing interpretive framework.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>transient</strong></td>
+                        <td class="phonetic">/ˈtrænziənt/</td>
+                        <td class="pos">adj.</td>
+                        <td>短暂的；暂时的</td>
+                        <td>It is not a transient trend but a civilizational shift.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>explicitly</strong></td>
+                        <td class="phonetic">/ɪkˈsplɪsɪtli/</td>
+                        <td class="pos">adv.</td>
+                        <td>明确地；清楚地</td>
+                        <td>Concepts explicitly included in a text.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>inference</strong></td>
+                        <td class="phonetic">/ˈɪnfərəns/</td>
+                        <td class="pos">n.</td>
+                        <td>推论；推理</td>
+                        <td>Make inferences from a multipage text.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>discrete</strong></td>
+                        <td class="phonetic">/dɪˈskriːt/</td>
+                        <td class="pos">adj.</td>
+                        <td>分离的；独立的</td>
+                        <td>Running discrete reading drills with short excerpts.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>arbitrarily</strong></td>
+                        <td class="phonetic">/ˈɑːbɪtrərəli/</td>
+                        <td class="pos">adv.</td>
+                        <td>武断地；任意地</td>
+                        <td>Professors are arbitrarily withholding information.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>addled</strong></td>
+                        <td class="phonetic">/ˈædld/</td>
+                        <td class="pos">adj.</td>
+                        <td>昏乱的；困惑的</td>
+                        <td>Screen-addled voters.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>jeremiad</strong></td>
+                        <td class="phonetic">/ˌdʒerɪˈmaɪəd/</td>
+                        <td class="pos">n.</td>
+                        <td>悲叹；哀诉</td>
+                        <td>The troubling data in Horowitch's jeremiad.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Reading Comprehension -->
+        <div class="quiz-container">
+            <h2 class="section-title">考研阅读理解练习</h2>
+            
+            <div class="quiz-item">
+                <div class="quiz-question">1. 【主旨大意题】What is the main idea of this article?</div>
+                <ul class="quiz-options">
+                    <li>A. Americans should read more classic literature like <em>Doctor Zhivago</em> instead of popular novels.</li>
+                    <li>B. American society is experiencing a profound decline in deep reading abilities, shifting toward a "postliterate" era.</li>
+                    <li class="correct">B. American society is experiencing a profound decline in deep reading abilities, shifting toward a "postliterate" era. ✓</li>
+                    <li>C. Social media platforms like TikTok and Instagram should be banned to protect young people's reading habits.</li>
+                    <li>D. Harvard students are no longer capable of reading complex academic texts.</li>
+                </ul>
+                <div class="quiz-answer">
+                    <h4>正确答案：B</h4>
+                    <p>本文开篇即指出美国人阅读量大幅下降，随后通过大量数据（2022年仅38%成年人读过小说、高中生阅读能力降至三十年最低等）论证社会正从"识字时代"滑向"后识字时代"。A选项过于片面，文中提及《日瓦戈医生》仅为对比；C选项的"禁止社交媒体"并非作者观点；D选项仅为文中一个例证，不能概括主旨。</p>
+                </div>
+            </div>
+            
+            <div class="quiz-item">
+                <div class="quiz-question">2. 【推理判断题】What can be inferred from Margaret Rennix's experience at Harvard?</div>
+                <ul class="quiz-options">
+                    <li>A. Harvard professors are assigning too much reading material to their students.</li>
+                    <li>B. Students at elite universities prefer reading summaries to original texts.</li>
+                    <li class="correct">B. Students at elite universities prefer reading summaries to original texts. ✓</li>
+                    <li>C. <em>A Clockwork Orange</em> is too difficult for college students to understand.</li>
+                    <li>D. ChatGPT has completely replaced traditional reading methods at universities.</li>
+                </ul>
+                <div class="quiz-answer">
+                    <h4>正确答案：B</h4>
+                    <p>文中提到哈佛学生用ChatGPT"翻译"《发条橙》，以及有学生认为阅读是"unnecessarily burdensome way of acquiring knowledge"，甚至觉得教授"arbitrarily withholding information"。这些细节共同说明：即使是顶尖大学的学生，也倾向于选择更轻松的摘要或AI辅助，而非直接阅读原著。A选项与文意相反（教授被要求减少阅读量）；C选项过度推断；D选项"completely replaced"过于绝对。</p>
+                </div>
+            </div>
+            
+            <div class="quiz-item">
+                <div class="quiz-question">3. 【词义猜测题】The word "portends" in Paragraph 7 is closest in meaning to ______.</div>
+                <ul class="quiz-options">
+                    <li>A. prevents</li>
+                    <li>B. delays</li>
+                    <li class="correct">C. foretells ✓</li>
+                    <li>D. causes</li>
+                </ul>
+                <div class="quiz-answer">
+                    <h4>正确答案：C</h4>
+                    <p>"Portend"出现在句子 "As a way to practice informed self-government, it portends disaster" 中。前文提到Plouffe建议将政治理念压缩成短视频，作者认为这可能是好的竞选策略（"good advice on how to campaign"），但作为"informed self-government"（知情自治）的方式，则"portends disaster"。根据上下文逻辑，这里表示"预示、预兆"之意，与foretell（预言、预示）最接近。prevent（阻止）和delay（延迟）与文意相反；cause（导致）虽然接近，但portend更强调"预先显示征兆"而非直接"导致"。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="article-footer">
+            <p>考研英语外刊精读 | 来源：The Atlantic | 日期：2026-07-21</p>
+            <p style="margin-top: 12px; font-size: 13px;">本文仅供学习交流使用，版权归原作者及出版方所有</p>
+            <a href="index.html" class="back-link">← 返回文章列表</a>
+        </div>
+    </div>
+</body>
+</html>
