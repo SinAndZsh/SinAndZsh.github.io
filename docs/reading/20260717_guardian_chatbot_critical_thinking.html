@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026-07-17 | The Guardian | Chatbot Dependence Can Erode Critical Thinking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --accent-color: #2c5282;
+            --accent-light: #ebf4ff;
+            --accent-soft: #e2e8f0;
+            --border-color: #e2e8f0;
+            --highlight-bg: #fff3cd;
+            --highlight-border: #f6ad55;
+            --success-color: #276749;
+            --success-bg: #c6f6d5;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+            --vocab-color: #c53030;
+            --vocab-bg: #fff5f5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 30px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .source-badge {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border: 1px solid var(--border-color);
+        }
+
+        .card h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent-soft);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 {
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            margin: 24px 0 12px;
+            font-weight: 600;
+        }
+
+        .article-body {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem;
+            line-height: 2;
+            color: var(--text-primary);
+        }
+
+        .article-body p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .vocab {
+            color: var(--vocab-color);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--vocab-color);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .vocab:hover {
+            background: var(--vocab-bg);
+        }
+
+        .vocab .tooltip {
+            visibility: hidden;
+            width: 280px;
+            background: var(--text-primary);
+            color: white;
+            text-align: left;
+            border-radius: 10px;
+            padding: 14px;
+            position: absolute;
+            z-index: 100;
+            bottom: 130%;
+            left: 50%;
+            margin-left: -140px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 0.9rem;
+            font-weight: normal;
+            line-height: 1.6;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .vocab .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -6px;
+            border-width: 6px;
+            border-style: solid;
+            border-color: var(--text-primary) transparent transparent transparent;
+        }
+
+        .vocab:hover .tooltip,
+        .vocab.active .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .vocab .tooltip .phonetic {
+            color: #a0aec0;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+
+        .vocab .tooltip .pos {
+            color: #90cdf4;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, var(--accent-light) 0%, #f7fafc 100%);
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 20px;
+        }
+
+        .summary-box p {
+            margin-bottom: 0;
+            color: var(--text-secondary);
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 0.95rem;
+        }
+
+        .vocab-table th,
+        .vocab-table td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .vocab-table th {
+            background: var(--accent-light);
+            color: var(--accent-color);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .vocab-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .vocab-table .word {
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .vocab-table .phonetic {
+            color: var(--text-muted);
+            font-family: Georgia, serif;
+        }
+
+        .phrase-item {
+            background: #f0fff4;
+            border-left: 4px solid var(--success-color);
+            padding: 18px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 16px;
+        }
+
+        .phrase-item .phrase {
+            font-weight: 700;
+            color: var(--success-color);
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        .phrase-item .meaning {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .phrase-item .example {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        .sentence-item {
+            background: #faf5ff;
+            border-left: 4px solid #805ad5;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 18px;
+        }
+
+        .sentence-item .original {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        .sentence-item .analysis {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .sentence-item .analysis strong {
+            color: #805ad5;
+        }
+
+        .question-item {
+            background: #fffaf0;
+            border: 1px solid #fbd38d;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        .question-item .question {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 14px;
+            font-size: 1.05rem;
+        }
+
+        .question-item .options {
+            margin-bottom: 14px;
+            padding-left: 20px;
+        }
+
+        .question-item .options li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .question-item .answer {
+            background: var(--success-bg);
+            color: var(--success-color);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .question-item .explanation {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips-list li {
+            padding: 12px 0 12px 32px;
+            position: relative;
+            color: var(--text-secondary);
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .tips-list li:last-child {
+            border-bottom: none;
+        }
+
+        .tips-list li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            top: 12px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #1a365d;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.7rem; }
+            .card { padding: 22px; }
+            .article-body { font-size: 1rem; }
+            .vocab .tooltip { width: 240px; margin-left: -120px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回文章列表</a>
+
+        <header>
+            <span class="source-badge">The Guardian</span>
+            <h1>Chatbot Dependence Can Erode Critical Thinking</h1>
+            <p class="subtitle">Relying on chatbots to sort fact from fiction may make that job easier in the moment, but it can also leave people less able to do it on their own over time.</p>
+            <div class="meta">
+                <span>✍️ MIT Media Lab / The Guardian</span>
+                <span>📅 原文：2026-07-17 / 精读：2026-07-17</span>
+                <span>📖 约 1,350 词</span>
+                <span>🎯 考研英语一难度</span>
+            </div>
+        </header>
+
+        <section class="card">
+            <h2>📋 文章大意</h2>
+            <div class="summary-box">
+                <p>本文选自《卫报》对麻省理工学院（MIT）一项最新研究的报道。研究指出，虽然聊天机器人能在短期内帮助人们识别虚假新闻和篡改图片，但长期过度依赖可能导致独立批判性思维能力下降。文章介绍了实验设计、核心数据与深层担忧，探讨了“即时准确”与“长期独立判断”之间的权衡，并进一步延伸至教育、医疗和公共媒体素养领域，呼吁将 AI 设计为“强化判断”而非“替代判断”的工具。</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>📰 正文精读</h2>
+            <div class="article-body">
+                <p>Relying on chatbots to sort fact from fiction may make that job easier in the moment, but it can also leave people less able to do it on their own over time, according to new research from the Massachusetts Institute of Technology. The study adds to a growing body of <span class="vocab">evidence<span class="tooltip"><div class="phonetic">/ˈevɪdəns/</div><div class="pos">n. 证据；证明</div>支持某种信念或结论的事实或信息</span></span> suggesting that generative AI can act as a helpful guide while simultaneously creating a quiet form of cognitive <span class="vocab">dependency<span class="tooltip"><div class="phonetic">/dɪˈpendənsi/</div><div class="pos">n. 依赖；依靠</div>对某人或某物的持续依赖状态</span></span>.</p>
+
+                <p>In this case, researchers found that participants using an AI assistant were better at identifying fake news and misleading images when the tool was available. But when they later had to make the same judgments without help, their performance <span class="vocab">slipped<span class="tooltip"><div class="phonetic">/slɪpt/</div><div class="pos">v. 下降；滑落</div>逐渐或意外地变差、变低</span></span>. That trade-off matters because the internet is becoming more <span class="vocab">saturated<span class="tooltip"><div class="phonetic">/ˈsætʃəreɪtɪd/</div><div class="pos">adj. 饱和的；充满的</div>达到无法再吸收更多状态</span></span> with fabricated headlines, manipulated visuals and persuasive <span class="vocab">misinformation<span class="tooltip"><div class="phonetic">/ˌmɪsɪnfəˈmeɪʃn/</div><div class="pos">n. 错误信息；虚假信息</div>故意或无意传播的不准确信息</span></span> produced or amplified by AI systems themselves.</p>
+
+                <p>The experiment, released in April and now drawing wider attention, followed 67 participants over four weeks. Each participant was asked to determine whether paired news headlines and images were <span class="vocab">authentic<span class="tooltip"><div class="phonetic">/ɔːˈθentɪk/</div><div class="pos">adj. 真实的；真正的</div>非伪造或仿制的；可信的</span></span> or fabricated. The team then compared how people performed with and without access to an AI assistant. The chatbot used in the experiment was built on GPT-4o and connected to Google search. Rather than simply issuing a <span class="vocab">verdict<span class="tooltip"><div class="phonetic">/ˈvɜːdɪkt/</div><div class="pos">n. 裁决；定论</div>对某事的最终判断或决定</span></span>, it could also suggest cues to inspect, such as details in an image that might reveal tampering.</p>
+
+                <p>At first glance, the system appeared to do exactly what many users want from AI: save time, reduce <span class="vocab">uncertainty<span class="tooltip"><div class="phonetic">/ʌnˈsɜːtnti/</div><div class="pos">n. 不确定性；犹豫</div>缺乏确定或确信的状态</span></span> and improve accuracy. Participants with the chatbot made the correct judgment 21% more often than those working alone. But the study's more troubling finding emerged when those same users were later tested without the chatbot's support. Their <span class="vocab">unaided<span class="tooltip"><div class="phonetic">/ʌnˈeɪdɪd/</div><div class="pos">adj. 无外援的；独立的</div>没有他人或工具帮助的</span></span> performance in spotting misinformation declined by 15.3% by the fourth week of the experiment.</p>
+
+                <p>The broader debate around AI often focuses on productivity gains, workplace efficiency and convenience. This research shifts the lens toward <span class="vocab">cognition<span class="tooltip"><div class="phonetic">/kɒɡˈnɪʃn/</div><div class="pos">n. 认知；认识</div>思维、知觉、记忆等心理过程</span></span>: what happens to the user's own ability when a machine repeatedly does some of the thinking? According to the authors, the important issue is not whether the chatbot can help people reach correct answers. It clearly can. The deeper question is whether that assistance changes how people learn, remember and reason when the tool is absent.</p>
+
+                <p>The study's findings suggest a familiar pattern from other technologies. People use calculators, GPS systems and automated <span class="vocab">diagnostics<span class="tooltip"><div class="phonetic">/ˌdaɪəɡˈnɒstɪks/</div><div class="pos">n. 诊断；诊断程序</div>识别问题或疾病的技术或方法</span></span> because they are faster or more reliable in the short term. Yet those same tools can reduce practice in core skills such as mental arithmetic, spatial navigation or independent medical judgment. MIT researcher Anku Rani, a PhD student and co-lead author of the study, said the work reflects a <span class="vocab">mismatch<span class="tooltip"><div class="phonetic">/ˌmɪsˈmætʃ/</div><div class="pos">n. 不匹配；不协调</div>两种事物之间的不一致或错位</span></span> between how users feel and what the evidence shows. People often believe they are getting better at a task when they engage with AI, even though the data may not support that impression.</p>
+
+                <p>The central finding can be understood as a trade-off between immediate performance and long-term independence. When the chatbot was present, participants benefited from its prompts and hints. When it was removed, their ability to judge authenticity without support worsened. That pattern raises an important question for designers of AI tools: should systems simply deliver the fastest answer, or should they be built to strengthen the user's own reasoning process?</p>
+
+                <p>The study argues that the design style of an AI assistant matters. Tools that merely <span class="vocab">instruct<span class="tooltip"><div class="phonetic">/ɪnˈstrʌkt/</div><div class="pos">v. 指示；指导</div>告诉某人该做什么</span></span> users or provide a <span class="vocab">definitive<span class="tooltip"><div class="phonetic">/dɪˈfɪnɪtɪv/</div><div class="pos">adj. 决定性的；明确的</div>最终的、不可质疑的</span></span> answer may encourage passivity. By contrast, systems that ask questions, point users toward evidence and encourage verification can help preserve critical thinking. In the researchers' view, many users approach chatbots wanting speed and certainty. But the kind of interaction that best supports learning may be slower and more <span class="vocab">reflective<span class="tooltip"><div class="phonetic">/rɪˈflektɪv/</div><div class="pos">adj. 反思的；深思的</div>促使或表现出认真思考</span></span>, with the AI functioning more like a tutor than a decision-maker.</p>
+
+                <p>That distinction is especially important in domains where the cost of error is high. False or misleading information can shape public opinion, influence health decisions or fuel political <span class="vocab">manipulation<span class="tooltip"><div class="phonetic">/məˌnɪpjʊˈleɪʃn/</div><div class="pos">n. 操纵；操控</div>以不正当方式控制或影响他人</span></span>. In those settings, a tool that answers correctly but trains people to trust without checking may create a hidden <span class="vocab">vulnerability<span class="tooltip"><div class="phonetic">/ˌvʌlnərəˈbɪləti/</div><div class="pos">n. 脆弱性；弱点</div>易受攻击或伤害的状态</span></span>.</p>
+
+                <p>One of the study's more notable findings is that users did not simply get better at the task because they were practicing more. The authors found evidence that the chatbot's presence changed how people approached the problem. Some participants appeared to <span class="vocab">defer<span class="tooltip"><div class="phonetic">/dɪˈfɜː(r)/</div><div class="pos">v. 听从；推迟</div>服从他人的判断或决定</span></span> to the system because it sounded authoritative. The research suggests this is a familiar human response: when a machine appears confident, people may assume it has already done the hard work of verification.</p>
+
+                <p>The researchers also found that around one-quarter of participants believed their own detection abilities were improving, even as their actual results were <span class="vocab">deteriorating<span class="tooltip"><div class="phonetic">/dɪˈtɪəriəreɪtɪŋ/</div><div class="pos">v. 恶化；退化</div>逐渐变得更糟</span></span>. That mismatch between confidence and competence is particularly concerning because it makes the dependency harder to spot. People often equate fluency with understanding. A chatbot that delivers a fast, polished explanation can create the impression that the user is becoming smarter or more capable. In reality, the user may simply be <span class="vocab">outsourcing<span class="tooltip"><div class="phonetic">/ˈaʊtsɔːsɪŋ/</div><div class="pos">n./v. 外包</div>将工作交给外部资源完成</span></span> the hardest part of the work.</p>
+
+                <p>The new MIT work lands at a moment when misinformation is becoming more sophisticated and more difficult to detect. AI-generated images can blur the line between authentic and synthetic. Fake headlines can be packaged in professional-looking formats. Social platforms can accelerate both the reach and the emotional impact of false claims. In that environment, AI detection tools seem invaluable. They can flag <span class="vocab">inconsistencies<span class="tooltip"><div class="phonetic">/ˌɪnkənˈsɪstənsiz/</div><div class="pos">n. 不一致；矛盾</div>相互矛盾或不符合之处</span></span>, search for <span class="vocab">corroboration<span class="tooltip"><div class="phonetic">/kəˌrɒbəˈreɪʃn/</div><div class="pos">n. 确证；佐证</div>支持某个说法的额外证据</span></span> and draw attention to suspicious details that a hurried user might miss.</p>
+
+                <p>But the study suggests there is a catch: if people lean too heavily on those tools, they may become less practiced at the underlying skill of verification. That would be a problem not only for students and journalists, but for anyone trying to assess the <span class="vocab">credibility<span class="tooltip"><div class="phonetic">/ˌkredəˈbɪləti/</div><div class="pos">n. 可信度；可靠性</div>值得信赖或相信的品质</span></span> of what they encounter online. The MIT findings are not arriving in isolation. Researchers across medicine, neuroscience and human-computer interaction have increasingly questioned whether AI assistance always improves human performance in the long run.</p>
+
+                <p>A 2025 study published in <em>The Lancet</em> found that physicians who used AI tools for cancer detection eventually became less effective when asked to identify cases independently. Elsewhere, experts have warned that constant cognitive offloading to AI may weaken mental discipline and reduce the effort required for sustained attention and memory. The basic idea is simple: skills that are not used frequently enough tend to fade. If a chatbot handles the verification work every time, users may lose the habit of asking the questions that build durable judgment.</p>
+
+                <p>The MIT researchers say the findings should matter a great deal to educators, who are increasingly adopting AI-powered tools in classrooms and homework systems. Those tools can be valuable, especially when they support feedback, accessibility and personalized learning. Still, there is a risk that convenience will crowd out deep learning. If students rely on chatbots to summarize sources, check answers or explain difficult concepts without doing their own analysis, they may earn better immediate results while building weaker <span class="vocab">foundational<span class="tooltip"><div class="phonetic">/faʊnˈdeɪʃənl/</div><div class="pos">adj. 基础的；根本的</div>作为其他事物发展基础的根本性</span></span> skills.</p>
+
+                <p>That concern extends beyond schools. Workplace training, professional certification and public information campaigns increasingly include AI-generated guidance. If those systems are designed poorly, they may create users who are efficient but fragile: able to act when the assistant is present, but less capable of independent judgment when it is not. Like any early research, the MIT experiment has boundaries that should shape how it is interpreted. The sample size was modest, and most participants came from the United States and the United Kingdom. The study also lasted only four weeks, which is long enough to observe a shift but not long enough to determine whether the decline in independent judgment levels off, deepens or reverses with continued exposure.</p>
+
+                <p>The implications of the study stretch into daily life. Misinformation is no longer confined to obscure corners of the web. It appears in political discourse, health advice, consumer scams and viral social posts. At the same time, AI tools are increasingly embedded in search engines, productivity platforms and messaging apps. That means the average person is more likely than ever to encounter a chatbot while trying to figure out whether something is true. If those systems help people think critically, they can be part of the solution. If they quietly replace critical thinking, they can deepen the problem.</p>
+
+                <p>The study does not argue for abandoning chatbots. Instead, it points toward a more deliberate relationship with them. AI can be useful when it helps users inspect evidence, compare claims and sharpen their own reasoning. It becomes riskier when it provides certainty too quickly or encourages passive acceptance. The researchers' core message is that AI should be built to support judgment, not replace it. For users, that means treating chatbot answers as a starting point rather than a final verdict. For developers, it means designing systems that prompt verification, surface uncertainty and encourage people to check the underlying evidence. For educators and employers, it means making sure AI assistance does not eliminate the practice required to build durable skill.</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>📝 考研核心词汇表</h2>
+            <div class="table-wrap">
+                <table class="vocab-table">
+                    <thead>
+                        <tr>
+                            <th>单词</th>
+                            <th>音标</th>
+                            <th>词性</th>
+                            <th>中文释义</th>
+                            <th>例句</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="word">evidence</td><td class="phonetic">/ˈevɪdəns/</td><td>n.</td><td>证据；证明</td><td>The police found no evidence to support the accusation.</td></tr>
+                        <tr><td class="word">dependency</td><td class="phonetic">/dɪˈpendənsi/</td><td>n.</td><td>依赖；依靠</td><td>Overuse of technology can lead to a dangerous dependency.</td></tr>
+                        <tr><td class="word">slip</td><td class="phonetic">/slɪp/</td><td>v.</td><td>下降；滑落</td><td>After weeks without practice, her performance began to slip.</td></tr>
+                        <tr><td class="word">saturated</td><td class="phonetic">/ˈsætʃəreɪtɪd/</td><td>adj.</td><td>饱和的；充满的</td><td>The market is saturated with similar smartphone apps.</td></tr>
+                        <tr><td class="word">misinformation</td><td class="phonetic">/ˌmɪsɪnfəˈmeɪʃn/</td><td>n.</td><td>错误信息；虚假信息</td><td>Social media has made the spread of misinformation easier.</td></tr>
+                        <tr><td class="word">authentic</td><td class="phonetic">/ɔːˈθentɪk/</td><td>adj.</td><td>真实的；真正的</td><td>Experts verified that the painting was authentic.</td></tr>
+                        <tr><td class="word">verdict</td><td class="phonetic">/ˈvɜːdɪkt/</td><td>n.</td><td>裁决；定论</td><td>The jury reached a unanimous verdict after three days.</td></tr>
+                        <tr><td class="word">uncertainty</td><td class="phonetic">/ʌnˈsɜːtnti/</td><td>n.</td><td>不确定性；犹豫</td><td>The decision was delayed because of economic uncertainty.</td></tr>
+                        <tr><td class="word">unaided</td><td class="phonetic">/ʌnˈeɪdɪd/</td><td>adj.</td><td>无外援的；独立的</td><td>She solved the complex problem unaided.</td></tr>
+                        <tr><td class="word">cognition</td><td class="phonetic">/kɒɡˈnɪʃn/</td><td>n.</td><td>认知；认识</td><td>The study examines how sleep affects cognition and memory.</td></tr>
+                        <tr><td class="word">diagnostic</td><td class="phonetic">/ˌdaɪəɡˈnɒstɪk/</td><td>n.</td><td>诊断；诊断程序</td><td>Advanced diagnostics help doctors detect diseases earlier.</td></tr>
+                        <tr><td class="word">mismatch</td><td class="phonetic">/ˌmɪsˈmætʃ/</td><td>n.</td><td>不匹配；不协调</td><td>There is a clear mismatch between supply and demand.</td></tr>
+                        <tr><td class="word">instruct</td><td class="phonetic">/ɪnˈstrʌkt/</td><td>v.</td><td>指示；指导</td><td>The manual instructs users to restart the device.</td></tr>
+                        <tr><td class="word">definitive</td><td class="phonetic">/dɪˈfɪnɪtɪv/</td><td>adj.</td><td>决定性的；明确的</td><td>The test results were not definitive, so more research is needed.</td></tr>
+                        <tr><td class="word">reflective</td><td class="phonetic">/rɪˈflektɪv/</td><td>adj.</td><td>反思的；深思的</td><td>A reflective learner thinks carefully about new information.</td></tr>
+                        <tr><td class="word">manipulation</td><td class="phonetic">/məˌnɪpjʊˈleɪʃn/</td><td>n.</td><td>操纵；操控</td><td>The article exposed the manipulation of public opinion.</td></tr>
+                        <tr><td class="word">vulnerability</td><td class="phonetic">/ˌvʌlnərəˈbɪləti/</td><td>n.</td><td>脆弱性；弱点</td><td>The security audit revealed several vulnerabilities in the system.</td></tr>
+                        <tr><td class="word">defer</td><td class="phonetic">/dɪˈfɜː(r)/</td><td>v.</td><td>听从；推迟</td><td>Students should not always defer to the teacher's opinion.</td></tr>
+                        <tr><td class="word">deteriorate</td><td class="phonetic">/dɪˈtɪəriəreɪt/</td><td>v.</td><td>恶化；退化</td><td>Relations between the two countries continued to deteriorate.</td></tr>
+                        <tr><td class="word">outsource</td><td class="phonetic">/ˈaʊtsɔːs/</td><td>v.</td><td>外包</td><td>Many companies outsource customer service to reduce costs.</td></tr>
+                        <tr><td class="word">inconsistency</td><td class="phonetic">/ˌɪnkənˈsɪstənsi/</td><td>n.</td><td>不一致；矛盾</td><td>The witness's inconsistency weakened his testimony.</td></tr>
+                        <tr><td class="word">corroboration</td><td class="phonetic">/kəˌrɒbəˈreɪʃn/</td><td>n.</td><td>确证；佐证</td><td>The theory lacked corroboration from independent experiments.</td></tr>
+                        <tr><td class="word">credibility</td><td class="phonetic">/ˌkredəˈbɪləti/</td><td>n.</td><td>可信度；可靠性</td><td>The scandal damaged the politician's credibility.</td></tr>
+                        <tr><td class="word">foundational</td><td class="phonetic">/faʊnˈdeɪʃənl/</td><td>adj.</td><td>基础的；根本的</td><td>Grammar provides the foundational skills for language learning.</td></tr>
+                        <tr><td class="word">deliberate</td><td class="phonetic">/dɪˈlɪbərət/</td><td>adj.</td><td>审慎的；故意的</td><td>We need to make a deliberate choice rather than a hasty one.</td></tr>
+                        <tr><td class="word">amplify</td><td class="phonetic">/ˈæmplɪfaɪ/</td><td>v.</td><td>放大；增强</td><td>Social media can amplify both facts and falsehoods.</td></tr>
+                        <tr><td class="word">sophisticated</td><td class="phonetic">/səˈfɪstɪkeɪtɪd/</td><td>adj.</td><td>复杂的；精密的</td><td>The scam used sophisticated techniques to deceive victims.</td></tr>
+                        <tr><td class="word">assertion</td><td class="phonetic">/əˈsɜːʃn/</td><td>n.</td><td>断言；主张</td><td>His assertion was supported by reliable data.</td></tr>
+                        <tr><td class="word">resilient</td><td class="phonetic">/rɪˈzɪliənt/</td><td>adj.</td><td>有弹性的；能复原的</td><td>A resilient learner recovers quickly from failure.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🔗 短语搭配</h2>
+
+            <div class="phrase-item">
+                <div class="phrase">sort fact from fiction</div>
+                <div class="meaning">区分事实与虚构；辨别真假</div>
+                <div class="example">原文：Relying on chatbots to sort fact from fiction may make that job easier in the moment, but it can also leave people less able to do it on their own over time.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">a growing body of</div>
+                <div class="meaning">日益增多的……；越来越多的……</div>
+                <div class="example">原文：The study adds to a growing body of evidence suggesting that generative AI can act as a helpful guide while simultaneously creating a quiet form of cognitive dependency.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">at first glance</div>
+                <div class="meaning">乍一看；初看之下</div>
+                <div class="example">原文：At first glance, the system appeared to do exactly what many users want from AI: save time, reduce uncertainty and improve accuracy.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">shift the lens toward</div>
+                <div class="meaning">将视角/焦点转向……</div>
+                <div class="example">原文：This research shifts the lens toward cognition: what happens to the user's own ability when a machine repeatedly does some of the thinking?</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">by contrast</div>
+                <div class="meaning">相比之下；相反地</div>
+                <div class="example">原文：By contrast, systems that ask questions, point users toward evidence and encourage verification can help preserve critical thinking.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">defer to</div>
+                <div class="meaning">听从；服从；尊重</div>
+                <div class="example">原文：Some participants appeared to defer to the system because it sounded authoritative.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">equate... with...</div>
+                <div class="meaning">把……等同于……</div>
+                <div class="example">原文：People often equate fluency with understanding.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase">crowd out</div>
+                <div class="meaning">排挤；取代；使……无立足之地</div>
+                <div class="example">原文：Still, there is a risk that convenience will crowd out deep learning.</div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>🔍 长难句解析</h2>
+
+            <div class="sentence-item">
+                <div class="original">Relying on chatbots to sort fact from fiction may make that job easier in the moment, but it can also leave people less able to do it on their own over time, according to new research from the Massachusetts Institute of Technology.</div>
+                <div class="analysis"><strong>【结构分析】</strong>主语为动名词短语"Relying on chatbots to sort fact from fiction"；谓语为"may make... but... can also leave..."的并列结构；"according to..."为介词短语作状语，说明信息来源。<strong>【句意】</strong>麻省理工学院的一项新研究表明，依赖聊天机器人来辨别真伪或许能让当下这项工作变得更轻松，但也可能使人们随着时间推移越来越无法独立完成这项任务。</div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="original">The deeper question is whether that assistance changes how people learn, remember and reason when the tool is absent.</div>
+                <div class="analysis"><strong>【结构分析】</strong>主句为"The deeper question is whether..."，其中 whether 引导表语从句；表语从句中又包含 how 引导的宾语从句"how people learn, remember and reason"，以及 when 引导的时间状语从句"when the tool is absent"。<strong>【句意】</strong>更深层的问题是：这种辅助是否会改变人们在缺少该工具时学习、记忆和推理的方式。</div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="original">A chatbot that delivers a fast, polished explanation can create the impression that the user is becoming smarter or more capable, when in reality the user may simply be outsourcing the hardest part of the work.</div>
+                <div class="analysis"><strong>【结构分析】</strong>主语为"A chatbot"，后接 that 引导的定语从句"that delivers a fast, polished explanation"；谓语为"can create"，宾语为"the impression"，后接 that 引导的同位语从句解释 impression 的内容；"when in reality..."为状语从句，表示对比。<strong>【句意】</strong>一个能快速给出润色完善解释的聊天机器人会制造一种用户变得更聪明、更有能力的错觉，而现实中用户可能只是把工作中最困难的部分外包了出去。</div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>✅ 阅读理解练习</h2>
+
+            <div class="question-item">
+                <div class="question">1. 【主旨大意题】What is the main idea of the passage?</div>
+                <ol class="options" type="A">
+                    <li>MIT researchers have proved that chatbots are entirely harmful to human cognition.</li>
+                    <li>AI chatbots can help detect misinformation immediately but may weaken independent critical thinking over time.</li>
+                    <li>The internet has become too saturated with misinformation for ordinary users to handle.</li>
+                    <li>AI tools should be banned from classrooms to protect students' foundational skills.</li>
+                </ol>
+                <div class="answer">正确答案：B</div>
+                <div class="explanation"><strong>解析：</strong>全文围绕 MIT 研究展开，核心论点是聊天机器人短期内提升虚假信息识别准确率，但长期过度依赖会削弱独立批判性思维。A 项“完全有害”过于绝对，与文中“AI can be useful”不符；C 项只涉及背景信息；D 项“应禁止 AI”与文章“not argue for abandoning chatbots”相悖。</div>
+            </div>
+
+            <div class="question-item">
+                <div class="question">2. 【细节理解题】According to the MIT study, what happened to participants' unaided performance by the fourth week?</div>
+                <ol class="options" type="A">
+                    <li>It improved by 21%.</li>
+                    <li>It remained basically unchanged.</li>
+                    <li>It declined by 15.3%.</li>
+                    <li>It became better than their AI-assisted performance.</li>
+                </ol>
+                <div class="answer">正确答案：C</div>
+                <div class="explanation"><strong>解析：</strong>文章第四段明确指出，"Their unaided performance in spotting misinformation declined by 15.3% by the fourth week of the experiment"。A 项 21% 是有 AI 辅助时的提升幅度；B、D 两项与原文相反。</div>
+            </div>
+
+            <div class="question-item">
+                <div class="question">3. 【推理判断题】What can be inferred about the design of AI tools from the passage?</div>
+                <ol class="options" type="A">
+                    <li>The fastest answer is always the best answer.</li>
+                    <li>AI should be designed to strengthen users' reasoning rather than replace it.</li>
+                    <li>Users prefer slow and reflective interactions with chatbots.</li>
+                    <li>Only students and journalists need to worry about chatbot dependence.</li>
+                </ol>
+                <div class="answer">正确答案：B</div>
+                <div class="explanation"><strong>解析：</strong>文章第八段提出问题"should systems simply deliver the fastest answer, or should they be built to strengthen the user's own reasoning process?"，并在结尾强调"AI should be built to support judgment, not replace it"，因此 B 正确。A 与文意相反；C 将研究者观点误当作用户偏好；D 与文中"not only for students and journalists, but for anyone"矛盾。</div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>💡 阅读技巧提示</h2>
+            <ul class="tips-list">
+                <li><strong>识别“问题—实验—发现—启示”结构：</strong>本文先提出核心矛盾（AI 即时帮助 vs 长期能力退化），再介绍实验、呈现数据、分析原因，最后延伸至教育等场景。把握该结构有助于快速定位各题答案。</li>
+                <li><strong>警惕绝对化选项：</strong>考研阅读正确选项通常避免“entirely”“always”“only”等绝对词汇。本文主张平衡使用 AI，而非彻底否定或完全肯定。</li>
+                <li><strong>关注转折与对比：</strong>but, yet, by contrast, in reality 等信号词常引出作者真正强调的观点，也是命题高频点。</li>
+                <li><strong>数据定位细节：</strong>文中出现 21%、15.3%、67、four weeks 等具体数字，阅读时可快速标记，便于细节题和推理题作答。</li>
+                <li><strong>积累科技/教育类高频词：</strong>misinformation, credibility, cognition, foundational, outsource, amplify 等为考研英语一常见话题词汇，建议结合语境记忆。</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>考研英语外刊精读 · 每日更新 · 来源：The Guardian</p>
+            <p style="margin-top: 8px; font-size: 0.85rem;">原文链接：https://www.theguardian.com/technology/2026/jul/17/chatbot-dependence-critical-thinking-mit-study</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | The New York Times: Don't Let the Chatbot Think for You</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --accent-light: #fdf2f2;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+            --highlight: #fff3cd;
+            --vocab-bg: #e8f4f8;
+            --phrase-bg: #f0f8e8;
+            --sentence-bg: #f5f0fa;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Noto Sans CJK SC", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .article-header {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .article-header .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .article-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .article-header .subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        .article-header .meta {
+            font-size: 13px;
+            opacity: 0.8;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .article-header .meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section-card h2 {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-card h3 {
+            font-size: 17px;
+            color: var(--primary);
+            margin: 20px 0 12px;
+        }
+        .article-body p {
+            margin-bottom: 16px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+        .vocab-word {
+            color: var(--accent);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--accent);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .vocab-word:hover {
+            background: var(--accent-light);
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 1.5;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        .vocab-word.active .tooltip {
+            display: block;
+        }
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .vocab-table th {
+            background: var(--vocab-bg);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+        }
+        .vocab-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .vocab-table tr:hover {
+            background: var(--vocab-bg);
+        }
+        .vocab-table .word-cell {
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .vocab-table .phonetic {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        .phrase-item {
+            background: var(--phrase-bg);
+            border-left: 4px solid #7cb342;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            border-radius: 0 8px 8px 0;
+        }
+        .phrase-item .phrase-en {
+            font-weight: 600;
+            color: #558b2f;
+            font-size: 15px;
+        }
+        .phrase-item .phrase-cn {
+            color: var(--text-light);
+            font-size: 14px;
+            margin: 4px 0;
+        }
+        .phrase-item .phrase-example {
+            font-size: 13px;
+            color: var(--text);
+            margin-top: 6px;
+            font-style: italic;
+        }
+        .sentence-box {
+            background: var(--sentence-bg);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .sentence-box .original {
+            font-size: 15px;
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        .sentence-box .analysis {
+            font-size: 14px;
+            color: var(--text);
+        }
+        .sentence-box .analysis .label {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 6px;
+        }
+        .summary-box {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .summary-box p {
+            margin-bottom: 10px;
+        }
+        .quiz-item {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .quiz-item:last-child {
+            border-bottom: none;
+        }
+        .quiz-item .question {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        .quiz-item .options {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+        .quiz-item .options label {
+            display: block;
+            padding: 6px 0;
+            cursor: pointer;
+        }
+        .quiz-item .answer-box {
+            background: var(--highlight);
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 10px;
+        }
+        .quiz-item .answer-box .correct {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        .quiz-item .answer-box .analysis {
+            color: var(--text);
+            font-size: 14px;
+            margin-top: 6px;
+        }
+        .tips-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffa000;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        .tips-box h4 {
+            color: #e65100;
+            margin-bottom: 8px;
+        }
+        .tips-box ul {
+            margin-left: 18px;
+            font-size: 14px;
+        }
+        .tips-box li {
+            margin-bottom: 6px;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .back-link a {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+        .back-link a:hover {
+            opacity: 0.9;
+        }
+        @media (max-width: 600px) {
+            .article-header h1 { font-size: 20px; }
+            .section-card { padding: 18px; }
+            .vocab-table { font-size: 12px; }
+            .vocab-table th, .vocab-table td { padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="article-header">
+            <div class="tag">考研英语外刊精读</div>
+            <h1>The Lesson of AI Literacy Class — Don't Let the Chatbot Think for You</h1>
+            <div class="subtitle">AI素养课的启示——别让聊天机器人替你思考</div>
+            <div class="meta">
+                <span>📰 The New York Times</span>
+                <span>✍️ Natasha Singer</span>
+                <span>📅 February 23, 2026</span>
+                <span>🎯 科技 · 教育</span>
+            </div>
+        </div>
+
+        <div class="section-card article-body">
+            <h2>📖 正文精读</h2>
+            <p>The first session of a new <span class="vocab-word" onclick="toggleTooltip(this)">artificial<span class="tooltip">artificial /ˌɑːrtɪˈfɪʃl/ adj. 人造的，人工的</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">intelligence<span class="tooltip">intelligence /ɪnˈtelɪdʒəns/ n. 智力，智能</span></span> class this month for high school seniors in Newark, New Jersey, involved purely human intelligence.</p>
+
+            <p>The students' assignment: to <span class="vocab-word" onclick="toggleTooltip(this)">compare<span class="tooltip">compare /kəmˈper/ v. 比较，对比</span></span> when they had passively scrolled through AI-driven social media feeds with times when they had actively selected the videos or Google search results they wanted to see.</p>
+
+            <p>"Are you steering the technology or is it steering you?" asked a slide on the classroom whiteboard at Washington Park High School.</p>
+
+            <p>In a class discussion that followed, a student named Adrian Farrell, 18, said he had <span class="vocab-word" onclick="toggleTooltip(this)">taken charge of<span class="tooltip">take charge of 负责；掌控</span></span> AI by asking a chatbot to check his math homework for accuracy. Brianna Perez, 18, said she went into "passenger mode" when using a Spotify feature called AI DJ.</p>
+
+            <p>"It plays your favourite music so you don't have to change it," she said.</p>
+
+            <p>Schools across the United States are hustling to introduce a new subject: AI <span class="vocab-word" onclick="toggleTooltip(this)">literacy<span class="tooltip">literacy /ˈlɪtərəsi/ n. 读写能力；素养</span></span>.</p>
+
+            <p>In what some educators are calling a "driver's license" for AI, the new lessons aim to teach students how to <span class="vocab-word" onclick="toggleTooltip(this)">examine<span class="tooltip">examine /ɪɡˈzæmɪn/ v. 检查；审视</span></span> the latest tech tools and use them responsibly.</p>
+
+            <p>Teachers say they want to <span class="vocab-word" onclick="toggleTooltip(this)">prepare<span class="tooltip">prepare /prɪˈper/ v. 准备</span></span> young people to <span class="vocab-word" onclick="toggleTooltip(this)">navigate<span class="tooltip">navigate /ˈnævɪɡeɪt/ v. 导航；驾驭</span></span> a world increasingly shaped by AI, as chatbots <span class="vocab-word" onclick="toggleTooltip(this)">manufacture<span class="tooltip">manufacture /ˌmænjuˈfæktʃər/ v. 制造；捏造</span></span> human-sounding writing and employers use <span class="vocab-word" onclick="toggleTooltip(this)">algorithms<span class="tooltip">algorithm /ˈælɡərɪðəm/ n. 算法</span></span> to help vet job <span class="vocab-word" onclick="toggleTooltip(this)">candidates<span class="tooltip">candidate /ˈkændɪdət/ n. 候选人；求职者</span></span>.</p>
+
+            <p>Some schools are focused on AI chatbots, teaching students how to prompt Google's Gemini or Microsoft's Copilot. Some are introducing AI as a new class topic, with lessons examining societal <span class="vocab-word" onclick="toggleTooltip(this)">consequences<span class="tooltip">consequence /ˈkɑːnsɪkwens/ n. 后果，结果</span></span> like the spread of AI-generated nude images, known as deepfakes.</p>
+
+            <p><span class="vocab-word" onclick="toggleTooltip(this)">Proponents<span class="tooltip">proponent /prəˈpoʊnənt/ n. 支持者，提倡者</span></span> say schools must quickly teach young people to use AI to assist their learning, prepare them for jobs and help the United States compete with China.</p>
+
+            <p>Last year, President Donald Trump issued an <span class="vocab-word" onclick="toggleTooltip(this)">executive<span class="tooltip">executive /ɪɡˈzekjətɪv/ adj. 行政的；执行的 n. 主管</span></span> order urging schools to teach "foundational AI literacy" starting in kindergarten.</p>
+
+            <p>Education researchers warn that chatbots can make stuff up, <span class="vocab-word" onclick="toggleTooltip(this)">enable<span class="tooltip">enable /ɪˈneɪbl/ v. 使能够；使成为可能</span></span> cheating and <span class="vocab-word" onclick="toggleTooltip(this)">erode<span class="tooltip">erode /ɪˈroʊd/ v. 侵蚀；削弱</span></span> critical thinking.</p>
+
+            <p>A recent study from Cambridge University Press Assessment and Microsoft Research found that students who took notes on text passages had better reading <span class="vocab-word" onclick="toggleTooltip(this)">comprehension<span class="tooltip">comprehension /ˌkɑːmprɪˈhenʃn/ n. 理解力</span></span> than students who got help from chatbots.</p>
+
+            <p>For now, "the risks of <span class="vocab-word" onclick="toggleTooltip(this)">utilising<span class="tooltip">utilise /ˈjuːtəlaɪz/ v. 利用，使用</span></span> AI in education <span class="vocab-word" onclick="toggleTooltip(this)">overshadow<span class="tooltip">overshadow /ˌoʊvərˈʃædoʊ/ v. 使黯然失色；掩盖</span></span> its benefits," the Brookings Institution concluded last month in a report on school AI use.</p>
+
+            <p>Amid the debate, schools such as Washington Park High are staking out a middle ground by treating AI as if it were a car and helping students develop rules for the road.</p>
+
+            <p>Mike Taubman, 45, a career explorations teacher who co-developed the school's new literacy course, compared the class to preparing teenagers for their driver's license exam.</p>
+
+            <p>"Where do you want to go, and can AI help you get there?" Mr Taubman asked. Students needed to learn to drive AI tools, analyse what's under the hood, develop guidelines for personal use and design ideal safety policies, he said.</p>
+
+            <p>"What do I think the laws, the rules, the norms should be around AI for my city, my country?" he added.</p>
+
+            <p>Washington Park, a four-story building with a red brick facade in downtown Newark, serves about 900 high school students. It is part of Uncommon Schools, a charter school network in the Northeast focused on college and career preparation.</p>
+
+            <p>Mr Taubman and Scott Kern, a US history teacher, <span class="vocab-word" onclick="toggleTooltip(this)">came up with<span class="tooltip">come up with 提出；想出</span></span> the idea for the new elective class on AI. Both had already introduced AI tools and topics in their regular courses.</p>
+
+            <p>Mr Kern, 45, recently participated in a program at Playlab, a nonprofit that helps teachers create customised AI apps for their courses.</p>
+
+            <p>To help his students hone their argumentative writing, Mr Kern developed chatbots for his US history classes based on his course materials and student assessments.</p>
+
+            <p>He also developed firm guidelines for students on when to use — and when not to use — AI bots.</p>
+
+            <p>On a recent Tuesday, Mr Kern taught an Advanced Placement US History class on the Chicago Race Riot, violent protests set off by the murder of a Black teenager in 1919.</p>
+
+            <p>First, he asked students to read century-old newspaper clippings and other historical documents. Then, he led a class discussion on broader trends that had helped fuel the tensions.</p>
+
+            <p>Next, Mr Kern asked students to spend a few minutes describing the main cause of the riot to a chatbot he had created for the class. Allyson Johnson, 17, opened her laptop and typed in her answer: entrenched racial segregation.</p>
+
+            <p>"Let me push you on this," the chatbot responded. Segregation had existed for decades before 1919. So what specific factors, the bot asked, had caused a tense situation to suddenly escalate "into explosive violence"?</p>
+
+            <p>Ms Johnson said she enjoyed sparring with the AI because "the chatbot asked me different questions that pushed my argument even more."</p>
+
+            <p>After a few minutes, Mr Kern told students that their time with the chatbot was up and resumed the class discussion. <span class="vocab-word" onclick="toggleTooltip(this)">Fundamental<span class="tooltip">fundamental /ˌfʌndəˈmentl/ adj. 根本的，基础的</span></span> student learning should remain an AI-free activity, he said.</p>
+
+            <p>"Anytime where we want kids interacting with each other or doing <span class="vocab-word" onclick="toggleTooltip(this)">initial<span class="tooltip">initial /ɪˈnɪʃl/ adj. 最初的</span></span> critical thinking, I would never want AI or any sort of technology of that ilk to come in and <span class="vocab-word" onclick="toggleTooltip(this)">interfere with<span class="tooltip">interfere with 干扰；妨碍</span></span> that," Mr Kern said.</p>
+
+            <p>In another part of the school, Mr Taubman was leading a career explorations course. He has developed a variety of career simulation chatbots for the class.</p>
+
+            <p>One enables students interested in fields like speech pathology to create and learn about virtual patients with detailed medical histories.</p>
+
+            <p>Aniya Gervais, 17, is interested in becoming a mental health nurse practitioner. For a class project, she wanted to create a <span class="vocab-word" onclick="toggleTooltip(this)">hypothetical<span class="tooltip">hypothetical /ˌhaɪpəˈθetɪkl/ adj. 假设的</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">nonprofit<span class="tooltip">nonprofit /ˌnɑːnˈprɑːfɪt/ n. 非营利组织 adj. 非营利的</span></span> for teenagers with mental health issues.</p>
+
+            <p>But after discussing her plan with one of Mr Taubman's class AI bots, she concluded her initial idea was too broad. So she <span class="vocab-word" onclick="toggleTooltip(this)">narrowed<span class="tooltip">narrow /ˈnæroʊ/ v. 缩小；变窄</span></span> the project to <span class="vocab-word" onclick="toggleTooltip(this)">focus on<span class="tooltip">focus on 专注于</span></span> teenagers struggling with both depression and <span class="vocab-word" onclick="toggleTooltip(this)">substance<span class="tooltip">substance /ˈsʌbstəns/ n. 物质</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">abuse<span class="tooltip">abuse /əˈbjuːs/ n. 滥用；虐待</span></span>.</p>
+
+            <p>Ms Gervais said she often used ChatGPT for tasks like coming up with pasta recipes or planning fitness routines.</p>
+
+            <p>"Before, I was telling AI what to do, and it was just telling me what to do," Ms Gervais said. "But now," she said of Mr Taubman's classroom chatbots, "I'm asking the AI questions that will help me get to the answer."</p>
+
+            <p>This semester, Mr Kern and Mr Taubman decided to <span class="vocab-word" onclick="toggleTooltip(this)">join forces<span class="tooltip">join forces 联手；合作</span></span> to <span class="vocab-word" onclick="toggleTooltip(this)">formalise<span class="tooltip">formalise /ˈfɔːrməlaɪz/ v. 使正式化</span></span> their AI education methods in an <span class="vocab-word" onclick="toggleTooltip(this)">elective<span class="tooltip">elective /ɪˈlektɪv/ adj. 选修的 n. 选修课</span></span> class. Eighteen students signed up.</p>
+
+            <p>During the first class this month, students learned about how some film directors had started using AI to <span class="vocab-word" onclick="toggleTooltip(this)">generate<span class="tooltip">generate /ˈdʒenəreɪt/ v. 产生；生成</span></span> movie scenes. Should humans still get credit for that?</p>
+
+            <p>As long as people directed the video-generating bots, some students said, they would consider humans to be a film's authors. Other students argued that tech giants had trained AI on decades of artists' work, potentially <span class="vocab-word" onclick="toggleTooltip(this)">amounting to<span class="tooltip">amount to 相当于；总计</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">intellectual<span class="tooltip">intellectual /ˌɪntəˈlektʃuəl/ adj. 智力的；知识的</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">property<span class="tooltip">property /ˈprɑːpərti/ n. 财产；属性</span></span> theft.</p>
+
+            <p>(The New York Times has sued OpenAI and Microsoft over copyright <span class="vocab-word" onclick="toggleTooltip(this)">infringement<span class="tooltip">infringement /ɪnˈfrɪndʒmənt/ n. 侵权；违反</span></span> claims. Both companies have denied wrongdoing.)</p>
+
+            <p>Mr Kern and Mr Taubman <span class="vocab-word" onclick="toggleTooltip(this)">acknowledged<span class="tooltip">acknowledge /əkˈnɑːlɪdʒ/ v. 承认；致谢</span></span> that their driver's license <span class="vocab-word" onclick="toggleTooltip(this)">metaphor<span class="tooltip">metaphor /ˈmetəfər/ n. 隐喻，比喻</span></span> had limits. Until chatbots have built-in <span class="vocab-word" onclick="toggleTooltip(this)">safeguards<span class="tooltip">safeguard /ˈseɪfɡɑːrd/ n. 保护措施 v. 保护</span></span> akin to seat-belts and airbags, it will be difficult for students to make truly informed decisions about the risks of powerful AI systems.</p>
+
+            <p>Mr Kern said he hoped that students would one day "have influence to build these tools in a way that's better and more <span class="vocab-word" onclick="toggleTooltip(this)">equitable<span class="tooltip">equitable /ˈekwɪtəbl/ adj. 公正的，公平的</span></span> and more environmentally friendly than what exists now."</p>
+
+            <p>Ms Perez, a senior taking the new course, said she already felt <span class="vocab-word" onclick="toggleTooltip(this)">empowered<span class="tooltip">empower /ɪmˈpaʊər/ v. 授权；使能够</span></span> learning about AI's uses and risks. The school hopes to offer the AI literacy class soon to all 12th graders.</p>
+
+            <p>"If it wasn't for courses like this that are being <span class="vocab-word" onclick="toggleTooltip(this)">implemented<span class="tooltip">implement /ˈɪmplɪmənt/ v. 实施，执行</span></span>, we could really go into our future like not knowing what's coming," Ms Perez said.</p>
+        </div>
+
+        <div class="section-card">
+            <h2>📝 文章大意</h2>
+            <div class="summary-box">
+                <p><strong>主题：</strong>本文报道了美国新泽西州纽瓦克市华盛顿公园高中开设AI素养选修课的现象，探讨了学校如何在AI时代培养学生的批判性思维与负责任地使用技术的能力。</p>
+                <p><strong>主要内容：</strong>随着生成式AI快速普及，美国各地学校正 hurry 推出AI素养课程，旨在帮助学生理解AI工具的工作原理、合理使用场景及潜在风险。文章以华盛顿公园高中为例，介绍了两位教师如何将AI融入历史课和职业探索课——他们开发定制化课堂聊天机器人，引导学生主动提问而非被动接受答案。同时，文章也呈现了教育研究者对AI可能削弱学生独立思考能力的担忧，以及学校如何在"全面禁止"与"放任使用"之间寻找平衡点的努力。</p>
+                <p><strong>核心观点：</strong>AI素养教育不应将AI视为简单的答案生成器，而应培养学生"驾驭"技术的能力——知道何时使用AI辅助、何时坚持独立思考，最终让技术服务于人的成长而非取代人的思考。</p>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>🔤 考研核心词汇表（30个）</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr><th>单词</th><th>音标</th><th>词性</th><th>中文释义</th><th>例句</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="word-cell">artificial</td><td class="phonetic">/ˌɑːrtɪˈfɪʃl/</td><td>adj.</td><td>人造的，人工的</td><td>Artificial intelligence is reshaping education.</td></tr>
+                    <tr><td class="word-cell">intelligence</td><td class="phonetic">/ɪnˈtelɪdʒəns/</td><td>n.</td><td>智力，智能</td><td>Human intelligence remains irreplaceable.</td></tr>
+                    <tr><td class="word-cell">literacy</td><td class="phonetic">/ˈlɪtərəsi/</td><td>n.</td><td>读写能力；素养</td><td>AI literacy has become a necessary skill.</td></tr>
+                    <tr><td class="word-cell">manufacture</td><td class="phonetic">/ˌmænjuˈfæktʃər/</td><td>v.</td><td>制造；捏造</td><td>Chatbots can manufacture convincing text.</td></tr>
+                    <tr><td class="word-cell">algorithm</td><td class="phonetic">/ˈælɡərɪðəm/</td><td>n.</td><td>算法</td><td>Employers use algorithms to screen candidates.</td></tr>
+                    <tr><td class="word-cell">executive</td><td class="phonetic">/ɪɡˈzekjətɪv/</td><td>adj./n.</td><td>行政的；主管</td><td>The president issued an executive order.</td></tr>
+                    <tr><td class="word-cell">erode</td><td class="phonetic">/ɪˈroʊd/</td><td>v.</td><td>侵蚀；削弱</td><td>Overuse of AI may erode critical thinking.</td></tr>
+                    <tr><td class="word-cell">comprehension</td><td class="phonetic">/ˌkɑːmprɪˈhenʃn/</td><td>n.</td><td>理解力</td><td>Students who took notes had better comprehension.</td></tr>
+                    <tr><td class="word-cell">utilise</td><td class="phonetic">/ˈjuːtəlaɪz/</td><td>v.</td><td>利用，使用</td><td>The risks of utilising AI overshadow its benefits.</td></tr>
+                    <tr><td class="word-cell">overshadow</td><td class="phonetic">/ˌoʊvərˈʃædoʊ/</td><td>v.</td><td>使黯然失色；掩盖</td><td>Safety concerns overshadow the technology's promise.</td></tr>
+                    <tr><td class="word-cell">proponent</td><td class="phonetic">/prəˈpoʊnənt/</td><td>n.</td><td>支持者，提倡者</td><td>Proponents argue AI can assist learning.</td></tr>
+                    <tr><td class="word-cell">navigate</td><td class="phonetic">/ˈnævɪɡeɪt/</td><td>v.</td><td>导航；驾驭</td><td>Students must learn to navigate AI tools.</td></tr>
+                    <tr><td class="word-cell">candidate</td><td class="phonetic">/ˈkændɪdət/</td><td>n.</td><td>候选人；求职者</td><td>Algorithms help vet job candidates.</td></tr>
+                    <tr><td class="word-cell">consequence</td><td class="phonetic">/ˈkɑːnsɪkwens/</td><td>n.</td><td>后果，结果</td><td>Lessons examine societal consequences of AI.</td></tr>
+                    <tr><td class="word-cell">enable</td><td class="phonetic">/ɪˈneɪbl/</td><td>v.</td><td>使能够</td><td>AI tools can enable cheating in exams.</td></tr>
+                    <tr><td class="word-cell">fundamental</td><td class="phonetic">/ˌfʌndəˈmentl/</td><td>adj.</td><td>根本的，基础的</td><td>Fundamental learning should remain AI-free.</td></tr>
+                    <tr><td class="word-cell">initial</td><td class="phonetic">/ɪˈnɪʃl/</td><td>adj.</td><td>最初的</td><td>She concluded her initial idea was too broad.</td></tr>
+                    <tr><td class="word-cell">hypothetical</td><td class="phonetic">/ˌhaɪpəˈθetɪkl/</td><td>adj.</td><td>假设的</td><td>She wanted to create a hypothetical nonprofit.</td></tr>
+                    <tr><td class="word-cell">nonprofit</td><td class="phonetic">/ˌnɑːnˈprɑːfɪt/</td><td>n./adj.</td><td>非营利组织；非营利的</td><td>Playlab is a nonprofit helping teachers.</td></tr>
+                    <tr><td class="word-cell">substance</td><td class="phonetic">/ˈsʌbstəns/</td><td>n.</td><td>物质</td><td>The project focused on substance abuse.</td></tr>
+                    <tr><td class="word-cell">abuse</td><td class="phonetic">/əˈbjuːs/</td><td>n./v.</td><td>滥用；虐待</td><td>Substance abuse is a serious social issue.</td></tr>
+                    <tr><td class="word-cell">formalise</td><td class="phonetic">/ˈfɔːrməlaɪz/</td><td>v.</td><td>使正式化</td><td>They decided to formalise their teaching methods.</td></tr>
+                    <tr><td class="word-cell">elective</td><td class="phonetic">/ɪˈlektɪv/</td><td>adj./n.</td><td>选修的；选修课</td><td>Eighteen students signed up for the elective.</td></tr>
+                    <tr><td class="word-cell">generate</td><td class="phonetic">/ˈdʒenəreɪt/</td><td>v.</td><td>产生；生成</td><td>Directors use AI to generate movie scenes.</td></tr>
+                    <tr><td class="word-cell">intellectual</td><td class="phonetic">/ˌɪntəˈlektʃuəl/</td><td>adj.</td><td>智力的；知识的</td><td>Training AI on artists' work raises intellectual property concerns.</td></tr>
+                    <tr><td class="word-cell">property</td><td class="phonetic">/ˈprɑːpərti/</td><td>n.</td><td>财产；属性</td><td>Intellectual property rights protect creators.</td></tr>
+                    <tr><td class="word-cell">infringement</td><td class="phonetic">/ɪnˈfrɪndʒmənt/</td><td>n.</td><td>侵权；违反</td><td>The Times sued over copyright infringement.</td></tr>
+                    <tr><td class="word-cell">safeguard</td><td class="phonetic">/ˈseɪfɡɑːrd/</td><td>n./v.</td><td>保护措施；保护</td><td>Chatbots need built-in safeguards.</td></tr>
+                    <tr><td class="word-cell">equitable</td><td class="phonetic">/ˈekwɪtəbl/</td><td>adj.</td><td>公正的，公平的</td><td>He hoped for more equitable AI tools.</td></tr>
+                    <tr><td class="word-cell">implement</td><td class="phonetic">/ˈɪmplɪmənt/</td><td>v.</td><td>实施，执行</td><td>Courses like this are being implemented nationwide.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section-card">
+            <h2>🔗 短语搭配</h2>
+            <div class="phrase-item">
+                <div class="phrase-en">1. take charge of</div>
+                <div class="phrase-cn">负责；掌控</div>
+                <div class="phrase-example">原句：Adrian Farrell said he had <strong>taken charge of</strong> AI by asking a chatbot to check his math homework for accuracy.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">2. compare with</div>
+                <div class="phrase-cn">与……比较</div>
+                <div class="phrase-example">原句：The students' assignment: to <strong>compare</strong> when they had passively scrolled through AI-driven social media feeds <strong>with</strong> times when they had actively selected the videos.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">3. prepare for</div>
+                <div class="phrase-cn">为……做准备</div>
+                <div class="phrase-example">原句：Teachers say they want to <strong>prepare</strong> young people <strong>for</strong> a world increasingly shaped by AI.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">4. focus on</div>
+                <div class="phrase-cn">专注于</div>
+                <div class="phrase-example">原句：So she narrowed the project to <strong>focus on</strong> teenagers struggling with both depression and substance abuse.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">5. amount to</div>
+                <div class="phrase-cn">相当于；总计</div>
+                <div class="phrase-example">原句：Other students argued that tech giants had trained AI on decades of artists' work, potentially <strong>amounting to</strong> intellectual property theft.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">6. come up with</div>
+                <div class="phrase-cn">提出；想出</div>
+                <div class="phrase-example">原句：Mr Taubman and Scott Kern <strong>came up with</strong> the idea for the new elective class on AI.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">7. join forces</div>
+                <div class="phrase-cn">联手；合作</div>
+                <div class="phrase-example">原句：Mr Kern and Mr Taubman decided to <strong>join forces</strong> to formalise their AI education methods in an elective class.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">8. interfere with</div>
+                <div class="phrase-cn">干扰；妨碍</div>
+                <div class="phrase-example">原句：I would never want AI or any sort of technology of that ilk to come in and <strong>interfere with</strong> that.</div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>🔍 长难句解析</h2>
+            <div class="sentence-box">
+                <div class="original">"Teachers say they want to prepare young people to navigate a world increasingly shaped by AI, as chatbots manufacture human-sounding writing and employers use algorithms to help vet job candidates."</div>
+                <div class="analysis">
+                    <span class="label">主干</span>Teachers say + 宾语从句<br><br>
+                    <span class="label">从句分析</span><br>
+                    • 宾语从句：they want to prepare young people to navigate a world...<br>
+                    • 过去分词短语作后置定语：increasingly shaped by AI（修饰 world）<br>
+                    • as 引导原因状语从句，包含两个并列分句：<br>
+                    &nbsp;&nbsp;① chatbots manufacture human-sounding writing<br>
+                    &nbsp;&nbsp;② employers use algorithms to help vet job candidates<br><br>
+                    <span class="label">翻译</span>教师们表示，他们希望帮助年轻人驾驭一个正日益被人工智能塑造的世界——因为聊天机器人正在制造听起来像人写的文字，而雇主们也在使用算法来筛选求职者。
+                </div>
+            </div>
+            <div class="sentence-box">
+                <div class="original">"A recent study from Cambridge University Press Assessment and Microsoft Research found that students who took notes on text passages had better reading comprehension than students who got help from chatbots."</div>
+                <div class="analysis">
+                    <span class="label">主干</span>A recent study found that...<br><br>
+                    <span class="label">从句分析</span><br>
+                    • that 引导宾语从句：students... had better reading comprehension than students...<br>
+                    • 第一个 who 引导定语从句：who took notes on text passages（修饰第一个 students）<br>
+                    • 第二个 who 引导定语从句：who got help from chatbots（修饰第二个 students）<br><br>
+                    <span class="label">翻译</span>剑桥大学出版社评估部门与微软研究部门近期的一项研究发现，对文本段落做笔记的学生比借助聊天机器人的学生拥有更好的阅读理解能力。
+                </div>
+            </div>
+            <div class="sentence-box">
+                <div class="original">"Anytime where we want kids interacting with each other or doing initial critical thinking, I would never want AI or any sort of technology of that ilk to come in and interfere with that."</div>
+                <div class="analysis">
+                    <span class="label">主干</span>I would never want AI... to come in and interfere with that.<br><br>
+                    <span class="label">结构分析</span><br>
+                    • Anytime where... 为时间状语从句（where 引导定语从句修饰 anytime）<br>
+                    • 定语从句中包含两个并列的现在分词短语作宾补：<br>
+                    &nbsp;&nbsp;① interacting with each other<br>
+                    &nbsp;&nbsp;② doing initial critical thinking<br>
+                    • of that ilk：固定搭配，意为"那一类的"<br><br>
+                    <span class="label">翻译</span>任何时候，只要我们希望孩子们相互交流或进行初步的批判性思考，我绝不希望人工智能或任何类似的技术介入并干扰这一过程。
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>✅ 阅读理解练习</h2>
+            <div class="quiz-item">
+                <div class="question">1. 主旨大意题：What is the main idea of the article?</div>
+                <div class="options">
+                    <label>A. AI chatbots are replacing teachers in American high schools.</label>
+                    <label>B. Schools in the U.S. are introducing AI literacy courses to help students use AI responsibly while maintaining critical thinking.</label>
+                    <label>C. The U.S. government has banned the use of AI in all public schools.</label>
+                    <label>D. Students should completely avoid using AI tools in their academic work.</label>
+                </div>
+                <div class="answer-box">
+                    <div class="correct">正确答案：B</div>
+                    <div class="analysis">解析：文章通篇围绕美国学校（以华盛顿公园高中为例）开设AI素养课程展开，讨论了如何在利用AI辅助学习的同时保护学生的批判性思维。A项"取代教师"与原文不符；C项"全面禁止"与原文相反；D项"完全避免"过于绝对，文章主张的是合理使用而非完全禁止。</div>
+                </div>
+            </div>
+            <div class="quiz-item">
+                <div class="question">2. 细节理解题：According to Mr Kern, when should AI NOT be used in the classroom?</div>
+                <div class="options">
+                    <label>A. When students are reviewing for exams.</label>
+                    <label>B. When students are interacting with each other or doing initial critical thinking.</label>
+                    <label>C. When students are writing argumentative essays.</label>
+                    <label>D. When students are researching historical documents.</label>
+                </div>
+                <div class="answer-box">
+                    <div class="correct">正确答案：B</div>
+                    <div class="analysis">解析：根据文章倒数第十段，Mr Kern明确表示："Anytime where we want kids interacting with each other or doing initial critical thinking, I would never want AI or any sort of technology of that ilk to come in and interfere with that." 即他认为在学生相互交流或进行初步批判性思考时不应使用AI。</div>
+                </div>
+            </div>
+            <div class="quiz-item">
+                <div class="question">3. 推理判断题：What can be inferred about the author's attitude toward AI literacy education?</div>
+                <div class="options">
+                    <label>A. Strongly opposed, believing AI should be banned from schools entirely.</label>
+                    <label>B. Neutral and objective, presenting both benefits and risks without taking a clear position.</label>
+                    <label>C. Mildly skeptical, suggesting that AI literacy courses are merely a temporary trend.</label>
+                    <label>D. Highly supportive, arguing that AI literacy is the most important subject in modern education.</label>
+                </div>
+                <div class="answer-box">
+                    <div class="correct">正确答案：B</div>
+                    <div class="analysis">解析：作者在文中既呈现了支持AI素养教育的观点（如帮助学生驾驭技术、为未来工作做准备），也引用了研究者的担忧（AI可能捏造信息、助长作弊、削弱批判性思维）。文章以客观报道的口吻呈现了多方观点，包括课程实践、学生反馈、研究者警告和政策背景，并未明显偏向某一立场，因此B项"中立客观"最为准确。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>💡 阅读技巧提示</h2>
+            <div class="tips-box">
+                <h4>考研英语阅读技巧</h4>
+                <ul>
+                    <li><strong>主旨题定位法：</strong>英语一/二的主旨大意题通常可通过首段+各段首句快速把握。本文首段即点明"AI literacy class"这一核心话题。</li>
+                    <li><strong>例证题注意：</strong>文中出现具体人名（如Mike Taubman, Scott Kern）、地名（Newark, Washington Park High）时，往往是为了支撑前文观点，而非独立考点。</li>
+                    <li><strong>长难句拆解：</strong>遇到as, while, where等引导的从句时，先找主干（主谓宾），再分析修饰成分。本文多处使用as引导原因/时间状语从句。</li>
+                    <li><strong>观点态度题：</strong>注意区分"作者观点"与"引用观点"。考研常考文中某人的态度，需准确定位引号内的直接引语。</li>
+                    <li><strong>词汇题策略：</strong>生词含义可通过上下文逻辑（同义/反义/举例）推断，如"erode critical thinking"中，erode可通过"enable cheating"的并列负面含义推测为"削弱"。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← 返回文章列表</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleTooltip(el) {
+            document.querySelectorAll('.vocab-word').forEach(function(word) {
+                if (word !== el) word.classList.remove('active');
+            });
+            el.classList.toggle('active');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.vocab-word')) {
+                document.querySelectorAll('.vocab-word').forEach(function(word) {
+                    word.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

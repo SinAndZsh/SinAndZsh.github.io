@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>考研英语外刊精读 | The New York Times</title>
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --accent: #c9a227;
+    --bg: #f7f9fb;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --muted: #5a6a7a;
+    --border: #e1e8ed;
+    --highlight: #fff3cd;
+    --vocab: #e74c3c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+  }
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 16px;
+  }
+  header {
+    text-align: center;
+    padding: 40px 0 24px;
+    border-bottom: 3px solid var(--primary);
+    margin-bottom: 32px;
+  }
+  header h1 {
+    font-size: 2rem;
+    color: var(--primary);
+    letter-spacing: 1px;
+  }
+  .meta {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .source-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+  .article-body {
+    background: var(--card);
+    padding: 36px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    font-size: 1.05rem;
+    line-height: 2;
+  }
+  .article-body p {
+    margin-bottom: 1.2em;
+    text-indent: 2em;
+  }
+  .vocab {
+    color: var(--vocab);
+    border-bottom: 2px dotted var(--vocab);
+    cursor: pointer;
+    font-weight: 600;
+    position: relative;
+  }
+  .tooltip {
+    display: none;
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: nowrap;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--primary);
+  }
+  .vocab:hover .tooltip,
+  .vocab.active .tooltip {
+    display: block;
+  }
+  .section-title {
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin: 40px 0 20px;
+    padding-left: 12px;
+    border-left: 4px solid var(--accent);
+  }
+  .summary-box {
+    background: #e8f4f8;
+    padding: 24px;
+    border-radius: 8px;
+    margin: 24px 0;
+  }
+  .phrase-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  .phrase-title {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+  .phrase-meaning {
+    color: var(--vocab);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .phrase-example {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.95rem;
+  }
+  .sentence-analysis {
+    background: #fff8e1;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--accent);
+  }
+  .sentence-en {
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .sentence-cn {
+    color: var(--muted);
+  }
+  .quiz-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .quiz-question {
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--primary);
+  }
+  .quiz-options label {
+    display: block;
+    margin: 6px 0;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .quiz-options label:hover {
+    background: var(--bg);
+  }
+  .quiz-answer {
+    margin-top: 16px;
+    padding: 14px;
+    background: #e8f5e9;
+    border-radius: 6px;
+    display: none;
+  }
+  .quiz-answer.show {
+    display: block;
+  }
+  .btn {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    font-size: 0.95rem;
+    margin-top: 10px;
+  }
+  .btn:hover { opacity: 0.9; }
+  .vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    background: var(--card);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .vocab-table th, .vocab-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .vocab-table th {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+  }
+  .vocab-table tr:last-child td { border-bottom: none; }
+  .tip-box {
+    background: #e3f2fd;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 24px 0;
+    border-left: 4px solid #2196f3;
+  }
+  .tip-box h4 {
+    color: #1565c0;
+    margin-bottom: 8px;
+  }
+  footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="source-badge">The New York Times</div>
+  <h1>Oceans Under 'Severe and Accelerating' Pressure, UN Assessment Finds</h1>
+  <div class="meta">Published: June 30, 2026 | Category: Environment & Science | Length: ~1,280 words</div>
+</header>
+
+<div class="summary-box">
+  <strong>文章大意：</strong>联合国发布第三次世界海洋评估报告，由来自86个国家的约600名科学家历时五年编撰完成。报告指出全球海洋正面临"严重且不断加剧"的压力：海水变暖、酸化、塑料污染（每年5210万吨塑料垃圾入海）、过度捕捞等问题相互叠加，威胁着海洋生态系统和数十亿人的生计。报告同时强调，尽管形势严峻，但通过减少污染、建立海洋保护区、可持续渔业管理等手段，人类仍有机会扭转部分损害。本文围绕这一评估的核心发现、对人类社会的影响以及可能的解决路径展开深度报道。
+</div>
+
+<div class="article-body">
+<p>The world's oceans are under <span class="vocab" onclick="this.classList.toggle('active')">severe<span class="tooltip">/sɪˈvɪə(r)/ adj. 严重的；严峻的</span></span> and <span class="vocab" onclick="this.classList.toggle('active')">accelerating<span class="tooltip">/əkˈseləreɪtɪŋ/ adj. 加速的；不断加剧的</span></span> pressure from human activity, according to a <span class="vocab" onclick="this.classList.toggle('active')">landmark<span class="tooltip">/ˈlændmɑːk/ n./adj. 里程碑；有重大意义的</span></span> United Nations assessment released this week. The report, the third of its kind and the most <span class="vocab" onclick="this.classList.toggle('active')">comprehensive<span class="tooltip">/ˌkɒmprɪˈhensɪv/ adj. 全面的；综合的</span></span> to date, warns that <span class="vocab" onclick="this.classList.toggle('active')">compounding<span class="tooltip">/ˈkɒmpaʊndɪŋ/ adj. 复合的；叠加的</span></span> threats are pushing marine ecosystems toward <span class="vocab" onclick="this.classList.toggle('active')">irreversible<span class="tooltip">/ɪˈrɪvɜːsəbl/ adj. 不可逆的；无法挽回的</span></span> damage.</p>
+
+<p>Compiled over five years by approximately 600 experts from 86 countries, the 1,352-page assessment paints a <span class="vocab" onclick="this.classList.toggle('active')">grim<span class="tooltip">/ɡrɪm/ adj. 严峻的；令人沮丧的</span></span> picture of the state of the world's oceans. "The science is <span class="vocab" onclick="this.classList.toggle('active')">unequivocal<span class="tooltip">/ˌʌnɪˈkwɪvəkl/ adj. 明确的；毫不含糊的</span></span>," said one of the report's coordinating authors. "Human activities are changing the ocean at a pace and scale <span class="vocab" onclick="this.classList.toggle('active')">unprecedented<span class="tooltip">/ʌnˈpresɪdentɪd/ adj. 前所未有的；史无前例的</span></span> in Earth's history."</p>
+
+<p>Among the most alarming findings is the <span class="vocab" onclick="this.classList.toggle('active')">magnitude<span class="tooltip">/ˈmæɡnɪtjuːd/ n. 巨大；重要性；震级</span></span> of plastic pollution. The assessment estimates that 52.1 million tonnes of plastic waste enter the ocean each year, contributing to an estimated 24.4 trillion microplastic particles <span class="vocab" onclick="this.classList.toggle('active')">dispersed<span class="tooltip">/dɪˈspɜːst/ adj. 分散的；散布的</span></span> throughout marine environments. These particles have been detected in the deepest ocean <span class="vocab" onclick="this.classList.toggle('active')">trenches<span class="tooltip">/ˈtrentʃɪz/ n. 海沟；战壕（trench复数）</span></span> and inside the bodies of <span class="vocab" onclick="this.classList.toggle('active')">organisms<span class="tooltip">/ˈɔːɡənɪzəmz/ n. 生物体；有机体（organism复数）</span></span> at every level of the food chain.</p>
+
+<p>Ocean warming represents another <span class="vocab" onclick="this.classList.toggle('active')">existential<span class="tooltip">/ˌeɡzɪˈstenʃl/ adj. 存在性的；关乎生存的</span></span> threat. Since the Industrial Revolution, the ocean has absorbed more than 90 percent of the excess heat trapped by greenhouse gases. This warming is <span class="vocab" onclick="this.classList.toggle('active')">disrupting<span class="tooltip">/dɪsˈrʌptɪŋ/ v. 扰乱；使中断（disrupt的现在分词）</span></span> migration patterns, <span class="vocab" onclick="this.classList.toggle('active')">bleaching<span class="tooltip">/ˈbliːtʃɪŋ/ n./adj. 白化；漂白</span></span> coral reefs, and <span class="vocab" onclick="this.classList.toggle('active')">intensifying<span class="tooltip">/ɪnˈtensɪfaɪɪŋ/ v. 加剧；增强（intensify的现在分词）</span></span> the destructive power of tropical storms. Marine heatwaves — periods of <span class="vocab" onclick="this.classList.toggle('active')">abnormally<span class="tooltip">/æbˈnɔːməli/ adv. 异常地；反常地</span></span> high ocean temperatures — have doubled in frequency since the 1980s.</p>
+
+<p>The assessment also documents the <span class="vocab" onclick="this.classList.toggle('active')">cumulative<span class="tooltip">/ˈkjuːmjələtɪv/ adj. 累积的；渐增的</span></span> effects of multiple stressors. Agricultural runoff, sewage, chemical contamination, and oil spills interact with warming and acidification to create what scientists call "<span class="vocab" onclick="this.classList.toggle('active')">synergistic<span class="tooltip">/ˌsɪnəˈdʒɪstɪk/ adj. 协同的；协作增效的</span></span> damage" — harm greater than the sum of its parts. Coastal ecosystems such as mangrove forests and seagrass meadows, which serve as natural <span class="vocab" onclick="this.classList.toggle('active')">buffers<span class="tooltip">/ˈbʌfəz/ n. 缓冲物；缓冲区（buffer复数）</span></span> against storm surges, are <span class="vocab" onclick="this.classList.toggle('active')">deteriorating<span class="tooltip">/dɪˈtɪəriəreɪtɪŋ/ v. 恶化；退化（deteriorate的现在分词）</span></span> at an alarming rate.</p>
+
+<p>For human communities, the consequences are deeply <span class="vocab" onclick="this.classList.toggle('active')">intertwined<span class="tooltip">/ˌɪntəˈtwaɪnd/ adj. 紧密交织的；缠绕的</span></span> with economic and social stability. Approximately 3 billion people depend on marine and coastal biodiversity for their livelihoods. Fish provide more than 20 percent of the animal protein consumed by low-income countries. As fish stocks <span class="vocab" onclick="this.classList.toggle('active')">deplete<span class="tooltip">/dɪˈpliːt/ v. 耗尽；使枯竭</span></span> and ocean productivity declines, food security for the world's most <span class="vocab" onclick="this.classList.toggle('active')">vulnerable<span class="tooltip">/ˈvʌlnərəbl/ adj. 脆弱的；易受伤害的</span></span> populations grows increasingly <span class="vocab" onclick="this.classList.toggle('active')">precarious<span class="tooltip">/prɪˈkeəriəs/ adj. 不稳定的；危险的</span></span>.</p>
+
+<p>The report identifies a significant "governance gap" as a root cause of ocean degradation. Despite hundreds of international agreements, <span class="vocab" onclick="this.classList.toggle('active')">enforcement<span class="tooltip">/ɪnˈfɔːsmənt/ n. 执行；实施</span></span> remains weak, and coordination between nations is <span class="vocab" onclick="this.classList.toggle('active')">fragmented<span class="tooltip">/ˈfræɡmentɪd/ adj. 碎片化的；分裂的</span></span>. Nearly two-thirds of the ocean lies beyond national jurisdiction, creating what some experts call a "tragedy of the commons" where no single nation bears responsibility for <span class="vocab" onclick="this.classList.toggle('active')">stewardship<span class="tooltip">/ˈstjuːədʃɪp/ n. 管理；监护； stewardship</span></span>.</p>
+
+<p>Yet the assessment is not without hope. The authors emphasize that the ocean possesses remarkable <span class="vocab" onclick="this.classList.toggle('active')">resilience<span class="tooltip">/rɪˈzɪliəns/ n. 恢复力；韧性</span></span> if given a chance to recover. They outline several pathways toward sustainability: expanding marine protected areas, <span class="vocab" onclick="this.classList.toggle('active')">transitioning<span class="tooltip">/trænˈzɪʃənɪŋ/ v. 转变；过渡（transition的现在分词）</span></span> to sustainable fishing practices, reducing plastic production at the source, and <span class="vocab" onclick="this.classList.toggle('active')">decarbonizing<span class="tooltip">/diːˈkɑːbənaɪzɪŋ/ v. 脱碳；减少碳排放（decarbonize的现在分词）</span></span> maritime industries. The report notes that when pollution is reduced and fishing pressure eased, marine populations can rebound surprisingly quickly.</p>
+
+<p>The question, scientists say, is whether humanity can <span class="vocab" onclick="this.classList.toggle('active')">marshal<span class="tooltip">/ˈmɑːʃl/ v. 集结；组织；调动</span></span> the political will and financial resources to act before <span class="vocab" onclick="this.classList.toggle('active')">tipping points<span class="tooltip">/ˈtɪpɪŋ pɔɪnts/ n. 临界点； tipping point复数</span></span> are crossed. "We know what needs to be done," one marine biologist said. "What we lack is the urgency to do it at the scale required." The assessment makes clear that the next decade will be <span class="vocab" onclick="this.classList.toggle('active')">decisive<span class="tooltip">/dɪˈsaɪsɪv/ adj. 决定性的；关键的</span></span> in determining whether future generations inherit a thriving ocean or a <span class="vocab" onclick="this.classList.toggle('active')">diminished<span class="tooltip">/dɪˈmɪnɪʃt/ adj. 减少的；削弱的</span></span> one.</p>
+</div>
+
+<h2 class="section-title">短语搭配 Phrases</h2>
+
+<div class="phrase-card">
+  <div class="phrase-title">1. of its kind</div>
+  <div class="phrase-meaning">同类中的；诸如此类的</div>
+  <div class="phrase-example">原句：The report, the third of its kind and the most comprehensive to date...</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">2. at a pace</div>
+  <div class="phrase-meaning">以……的速度/节奏</div>
+  <div class="phrase-example">原句：Human activities are changing the ocean at a pace and scale unprecedented in Earth's history.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">3. contribute to</div>
+  <div class="phrase-meaning">促成；导致；为……做贡献</div>
+  <div class="phrase-example">原句：...contributing to an estimated 24.4 trillion microplastic particles dispersed throughout marine environments.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">4. at every level of</div>
+  <div class="phrase-meaning">在……的每一个层面</div>
+  <div class="phrase-example">原句：...inside the bodies of organisms at every level of the food chain.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">5. greater than the sum of its parts</div>
+  <div class="phrase-meaning">整体大于部分之和；协同效应</div>
+  <div class="phrase-example">原句：...harm greater than the sum of its parts.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">6. depend on</div>
+  <div class="phrase-meaning">依赖；依靠；取决于</div>
+  <div class="phrase-example">原句：Approximately 3 billion people depend on marine and coastal biodiversity for their livelihoods.</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">7. lie beyond</div>
+  <div class="phrase-meaning">超出……范围；位于……之外</div>
+  <div class="phrase-example">原句：Nearly two-thirds of the ocean lies beyond national jurisdiction...</div>
+</div>
+
+<div class="phrase-card">
+  <div class="phrase-title">8. be decisive in</div>
+  <div class="phrase-meaning">对……起决定性作用</div>
+  <div class="phrase-example">原句：The assessment makes clear that the next decade will be decisive in determining whether future generations inherit a thriving ocean or a diminished one.</div>
+</div>
+
+<h2 class="section-title">长难句解析 Sentence Analysis</h2>
+
+<div class="sentence-analysis">
+  <div class="sentence-en">Sentence 1: The assessment estimates that 52.1 million tonnes of plastic waste enter the ocean each year, contributing to an estimated 24.4 trillion microplastic particles dispersed throughout marine environments.</div>
+  <div class="sentence-cn">【结构分析】主句主语为The assessment，谓语为estimates，后接that引导的宾语从句。宾语从句中，"contributing to..."为现在分词短语作结果状语，表示前文动作带来的结果。"dispersed throughout marine environments"为过去分词短语作后置定语，修饰microplastic particles。</div>
+</div>
+
+<div class="sentence-analysis">
+  <div class="sentence-en">Sentence 2: Agricultural runoff, sewage, chemical contamination, and oil spills interact with warming and acidification to create what scientists call "synergistic damage" — harm greater than the sum of its parts.</div>
+  <div class="sentence-cn">【结构分析】主语为四个并列名词短语（Agricultural runoff, sewage, chemical contamination, and oil spills），谓语为interact with，宾语为warming and acidification。不定式短语"to create..."作目的状语。what引导的宾语从句作create的宾语。破折号后为harm的同位语，后接形容词短语"greater than..."作后置定语。</div>
+</div>
+
+<div class="sentence-analysis">
+  <div class="sentence-en">Sentence 3: The assessment makes clear that the next decade will be decisive in determining whether future generations inherit a thriving ocean or a diminished one.</div>
+  <div class="sentence-cn">【结构分析】主句为"The assessment makes clear that..."，其中clear为宾语补足语，that引导的从句为真正的宾语（宾语后置）。that从句中，"in determining..."为介词短语作状语。determining后接whether引导的宾语从句，从句中使用了"whether...or..."结构，表示"是……还是……"。</div>
+</div>
+
+<h2 class="section-title">阅读理解 Reading Comprehension</h2>
+
+<div class="quiz-item">
+  <div class="quiz-question">1. 主旨大意题：What is the main idea of the passage?</div>
+  <div class="quiz-options">
+    <label><input type="radio" name="q1" value="A"> A. The UN has failed to protect the world's oceans from industrial pollution.</label>
+    <label><input type="radio" name="q1" value="B"> B. A new UN assessment reveals that oceans are facing severe, accelerating threats from human activity, but recovery is still possible with urgent action.</label>
+    <label><input type="radio" name="q1" value="C"> C. Marine heatwaves have doubled in frequency and will destroy all coral reefs by 2030.</label>
+    <label><input type="radio" name="q1" value="D"> D. Plastic pollution is the only serious problem affecting global ocean health today.</label>
+  </div>
+  <button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">查看答案</button>
+  <div class="quiz-answer">
+    <strong>正确答案：B</strong><br>
+    【解析】文章围绕联合国第三次世界海洋评估报告展开，先指出海洋面临的严峻威胁（变暖、酸化、塑料污染、过度捕捞等），再强调这些威胁对人类社会的深远影响，最后提出海洋具有恢复力、若采取行动仍可扭转局面的希望。A项过度否定（文章并未说UN失败）；C项以偏概全且过于绝对（文章未提"所有珊瑚礁将在2030年前毁灭"）；D项片面（塑料污染只是众多威胁之一）。
+  </div>
+</div>
+
+<div class="quiz-item">
+  <div class="quiz-question">2. 推理判断题：What can be inferred from the passage about the governance of oceans?</div>
+  <div class="quiz-options">
+    <label><input type="radio" name="q2" value="A"> A. International agreements have completely solved the problem of ocean pollution.</label>
+    <label><input type="radio" name="q2" value="B"> B. The lack of effective enforcement and coordination among nations is a major obstacle to ocean protection.</label>
+    <label><input type="radio" name="q2" value="C"> C. Most ocean pollution comes from activities within national jurisdiction.</label>
+    <label><input type="radio" name="q2" value="D"> D. Scientists believe that national governments alone can protect the oceans effectively.</label>
+  </div>
+  <button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">查看答案</button>
+  <div class="quiz-answer">
+    <strong>正确答案：B</strong><br>
+    【解析】文章第七段明确指出，尽管存在数百项国际协议，但"enforcement remains weak, and coordination between nations is fragmented"（执行力度薄弱，各国之间的协调是碎片化的），且近三分之二的海域超出国家管辖范围，导致"公地悲剧"。这直接支持B选项。A项与原文相反；C项与原文矛盾（大部分海域在国家管辖之外）；D项无依据。
+  </div>
+</div>
+
+<div class="quiz-item">
+  <div class="quiz-question">3. 词义猜测题：In paragraph 5, the word "synergistic" most probably means ______.</div>
+  <div class="quiz-options">
+    <label><input type="radio" name="q3" value="A"> A. harmful effects that cancel each other out</label>
+    <label><input type="radio" name="q3" value="B"> B. combined effects that are greater than individual effects</label>
+    <label><input type="radio" name="q3" value="C"> C. pollution caused by a single industrial source</label>
+    <label><input type="radio" name="q3" value="D"> D. damage that can be easily reversed by natural processes</label>
+  </div>
+  <button class="btn" onclick="this.nextElementSibling.classList.toggle('show')">查看答案</button>
+  <div class="quiz-answer">
+    <strong>正确答案：B</strong><br>
+    【解析】原文中"synergistic damage"后的破折号明确解释："harm greater than the sum of its parts"（伤害大于各部分之和）。这符合"协同效应"的概念——多种压力因素相互作用，产生的整体破坏力超过单一因素破坏力的简单相加。A项"相互抵消"与原文相反；C项"单一来源"与synergistic的"协同"含义矛盾；D项"易于逆转"在文中无依据。
+  </div>
+</div>
+
+<div class="tip-box">
+  <h4>阅读技巧提示</h4>
+  <ul style="margin-left:1.2em">
+    <li>科普/环境类文章常采用"问题—影响—解决方案"结构。阅读时快速定位各部分，有助于把握文章脉络和解答主旨题。</li>
+    <li>注意破折号后的内容常为解释说明，是理解生词（如synergistic）或复杂概念的关键线索。</li>
+    <li>遇到数据密集段落时，不必纠结具体数字，重点理解数字所支撑的观点（如塑料污染的严重性）。</li>
+    <li>"not without hope"等双重否定结构是作者态度的转折点，常暗示后文将提出解决方案或积极展望。</li>
+    <li>推理判断题的正确选项通常是原文信息的"同义改写"或"合理延伸"，避免选择过度推断或绝对化表述。</li>
+  </ul>
+</div>
+
+<h2 class="section-title">词汇表 Vocabulary</h2>
+<table class="vocab-table">
+  <thead>
+    <tr><th>单词</th><th>音标</th><th>词性</th><th>中文释义</th><th>例句</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>severe</td><td>/sɪˈvɪə(r)/</td><td>adj.</td><td>严重的；严峻的</td><td>The storm caused severe damage to coastal areas.</td></tr>
+    <tr><td>accelerating</td><td>/əkˈseləreɪtɪŋ/</td><td>adj.</td><td>加速的；不断加剧的</td><td>Climate change is accelerating faster than predicted.</td></tr>
+    <tr><td>landmark</td><td>/ˈlændmɑːk/</td><td>n./adj.</td><td>里程碑；有重大意义的</td><td>The court issued a landmark ruling on environmental protection.</td></tr>
+    <tr><td>comprehensive</td><td>/ˌkɒmprɪˈhensɪv/</td><td>adj.</td><td>全面的；综合的</td><td>The report provides a comprehensive analysis of the issue.</td></tr>
+    <tr><td>compounding</td><td>/ˈkɒmpaʊndɪŋ/</td><td>adj.</td><td>复合的；叠加的</td><td>The compounding effects of pollution threaten marine life.</td></tr>
+    <tr><td>irreversible</td><td>/ɪˈrɪvɜːsəbl/</td><td>adj.</td><td>不可逆的；无法挽回的</td><td>Some environmental damage may be irreversible.</td></tr>
+    <tr><td>grim</td><td>/ɡrɪm/</td><td>adj.</td><td>严峻的；令人沮丧的</td><td>The future looks grim without immediate action.</td></tr>
+    <tr><td>unequivocal</td><td>/ˌʌnɪˈkwɪvəkl/</td><td>adj.</td><td>明确的；毫不含糊的</td><td>The evidence for climate change is unequivocal.</td></tr>
+    <tr><td>unprecedented</td><td>/ʌnˈpresɪdentɪd/</td><td>adj.</td><td>前所未有的；史无前例的</td><td>The heatwave was unprecedented in scale.</td></tr>
+    <tr><td>magnitude</td><td>/ˈmæɡnɪtjuːd/</td><td>n.</td><td>巨大；重要性；震级</td><td>They underestimated the magnitude of the problem.</td></tr>
+    <tr><td>dispersed</td><td>/dɪˈspɜːst/</td><td>adj.</td><td>分散的；散布的</td><td>The population is widely dispersed across the region.</td></tr>
+    <tr><td>trench</td><td>/trentʃ/</td><td>n.</td><td>海沟；战壕</td><td>Submarines can dive to the deepest ocean trenches.</td></tr>
+    <tr><td>organism</td><td>/ˈɔːɡənɪzəm/</td><td>n.</td><td>生物体；有机体</td><td>All living organisms need water to survive.</td></tr>
+    <tr><td>existential</td><td>/ˌeɡzɪˈstenʃl/</td><td>adj.</td><td>存在性的；关乎生存的</td><td>Nuclear weapons pose an existential threat to humanity.</td></tr>
+    <tr><td>disrupting</td><td>/dɪsˈrʌptɪŋ/</td><td>v.</td><td>扰乱；使中断</td><td>New technology is disrupting traditional industries.</td></tr>
+    <tr><td>bleaching</td><td>/ˈbliːtʃɪŋ/</td><td>n.</td><td>白化；漂白</td><td>Coral bleaching is caused by rising water temperatures.</td></tr>
+    <tr><td>intensifying</td><td>/ɪnˈtensɪfaɪɪŋ/</td><td>v.</td><td>加剧；增强</td><td>The conflict shows no sign of intensifying further.</td></tr>
+    <tr><td>abnormally</td><td>/æbˈnɔːməli/</td><td>adv.</td><td>异常地；反常地</td><td>Rainfall has been abnormally high this month.</td></tr>
+    <tr><td>cumulative</td><td>/ˈkjuːmjələtɪv/</td><td>adj.</td><td>累积的；渐增的</td><td>The cumulative effect of small changes can be significant.</td></tr>
+    <tr><td>synergistic</td><td>/ˌsɪnəˈdʒɪstɪk/</td><td>adj.</td><td>协同的；协作增效的</td><td>The two drugs have a synergistic effect.</td></tr>
+    <tr><td>buffer</td><td>/ˈbʌfə(r)/</td><td>n.</td><td>缓冲物；缓冲区</td><td>Wetlands act as natural buffers against floods.</td></tr>
+    <tr><td>deteriorating</td><td>/dɪˈtɪəriəreɪtɪŋ/</td><td>v.</td><td>恶化；退化</td><td>Air quality has been deteriorating rapidly.</td></tr>
+    <tr><td>intertwined</td><td>/ˌɪntəˈtwaɪnd/</td><td>adj.</td><td>紧密交织的；缠绕的</td><td>Their lives became deeply intertwined over the years.</td></tr>
+    <tr><td>deplete</td><td>/dɪˈpliːt/</td><td>v.</td><td>耗尽；使枯竭</td><td>Overfishing has depleted fish stocks worldwide.</td></tr>
+    <tr><td>vulnerable</td><td>/ˈvʌlnərəbl/</td><td>adj.</td><td>脆弱的；易受伤害的</td><td>Children are particularly vulnerable to disease.</td></tr>
+    <tr><td>precarious</td><td>/prɪˈkeəriəs/</td><td>adj.</td><td>不稳定的；危险的</td><td>Farmers face a precarious existence in drought years.</td></tr>
+    <tr><td>enforcement</td><td>/ɪnˈfɔːsmənt/</td><td>n.</td><td>执行；实施</td><td>Stricter enforcement of environmental laws is needed.</td></tr>
+    <tr><td>fragmented</td><td>/ˈfræɡmentɪd/</td><td>adj.</td><td>碎片化的；分裂的</td><td>The industry is highly fragmented among small firms.</td></tr>
+    <tr><td>stewardship</td><td>/ˈstjuːədʃɪp/</td><td>n.</td><td>管理；监护</td><td>Environmental stewardship is everyone's responsibility.</td></tr>
+    <tr><td>resilience</td><td>/rɪˈzɪliəns/</td><td>n.</td><td>恢复力；韧性</td><td>Ecosystems have remarkable resilience if protected.</td></tr>
+    <tr><td>transitioning</td><td>/trænˈzɪʃənɪŋ/</td><td>v.</td><td>转变；过渡</td><td>The country is transitioning to renewable energy.</td></tr>
+    <tr><td>decarbonizing</td><td>/diːˈkɑːbənaɪzɪŋ/</td><td>v.</td><td>脱碳；减少碳排放</td><td>Shipping companies are exploring ways of decarbonizing.</td></tr>
+    <tr><td>marshal</td><td>/ˈmɑːʃl/</td><td>v.</td><td>集结；组织；调动</td><td>The community marshaled resources to fight the fire.</td></tr>
+    <tr><td>decisive</td><td>/dɪˈsaɪsɪv/</td><td>adj.</td><td>决定性的；关键的</td><td>This election will be decisive for the party's future.</td></tr>
+    <tr><td>diminished</td><td>/dɪˈmɪnɪʃt/</td><td>adj.</td><td>减少的；削弱的</td><td>The storm left diminished crops across the region.</td></tr>
+  </tbody>
+</table>
+
+<footer>
+  <p>SinAndZsh 考研英语外刊精读 | Generated on 2026-06-30</p>
+  <p>来源：The New York Times | 仅供学习交流使用</p>
+</footer>
+
+</div>
+</body>
+</html>

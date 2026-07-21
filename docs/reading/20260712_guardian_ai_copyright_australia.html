@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | The Guardian: AI Companies Want to Water Down Australia's Copyright Laws</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --accent-light: #fdf2f2;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+            --vocab-bg: #e8f4f8;
+            --phrase-bg: #f0f8e8;
+            --sentence-bg: #f5f0fa;
+            --tips-bg: #fff8e1;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Noto Sans CJK SC", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .article-header {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .article-header .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .article-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .article-header .subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        .article-header .meta {
+            font-size: 13px;
+            opacity: 0.8;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .article-header .meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section-card h2 {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-card h3 {
+            font-size: 17px;
+            color: var(--primary);
+            margin: 20px 0 12px;
+        }
+        .article-body p {
+            margin-bottom: 16px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+        .vocab-word {
+            color: var(--accent);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--accent);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .vocab-word:hover {
+            background: var(--accent-light);
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 1.5;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        .vocab-word.active .tooltip {
+            display: block;
+        }
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .vocab-table th {
+            background: var(--vocab-bg);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+        }
+        .vocab-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .vocab-table tr:hover {
+            background: var(--vocab-bg);
+        }
+        .vocab-table .word-cell {
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .vocab-table .phonetic {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        .phrase-item {
+            background: var(--phrase-bg);
+            border-left: 4px solid #7cb342;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            border-radius: 0 8px 8px 0;
+        }
+        .phrase-item .phrase-en {
+            font-weight: 600;
+            color: #558b2f;
+            font-size: 15px;
+        }
+        .phrase-item .phrase-cn {
+            color: var(--text-light);
+            font-size: 14px;
+            margin: 4px 0;
+        }
+        .phrase-item .phrase-example {
+            font-size: 13px;
+            color: var(--text);
+            margin-top: 6px;
+            font-style: italic;
+        }
+        .sentence-box {
+            background: var(--sentence-bg);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .sentence-box .sentence-en {
+            font-size: 15px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+        .sentence-box .sentence-structure,
+        .sentence-box .sentence-translation {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        .tips-box {
+            background: var(--tips-bg);
+            border-radius: 10px;
+            padding: 18px 22px;
+        }
+        .tips-box ul {
+            padding-left: 20px;
+        }
+        .tips-box li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text);
+        }
+        .quiz-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .quiz-item .quiz-q {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .quiz-item .quiz-options {
+            list-style: none;
+            margin-bottom: 10px;
+        }
+        .quiz-item .quiz-options li {
+            padding: 6px 0;
+            font-size: 15px;
+        }
+        .quiz-item .quiz-answer {
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+        .quiz-item .quiz-analysis {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        .summary-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 18px;
+            border-radius: 0 10px 10px 0;
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text);
+        }
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        @media (max-width: 600px) {
+            .article-header h1 { font-size: 20px; }
+            .section-card { padding: 20px; }
+            .vocab-table { font-size: 12px; }
+            .tooltip { white-space: normal; max-width: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="article-header">
+            <div class="tag">考研英语外刊精读</div>
+            <h1>AI Companies Want to Water Down Australia's Copyright Laws</h1>
+            <p class="subtitle">AI公司欲弱化澳大利亚版权法：艺术家愤怒，工党分裂</p>
+            <div class="meta">
+                <span>来源：The Guardian</span>
+                <span>原文日期：July 12, 2026</span>
+                <span>精读生成：2026-07-12</span>
+                <span>话题：科技 / 文化 / 社会</span>
+            </div>
+        </header>
+
+        <section class="section-card">
+            <h2>文章大意</h2>
+            <div class="summary-box">
+                本文出自《卫报》，报道澳大利亚阿尔巴尼斯政府正面临一场关于人工智能与版权法的激烈拉锯战。科技巨头持续游说，希望获得“文本与数据挖掘”豁免权，以便在未经创作者许可的情况下抓取内容训练大语言模型；而作家、艺术家、音乐家及媒体机构则强烈反对，担心这会摧毁创意产业的生计。文章揭示了工党内部在吸引数据中心投资与保护创作者权益之间的深刻分歧，并引用了安娜·芬德、大卫·波科克等人的观点，呼吁政府在谈判中保持清醒，不要轻易牺牲版权保护。
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>阅读技巧提示</h2>
+            <div class="tips-box">
+                <ul>
+                    <li>本文是典型的新闻调查+政策分析文体，段落多、人物多、观点交织，阅读时建议先读每段首尾句，把握“科技公司—政府—创作者”三方立场。</li>
+                    <li>注意熟词生义：mine 在文中不是“矿”，而是“挖掘（数据）”；water down 不是“加水”，而是“弱化、稀释（法律）”；carveout 不是“雕刻”，而是“例外、豁免”。</li>
+                    <li>长难句多含插入语与同位语，阅读时可先找主干（谁做了什么），再回头补全修饰成分。</li>
+                    <li>词义猜测题可借助同义复现：如 go back on its word 与 weakening 在语义上相互呼应。</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>正文精读</h2>
+            <div class="article-body">
+                <p><span class="vocab-word" onclick="toggleTooltip(this)">Anthony Albanese<span class="tooltip">安东尼·阿尔巴尼斯（澳大利亚总理）</span></span> will deliver a <span class="vocab-word" onclick="toggleTooltip(this)">landmark<span class="tooltip">adj. /ˈlændmɑːrk/<br>里程碑式的；有重大意义的</span></span> speech on AI this week as MPs are torn between attracting datacentre investment and protecting the rights of <span class="vocab-word" onclick="toggleTooltip(this)">creatives<span class="tooltip">n. /kriˈeɪtɪvz/<br>创意工作者；从事创作的人</span></span>.</p>
+
+                <p>When Anna Funder stood before a pack of journalists at Parliament House earlier this month, she <span class="vocab-word" onclick="toggleTooltip(this)">presented<span class="tooltip">v. /prɪˈzent/<br>呈现；展示；提出</span></span> herself not just as a writer but also a "victim of crime". The <em>Stasiland</em> author was using the <span class="vocab-word" onclick="toggleTooltip(this)">analogy<span class="tooltip">n. /əˈnælədʒi/<br>类比；比喻</span></span> to illustrate how technology companies have <span class="vocab-word" onclick="toggleTooltip(this)">flagrantly<span class="tooltip">adv. /ˈfleɪɡrəntli/<br>公然地；明目张胆地</span></span> "hoovered up" her literary works for their own profit. Funder was also highlighting the importance of copyright laws in providing at least some layer of protection to Australians whose <span class="vocab-word" onclick="toggleTooltip(this)">livelihoods<span class="tooltip">n. /ˈlaɪvlihʊdz/<br>生计；生活来源</span></span> depend on the original content they produce.</p>
+
+                <p>Authors, artists, musicians and media organisations were last year assured those laws wouldn't be <span class="vocab-word" onclick="toggleTooltip(this)">watered down<span class="tooltip">phr. /ˈwɔːtərd daʊn/<br>被弱化；被稀释</span></span> when the federal government <span class="vocab-word" onclick="toggleTooltip(this)">ruled out<span class="tooltip">phr. /ruːld aʊt/<br>排除；拒绝考虑</span></span> granting a legal <span class="vocab-word" onclick="toggleTooltip(this)">exemption<span class="tooltip">n. /ɪɡˈzempʃn/<br>豁免；例外</span></span> for <span class="vocab-word" onclick="toggleTooltip(this)">artificial intelligence<span class="tooltip">n. /ˌɑːrtɪˈfɪʃl ɪnˈtelɪdʒəns/<br>人工智能</span></span> companies to <span class="vocab-word" onclick="toggleTooltip(this)">mine<span class="tooltip">v. /maɪn/<br>挖掘；开采；此处指（数据）挖掘</span></span> content to train their large language models (LLMs), such as ChatGPT, Gemini and Claude.</p>
+
+                <p>But continual <span class="vocab-word" onclick="toggleTooltip(this)">lobbying<span class="tooltip">n. /ˈlɒbiɪŋ/<br>游说</span></span> from tech giants and a whistleblower's tip-off to the independent senator David Pocock have <span class="vocab-word" onclick="toggleTooltip(this)">ignited<span class="tooltip">v. /ɪɡˈnaɪt/<br>点燃；引发</span></span> fears that the Albanese government might <span class="vocab-word" onclick="toggleTooltip(this)">go back on its word<span class="tooltip">phr. /ɡəʊ bæk ɒn ɪts wɜːrd/<br>食言；违背诺言</span></span> — even as it continues to <span class="vocab-word" onclick="toggleTooltip(this)">insist<span class="tooltip">v. /ɪnˈsɪst/<br>坚持；坚称</span></span> that it won't.</p>
+
+                <p>The <span class="vocab-word" onclick="toggleTooltip(this)">stoush<span class="tooltip">n. /staʊʃ/<br>（澳/新俚语）争吵；争斗</span></span> has <span class="vocab-word" onclick="toggleTooltip(this)">exposed<span class="tooltip">v. /ɪkˈspoʊzd/<br>暴露；揭露</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">splits<span class="tooltip">n. /splɪts/<br>分裂；分歧</span></span> within Labor about how to respond to AI and raised questions about how far the government should bend — if at all — to big tech to capture the supposed riches of the datacentre boom.</p>
+
+                <h3>Ministers divided</h3>
+
+                <p>The prime minister is expected to deliver a major speech on Wednesday about the government's plans for regulating and <span class="vocab-word" onclick="toggleTooltip(this)">capitalising<span class="tooltip">v. /ˈkæpɪtəlaɪzɪŋ/<br>利用；从……中获利</span></span> on the <span class="vocab-word" onclick="toggleTooltip(this)">nascent<span class="tooltip">adj. /ˈnæsnt/<br>初生的；新兴的</span></span> technology. After abandoning former industry minister Ed Husic's vision for a dedicated AI act in favour of a hands-off approach to regulation, the government is reportedly set to pivot back to a more <span class="vocab-word" onclick="toggleTooltip(this)">interventionist<span class="tooltip">adj. /ˌɪntərˈvenʃənɪst/<br>干预主义的</span></span> strategy.</p>
+
+                <p>A <span class="vocab-word" onclick="toggleTooltip(this)">concrete<span class="tooltip">adj. /ˈkɒŋkriːt/<br>具体的；明确的</span></span> announcement on changes to copyright laws is not <span class="vocab-word" onclick="toggleTooltip(this)">anticipated<span class="tooltip">v. /ænˈtɪsɪpeɪtɪd/<br>预期；预料</span></span> as part of Albanese's address, which Guardian Australia has been told will be more vision statement than detailed policy announcement.</p>
+
+                <p>Senior Labor sources say ministers have been split on the path forward for copyright reform, delaying a resolution. The industry minister, Tim Ayres, and the assistant minister for the digital economy, Andrew Charlton, are the most <span class="vocab-word" onclick="toggleTooltip(this)">enthusiastic<span class="tooltip">adj. /ɪnˈθuːziæstɪk/<br>热情的；热心的</span></span> about attracting AI investment, while the <span class="vocab-word" onclick="toggleTooltip(this)">attorney general<span class="tooltip">n. /əˈtɜːrni ˈdʒenərəl/<br>司法部长；总检察长</span></span>, Michelle Rowland, who is responsible for copyright laws, and the arts minister, Tony Burke, are <span class="vocab-word" onclick="toggleTooltip(this)">determined<span class="tooltip">adj. /dɪˈtɜːrmɪnd/<br>坚定的；决意的</span></span> to protect the rights of creatives.</p>
+
+                <p>The prime minister sought to <span class="vocab-word" onclick="toggleTooltip(this)">reassure<span class="tooltip">v. /ˌriːəˈʃʊr/<br>使安心；向……保证</span></span> creatives when asked last week if the copyright <span class="vocab-word" onclick="toggleTooltip(this)">safeguards<span class="tooltip">n. /ˈseɪfɡɑːrdz/<br>保护措施；保障条款</span></span> were at risk, pointing to the news bargaining incentive as evidence of Labor's "strong track record" in protecting local content producers. "These are complex issues, we're working it through with the sector. But my government, I think, has a strong record of supporting people; one, having control over things that they have created, and secondly, if things are being used, being paid for it, being properly <span class="vocab-word" onclick="toggleTooltip(this)">compensated<span class="tooltip">v. /ˈkɒmpenseɪtɪd/<br>补偿；赔偿</span></span> for it," the prime minister said.</p>
+
+                <h3>'The ultimate dirty deal'</h3>
+
+                <p>The government has insisted it has no plans to grant a "text and data mining" exemption that would allow AI companies to <span class="vocab-word" onclick="toggleTooltip(this)">scrape<span class="tooltip">v. /skreɪp/<br>抓取；刮取</span></span> content to train their models in Australia without <span class="vocab-word" onclick="toggleTooltip(this)">infringing<span class="tooltip">v. /ɪnˈfrɪndʒɪŋ/<br>侵犯；违反</span></span> on copyright laws.</p>
+
+                <p>The Tech Council of Australia chair and Atlassian co-founder, Scott Farquhar, directly appealed for the <span class="vocab-word" onclick="toggleTooltip(this)">carveout<span class="tooltip">n. /ˈkɑːrvaʊt/<br>例外；豁免（条款）</span></span> last July, claiming that "fixing this one thing could unlock billions of dollars in foreign investment". The Productivity Commission <span class="vocab-word" onclick="toggleTooltip(this)">floated<span class="tooltip">v. /floʊtɪd/<br>提出；试探</span></span> the idea of an exemption in a report a few weeks later, <span class="vocab-word" onclick="toggleTooltip(this)">provoking<span class="tooltip">v. /prəˈvoʊkɪŋ/<br>激起；引发</span></span> a <span class="vocab-word" onclick="toggleTooltip(this)">furious<span class="tooltip">adj. /ˈfjʊəriəs/<br>愤怒的；激烈的</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">backlash<span class="tooltip">n. /ˈbæklæʃ/<br>强烈反对；抵制</span></span> from the creative sector that eventually led Rowland to kill off the proposal in October.</p>
+
+                <p>The attorney general immediately started fresh <span class="vocab-word" onclick="toggleTooltip(this)">consultation<span class="tooltip">n. /ˌkɒnslˈteɪʃn/<br>磋商；咨询</span></span> with creatives, media and tech companies on other options to <span class="vocab-word" onclick="toggleTooltip(this)">modernise<span class="tooltip">v. /ˈmɒdənaɪz/<br>使现代化</span></span> copyright laws, including a paid <span class="vocab-word" onclick="toggleTooltip(this)">licensing<span class="tooltip">n. /ˈlaɪsnsɪŋ/<br>许可；授权</span></span> model for AI. The government's publicly stated preference is for tech firms to <span class="vocab-word" onclick="toggleTooltip(this)">negotiate<span class="tooltip">v. /nɪˈɡoʊʃieɪt/<br>谈判；协商</span></span> agreements with creatives to pay to use their content. But the timeframe for a resolution remains unclear, leaving the tech industry and creatives in the dark.</p>
+
+                <p>The creative sector, Pocock and the Greens have in recent weeks grown fearful the "text and data mining" option could be <span class="vocab-word" onclick="toggleTooltip(this)">resurrected<span class="tooltip">v. /ˌrezəˈrektɪd/<br>复兴；重新启用</span></span> as the Albanese government eyes more investment in datacentres. In late June, Pocock's office was tipped off about an industry push for a copyright carveout in exchange for at least $50bn in datacentre investment and contributions to a fund for creatives, supposedly worth $350m per year.</p>
+
+                <p>The independent senator for the ACT described the proposal presented to ministers as the "ultimate dirty deal" and demanded Labor immediately rule it out. "To sell out Australian creatives would be a <span class="vocab-word" onclick="toggleTooltip(this)">reckless<span class="tooltip">adj. /ˈrekləs/<br>鲁莽的；不顾后果的</span></span> act. To sell out Australian creatives for a couple of hundred billion dollars in datacentres, a bump to GDP, would be reckless," Pocock told the Senate on 1 July.</p>
+
+                <p>The federal government flatly rejected Pocock's claims as inaccurate while repeating it had no plans to weaken copyright laws. On Tuesday, the Australian Financial Review reported Anthropic was pushing for a deal in line with what Pocock was <span class="vocab-word" onclick="toggleTooltip(this)">alleging<span class="tooltip">v. /əˈledʒɪŋ/<br>（未证实）声称；指控</span></span> as part of a plan to make Australia its second home outside the US. Anthropic, whose chief executive, Dario Amodei, signed a memorandum of understanding with the federal government after meeting Albanese in April, was contacted for comment.</p>
+
+                <p>Industry and government sources, speaking to Guardian Australian on the condition of <span class="vocab-word" onclick="toggleTooltip(this)">anonymity<span class="tooltip">n. /ˌænəˈnɪməti/<br>匿名；不具名</span></span>, <span class="vocab-word" onclick="toggleTooltip(this)">poured cold water on<span class="tooltip">phr. /pɔːrd koʊld ˈwɔːtər ɒn/<br>泼冷水；对……表示怀疑</span></span> such a deal with Anthropic or other companies. However, Guardian Australia understands the government has been told frontier AI companies view copyright laws as a "main <span class="vocab-word" onclick="toggleTooltip(this)">barrier<span class="tooltip">n. /ˈbæriər/<br>障碍；壁垒</span></span>" to investment in training their models.</p>
+
+                <h3>'We have negotiating leverage here'</h3>
+
+                <p>Australia is viewed as an ideal host for datacentres as a safe, politically stable nation with access to land and <span class="vocab-word" onclick="toggleTooltip(this)">renewable<span class="tooltip">adj. /rɪˈnuːəbl/<br>可再生的</span></span> power. But multinational tech giants are prepared to invest elsewhere in what has become a global arms race.</p>
+
+                <p>Husic, who now sits on the backbench, says the Australian government had the <span class="vocab-word" onclick="toggleTooltip(this)">leverage<span class="tooltip">n. /ˈlevərɪdʒ/<br>影响力；杠杆作用；筹码</span></span> and should not <span class="vocab-word" onclick="toggleTooltip(this)">bow to<span class="tooltip">phr. /baʊ tuː/<br>屈服于；顺从</span></span> their demands. "Keeping with the best traditions of late night TV infomercials, we're being pressured by US tech that if we don't sign up to these datacentre deals now, we'll miss out on a huge opportunity," Husic says. "Impulse purchases are often regretted and our government should take a moment to remember we have negotiating leverage here and the ability to set the terms."</p>
+
+                <p>The federal government has set "expectations" for datacentre developers, which include securing additional green energy and covering their share of transmission and distribution costs. Husic wants further <span class="vocab-word" onclick="toggleTooltip(this)">restrictions<span class="tooltip">n. /rɪˈstrɪkʃnz/<br>限制；约束</span></span>, including banning new centres on land <span class="vocab-word" onclick="toggleTooltip(this)">set aside<span class="tooltip">phr. /set əˈsaɪd/<br>留出；拨出</span></span> for housing. The Labor MP has previously suggested a <span class="vocab-word" onclick="toggleTooltip(this)">moratorium<span class="tooltip">n. /ˌmɒrəˈtɔːriəm/<br>暂停；禁令</span></span> might be necessary if the datacentre "<span class="vocab-word" onclick="toggleTooltip(this)">frenzy<span class="tooltip">n. /ˈfrenzi/<br>狂热；狂潮</span></span>" was making it harder to hit the nation's housing construction targets.</p>
+
+                <p>Other colleagues disagree. One Labor MP says opposing datacentres is <span class="vocab-word" onclick="toggleTooltip(this)">akin to<span class="tooltip">phr. /əˈkɪn tuː/<br>类似于</span></span> "nimbyism" and the federal government should establish consistent rules across the country to ensure Australia secures benefits from the global investment race. The MP argues Australia is not seeing <span class="vocab-word" onclick="toggleTooltip(this)">widespread<span class="tooltip">adj. /ˈwaɪdspred/<br>广泛的；普遍的</span></span> protests against datacentre operation and construction, as has been seen in the US.</p>
+
+                <p>Belinda Dennett, the CEO of Data Centres Australia, says the country has "all the attributes" to be an attractive centre for AI but "policy <span class="vocab-word" onclick="toggleTooltip(this)">certainty<span class="tooltip">n. /ˈsɜːrtnti/<br>确定性；肯定</span></span>" is critical to securing that investment. "We support the principles of the government's datacentre expectations, but we need to understand how they will be implemented and how they will work with state and local government requirements," she says.</p>
+
+                <p>Public polling shows Australians are split on how they view AI. The Guardian Essential poll in May found 36% of voters think AI carries more risk than opportunity, while 41% see risk and opportunity about the same. Only 22% think AI has more opportunity than risk.</p>
+
+                <h3>'It would be a betrayal'</h3>
+
+                <p>Charlton is <span class="vocab-word" onclick="toggleTooltip(this)">spearheading<span class="tooltip">v. /ˈspɪrhedɪŋ/<br>带头；做先锋</span></span> the government's AI plans, an unusually large policy responsibility for a junior minister in just his fourth year in parliament. The former top economic adviser to Kevin Rudd is considered one of Labor's rising stars and sharpest and most business-savvy minds, having made a personal fortune after founding and then selling boutique consultancy firm AlphaBeta Advisors.</p>
+
+                <p>The Parramatta MP's close ties to the tech world make him <span class="vocab-word" onclick="toggleTooltip(this)">uniquely qualified<span class="tooltip">phr. /juˈniːkli ˈkwɒlɪfaɪd/<br> uniquely qualified</span></span> to understand the risks and opportunities of AI. Some colleagues believe he is too pro-tech, which <span class="vocab-word" onclick="toggleTooltip(this)">clouds<span class="tooltip">v. /klaʊdz/<br>使模糊；使阴暗</span></span> his perspective and priorities. Charlton has sought to position himself as a <span class="vocab-word" onclick="toggleTooltip(this)">centrist<span class="tooltip">n./adj. /ˈsentrɪst/<br>中间派（的）</span></span> in the datacentre debate, neither a <span class="vocab-word" onclick="toggleTooltip(this)">booster<span class="tooltip">n. /ˈbuːstər/<br>支持者；鼓吹者</span></span> nor an <span class="vocab-word" onclick="toggleTooltip(this)">alarmist<span class="tooltip">n./adj. /əˈlɑːrmɪst/<br>危言耸听者（的）</span></span>. In a 10 June speech, he argued that Australia should not "<span class="vocab-word" onclick="toggleTooltip(this)">blindly<span class="tooltip">adv. /ˈblaɪndli/<br>盲目地</span></span> accept or reject" the investment on offer from the tech giants.</p>
+
+                <p>"Rather, Australia should actively set the terms on which that investment occurs, consistent with our values and <span class="vocab-word" onclick="toggleTooltip(this)">aligned<span class="tooltip">adj. /əˈlaɪnd/<br>一致的；对齐的</span></span> with our long-term interests," he told the Sydney Institute. When it comes to setting the terms, creatives have made clear that trading away copyright protections must not be on the table.</p>
+
+                <p>"The government has said previously that they would not allow a text and data mining exemption," says Greens communications spokesperson Sarah Hanson-Young, who is chairing a parliamentary inquiry into datacentres. "But anything that quacks like that, moves like that, would be a <span class="vocab-word" onclick="toggleTooltip(this)">betrayal<span class="tooltip">n. /bɪˈtreɪəl/<br>背叛；辜负</span></span>."</p>
+
+                <p style="margin-top:20px;font-size:13px;color:var(--text-light);">点击红色划线词汇可查看中文释义。</p>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>短语搭配</h2>
+            <div class="phrase-item">
+                <div class="phrase-en">water down</div>
+                <div class="phrase-cn">弱化；稀释（法律、政策等）</div>
+                <div class="phrase-example">"Authors, artists, musicians and media organisations were last year assured those laws wouldn't be watered down..."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">rule out</div>
+                <div class="phrase-cn">排除；拒绝考虑</div>
+                <div class="phrase-example">"...when the federal government ruled out granting a legal exemption for artificial intelligence companies to mine content..."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">go back on one's word</div>
+                <div class="phrase-cn">食言；违背诺言</div>
+                <div class="phrase-example">"...have ignited fears that the Albanese government might go back on its word — even as it continues to insist that it won't."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">pour cold water on</div>
+                <div class="phrase-cn">泼冷水；对……表示怀疑</div>
+                <div class="phrase-example">"Industry and government sources... poured cold water on such a deal with Anthropic or other companies."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">in exchange for</div>
+                <div class="phrase-cn">作为……的交换</div>
+                <div class="phrase-example">"...an industry push for a copyright carveout in exchange for at least $50bn in datacentre investment..."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">set aside</div>
+                <div class="phrase-cn">留出；拨出</div>
+                <div class="phrase-example">"...banning new centres on land set aside for housing."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">bow to</div>
+                <div class="phrase-cn">屈服于；顺从</div>
+                <div class="phrase-example">"...the Australian government had the leverage and should not bow to their demands."</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">akin to</div>
+                <div class="phrase-cn">类似于</div>
+                <div class="phrase-example">"One Labor MP says opposing datacentres is akin to 'nimbyism'..."</div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>长难句解析</h2>
+            <div class="sentence-box">
+                <p class="sentence-en">Authors, artists, musicians and media organisations were last year assured those laws wouldn't be watered down when the federal government ruled out granting a legal exemption for artificial intelligence companies to mine content to train their large language models (LLMs), such as ChatGPT, Gemini and Claude.</p>
+                <p class="sentence-structure"><strong>结构分析：</strong>主干为 Authors, artists... were assured...；those laws wouldn't be watered down 为宾语从句；when 引导时间状语从句；granting a legal exemption 为 rule out 的宾语；for artificial intelligence companies... 为不定式短语作 exemption 的后置定语；to mine content 和 to train their large language models 为连续不定式表目的；such as... 举例说明 LLMs。</p>
+                <p class="sentence-translation"><strong>参考译文：</strong>去年，当联邦政府拒绝授予人工智能公司挖掘内容以训练其大语言模型（如 ChatGPT、Gemini 和 Claude）的法律豁免权时，作家、艺术家、音乐家及媒体机构曾被保证这些法律不会被弱化。</p>
+            </div>
+            <div class="sentence-box">
+                <p class="sentence-en">The stoush has exposed splits within Labor about how to respond to AI and raised questions about how far the government should bend — if at all — to big tech to capture the supposed riches of the datacentre boom.</p>
+                <p class="sentence-structure"><strong>结构分析：</strong>主干为 The stoush has exposed splits and raised questions；about how to respond to AI 为后置定语修饰 splits；about how far... 为后置定语修饰 questions；how far 引导宾语从句；if at all 为插入语；to capture... 为不定式表目的。</p>
+                <p class="sentence-translation"><strong>参考译文：</strong>这场争端暴露了工党内部在如何应对人工智能问题上的分歧，并引发了一个问题：政府究竟应该在多大程度上——如果有的话——向大型科技公司让步，以攫取数据中心繁荣所带来的所谓财富。</p>
+            </div>
+            <div class="sentence-box">
+                <p class="sentence-en">In late June, Pocock's office was tipped off about an industry push for a copyright carveout in exchange for at least $50bn in datacentre investment and contributions to a fund for creatives, supposedly worth $350m per year.</p>
+                <p class="sentence-structure"><strong>结构分析：</strong>主干为 Pocock's office was tipped off about an industry push；In late June 为时间状语；for a copyright carveout 为后置定语修饰 push；in exchange for... 为介词短语说明交换条件；supposedly worth $350m per year 为独立主格/形容词短语修饰 fund。</p>
+                <p class="sentence-translation"><strong>参考译文：</strong>六月下旬，波科克的办公室收到线报：业界正在推动一项版权豁免，以换取至少500亿美元的数据中心投资，并向一个据称每年价值3.5亿美元的创意人士基金捐款。</p>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>阅读理解练习</h2>
+            <div class="quiz-item">
+                <p class="quiz-q"><strong>1. What is the passage mainly about?</strong></p>
+                <ul class="quiz-options">
+                    <li>A. The technical development of large language models in Australia.</li>
+                    <li>B. The history of copyright legislation in the Australian creative industry.</li>
+                    <li>C. The conflict between AI companies and Australian creatives over potential changes to copyright laws.</li>
+                    <li>D. The economic benefits of building datacentres across Australia.</li>
+                </ul>
+                <p class="quiz-answer"><strong>正确答案：C</strong></p>
+                <p class="quiz-analysis"><strong>解析：</strong>文章围绕人工智能公司希望获得“文本与数据挖掘”版权豁免展开，讲述科技巨头、澳大利亚政府与创意工作者之间的拉锯战，因此 C 项最能概括主旨。</p>
+            </div>
+            <div class="quiz-item">
+                <p class="quiz-q"><strong>2. Why did Anna Funder describe herself as a "victim of crime"?</strong></p>
+                <ul class="quiz-options">
+                    <li>A. Because her personal computer was hacked by a tech company.</li>
+                    <li>B. Because she believed her literary works were taken without permission to train AI models.</li>
+                    <li>C. Because the government refused to grant her a writing subsidy.</li>
+                    <li>D. Because she was accused of copyright infringement by another author.</li>
+                </ul>
+                <p class="quiz-answer"><strong>正确答案：B</strong></p>
+                <p class="quiz-analysis"><strong>解析：</strong>文中指出，芬德用这一比喻说明科技公司如何“公然吸走”她的文学作品以谋取利润，即未经授权将其作品用于训练人工智能模型。</p>
+            </div>
+            <div class="quiz-item">
+                <p class="quiz-q"><strong>3. What can be inferred about the Australian government's stance on the copyright issue?</strong></p>
+                <ul class="quiz-options">
+                    <li>A. It has firmly decided to grant the exemption to AI companies.</li>
+                    <li>B. It is internally divided and has not yet reached a final decision.</li>
+                    <li>C. It completely ignores the concerns of the creative sector.</li>
+                    <li>D. It has already rejected all proposals from technology giants.</li>
+                </ul>
+                <p class="quiz-answer"><strong>正确答案：B</strong></p>
+                <p class="quiz-analysis"><strong>解析：</strong>文章提到部长们就版权改革路径存在分歧，总理阿尔巴尼斯公开保证不会弱化版权法，但创意界仍担心政府可能食言。由此可推断政府内部立场尚未统一。</p>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>考研核心词汇表</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>单词</th>
+                        <th>词性</th>
+                        <th>中文释义</th>
+                        <th>例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="word-cell">landmark<br><span class="phonetic">/ˈlændmɑːrk/</span></td>
+                        <td>adj.</td>
+                        <td>里程碑式的；有重大意义的</td>
+                        <td>Anthony Albanese will deliver a landmark speech on AI this week.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">present<br><span class="phonetic">/prɪˈzent/</span></td>
+                        <td>v.</td>
+                        <td>呈现；展示；提出</td>
+                        <td>She presented herself not just as a writer but also a "victim of crime".</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">analogy<br><span class="phonetic">/əˈnælədʒi/</span></td>
+                        <td>n.</td>
+                        <td>类比；比喻</td>
+                        <td>The Stasiland author was using the analogy to illustrate how technology companies have flagrantly "hoovered up" her literary works.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">flagrantly<br><span class="phonetic">/ˈfleɪɡrəntli/</span></td>
+                        <td>adv.</td>
+                        <td>公然地；明目张胆地</td>
+                        <td>...technology companies have flagrantly "hoovered up" her literary works for their own profit.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">livelihood<br><span class="phonetic">/ˈlaɪvlihʊd/</span></td>
+                        <td>n.</td>
+                        <td>生计；生活来源</td>
+                        <td>...protection to Australians whose livelihoods depend on the original content they produce.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">exemption<br><span class="phonetic">/ɪɡˈzempʃn/</span></td>
+                        <td>n.</td>
+                        <td>豁免；例外</td>
+                        <td>...granting a legal exemption for artificial intelligence companies to mine content...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">mine<br><span class="phonetic">/maɪn/</span></td>
+                        <td>v.</td>
+                        <td>挖掘；开采；此处指数据挖掘</td>
+                        <td>...for artificial intelligence companies to mine content to train their large language models.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">lobbying<br><span class="phonetic">/ˈlɒbiɪŋ/</span></td>
+                        <td>n.</td>
+                        <td>游说</td>
+                        <td>But continual lobbying from tech giants... have ignited fears...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">ignite<br><span class="phonetic">/ɪɡˈnaɪt/</span></td>
+                        <td>v.</td>
+                        <td>点燃；引发</td>
+                        <td>...have ignited fears that the Albanese government might go back on its word.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">split<br><span class="phonetic">/splɪt/</span></td>
+                        <td>n.</td>
+                        <td>分裂；分歧</td>
+                        <td>The stoush has exposed splits within Labor about how to respond to AI.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">capitalise<br><span class="phonetic">/ˈkæpɪtəlaɪz/</span></td>
+                        <td>v.</td>
+                        <td>利用；从……中获利</td>
+                        <td>...the government's plans for regulating and capitalising on the nascent technology.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">nascent<br><span class="phonetic">/ˈnæsnt/</span></td>
+                        <td>adj.</td>
+                        <td>初生的；新兴的</td>
+                        <td>...regulating and capitalising on the nascent technology.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">interventionist<br><span class="phonetic">/ˌɪntərˈvenʃənɪst/</span></td>
+                        <td>adj.</td>
+                        <td>干预主义的</td>
+                        <td>...the government is reportedly set to pivot back to a more interventionist strategy.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">concrete<br><span class="phonetic">/ˈkɒŋkriːt/</span></td>
+                        <td>adj.</td>
+                        <td>具体的；明确的</td>
+                        <td>A concrete announcement on changes to copyright laws is not anticipated...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">anticipate<br><span class="phonetic">/ænˈtɪsɪpeɪt/</span></td>
+                        <td>v.</td>
+                        <td>预期；预料</td>
+                        <td>...is not anticipated as part of Albanese's address...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">enthusiastic<br><span class="phonetic">/ɪnˈθuːziæstɪk/</span></td>
+                        <td>adj.</td>
+                        <td>热情的；热心的</td>
+                        <td>...the most enthusiastic about attracting AI investment...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">determined<br><span class="phonetic">/dɪˈtɜːrmɪnd/</span></td>
+                        <td>adj.</td>
+                        <td>坚定的；决意的</td>
+                        <td>...the arts minister... are determined to protect the rights of creatives.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">reassure<br><span class="phonetic">/ˌriːəˈʃʊr/</span></td>
+                        <td>v.</td>
+                        <td>使安心；向……保证</td>
+                        <td>The prime minister sought to reassure creatives when asked... if the copyright safeguards were at risk.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">safeguard<br><span class="phonetic">/ˈseɪfɡɑːrd/</span></td>
+                        <td>n.</td>
+                        <td>保护措施；保障条款</td>
+                        <td>...asked last week if the copyright safeguards were at risk...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">compensate<br><span class="phonetic">/ˈkɒmpenseɪt/</span></td>
+                        <td>v.</td>
+                        <td>补偿；赔偿</td>
+                        <td>...if things are being used, being paid for it, being properly compensated for it.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">scrape<br><span class="phonetic">/skreɪp/</span></td>
+                        <td>v.</td>
+                        <td>抓取；刮取</td>
+                        <td>...allow AI companies to scrape content to train their models...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">infringe<br><span class="phonetic">/ɪnˈfrɪndʒ/</span></td>
+                        <td>v.</td>
+                        <td>侵犯；违反</td>
+                        <td>...without infringing on copyright laws.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">carveout<br><span class="phonetic">/ˈkɑːrvaʊt/</span></td>
+                        <td>n.</td>
+                        <td>例外；豁免（条款）</td>
+                        <td>Scott Farquhar, directly appealed for the carveout last July...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">provoke<br><span class="phonetic">/prəˈvoʊk/</span></td>
+                        <td>v.</td>
+                        <td>激起；引发</td>
+                        <td>...provoking a furious backlash from the creative sector...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">backlash<br><span class="phonetic">/ˈbæklæʃ/</span></td>
+                        <td>n.</td>
+                        <td>强烈反对；抵制</td>
+                        <td>...provoking a furious backlash from the creative sector...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">consultation<br><span class="phonetic">/ˌkɒnslˈteɪʃn/</span></td>
+                        <td>n.</td>
+                        <td>磋商；咨询</td>
+                        <td>...started fresh consultation with creatives, media and tech companies...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">modernise<br><span class="phonetic">/ˈmɒdənaɪz/</span></td>
+                        <td>v.</td>
+                        <td>使现代化</td>
+                        <td>...on other options to modernise copyright laws...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">negotiate<br><span class="phonetic">/nɪˈɡoʊʃieɪt/</span></td>
+                        <td>v.</td>
+                        <td>谈判；协商</td>
+                        <td>...for tech firms to negotiate agreements with creatives to pay to use their content.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">resurrect<br><span class="phonetic">/ˌrezəˈrekt/</span></td>
+                        <td>v.</td>
+                        <td>复兴；重新启用</td>
+                        <td>...the "text and data mining" option could be resurrected...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">reckless<br><span class="phonetic">/ˈrekləs/</span></td>
+                        <td>adj.</td>
+                        <td>鲁莽的；不顾后果的</td>
+                        <td>"To sell out Australian creatives would be a reckless act."</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">allegedly<br><span class="phonetic">/əˈledʒɪdli/</span></td>
+                        <td>adv.</td>
+                        <td>据称；据指控</td>
+                        <td>...Anthropic was pushing for a deal in line with what Pocock was alleging...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">anonymity<br><span class="phonetic">/ˌænəˈnɪməti/</span></td>
+                        <td>n.</td>
+                        <td>匿名；不具名</td>
+                        <td>...speaking to Guardian Australian on the condition of anonymity...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">barrier<br><span class="phonetic">/ˈbæriər/</span></td>
+                        <td>n.</td>
+                        <td>障碍；壁垒</td>
+                        <td>...frontier AI companies view copyright laws as a "main barrier" to investment...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">renewable<br><span class="phonetic">/rɪˈnuːəbl/</span></td>
+                        <td>adj.</td>
+                        <td>可再生的</td>
+                        <td>...with access to land and renewable power.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">leverage<br><span class="phonetic">/ˈlevərɪdʒ/</span></td>
+                        <td>n.</td>
+                        <td>影响力；杠杆作用；筹码</td>
+                        <td>...the Australian government had the leverage and should not bow to their demands.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">restriction<br><span class="phonetic">/rɪˈstrɪkʃn/</span></td>
+                        <td>n.</td>
+                        <td>限制；约束</td>
+                        <td>Husic wants further restrictions, including banning new centres on land set aside for housing.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">moratorium<br><span class="phonetic">/ˌmɒrəˈtɔːriəm/</span></td>
+                        <td>n.</td>
+                        <td>暂停；禁令</td>
+                        <td>...suggested a moratorium might be necessary if the datacentre "frenzy" continued.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">frenzy<br><span class="phonetic">/ˈfrenzi/</span></td>
+                        <td>n.</td>
+                        <td>狂热；狂潮</td>
+                        <td>...if the datacentre "frenzy" was making it harder to hit the nation's housing construction targets.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">widespread<br><span class="phonetic">/ˈwaɪdspred/</span></td>
+                        <td>adj.</td>
+                        <td>广泛的；普遍的</td>
+                        <td>...Australia is not seeing widespread protests against datacentre operation and construction...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">certainty<br><span class="phonetic">/ˈsɜːrtnti/</span></td>
+                        <td>n.</td>
+                        <td>确定性；肯定</td>
+                        <td>...but "policy certainty" is critical to securing that investment.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">spearhead<br><span class="phonetic">/ˈspɪrhed/</span></td>
+                        <td>v.</td>
+                        <td>带头；做先锋</td>
+                        <td>Charlton is spearheading the government's AI plans...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">cloud<br><span class="phonetic">/klaʊd/</span></td>
+                        <td>v.</td>
+                        <td>使模糊；使阴暗</td>
+                        <td>...which clouds his perspective and priorities.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">centrist<br><span class="phonetic">/ˈsentrɪst/</span></td>
+                        <td>n./adj.</td>
+                        <td>中间派（的）</td>
+                        <td>Charlton has sought to position himself as a centrist in the datacentre debate...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">booster<br><span class="phonetic">/ˈbuːstər/</span></td>
+                        <td>n.</td>
+                        <td>支持者；鼓吹者</td>
+                        <td>...neither a booster nor an alarmist.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">alarmist<br><span class="phonetic">/əˈlɑːrmɪst/</span></td>
+                        <td>n./adj.</td>
+                        <td>危言耸听者（的）</td>
+                        <td>...neither a booster nor an alarmist.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">blindly<br><span class="phonetic">/ˈblaɪndli/</span></td>
+                        <td>adv.</td>
+                        <td>盲目地</td>
+                        <td>...Australia should not "blindly accept or reject" the investment on offer...</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">aligned<br><span class="phonetic">/əˈlaɪnd/</span></td>
+                        <td>adj.</td>
+                        <td>一致的；对齐的</td>
+                        <td>...consistent with our values and aligned with our long-term interests.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">betrayal<br><span class="phonetic">/bɪˈtreɪəl/</span></td>
+                        <td>n.</td>
+                        <td>背叛；辜负</td>
+                        <td>"But anything that quacks like that, moves like that, would be a betrayal."</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer class="footer">
+            <p>文章来源：The Guardian | 仅供学习交流使用</p>
+            <p style="margin-top:6px;">原文链接：https://www.theguardian.com/technology/2026/jul/12/ai-australia-will-labor-water-down-copyright-laws-datacentres</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleTooltip(el) {
+            document.querySelectorAll('.vocab-word.active').forEach(item => {
+                if (item !== el) item.classList.remove('active');
+            });
+            el.classList.toggle('active');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.vocab-word')) {
+                document.querySelectorAll('.vocab-word.active').forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

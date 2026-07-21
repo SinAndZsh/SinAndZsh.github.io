@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | The Atlantic: I'm a High Schooler. AI Is Demolishing My Education</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --accent-light: #fdf2f2;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e0e0e0;
+            --highlight: #fff3cd;
+            --vocab-bg: #e8f4f8;
+            --phrase-bg: #f0f8e8;
+            --sentence-bg: #f5f0fa;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Noto Sans CJK SC", "WenQuanYi Micro Hei", "Microsoft YaHei", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .article-header {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .article-header .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        .article-header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .article-header .subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        .article-header .meta {
+            font-size: 13px;
+            opacity: 0.8;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .article-header .meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section-card h2 {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-card h3 {
+            font-size: 17px;
+            color: var(--primary);
+            margin: 20px 0 12px;
+        }
+        .article-body p {
+            margin-bottom: 16px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+        .vocab-word {
+            color: var(--accent);
+            font-weight: 600;
+            border-bottom: 2px dotted var(--accent);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .vocab-word:hover {
+            background: var(--accent-light);
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 1.5;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        .vocab-word.active .tooltip {
+            display: block;
+        }
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .vocab-table th {
+            background: var(--vocab-bg);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+        }
+        .vocab-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        .vocab-table tr:hover {
+            background: var(--vocab-bg);
+        }
+        .vocab-table .word-cell {
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .vocab-table .phonetic {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        .phrase-item {
+            background: var(--phrase-bg);
+            border-left: 4px solid #7cb342;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            border-radius: 0 8px 8px 0;
+        }
+        .phrase-item .phrase-en {
+            font-weight: 600;
+            color: #558b2f;
+            font-size: 15px;
+        }
+        .phrase-item .phrase-cn {
+            color: var(--text-light);
+            font-size: 14px;
+            margin: 4px 0;
+        }
+        .phrase-item .phrase-example {
+            font-size: 13px;
+            color: var(--text);
+            margin-top: 6px;
+            font-style: italic;
+        }
+        .sentence-box {
+            background: var(--sentence-bg);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 16px;
+        }
+        .sentence-box .original {
+            font-size: 15px;
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        .sentence-box .analysis {
+            font-size: 14px;
+            color: var(--text);
+        }
+        .sentence-box .analysis .label {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 6px;
+        }
+        .summary-box {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .summary-box p {
+            margin-bottom: 10px;
+        }
+        .quiz-item {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .quiz-item:last-child {
+            border-bottom: none;
+        }
+        .quiz-item .question {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        .quiz-item .options {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+        .quiz-item .options label {
+            display: block;
+            padding: 6px 0;
+            cursor: pointer;
+        }
+        .quiz-item .answer-box {
+            background: var(--highlight);
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 10px;
+        }
+        .quiz-item .answer-box .correct {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        .quiz-item .answer-box .analysis {
+            color: var(--text);
+            font-size: 14px;
+            margin-top: 6px;
+        }
+        .tips-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffa000;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        .tips-box h4 {
+            color: #e65100;
+            margin-bottom: 8px;
+        }
+        .tips-box ul {
+            margin-left: 18px;
+            font-size: 14px;
+        }
+        .tips-box li {
+            margin-bottom: 6px;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .back-link a {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+        .back-link a:hover {
+            opacity: 0.9;
+        }
+        @media (max-width: 600px) {
+            .article-header h1 { font-size: 20px; }
+            .section-card { padding: 18px; }
+            .vocab-table { font-size: 12px; }
+            .vocab-table th, .vocab-table td { padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="article-header">
+            <div class="tag">考研英语外刊精读</div>
+            <h1>I'm a High Schooler. AI Is Demolishing My Education</h1>
+            <div class="subtitle">人工智能正在摧毁我的教育——课堂批判性思维的终结</div>
+            <div class="meta">
+                <span>&#128240; The Atlantic</span>
+                <span>&#9997; Ashanty Rosario</span>
+                <span>&#128197; September 9, 2025</span>
+                <span>&#127919; 科技 · 教育</span>
+            </div>
+        </div>
+
+        <div class="section-card article-body">
+            <h2>&#128214; 正文精读</h2>
+            <p>AI has transformed my experience of education. I am a senior at a public high school in New York, and these tools are everywhere. I do not want to use them in the way I see other kids my age using them — I generally choose not to — but they are <span class="vocab-word" onclick="toggleTooltip(this)">inescapable<span class="tooltip">inescapable /ˌɪnɪˈskeɪpəbl/ adj. 不可避免的；无法逃避的</span></span>.</p>
+
+            <p>During a lesson on the <em>Narrative of the Life of Frederick Douglass</em>, I watched a classmate <span class="vocab-word" onclick="toggleTooltip(this)">discreetly<span class="tooltip">discreetly /dɪˈskriːtli/ adv. 谨慎地；小心翼翼地</span></span> shift in their seat, <span class="vocab-word" onclick="toggleTooltip(this)">prop<span class="tooltip">prop /prɑːp/ v. 支撑；放置</span></span> their laptop up on a crossed leg, and highlight the entirety of the chapter under discussion. In seconds, they had pulled up ChatGPT and dropped the text into the prompt box, which spat out an AI-generated <span class="vocab-word" onclick="toggleTooltip(this)">annotation<span class="tooltip">annotation /ˌænəˈteɪʃn/ n. 注释；评注</span></span> of the chapter. These annotations are used for discussions; we turn them in to our teacher at the end of class, and many of them are graded as part of our class participation. What was meant to be a <span class="vocab-word" onclick="toggleTooltip(this)">reflective<span class="tooltip">reflective /rɪˈflektɪv/ adj. 反思的；深思的</span></span>, <span class="vocab-word" onclick="toggleTooltip(this)">thought-provoking<span class="tooltip">thought-provoking /ˈθɔːt prəˌvoʊkɪŋ/ adj. 发人深省的</span></span> discussion on slavery and human <span class="vocab-word" onclick="toggleTooltip(this)">resilience<span class="tooltip">resilience /rɪˈzɪliəns/ n. 韧性；恢复力</span></span> was <span class="vocab-word" onclick="toggleTooltip(this)">flattened<span class="tooltip">flatten /ˈflætn/ v. 使变平淡；使扁平化</span></span> into copy-paste commentary. In Algebra II, after homework worksheets were passed around, I witnessed a peer use their phone to take a quick snapshot, which they then uploaded to ChatGPT. The AI quickly painted my classmate's screen with what it asserted to be a step-by-step solution and relevant graphs.</p>
+
+            <p>These incidents were <span class="vocab-word" onclick="toggleTooltip(this)">jarring<span class="tooltip">jarring /ˈdʒɑːrɪŋ/ adj. 刺耳的；令人震惊的</span></span> — not just because of the cheating, but because they made me realize how <span class="vocab-word" onclick="toggleTooltip(this)">normalized<span class="tooltip">normalize /ˈnɔːrməlaɪz/ v. 使常态化；使正常化</span></span> these <span class="vocab-word" onclick="toggleTooltip(this)">shortcuts<span class="tooltip">shortcut /ˈʃɔːrtkʌt/ n. 捷径；近路</span></span> have become. Many homework assignments are due by 11:59 p.m., to be submitted online via Google Classroom. We used to share memes about pounding away at the keyboard at 11:57, anxiously rushing to complete our work on time. These moments were not fun, exactly, but they did draw students together in a shared academic experience. Many of us were propelled by a kind of frantic productivity as we approached midnight, putting the finishing touches on our ideas and work. Now the deadline has been sapped of all meaning. AI has softened the <span class="vocab-word" onclick="toggleTooltip(this)">consequences<span class="tooltip">consequence /ˈkɑːnsɪkwens/ n. 后果；结果</span></span> of <span class="vocab-word" onclick="toggleTooltip(this)">procrastination<span class="tooltip">procrastination /prəˌkræstɪˈneɪʃn/ n. 拖延；耽搁</span></span> and led many students to avoid doing any work at all. As a consequence, these programs have destroyed much of what tied us together as students. There is little intensity anymore. Relatively few students seem to feel that the work is urgent or that they need to sharpen their own mind. We are struggling to receive the lessons of discipline that used to come from having to complete complicated work on a tight deadline, because chatbots promise to complete our tasks in seconds.</p>
+
+            <p>Desperate to address AI, schools across the U.S. are investing in detection tools and screen-monitoring software to <span class="vocab-word" onclick="toggleTooltip(this)">curb<span class="tooltip">curb /kɜːrb/ v. 抑制；控制；约束</span></span> cheating. Some of these tools have been used in my school: Teachers rely on plagiarism checkers and exam-proctoring software. Still, these systems aren't <span class="vocab-word" onclick="toggleTooltip(this)">foolproof<span class="tooltip">foolproof /ˈfuːlpruːf/ adj. 万无一失的；不会错的</span></span>, and many students have begun to <span class="vocab-word" onclick="toggleTooltip(this)">bypass<span class="tooltip">bypass /ˈbaɪpɑːs/ v. 绕过；回避</span></span> these measures. Students use AI "humanizer" tools, which <span class="vocab-word" onclick="toggleTooltip(this)">rephrase<span class="tooltip">rephrase /ˌriːˈfreɪz/ v. 改写；重新措辞</span></span> text to remove "<span class="vocab-word" onclick="toggleTooltip(this)">robotic<span class="tooltip">robotic /roʊˈbɑːtɪk/ adj. 机械的；像机器人的</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">undertones<span class="tooltip">undertone /ˈʌndərtoʊn/ n. 暗示；潜在含义；低音</span></span>," as one such program puts it, or they manually edit the AI's output themselves to simplify language or adjust the chatbot's sentence structure. During in-class exams, screens may be locked or recording technology may be employed, but students have ways around these, too — sneaking phones in, for example. Based on what I've observed, preventative measures can only go so far.</p>
+
+            <p>The trouble with chatbots is not just that they allow students to <span class="vocab-word" onclick="toggleTooltip(this)">get away with<span class="tooltip">get away with 做（坏事）而未受惩罚</span></span> cheating or that they remove a sense of urgency from academics. The technology has also led students to focus on external results <span class="vocab-word" onclick="toggleTooltip(this)">at the expense of<span class="tooltip">at the expense of 以……为代价</span></span> internal growth. The dominant worldview seems to be: Why worry about actually learning anything when you can get an A for outsourcing your thinking to a machine?</p>
+
+            <p>During my sophomore year, I participated in my school's debate team. I was excited to have a space outside the classroom where creativity, critical thinking, and <span class="vocab-word" onclick="toggleTooltip(this)">intellectual<span class="tooltip">intellectual /ˌɪntəˈlektʃuəl/ adj. 智力的；知识的</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">rigor<span class="tooltip">rigor /ˈrɪɡər/ n. 严谨；严格</span></span> were valued and sharpened. I love the rush of building arguments from scratch. ChatGPT was released back in 2022, when I was a freshman, but the debate team weathered that first year without being overly influenced by the technology — at least as far as I could tell. But soon, AI <span class="vocab-word" onclick="toggleTooltip(this)">took hold<span class="tooltip">take hold 扎根；站稳脚跟；确立</span></span> there as well. Many students avoided the technology and still <span class="vocab-word" onclick="toggleTooltip(this)">stand against<span class="tooltip">stand against 反对；抵抗</span></span> it, but it was impossible to ignore what we saw at competitions: chatbots being used for research and to construct arguments between rounds.</p>
+
+            <p>To me, debate is about forming your own arguments and pushing yourself to <span class="vocab-word" onclick="toggleTooltip(this)">refute<span class="tooltip">refute /rɪˈfjuːt/ v. 驳斥；反驳</span></span> <span class="vocab-word" onclick="toggleTooltip(this)">curveball<span class="tooltip">curveball /ˈkɜːrvbɔːl/ n. 曲线球；突如其来的难题</span></span> counters. It's about developing the skills to outthink and out-argue your opponent. It isn't about who can present the best <span class="vocab-word" onclick="toggleTooltip(this)">cookie-cutter<span class="tooltip">cookie-cutter /ˈkʊki ˈkʌtər/ adj. 千篇一律的；用模具切割的</span></span> AI arguments with polished and possibly invented data. Something I once loved now feels empty.</p>
+
+            <p>AI is not all bad. Some students may use these tools to develop their understanding or explore topics more deeply, serving their intellectual curiosity without actually cheating. AI can also be used as a study aid — say, quizzing you on vocabulary ahead of a Spanish test. But the temptation to abuse these tools is always there. I am concerned about what will happen as the short-term solutions presented by chatbots become the only ones that people know how to pursue — especially beyond the classroom. If we keep <span class="vocab-word" onclick="toggleTooltip(this)">leaning on<span class="tooltip">lean on 依赖；依靠</span></span> AI to sidestep pressure or deadlines, what happens when the tools aren't there? In the real world, chatbots cannot <span class="vocab-word" onclick="toggleTooltip(this)">hold the powerful to account<span class="tooltip">hold...to account 使……承担责任</span></span> in the way an investigative reporter does, through relentless interviews and <span class="vocab-word" onclick="toggleTooltip(this)">vetting<span class="tooltip">vet /vet/ v. 审查；仔细检查</span></span> hard-to-find information. They cannot perform open-heart surgery or ballet. Many of us are so accustomed to outsourcing that we're dulling the very instincts that we need to <span class="vocab-word" onclick="toggleTooltip(this)">prevail<span class="tooltip">prevail /prɪˈveɪl/ v. 获胜；盛行；占优势</span></span> in life: grit, critical thinking, and the ability to function smoothly under stress.</p>
+
+            <p>It will take more than AI detectors and screen monitoring to address this disconnect. Student assessments should be focused on tasks that are not easily <span class="vocab-word" onclick="toggleTooltip(this)">delegated<span class="tooltip">delegate /ˈdelɪɡeɪt/ v. 委托；授权；委派</span></span> to technology: oral exams, for instance, in which students walk educators through their thinking process, or personalized writing assignments that are unique to the student or current events. <span class="vocab-word" onclick="toggleTooltip(this)">Portfolio-based<span class="tooltip">portfolio /pɔːrtˈfoʊlioʊ/ n. 作品集；投资组合</span></span> or presentational grading could be emphasized over traditional exams or pop quizzes, giving students ample time to earn their grades. Students can also be encouraged to reflect on their own work — using learning journals or discussion to express their struggles, approaches, and lessons learned after each assignment.</p>
+
+            <p>These strategies could create an academic environment where <span class="vocab-word" onclick="toggleTooltip(this)">integrity<span class="tooltip">integrity /ɪnˈteɡrəti/ n. 诚信；正直；完整</span></span>, creativity, and original thought thrive. Whatever the path forward, it must be forged soon. If chatbots have made school easier to get through, they are also making school equally as hard to grow out of. The technology is producing a generation of eternal <span class="vocab-word" onclick="toggleTooltip(this)">novices<span class="tooltip">novice /ˈnɑːvɪs/ n. 新手；初学者</span></span>, unable to think or perform for themselves.</p>
+        </div>
+
+        <div class="section-card">
+            <h2>&#128221; 文章大意</h2>
+            <div class="summary-box">
+                <p><strong>主题：</strong>一名纽约公立高中高年级学生从自身视角出发，指出人工智能工具正在渗透并削弱美国中学的课堂学习，使作业、讨论和考试逐渐沦为“外包思维”的流水线。</p>
+                <p><strong>主要内容：</strong>作者以弗雷德里克·道格拉斯回忆录阅读和代数作业为例，描述同学如何用ChatGPT生成批注、拍照搜题；她发现这类捷径已被严重“常态化”，Deadline 失去约束力，学生之间的共同学习体验也被瓦解。学校虽引入AI检测和屏幕监控，但学生通过“ humanizer”工具、手动改写、偷带手机等方式轻易绕过。作者还以辩论队经历说明，AI正在侵蚀本应培养批判性思维和独立论证的课外活动。</p>
+                <p><strong>核心观点：</strong>AI并非一无是处，但其滥用正在造就“永恒的初学者”——一代缺乏毅力、批判性思维和抗压能力的学生。作者呼吁学校尽快改革评估方式：增加口头答辩、个性化写作、作品集评价等难以被技术代劳的任务，重建以诚信、创造力和原创思维为核心的学术环境。</p>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>&#128292; 考研核心词汇表（30个）</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr><th>单词</th><th>音标</th><th>词性</th><th>中文释义</th><th>例句</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="word-cell">inescapable</td><td class="phonetic">/ˌɪnɪˈskeɪpəbl/</td><td>adj.</td><td>不可避免的；无法逃避的</td><td>AI tools are inescapable in today's classrooms.</td></tr>
+                    <tr><td class="word-cell">discreetly</td><td class="phonetic">/dɪˈskriːtli/</td><td>adv.</td><td>谨慎地；小心翼翼地</td><td>A classmate discreetly opened ChatGPT under the desk.</td></tr>
+                    <tr><td class="word-cell">prop</td><td class="phonetic">/prɑːp/</td><td>v.</td><td>支撑；放置</td><td>She propped her laptop up on a crossed leg.</td></tr>
+                    <tr><td class="word-cell">annotation</td><td class="phonetic">/ˌænəˈteɪʃn/</td><td>n.</td><td>注释；评注</td><td>The student submitted an AI-generated annotation.</td></tr>
+                    <tr><td class="word-cell">reflective</td><td class="phonetic">/rɪˈflektɪv/</td><td>adj.</td><td>反思的；深思的</td><td>The assignment was meant to be reflective.</td></tr>
+                    <tr><td class="word-cell">thought-provoking</td><td class="phonetic">/ˈθɔːt prəˌvoʊkɪŋ/</td><td>adj.</td><td>发人深省的</td><td>It was a thought-provoking discussion on resilience.</td></tr>
+                    <tr><td class="word-cell">resilience</td><td class="phonetic">/rɪˈzɪliəns/</td><td>n.</td><td>韧性；恢复力</td><td>The book explores human resilience under oppression.</td></tr>
+                    <tr><td class="word-cell">flatten</td><td class="phonetic">/ˈflætn/</td><td>v.</td><td>使变平淡；使扁平化</td><td>AI flattened the discussion into copy-paste commentary.</td></tr>
+                    <tr><td class="word-cell">jarring</td><td class="phonetic">/ˈdʒɑːrɪŋ/</td><td>adj.</td><td>刺耳的；令人震惊的</td><td>These incidents were jarring to witness.</td></tr>
+                    <tr><td class="word-cell">normalize</td><td class="phonetic">/ˈnɔːrməlaɪz/</td><td>v.</td><td>使常态化；使正常化</td><td>Cheating with AI has become normalized.</td></tr>
+                    <tr><td class="word-cell">shortcut</td><td class="phonetic">/ˈʃɔːrtkʌt/</td><td>n.</td><td>捷径；近路</td><td>Students increasingly rely on digital shortcuts.</td></tr>
+                    <tr><td class="word-cell">consequence</td><td class="phonetic">/ˈkɑːnsɪkwens/</td><td>n.</td><td>后果；结果</td><td>AI has softened the consequences of procrastination.</td></tr>
+                    <tr><td class="word-cell">procrastination</td><td class="phonetic">/prəˌkræstɪˈneɪʃn/</td><td>n.</td><td>拖延；耽搁</td><td>Chatbots reduce the cost of procrastination.</td></tr>
+                    <tr><td class="word-cell">curb</td><td class="phonetic">/kɜːrb/</td><td>v.</td><td>抑制；控制；约束</td><td>Schools use software to curb cheating.</td></tr>
+                    <tr><td class="word-cell">foolproof</td><td class="phonetic">/ˈfuːlpruːf/</td><td>adj.</td><td>万无一失的；不会错的</td><td>No anti-cheating system is foolproof.</td></tr>
+                    <tr><td class="word-cell">bypass</td><td class="phonetic">/ˈbaɪpɑːs/</td><td>v.</td><td>绕过；回避</td><td>Students quickly learn to bypass detection tools.</td></tr>
+                    <tr><td class="word-cell">rephrase</td><td class="phonetic">/ˌriːˈfreɪz/</td><td>v.</td><td>改写；重新措辞</td><td>AI humanizers rephrase text to avoid detection.</td></tr>
+                    <tr><td class="word-cell">robotic</td><td class="phonetic">/roʊˈbɑːtɪk/</td><td>adj.</td><td>机械的；像机器人的</td><td>The essay had a robotic undertone.</td></tr>
+                    <tr><td class="word-cell">undertone</td><td class="phonetic">/ˈʌndərtoʊn/</td><td>n.</td><td>暗示；潜在含义；低音</td><td>There was an angry undertone in his speech.</td></tr>
+                    <tr><td class="word-cell">intellectual</td><td class="phonetic">/ˌɪntəˈlektʃuəl/</td><td>adj.</td><td>智力的；知识的</td><td>Debate sharpens intellectual rigor.</td></tr>
+                    <tr><td class="word-cell">rigor</td><td class="phonetic">/ˈrɪɡər/</td><td>n.</td><td>严谨；严格</td><td>The course is known for its academic rigor.</td></tr>
+                    <tr><td class="word-cell">refute</td><td class="phonetic">/rɪˈfjuːt/</td><td>v.</td><td>驳斥；反驳</td><td>She struggled to refute the unexpected counterargument.</td></tr>
+                    <tr><td class="word-cell">curveball</td><td class="phonetic">/ˈkɜːrvbɔːl/</td><td>n.</td><td>曲线球；突如其来的难题</td><td>The interview threw him a real curveball.</td></tr>
+                    <tr><td class="word-cell">cookie-cutter</td><td class="phonetic">/ˈkʊki ˈkʌtər/</td><td>adj.</td><td>千篇一律的</td><td>The plan felt cookie-cutter and uninspired.</td></tr>
+                    <tr><td class="word-cell">vet</td><td class="phonetic">/vet/</td><td>v.</td><td>审查；仔细检查</td><td>Journalists vet hard-to-find information carefully.</td></tr>
+                    <tr><td class="word-cell">prevail</td><td class="phonetic">/prɪˈveɪl/</td><td>v.</td><td>获胜；盛行；占优势</td><td>Grit helps us prevail in difficult situations.</td></tr>
+                    <tr><td class="word-cell">delegate</td><td class="phonetic">/ˈdelɪɡeɪt/</td><td>v.</td><td>委托；授权；委派</td><td>Assessments should not be easily delegated to AI.</td></tr>
+                    <tr><td class="word-cell">portfolio</td><td class="phonetic">/pɔːrtˈfoʊlioʊ/</td><td>n.</td><td>作品集；投资组合</td><td>Portfolio-based grading rewards long-term growth.</td></tr>
+                    <tr><td class="word-cell">integrity</td><td class="phonetic">/ɪnˈteɡrəti/</td><td>n.</td><td>诚信；正直；完整</td><td>Academic integrity is essential to learning.</td></tr>
+                    <tr><td class="word-cell">novice</td><td class="phonetic">/ˈnɑːvɪs/</td><td>n.</td><td>新手；初学者</td><td>Over-reliance on AI may create eternal novices.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section-card">
+            <h2>&#128279; 短语搭配</h2>
+            <div class="phrase-item">
+                <div class="phrase-en">1. at the expense of</div>
+                <div class="phrase-cn">以……为代价；牺牲……</div>
+                <div class="phrase-example">原句：The technology has also led students to focus on external results <strong>at the expense of</strong> internal growth.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">2. get away with</div>
+                <div class="phrase-cn">做（坏事）而未受惩罚</div>
+                <div class="phrase-example">原句：The trouble with chatbots is not just that they allow students to <strong>get away with</strong> cheating.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">3. take hold</div>
+                <div class="phrase-cn">扎根；站稳脚跟；确立</div>
+                <div class="phrase-example">原句：But soon, AI <strong>took hold</strong> there as well.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">4. stand against</div>
+                <div class="phrase-cn">反对；抵抗</div>
+                <div class="phrase-example">原句：Many students avoided the technology and still <strong>stand against</strong> it.</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">5. lean on</div>
+                <div class="phrase-cn">依赖；依靠</div>
+                <div class="phrase-example">原句：If we keep <strong>leaning on</strong> AI to sidestep pressure or deadlines, what happens when the tools aren't there?</div>
+            </div>
+            <div class="phrase-item">
+                <div class="phrase-en">6. hold...to account</div>
+                <div class="phrase-cn">使……承担责任</div>
+                <div class="phrase-example">原句：Chatbots cannot <strong>hold the powerful to account</strong> in the way an investigative reporter does.</div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>&#128269; 长难句解析</h2>
+            <div class="sentence-box">
+                <div class="original">"During a lesson on the Narrative of the Life of Frederick Douglass, I watched a classmate discreetly shift in their seat, prop their laptop up on a crossed leg, and highlight the entirety of the chapter under discussion."</div>
+                <div class="analysis">
+                    <span class="label">主干</span>I watched a classmate shift, prop, and highlight...<br><br>
+                    <span class="label">修饰成分</span><br>
+                    • 介词短语作时间状语：During a lesson on the Narrative of the Life of Frederick Douglass<br>
+                    • 宾语补足语（三个并列不定式短语，省略to）：discreetly shift..., prop..., and highlight...<br>
+                    • 介词短语：up on a crossed leg（修饰 prop）<br>
+                    • 介词短语：of the chapter under discussion（修饰 entirety）<br>
+                    • 过去分词短语：under discussion（修饰 chapter）<br><br>
+                    <span class="label">翻译</span>在一节关于《弗雷德里克·道格拉斯生平自述》的课上，我看到一位同学小心翼翼地挪了挪座位，把笔记本电脑架在交叉的腿上，然后高亮标记了整段正在讨论的章节。
+                </div>
+            </div>
+            <div class="sentence-box">
+                <div class="original">"The trouble with chatbots is not just that they allow students to get away with cheating or that they remove a sense of urgency from academics."</div>
+                <div class="analysis">
+                    <span class="label">主干</span>The trouble with chatbots is not just that... or that...<br><br>
+                    <span class="label">表语从句</span><br>
+                    • 第一个 that 从句：they allow students to get away with cheating<br>
+                    &nbsp;&nbsp;— allow sb. to do sth. 结构：允许/使某人做某事<br>
+                    &nbsp;&nbsp;— get away with cheating：作弊而不受惩罚<br>
+                    • 第二个 that 从句：they remove a sense of urgency from academics<br>
+                    &nbsp;&nbsp;— remove...from...：从……中去除……<br>
+                    &nbsp;&nbsp;— a sense of urgency：紧迫感<br><br>
+                    <span class="label">翻译</span>聊天机器人的问题不仅在于它们让学生能够作弊而不受惩罚，还在于它们消解了学业上的紧迫感。
+                </div>
+            </div>
+            <div class="sentence-box">
+                <div class="original">"If we keep leaning on AI to sidestep pressure or deadlines, what happens when the tools aren't there?"</div>
+                <div class="analysis">
+                    <span class="label">主干</span>what happens when the tools aren't there?<br><br>
+                    <span class="label">修饰成分</span><br>
+                    • If 引导条件状语从句：If we keep leaning on AI to sidestep pressure or deadlines<br>
+                    &nbsp;&nbsp;— keep doing sth.：持续做某事<br>
+                    &nbsp;&nbsp;— lean on：依赖<br>
+                    &nbsp;&nbsp;— to sidestep pressure or deadlines：不定式表目的，意为“回避压力或截止日期”<br>
+                    • when 引导时间状语从句：when the tools aren't there<br><br>
+                    <span class="label">翻译</span>如果我们一直依赖人工智能来回避压力或截止日期，那么当这些工具不在身边时，会发生什么？
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>&#9989; 阅读理解练习</h2>
+            <div class="quiz-item">
+                <div class="question">1. 主旨大意题：What is the main purpose of this article?</div>
+                <div class="options">
+                    <label>A. To celebrate the benefits of AI tools for high school students.</label>
+                    <label>B. To criticize schools for banning AI technology in classrooms.</label>
+                    <label>C. To argue that AI is undermining genuine learning and urge educators to redesign assessments.</label>
+                    <label>D. To compare different AI detection software used in schools.</label>
+                </div>
+                <div class="answer-box">
+                    <div class="correct">正确答案：C</div>
+                    <div class="analysis">解析：文章通篇以高中生第一人称叙述，描述AI如何使课堂讨论、作业、辩论等活动流于形式，并在结尾明确提出改革评估方式的建议。A项“庆祝AI好处”与作者批判立场相反；B项“批评学校禁用AI”错误，作者并未反对限制AI，而是认为单纯检测不够；D项“比较检测软件”只是文中细节，非主旨。</div>
+                </div>
+            </div>
+            <div class="quiz-item">
+                <div class="question">2. 细节理解题：Which of the following is NOT mentioned as a way students bypass AI detection?</div>
+                <div class="options">
+                    <label>A. Using AI "humanizer" tools.</label>
+                    <label>B. Manually editing AI-generated output.</label>
+                    <label>C. Sneaking phones into in-class exams.</label>
+                    <label>D. Hiring online tutors to complete assignments.</label>
+                </div>
+                <div class="answer-box">
+                    <div class="correct">正确答案：D</div>
+                    <div class="analysis">解析：第四段明确提到学生绕过检测的方法：A项“使用AI humanizer工具改写文本”、B项“手动编辑AI输出”、C项“考试时偷带手机”。D项“聘请在线家教完成作业”在文中完全没有提及，属于无中生有的干扰项。</div>
+                </div>
+            </div>
+            <div class="quiz-item">
+                <div class="question">3. 推理判断题：What does the author imply by saying "the technology is producing a generation of eternal novices"?</div>
+                <div class="options">
+                    <label>A. Students will remain beginners forever because AI prevents them from developing real skills.</label>
+                    <label>B. Students prefer to stay in school for a longer time than previous generations.</label>
+                    <label>C. AI will create more educational opportunities for young people around the world.</label>
+                    <label>D. Future generations will need more professional training to enter the workforce.</label>
+                </div>
+                <div class="answer-box">
+                    <div class="correct">正确答案：A</div>
+                    <div class="analysis">解析：全文强调AI让学生习惯于“外包思考”，削弱了毅力、批判性思维和抗压能力。末句“eternal novices, unable to think or perform for themselves”意为永远停留在新手阶段、无法独立思考与行动的人。B项“更愿意长期留校”、C项“创造全球教育机会”、D项“需要更多职业培训”均与文意不符。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>&#128161; 阅读技巧提示</h2>
+            <div class="tips-box">
+                <h4>考研英语阅读技巧</h4>
+                <ul>
+                    <li><strong>主旨大意题：</strong>本文是一篇第一人称叙事夹议的文章，主旨往往在结尾段升华。注意末段“a generation of eternal novices”等关键句，可帮助锁定作者核心立场。</li>
+                    <li><strong>细节定位法：</strong>题干若问“NOT mentioned”，需逐一到原文核对每个选项。本文第四段集中介绍绕过检测的方法，是细节题高频出题点。</li>
+                    <li><strong>比喻/引申义推理：</strong>“eternal novices”“cookie-cutter arguments”等表达带有明显感情色彩，解题时要结合上下文褒贬态度，而非只查词典义。</li>
+                    <li><strong>长难句拆分：</strong>遇到并列结构（如 shift..., prop..., and highlight...）或表语从句（not just that... or that...），先找主干再补修饰，避免被长串动作或从句绕晕。</li>
+                    <li><strong>态度词识别：</strong>jarring、empty、concerned、eternal novices 等词体现作者对AI滥用的担忧；而 not all bad、study aid 等让步表达则说明作者态度并非全盘否定，注意避免过度推断。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">&#8592; 返回文章列表</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleTooltip(el) {
+            document.querySelectorAll('.vocab-word').forEach(function(word) {
+                if (word !== el) word.classList.remove('active');
+            });
+            el.classList.toggle('active');
+        }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.vocab-word')) {
+                document.querySelectorAll('.vocab-word').forEach(function(word) {
+                    word.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

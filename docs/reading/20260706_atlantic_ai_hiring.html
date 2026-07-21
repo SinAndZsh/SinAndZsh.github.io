@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | AI Has Ruined the Job Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2c5282;
+            --accent: #ed8936;
+            --bg: #f7fafc;
+            --card: #ffffff;
+            --text: #2d3748;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --success: #48bb78;
+            --danger: #f56565;
+            --highlight: #fef3c7;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Serif SC', Georgia, serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .article-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .article-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        
+        .source-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .article-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+        
+        .article-meta {
+            font-family: 'Inter', sans-serif;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        /* Article Body */
+        .article-body {
+            background: var(--card);
+            padding: 48px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            font-size: 17px;
+            line-height: 1.9;
+        }
+        
+        .article-body p {
+            margin-bottom: 1.5em;
+            text-align: justify;
+        }
+        
+        /* Vocabulary Highlighting */
+        .vocab {
+            background: linear-gradient(180deg, transparent 60%, var(--highlight) 60%);
+            cursor: pointer;
+            position: relative;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.2s;
+        }
+        
+        .vocab:hover {
+            background: var(--highlight);
+        }
+        
+        .vocab-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .vocab-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        
+        .vocab:hover .vocab-tooltip {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(5px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        /* Section Dividers */
+        .section-divider {
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+        }
+        
+        .section-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--border);
+        }
+        
+        .section-divider span {
+            background: var(--card);
+            padding: 0 20px;
+            color: var(--text-light);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+        }
+        
+        /* Info Cards */
+        .info-card {
+            background: var(--bg);
+            border-left: 4px solid var(--accent);
+            padding: 20px 24px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .info-card h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            color: var(--accent);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-card p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        
+        /* Vocabulary Table */
+        .vocab-section {
+            background: var(--card);
+            padding: 40px;
+            border-radius: 16px;
+            margin-top: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        
+        .section-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--accent);
+            display: inline-block;
+        }
+        
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+        
+        .vocab-table th {
+            background: var(--primary);
+            color: white;
+            padding: 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .vocab-table td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .vocab-table tr:hover {
+            background: var(--bg);
+        }
+        
+        .word-cell {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 15px;
+        }
+        
+        .phonetic {
+            color: var(--text-light);
+            font-style: italic;
+        }
+        
+        /* Phrase Section */
+        .phrase-card {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+        }
+        
+        .phrase-en {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 18px;
+            margin-bottom: 6px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .phrase-cn {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .phrase-example {
+            font-size: 14px;
+            color: var(--text-light);
+            font-style: italic;
+            padding-left: 16px;
+            border-left: 3px solid var(--border);
+        }
+        
+        /* Long Sentence Analysis */
+        .sentence-box {
+            background: #edf2f7;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .sentence-en {
+            font-size: 16px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        
+        .sentence-analysis {
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        
+        .sentence-analysis .highlight {
+            background: var(--highlight);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        /* Reading Comprehension */
+        .quiz-container {
+            background: var(--card);
+            padding: 40px;
+            border-radius: 16px;
+            margin-top: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        
+        .quiz-item {
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .quiz-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .quiz-question {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        
+        .quiz-options {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .quiz-options li {
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            background: var(--bg);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .quiz-options li:hover {
+            border-color: var(--secondary);
+            background: #ebf8ff;
+        }
+        
+        .quiz-options li.correct {
+            background: #f0fff4;
+            border-color: var(--success);
+            color: #22543d;
+        }
+        
+        .answer-section {
+            background: #f0fff4;
+            border-left: 4px solid var(--success);
+            padding: 16px 20px;
+            margin-top: 16px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .answer-label {
+            font-weight: 700;
+            color: var(--success);
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 8px;
+        }
+        
+        .answer-analysis {
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        
+        /* Summary */
+        .summary-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 32px;
+            border-radius: 16px;
+            margin-top: 40px;
+        }
+        
+        .summary-box h2 {
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 16px;
+            font-size: 22px;
+        }
+        
+        .summary-box p {
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+        
+        /* Tips */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+        
+        .tip-card {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 12px;
+            border-top: 4px solid var(--accent);
+        }
+        
+        .tip-card h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .tip-card p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 640px) {
+            .article-header {
+                padding: 40px 24px;
+            }
+            .article-title {
+                font-size: 24px;
+            }
+            .article-body {
+                padding: 28px;
+            }
+            .vocab-section, .quiz-container {
+                padding: 28px;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .article-header {
+                background: var(--primary) !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="article-header">
+            <div class="source-badge">📰 The Atlantic · July 2026</div>
+            <h1 class="article-title">AI Has Ruined the Job Market</h1>
+            <div class="article-meta">
+                Maybe flawed people were better than brute algorithms. · 外刊精读 · 2026年7月6日<br>
+                话题分类：科技与社会 · 适合考研英语一/二
+            </div>
+        </header>
+        
+        <!-- Article Body -->
+        <article class="article-body">
+            <p>
+                A few years ago, Ken Schumacher was working for a technology company. Part of his job involved <span class="vocab">assessing<span class="vocab-tooltip">评估 v.</span></span> potential hires: hopping on a Zoom call, giving an applicant an engineering test (kind of like a crossword puzzle with code instead of words), and going on "mute for an hour" as the applicant <span class="vocab">struggled<span class="vocab-tooltip">努力 v./n.</span></span> through it.
+            </p>
+            
+            <p>
+                Except many of the candidates weren't struggling. The firm's exercises were getting posted on sites such as Glassdoor. "All these <span class="vocab">savvy<span class="vocab-tooltip">精明的 adj.</span></span> 23-year-olds would, of course, practice the problem three times, come to me, and crush it," Schumacher told me. "Now the bigger problem is everyone's using AI to write their resume." They're also using AI-powered <span class="vocab">chatbots<span class="vocab-tooltip">聊天机器人 n.</span></span> and <span class="vocab">teleprompters<span class="vocab-tooltip">提词器 n.</span></span> to help them get to the next round. It's become "really, really hard for anyone to figure out who's real and who's fake," Schumacher said. (This turned out to be its own market opportunity—he now runs a start-up using AI to detect AI cheating by job candidates.)
+            </p>
+            
+            <div class="info-card">
+                <h3>💡 阅读技巧</h3>
+                <p>作者以具体案例开篇，通过一位科技行业从业者的亲身经历引出文章主题。这种"以小见大"的写作手法在考研英语中非常常见——具体案例往往服务于更广泛的论点。阅读时应关注案例背后的普遍性问题。</p>
+            </div>
+            
+            <p>
+                The problem might be particularly <span class="vocab">acute<span class="vocab-tooltip">严峻的；敏锐的 adj.</span></span> in software engineering. But the same <span class="vocab">dystopian<span class="vocab-tooltip">反乌托邦的 adj.</span></span> phenomenon is <span class="vocab">contorting<span class="vocab-tooltip">扭曲 v.</span></span> the whole labor market. AI has Tinderized hiring. Workers are applying to hundreds of positions and never hearing back; companies are receiving thousands of resumes and struggling to respond. More than that, AI has Amazoned hiring. It has <span class="vocab">scrubbed<span class="vocab-tooltip">清除；擦洗 v.</span></span> the uniqueness out of applications, <span class="vocab">flooded<span class="vocab-tooltip">淹没 v.</span></span> the market with same-same-seeming offerings, increased the number of frauds, and replaced personal <span class="vocab">discretion<span class="vocab-tooltip">判断力；谨慎 n.</span></span> with brute <span class="vocab">algorithmic<span class="vocab-tooltip">算法的 adj.</span></span> <span class="vocab">assessment<span class="vocab-tooltip">评估 n.</span></span>.
+            </p>
+            
+            <p>
+                People had once hoped that Silicon Valley might not only smooth out the logistics of getting a job but also make the process fairer. Unbiased tools would replace <span class="vocab">alma-mater<span class="vocab-tooltip">母校 n.</span></span> networks. Digital portals would accept applications from anyone, anywhere. Workers would get free access to templates, practice exams, and advice. "Technology in general tends to improve the <span class="vocab">efficiency<span class="vocab-tooltip">效率 n.</span></span> of job matching," Mitchell Hoffman, a labor economist at UC Santa Barbara, told me. But AI in particular seems to destroy it. Employers and employees are locked in an "arms race, where it's AI-on-AI crime," Kathleen Creel, a philosopher and computer scientist at Northeastern University, told me.
+            </p>
+            
+            <div class="section-divider"><span>● ● ●</span></div>
+            
+            <p>
+                In just a few years, tools such as ChatGPT and Claude have <span class="vocab">commoditized<span class="vocab-tooltip">使商品化 v.</span></span> the production of cover letters and resumes. Large shares of job applicants are using generative chatbots to polish their language and <span class="vocab">summarize<span class="vocab-tooltip">总结 v.</span></span> their accomplishments—raising the average quality of these personal documents, at the cost of "compressing" and "<span class="vocab">homogenizing<span class="vocab-tooltip">使同质化 v.</span></span>" the information they convey, as one Columbia Business School paper put it. In Silicon Valley, the phenomenon is sometimes called "signal collapse." CVs used to be filled with advertent and <span class="vocab">inadvertent<span class="vocab-tooltip">无意的 adj.</span></span> signals for hiring managers to <span class="vocab">parse<span class="vocab-tooltip">解析；分析 v.</span></span>: degrees and certifications and languages spoken, as well as formatting errors and unusual digressions and over-honest admissions. Now everyone looks better and everyone looks the same and everyone <span class="vocab">parrots<span class="vocab-tooltip">鹦鹉学舌 v.</span></span> important key words and everyone uses punchy action verbs. Hiring managers are <span class="vocab">straining<span class="vocab-tooltip">努力；紧绷 v.</span></span> to "distinguish underlying <span class="vocab">expertise<span class="vocab-tooltip">专长 n.</span></span>," and to separate precious signal from <span class="vocab">cacophonous<span class="vocab-tooltip">嘈杂的 adj.</span></span> chatbot noise.
+            </p>
+            
+            <p>
+                Because AI has reduced the time job seekers spend writing applications, people are submitting hundreds of them on ZipRecruiter, LinkedIn, and other sites—often for positions that are not quite a fit, often never to hear anything back. Applicants aren't getting feedback on their strengths and weaknesses. They're not getting <span class="vocab">intel<span class="vocab-tooltip">情报；信息 n.</span></span> on what they might need to do to get hired, or the skills they might need to obtain the job they want. Signal collapse is running in both directions.
+            </p>
+            
+            <div class="info-card">
+                <h3>💡 阅读技巧</h3>
+                <p>"Signal collapse"（信号崩溃）是本文的核心概念。作者用这一术语精妙地描述了AI如何抹平求职者之间的差异——所有人都变得同样"优秀"、同样"无差异化"。注意理解"signal"在此处的特殊含义：能区分求职者优劣的有用信息。</p>
+            </div>
+            
+            <p>
+                To <span class="vocab">sift<span class="vocab-tooltip">筛选 v.</span></span> through all of those applications, companies are turning, again, to AI. A recent survey by Resume Builder found that four in five companies are using AI to scan resumes, two in five are using chatbots to communicate with candidates, and one in five is giving AI interviews. AI screening tools in particular are creating an "<span class="vocab">algorithmic<span class="vocab-tooltip">算法的 adj.</span></span> <span class="vocab">monoculture<span class="vocab-tooltip">单一文化 n.</span></span>" in hiring, a new study of 4 million job applications has found. More candidates are being rejected by every firm that they apply to; in general, hiring decisions are more uniform than they would be if HR managers were not using algorithmic screens. A decade or three ago, firms would "go through the resumes and pick out schools they knew, or fancy schools, or schools that had good programs" in relevant fields, Creel told me. "That's bad in its own way, from an <span class="vocab">egalitarian<span class="vocab-tooltip">平等主义的 adj.</span></span> point of view. But at least different people had different arbitrary screening criteria."
+            </p>
+            
+            <p>
+                Moreover, screening algorithms are discriminating against Black and Asian candidates, the paper found. "There's this filtering happening, and we don't understand it, because these systems are <span class="vocab">opaque<span class="vocab-tooltip">不透明的 adj.</span></span> and custom-built for different institutions, and we don't know the <span class="vocab">functionality<span class="vocab-tooltip">功能 n.</span></span>," Sarah Bana, a co-author of the paper and a digital fellow at the Stanford Digital Economy Lab, told me. Nevertheless, the algorithms' tendency to advantage the advantaged and disadvantage the disadvantaged seems clear.
+            </p>
+            
+            <div class="section-divider"><span>● ● ●</span></div>
+            
+            <p>
+                For candidates who make it past an AI screen, a test such as the one Ken Schumacher administered may await. Companies ask applicants to describe how they would respond to an <span class="vocab">unruly<span class="vocab-tooltip">不守规矩的 adj.</span></span> customer, or figure out an engineering fix to a software problem. In a lot of cases, this step involves AI writing the exam, <span class="vocab">proctoring<span class="vocab-tooltip">监考 v.</span></span> the exam, and taking the exam. "I look at this stuff all day, every day, and even I have to pinch myself sometimes—the amount of fraud!" Schumacher said. "It's just totally <span class="vocab">ridiculous<span class="vocab-tooltip">荒谬的 adj.</span></span>."
+            </p>
+            
+            <p>
+                The result is that AI is slowing HR down instead of speeding it up, because companies have to spend more time <span class="vocab">scrutinizing<span class="vocab-tooltip">仔细审查 v.</span></span> applications and performing background checks. A number of large firms are making face-to-face interactions a bigger part of the hiring process again. Google is ensuring that candidates have "at least one round" of in-person interviews, to "make sure the fundamentals are there," Sundar Pichai, its CEO, has said. Cisco is increasing "verification steps and enhanced background checks that may involve an in-person component." Companies are also extending <span class="vocab">probationary<span class="vocab-tooltip">试用期的 adj.</span></span> periods and hiring people on contract, with the intention of turning them into full-time employees after managers can <span class="vocab">vet<span class="vocab-tooltip">审查 v.</span></span> their work.
+            </p>
+            
+            <p>
+                Finally, some firms are resorting to old-fashioned methods: <span class="vocab">referrals<span class="vocab-tooltip">推荐 n.</span></span>, alumni networks, local job boards, <span class="vocab">headhunters<span class="vocab-tooltip">猎头 n.</span></span>. Schumacher said that firms were "retreating to pedigree." They aren't doing this because "the Harvard engineers are the best in the world," he said. "But it's the safer play in an era where it's really hard to tell who is <span class="vocab">legit<span class="vocab-tooltip">名副其实的 adj.</span></span> and who is kind of full of crap."
+            </p>
+            
+            <div class="info-card">
+                <h3>💡 阅读技巧</h3>
+                <p>作者使用"retreating to pedigree"（退回到看门第）这一生动表达，讽刺性地指出AI本应让招聘更公平，却反而让企业回到依赖名校背景等传统偏见的状态。这种反讽手法是考研英语常见的考查点。</p>
+            </div>
+            
+            <div class="section-divider"><span>● ● ●</span></div>
+            
+            <p>
+                Even with those techniques, hiring has simply gotten harder—so much so that the entire labor market might become a touch more <span class="vocab">sclerotic<span class="vocab-tooltip">僵化的 adj.</span></span>, and business <span class="vocab">dynamism<span class="vocab-tooltip">活力 n.</span></span> might dim a bit. Companies are concerned that worker <span class="vocab">tenure<span class="vocab-tooltip">任期 n.</span></span> will go down, as managers end up having to fire underqualified workers and ill-suited employees get frustrated and leave. Bana worries about businesses <span class="vocab">replicating<span class="vocab-tooltip">复制 v.</span></span> their current workforces, and missing out on employees who might break them out of <span class="vocab">groupthink<span class="vocab-tooltip">群体思维 n.</span></span> and expand their ambitions. Hoffman, the labor economist, raised the issue of AI reducing workers' <span class="vocab">incentive<span class="vocab-tooltip">动机 n.</span></span> to learn new skills and deepen their expertise.
+            </p>
+            
+            <p>
+                What should a person looking for a job in this AI <span class="vocab">hellscape<span class="vocab-tooltip">人间炼狱 n.</span></span> do? Nobody I spoke with was certain. But being yourself in a cover letter and dropping it off in person doesn't seem like the worst idea.
+            </p>
+        </article>
+        
+        <!-- Summary Section -->
+        <div class="summary-box">
+            <h2>📋 文章大意总结</h2>
+            <p>
+                本文发表于《大西洋月刊》，探讨了人工智能如何从根本上扰乱了招聘流程。文章以科技从业者Schumacher的亲身经历开篇，揭示了AI工具在招聘中的滥用现象：求职者使用AI编写简历、生成面试答案，甚至通过提词器作弊。作者指出AI已将招聘"Tinder化"（大量投递却无回应）和"Amazon化"（抹除独特性、充斥同质化内容），导致核心概念"信号崩溃"——所有求职者看起来都同样优秀，招聘方难以区分真伪。文章进一步指出，企业为筛选海量AI生成的简历而转用AI筛选工具，却造成了"算法单一文化"，甚至对少数族裔候选人产生歧视。最终，AI非但未提升效率，反而迫使企业回归面对面面试、延长试用期、依赖校友推荐等传统方式。作者警告，整个劳动力市场可能因此变得更加僵化，企业活力减退。文章以一句幽默建议收尾：在求职信中做真实的自己，并亲自递交——也许是这个AI时代最好的求职策略。
+            </p>
+        </div>
+        
+        <!-- Phrase Section -->
+        <div class="vocab-section">
+            <h2 class="section-title">🎯 短语搭配</h2>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">1. figure out</div>
+                <div class="phrase-cn">弄清楚，搞明白</div>
+                <div class="phrase-example">"It's become really, really hard for anyone to figure out who's real and who's fake."</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">2. smooth out</div>
+                <div class="phrase-cn">使平稳，消除（障碍）</div>
+                <div class="phrase-example">"Silicon Valley might not only smooth out the logistics of getting a job but also make the process fairer."</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">3. at the cost of</div>
+                <div class="phrase-cn">以……为代价</div>
+                <div class="phrase-example">"...raising the average quality of these personal documents, at the cost of 'compressing' and 'homogenizing' the information they convey..."</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">4. separate...from...</div>
+                <div class="phrase-cn">将……与……区分开来</div>
+                <div class="phrase-example">"Hiring managers are straining to distinguish underlying expertise, and to separate precious signal from cacophonous chatbot noise."</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">5. lock in</div>
+                <div class="phrase-cn">陷入；锁定</div>
+                <div class="phrase-example">"Employers and employees are locked in an 'arms race, where it's AI-on-AI crime.'"</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">6. sift through</div>
+                <div class="phrase-cn">筛选，仔细审查</div>
+                <div class="phrase-example">"To sift through all of those applications, companies are turning, again, to AI."</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">7. resort to</div>
+                <div class="phrase-cn">诉诸于，求助于</div>
+                <div class="phrase-example">"Finally, some firms are resorting to old-fashioned methods: referrals, alumni networks, local job boards, headhunters."</div>
+            </div>
+            
+            <div class="phrase-card">
+                <div class="phrase-en">8. miss out on</div>
+                <div class="phrase-cn">错失，错过</div>
+                <div class="phrase-example">"Bana worries about businesses replicating their current workforces, and missing out on employees who might break them out of groupthink."</div>
+            </div>
+        </div>
+        
+        <!-- Long Sentence Analysis -->
+        <div class="vocab-section">
+            <h2 class="section-title">🔍 长难句解析</h2>
+            
+            <div class="sentence-box">
+                <div class="sentence-en">Sentence 1: AI has Tinderized hiring. Workers are applying to hundreds of positions and never hearing back; companies are receiving thousands of resumes and struggling to respond. More than that, AI has Amazoned hiring. It has scrubbed the uniqueness out of applications, flooded the market with same-same-seeming offerings, increased the number of frauds, and replaced personal discretion with brute algorithmic assessment.</div>
+                <div class="sentence-analysis">
+                    <p><span class="highlight">【结构分析】</span> 这组句子使用了两个精彩的类比动词"Tinderized"和"Amazoned"作谓语。最后一个长句包含五个并列的谓语结构：scrubbed、flooded、increased、replaced，形成排比效果，增强语势。</p>
+                    <p><span class="highlight">【修辞分析】</span> 作者将招聘比作Tinder（约会软件：海量匹配但多数无果）和Amazon（电商平台：商品同质化），生动形象地描述了AI对招聘的双重破坏。</p>
+                    <p><span class="highlight">【参考译文】</span> AI把招聘变成了Tinder式体验——求职者投递数百份简历却石沉大海，企业收到成千上万份简历却无力应对。不仅如此，AI还把招聘变成了Amazon模式：它抹除了申请中的独特性，用千篇一律的内容淹没市场，增加了欺诈数量，用冰冷的算法评估取代了人的判断力。</p>
+                </div>
+            </div>
+            
+            <div class="sentence-box">
+                <div class="sentence-en">Sentence 2: Large shares of job applicants are using generative chatbots to polish their language and summarize their accomplishments—raising the average quality of these personal documents, at the cost of "compressing" and "homogenizing" the information they convey, as one Columbia Business School paper put it.</div>
+                <div class="sentence-analysis">
+                    <p><span class="highlight">【结构分析】</span> 主句：applicants are using chatbots to polish... and summarize...；破折号后的现在分词短语 raising... 作结果状语；介词短语 at the cost of "compressing" and "homogenizing" 补充说明代价；as引导的从句为插入语，引出信息来源。</p>
+                    <p><span class="highlight">【词汇解析】</span> polish 润色；compress 压缩；homogenize 使同质化。三个动词语义递进，揭示了AI写作工具的双刃剑效应：表面质量提升，实质信息压缩。</p>
+                    <p><span class="highlight">【参考译文】</span> 大量求职者正在使用生成式聊天机器人来润色语言和总结成就——正如哥伦比亚商学院一篇论文所指出的，这提高了个人文档的平均质量，代价却是"压缩"和"同质化"了它们所传达的信息。</p>
+                </div>
+            </div>
+            
+            <div class="sentence-box">
+                <div class="sentence-en">Sentence 3: The result is that AI is slowing HR down instead of speeding it up, because companies have to spend more time scrutinizing applications and performing background checks.</div>
+                <div class="sentence-analysis">
+                    <p><span class="highlight">【结构分析】</span> 主句主干：The result is that...；that引导表语从句，其中包含instead of构成的对比结构（slowing down vs. speeding up）；because引导原因状语从句，解释为何AI反而降低了效率。</p>
+                    <p><span class="highlight">【逻辑分析】</span> 此句揭示了文章的核心悖论：AI本应提高效率，实际上却适得其反。这种"技术反噬"的逻辑在考研阅读推理判断题中是高频考点。</p>
+                    <p><span class="highlight">【参考译文】</span> 结果是AI非但没有加快人力资源的运转速度，反而使其放慢了，因为公司不得不花更多时间仔细审查申请和进行背景调查。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Vocabulary Table -->
+        <div class="vocab-section">
+            <h2 class="section-title">📚 考研核心词汇表</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>单词</th>
+                        <th>音标</th>
+                        <th>词性</th>
+                        <th>中文释义</th>
+                        <th>例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="word-cell">assess</td>
+                        <td class="phonetic">/əˈses/</td>
+                        <td>v.</td>
+                        <td>评估；评定</td>
+                        <td>Part of his job involved assessing potential hires.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">savvy</td>
+                        <td class="phonetic">/ˈsævi/</td>
+                        <td>adj.</td>
+                        <td>精明的；懂行的</td>
+                        <td>All these savvy 23-year-olds would practice the problem three times.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">acute</td>
+                        <td class="phonetic">/əˈkjuːt/</td>
+                        <td>adj.</td>
+                        <td>严峻的；敏锐的；急性的</td>
+                        <td>The problem might be particularly acute in software engineering.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">dystopian</td>
+                        <td class="phonetic">/dɪsˈtoʊpiən/</td>
+                        <td>adj.</td>
+                        <td>反乌托邦的</td>
+                        <td>The same dystopian phenomenon is contorting the whole labor market.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">contort</td>
+                        <td class="phonetic">/kənˈtɔːrt/</td>
+                        <td>v.</td>
+                        <td>扭曲；使变形</td>
+                        <td>The same dystopian phenomenon is contorting the whole labor market.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">scrub</td>
+                        <td class="phonetic">/skrʌb/</td>
+                        <td>v.</td>
+                        <td>擦洗；清除</td>
+                        <td>AI has scrubbed the uniqueness out of applications.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">discretion</td>
+                        <td class="phonetic">/dɪˈskreʃn/</td>
+                        <td>n.</td>
+                        <td>判断力；谨慎；决定权</td>
+                        <td>AI replaced personal discretion with brute algorithmic assessment.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">efficiency</td>
+                        <td class="phonetic">/ɪˈfɪʃnsi/</td>
+                        <td>n.</td>
+                        <td>效率</td>
+                        <td>Technology in general tends to improve the efficiency of job matching.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">commoditize</td>
+                        <td class="phonetic">/kəˈmɑːdɪtaɪz/</td>
+                        <td>v.</td>
+                        <td>使商品化</td>
+                        <td>ChatGPT and Claude have commoditized the production of cover letters.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">summarize</td>
+                        <td class="phonetic">/ˈsʌməraɪz/</td>
+                        <td>v.</td>
+                        <td>总结；概括</td>
+                        <td>Applicants are using chatbots to polish their language and summarize their accomplishments.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">homogenize</td>
+                        <td class="phonetic">/həˈmɑːdʒənaɪz/</td>
+                        <td>v.</td>
+                        <td>使同质化</td>
+                        <td>Raising the average quality at the cost of "compressing" and "homogenizing" the information.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">inadvertent</td>
+                        <td class="phonetic">/ˌɪnədˈvɜːrtənt/</td>
+                        <td>adj.</td>
+                        <td>无意的；疏忽的</td>
+                        <td>CVs used to be filled with advertent and inadvertent signals.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">parse</td>
+                        <td class="phonetic">/pɑːrs/</td>
+                        <td>v.</td>
+                        <td>解析；分析</td>
+                        <td>Signals for hiring managers to parse.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">parrot</td>
+                        <td class="phonetic">/ˈpærət/</td>
+                        <td>v.</td>
+                        <td>鹦鹉学舌；机械重复</td>
+                        <td>Everyone parrots important key words and everyone uses punchy action verbs.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">strain</td>
+                        <td class="phonetic">/streɪn/</td>
+                        <td>v.</td>
+                        <td>努力；紧绷；拉伤</td>
+                        <td>Hiring managers are straining to distinguish underlying expertise.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">expertise</td>
+                        <td class="phonetic">/ˌekspɜːrˈtiːz/</td>
+                        <td>n.</td>
+                        <td>专长；专业知识</td>
+                        <td>Hiring managers are straining to distinguish underlying expertise.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">cacophonous</td>
+                        <td class="phonetic">/kəˈkɑːfənəs/</td>
+                        <td>adj.</td>
+                        <td>嘈杂的；刺耳的</td>
+                        <td>Separate precious signal from cacophonous chatbot noise.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">sift</td>
+                        <td class="phonetic">/sɪft/</td>
+                        <td>v.</td>
+                        <td>筛选；筛分</td>
+                        <td>To sift through all of those applications, companies are turning to AI.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">monoculture</td>
+                        <td class="phonetic">/ˈmɑːnəkʌltʃər/</td>
+                        <td>n.</td>
+                        <td>单一文化；单一种植</td>
+                        <td>AI screening tools are creating an "algorithmic monoculture" in hiring.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">egalitarian</td>
+                        <td class="phonetic">/ɪˌɡælɪˈteriən/</td>
+                        <td>adj.</td>
+                        <td>平等主义的</td>
+                        <td>"That's bad in its own way, from an egalitarian point of view."</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">opaque</td>
+                        <td class="phonetic">/oʊˈpeɪk/</td>
+                        <td>adj.</td>
+                        <td>不透明的；晦涩的</td>
+                        <td>These systems are opaque and custom-built for different institutions.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">functionality</td>
+                        <td class="phonetic">/ˌfʌŋkʃəˈnæləti/</td>
+                        <td>n.</td>
+                        <td>功能；机能</td>
+                        <td>We don't know the functionality of these systems.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">unruly</td>
+                        <td class="phonetic">/ʌnˈruːli/</td>
+                        <td>adj.</td>
+                        <td>不守规矩的；难以控制的</td>
+                        <td>Companies ask applicants to describe how they would respond to an unruly customer.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">proctor</td>
+                        <td class="phonetic">/ˈprɑːktər/</td>
+                        <td>v./n.</td>
+                        <td>监考；监考人</td>
+                        <td>This step involves AI writing the exam, proctoring the exam, and taking the exam.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">ridiculous</td>
+                        <td class="phonetic">/rɪˈdɪkjələs/</td>
+                        <td>adj.</td>
+                        <td>荒谬的；可笑的</td>
+                        <td>"The amount of fraud! It's just totally ridiculous."</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">scrutinize</td>
+                        <td class="phonetic">/ˈskruːtənaɪz/</td>
+                        <td>v.</td>
+                        <td>仔细审查</td>
+                        <td>Companies have to spend more time scrutinizing applications.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">probationary</td>
+                        <td class="phonetic">/proʊˈbeɪʃəneri/</td>
+                        <td>adj.</td>
+                        <td>试用期的；缓刑的</td>
+                        <td>Companies are extending probationary periods and hiring people on contract.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">vet</td>
+                        <td class="phonetic">/vet/</td>
+                        <td>v.</td>
+                        <td>审查；核准</td>
+                        <td>After managers can vet their work before turning them into full-time employees.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">sclerotic</td>
+                        <td class="phonetic">/skləˈrɑːtɪk/</td>
+                        <td>adj.</td>
+                        <td>僵化的；硬化的</td>
+                        <td>The entire labor market might become a touch more sclerotic.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">dynamism</td>
+                        <td class="phonetic">/ˈdaɪnəmɪzəm/</td>
+                        <td>n.</td>
+                        <td>活力；动态</td>
+                        <td>Business dynamism might dim a bit.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">tenure</td>
+                        <td class="phonetic">/ˈtenjər/</td>
+                        <td>n.</td>
+                        <td>任期；终身教职</td>
+                        <td>Companies are concerned that worker tenure will go down.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">replicate</td>
+                        <td class="phonetic">/ˈreplɪkeɪt/</td>
+                        <td>v.</td>
+                        <td>复制；复制</td>
+                        <td>Bana worries about businesses replicating their current workforces.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">groupthink</td>
+                        <td class="phonetic">/ˈɡruːpθɪŋk/</td>
+                        <td>n.</td>
+                        <td>群体思维；从众心理</td>
+                        <td>Missing out on employees who might break them out of groupthink.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">incentive</td>
+                        <td class="phonetic">/ɪnˈsentɪv/</td>
+                        <td>n.</td>
+                        <td>动机；激励</td>
+                        <td>AI reducing workers' incentive to learn new skills and deepen their expertise.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">hellscape</td>
+                        <td class="phonetic">/ˈhelskeɪp/</td>
+                        <td>n.</td>
+                        <td>人间炼狱</td>
+                        <td>What should a person looking for a job in this AI hellscape do?</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">alma-mater</td>
+                        <td class="phonetic">/ˈælmə ˈmɑːtər/</td>
+                        <td>n.</td>
+                        <td>母校</td>
+                        <td>Unbiased tools would replace alma-mater networks.</td>
+                    </tr>
+                    <tr>
+                        <td class="word-cell">teleprompter</td>
+                        <td class="phonetic">/ˈteliˈprɑːmptər/</td>
+                        <td>n.</td>
+                        <td>提词器</td>
+                        <td>They're also using AI-powered chatbots and teleprompters to help them.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Reading Tips -->
+        <div class="vocab-section">
+            <h2 class="section-title">🎓 考研阅读技巧</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>1. 类比动词理解</h4>
+                    <p>文中"Tinderized"和"Amazoned"是将品牌名转化为动词的修辞手法。考研阅读中遇到此类词，需根据上下文推断其引申含义——不必纠结字面意思。</p>
+                </div>
+                <div class="tip-card">
+                    <h4>2. 引号功能判断</h4>
+                    <p>"signal collapse"、"algorithmic monoculture"、"arms race"等带引号的术语往往是作者引入的核心概念，也是命题高频区域。注意引号内容与上下文的逻辑关系。</p>
+                </div>
+                <div class="tip-card">
+                    <h4>3. 反讽语气识别</h4>
+                    <p>"retreating to pedigree"以幽默讽刺的方式揭示AI招聘的悖论。考研英语中作者的嘲讽语气常通过看似正面实则反面的表达来体现。</p>
+                </div>
+                <div class="tip-card">
+                    <h4>4. 专家观点对应</h4>
+                    <p>文章引用多位专家观点（Schumacher, Hoffman, Creel, Bana）。做细节题时需注意将选项与具体人名的观点进行精确匹配，避免张冠李戴。</p>
+                </div>
+                <div class="tip-card">
+                    <h4>5. 悖论逻辑把握</h4>
+                    <p>文章核心悖论：AI本应提高效率，却适得其反。考研推理判断题常考查"作者认为技术带来了什么意想不到的后果"，抓住悖论即抓住答案。</p>
+                </div>
+                <div class="tip-card">
+                    <h4>6. 因果链追踪</h4>
+                    <p>AI→简历同质化→企业用AI筛选→算法偏见→企业回归传统招聘→劳动力市场僵化。理清这条因果链有助于快速定位信息、判断段落关系。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Reading Comprehension -->
+        <div class="quiz-container">
+            <h2 class="section-title">✏️ 阅读理解练习</h2>
+            
+            <div class="quiz-item">
+                <div class="quiz-question">1. Which of the following best describes the central idea of the passage?</div>
+                <ul class="quiz-options">
+                    <li>A. AI has created new job opportunities that benefit both employers and employees</li>
+                    <li>B. AI has paradoxically made hiring less efficient by destroying genuine signals and forcing companies to revert to old methods</li>
+                    <li>C. Algorithmic screening tools are the ultimate solution to the inefficiencies of traditional hiring</li>
+                    <li>D. Job seekers should embrace AI tools to gain competitive advantages in the labor market</li>
+                </ul>
+                <div class="answer-section">
+                    <div class="answer-label">正确答案：B</div>
+                    <div class="answer-analysis">
+                        <strong>解析：</strong>这是一道主旨大意题。文章的核心论点是AI非但没有提高招聘效率，反而造成了"信号崩溃"——抹平了求职者差异、增加了欺诈，迫使企业回归面对面面试和校友推荐等传统方式，甚至可能使整个劳动力市场更加僵化。A与文章主旨相反（AI并未创造双赢）；C与文章观点矛盾（算法筛选造成了"算法单一文化"甚至种族歧视）；D并非文章主旨（文章对求职者使用AI持批评态度）。B准确概括了"AI适得其反"的核心悖论。
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quiz-item">
+                <div class="quiz-question">2. What does the author mean by the phrase "algorithmic monoculture" (Paragraph 7)?</div>
+                <ul class="quiz-options">
+                    <li>A. A diverse range of AI tools used by different companies for hiring</li>
+                    <li>B. The tendency of AI screening tools to produce identical hiring outcomes across firms</li>
+                    <li>C. A unified global standard for ethical AI recruitment practices</li>
+                    <li>D. The increasing use of AI by a single dominant technology company</li>
+                </ul>
+                <div class="answer-section">
+                    <div class="answer-label">正确答案：B</div>
+                    <div class="answer-analysis">
+                        <strong>解析：</strong>这是一道词义猜测题。根据上下文，"AI screening tools in particular are creating an 'algorithmic monoculture' in hiring"，紧接着解释"More candidates are being rejected by every firm that they apply to; in general, hiring decisions are more uniform than they would be if HR managers were not using algorithmic screens." 这说明"算法单一文化"指的是AI筛选工具导致各公司的招聘决策趋于一致、缺乏多样性，即B选项所述。monoculture本意为"单一栽培"，在此引申为"决策同质化"。
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quiz-item">
+                <div class="quiz-question">3. What can be inferred from the passage about companies' responses to AI-driven hiring challenges?</div>
+                <ul class="quiz-options">
+                    <li>A. Most companies have abandoned AI tools entirely and returned to manual hiring processes</li>
+                    <li>B. Companies are increasing their reliance on AI while simultaneously introducing more rigorous human oversight</li>
+                    <li>C. Companies are adopting a combination of traditional methods and enhanced verification measures to cope with AI disruptions</li>
+                    <li>D. Companies believe that AI will eventually solve the current hiring inefficiencies on its own</li>
+                </ul>
+                <div class="answer-section">
+                    <div class="answer-label">正确答案：C</div>
+                    <div class="answer-analysis">
+                        <strong>解析：</strong>这是一道推理判断题。文章倒数第三段提到Google确保"至少一轮"线下面试、Cisco增加验证步骤和背景调查、企业延长试用期、以及最后一段提到企业诉诸推荐、校友网络、猎头等传统方式。这些措施是传统方法与增强验证手段的结合，正是C选项所概括的。A过于绝对（文章说"making face-to-face interactions a bigger part"，而非"abandoned AI entirely"）；B不准确（企业并未"increasing reliance on AI"，而是转向传统方式）；D与文章矛盾（作者暗示AI短期内无法自行解决这些问题）。
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div style="text-align: center; padding: 40px; color: var(--text-light); font-size: 14px; font-family: 'Inter', sans-serif;">
+            <p>文章来源：The Atlantic | 精读制作：SinAndZsh考研英语</p>
+            <p>本文仅供学习交流使用，版权归原作者及出版方所有</p>
+        </div>
+    </div>
+</body>
+</html>

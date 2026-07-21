@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026-07-16 | The Guardian | 马德里租户以艺术抗驱逐</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --accent-color: #2c5282;
+            --accent-light: #ebf4ff;
+            --accent-soft: #e2e8f0;
+            --border-color: #e2e8f0;
+            --highlight-bg: #fff3cd;
+            --highlight-border: #f6ad55;
+            --success-color: #276749;
+            --success-bg: #c6f6d5;
+            --warning-color: #c05621;
+            --danger-color: #c53030;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 30px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .source-badge {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .meta-info span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .summary-card {
+            background: var(--accent-light);
+            border-left: 4px solid var(--accent-color);
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card h2 {
+            font-size: 1.2em;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-card p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .tips-card {
+            background: #fffaf0;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .tips-card h3 {
+            color: var(--warning-color);
+            font-size: 1.1em;
+            margin-bottom: 12px;
+        }
+
+        .tips-card ul {
+            padding-left: 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .tips-card li {
+            margin-bottom: 6px;
+        }
+
+        .article-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .article-intro {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.15em;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .article-body {
+            font-family: 'Noto Serif SC', Georgia, serif;
+            font-size: 17px;
+            line-height: 1.9;
+            color: var(--text-primary);
+        }
+
+        .article-body p {
+            margin-bottom: 1.2em;
+            text-align: justify;
+        }
+
+        .article-body p:first-of-type::first-letter {
+            font-size: 3em;
+            float: left;
+            line-height: 0.8;
+            margin-right: 8px;
+            margin-top: 4px;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .word-highlight {
+            background: linear-gradient(120deg, var(--highlight-bg) 0%, var(--highlight-bg) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            border-bottom: 2px solid var(--highlight-border);
+            cursor: pointer;
+            padding: 0 2px;
+            transition: all 0.2s ease;
+        }
+
+        .word-highlight:hover {
+            background-size: 100% 100%;
+            border-bottom-color: var(--accent-color);
+        }
+
+        .tooltip {
+            position: fixed;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            z-index: 1000;
+            max-width: 320px;
+            display: none;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .tooltip .word {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .tooltip .phonetic {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .tooltip .pos {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent-color);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .tooltip .meaning {
+            color: var(--text-secondary);
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            color: var(--accent-color);
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .vocab-table th {
+            background: var(--accent-color);
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .vocab-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            vertical-align: top;
+        }
+
+        .vocab-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .vocab-table tr:hover {
+            background: var(--accent-light);
+        }
+
+        .vocab-table .word-cell {
+            font-weight: 600;
+            color: var(--accent-color);
+            white-space: nowrap;
+        }
+
+        .vocab-table .phonetic {
+            color: var(--text-muted);
+            font-family: Georgia, serif;
+        }
+
+        .vocab-table .pos {
+            color: var(--warning-color);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .phrase-card {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .phrase-card .phrase {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 1.1em;
+            margin-bottom: 6px;
+        }
+
+        .phrase-card .meaning {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .phrase-card .example {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 14px;
+            padding-left: 16px;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .sentence-analysis {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .sentence-analysis .original {
+            font-family: 'Noto Serif SC', Georgia, serif;
+            font-size: 16px;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            padding-left: 16px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .sentence-analysis .analysis {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .question-card .question-number {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .question-card .question-type {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-left: 8px;
+        }
+
+        .question-card .question-text {
+            font-weight: 600;
+            margin: 12px 0;
+            color: var(--text-primary);
+        }
+
+        .options {
+            margin: 16px 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .options li {
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            background: #f7fafc;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .options li:hover {
+            background: var(--accent-light);
+        }
+
+        .options li.correct {
+            background: var(--success-bg);
+            border: 1px solid var(--success-color);
+        }
+
+        .answer-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .answer {
+            color: var(--success-color);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .explanation {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.7em;
+            }
+
+            .article-section {
+                padding: 24px;
+            }
+
+            .article-body {
+                font-size: 16px;
+            }
+
+            .vocab-table {
+                font-size: 13px;
+            }
+
+            .vocab-table th,
+            .vocab-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="source-badge">THE GUARDIAN</div>
+            <h1>马德里租户以艺术抗驱逐：我见过的最美的抵抗</h1>
+            <p class="subtitle">The most beautiful act of resistance I've seen: Madrid tenants fighting landlords with art</p>
+            <div class="meta-info">
+                <span>作者：Leah Pattem</span>
+                <span>发表日期：2026-07-16</span>
+                <span>话题：文化 / 社会 / 住房危机</span>
+                <span>字数：约 909 词</span>
+            </div>
+        </header>
+
+        <div class="summary-card">
+            <h2>文章大意</h2>
+            <p>
+                本文讲述了西班牙马德里拉瓦皮耶斯（Lavapiés）社区特里布勒特街7号（Tribulete 7）居民的故事。当投资基金会买下他们居住的大楼并试图通过涨租和施工逼迁时，租户们没有只依赖传统抗议方式，而是发挥社区的文化资本，邀请音乐家到家中演出、把家具搬到街上进行"生活剧场"表演，以此抵抗驱逐并唤起公众对住房危机的关注。作者认为，这种艺术化的抵抗不仅是对抗房东的策略，更是在欧洲最严峻的住房危机之一中重建社区关怀、捍卫人人享有体面住房权利的创造性行动。
+            </p>
+        </div>
+
+        <div class="tips-card">
+            <h3>阅读技巧提示</h3>
+            <ul>
+                <li><strong>把握情感线索：</strong>本文是评论性文章，作者态度鲜明。阅读时留意表达赞赏、担忧的形容词（如 spectacular, admiration, aggressive），有助于快速判断作者立场。</li>
+                <li><strong>重视同位语和插入语：</strong>文中出现大量专有名词（如 PAH、Ada Colau、Lavapiés），常通过同位语或破折号补充说明，理解这些结构能帮你理清人物与组织关系。</li>
+                <li><strong>区分事实与评价：</strong>文章在陈述住房危机事实的同时，穿插作者评价。做题时注意区分 "what happened" 与 "what the author thinks"。</li>
+                <li><strong>短语优先记忆：</strong>评论类文章常出现固定搭配（如 change tack, tap into, fall victim to），建议结合上下文记忆，而非孤立背单词。</li>
+            </ul>
+        </div>
+
+        <div class="article-section">
+            <div class="article-intro">
+                当投资基金买下马德里特里布勒特街7号时，西班牙的住房危机终于找上门来。租户们用尽了常规手段，却最终选择了一种前所未有的方式回应——把日常生活变成一场艺术抵抗。
+            </div>
+
+            <div class="article-body">
+                <p>
+                    Spain's housing crisis finally <span class="word-highlight" data-word="came for" data-phonetic="/keɪm fɔː(r)/" data-pos="phr." data-meaning="找上门来；波及到">came for</span> the <span class="word-highlight" data-word="tenant" data-phonetic="/ˈtenənt/" data-pos="n." data-meaning="租户；房客">tenants</span> of Madrid's Calle Tribulete 7 when their block was sold to an <span class="word-highlight" data-word="investment fund" data-phonetic="/ɪnˈvestmənt fʌnd/" data-pos="n." data-meaning="投资基金">investment fund</span>. Feeling pressured to leave by rent increases and <span class="word-highlight" data-word="aggressive" data-phonetic="/əˈɡresɪv/" data-pos="adj." data-meaning="激进的；咄咄逼人的">aggressive</span> construction works that <span class="word-highlight" data-word="flood" data-phonetic="/flʌd/" data-pos="v." data-meaning="淹没；使水淹">flooded</span> some apartments, they did everything they were supposed to do: organise meetings, contact the tenants' union and find a lawyer. They also protested, spoke to journalists and created an Instagram account to <span class="word-highlight" data-word="spread the word" data-phonetic="/spred ðə wɜːd/" data-pos="phr." data-meaning="传播消息；广而告之">spread the word</span>. But they also did something I'd never seen before.
+                </p>
+
+                <p>
+                    They opened up their homes to the public and invited musicians to play inside, in the very flats and shops that were suddenly at risk. A month later they <span class="word-highlight" data-word="flip ... on its head" data-phonetic="/flɪp ɒn ɪts hed/" data-pos="phr." data-meaning="把……完全颠倒">flipped this concept on its head</span> and took their furniture out on to the street. There the tenants cooked, knitted, played chess in their dressing gowns, worked from home and bobbed in their armchairs to a local band playing a brass version of Freed from Desire. It was a <span class="word-highlight" data-word="spectacular" data-phonetic="/spekˈtækjʊlə(r)/" data-pos="adj." data-meaning="壮观的；引人注目的">spectacular</span> <span class="word-highlight" data-word="theatrical" data-phonetic="/θiˈætrɪkl/" data-pos="adj." data-meaning="戏剧性的；剧场的">theatrical</span> performance of everyday <span class="word-highlight" data-word="existence" data-phonetic="/ɪɡˈzɪstəns/" data-pos="n." data-meaning="存在；生活">existence</span>, but also a fight for their lives.
+                </p>
+
+                <p>
+                    In the years after the 2008 global <span class="word-highlight" data-word="financial crisis" data-phonetic="/faɪˈnænʃl ˈkraɪsɪs/" data-pos="n." data-meaning="金融危机">financial crisis</span>, and the Spanish housing disaster that followed, the country's <span class="word-highlight" data-word="campaigner" data-phonetic="/kæmˈpeɪnə(r)/" data-pos="n." data-meaning="活动家；运动参加者">campaigners</span> have slowly <span class="word-highlight" data-word="change tack" data-phonetic="/tʃeɪndʒ tæk/" data-pos="phr." data-meaning="改变策略；改弦更张">changed tack</span>. Back then, banks and their <span class="word-highlight" data-word="reckless" data-phonetic="/ˈrekləs/" data-pos="adj." data-meaning="鲁莽的；不顾后果的">reckless</span> <span class="word-highlight" data-word="mortgage" data-phonetic="/ˈmɔːɡɪdʒ/" data-pos="n." data-meaning="抵押贷款；按揭">mortgage</span> loans were the main problem, and defining the frontline was the Plataforma de Afectados por la Hipoteca (PAH), the organisation that <span class="word-highlight" data-word="launch ... to fame" data-phonetic="/lɔːntʃ tu feɪm/" data-pos="phr." data-meaning="使……成名">launched Ada Colau to fame</span> and the Barcelona mayoralty, and helped stop countless <span class="word-highlight" data-word="eviction" data-phonetic="/ɪˈvɪkʃn/" data-pos="n." data-meaning="驱逐；赶出">evictions</span>. Though the PAH is still <span class="word-highlight" data-word="relevant" data-phonetic="/ˈreləvənt/" data-pos="adj." data-meaning="相关的；切题的">relevant</span> today, the Spanish housing crisis of the 2020s involves the buying up of entire <span class="word-highlight" data-word="residential" data-phonetic="/ˌrezɪˈdenʃl/" data-pos="adj." data-meaning="住宅的；居住的">residential</span> buildings – some of which have a hundred tenants inside – by domestic and foreign investment funds such as Blackstone.
+                </p>
+
+                <p>
+                    The media <span class="word-highlight" data-word="framing" data-phonetic="/ˈfreɪmɪŋ/" data-pos="n." data-meaning="框架；构建；呈现方式">framing</span> of Spain's housing crisis has <span class="word-highlight" data-word="evolve" data-phonetic="/iˈvɒlv/" data-pos="v." data-meaning="演变；发展；进化">evolved</span>, too. For decades, photographers such as Olmo Calvo and Alberto Astudillo have <span class="word-highlight" data-word="document" data-phonetic="/ˈdɒkjument/" data-pos="v." data-meaning="记录；记载">documented</span> the most <span class="word-highlight" data-word="brutal" data-phonetic="/ˈbruːtl/" data-pos="adj." data-meaning="残酷的；野蛮的">brutal</span> cases: armed police battering down doors, personal belongings piled on to pavements, grieving parents doing their best to <span class="word-highlight" data-word="shield" data-phonetic="/ʃiːld/" data-pos="v." data-meaning="保护；庇护">shield</span> their <span class="word-highlight" data-word="traumatise" data-phonetic="/ˈtrɔːmətaɪz/" data-pos="v." data-meaning="使受精神创伤">traumatised</span> children. But a new style of coverage is <span class="word-highlight" data-word="emerge" data-phonetic="/iˈmɜːdʒ/" data-pos="v." data-meaning="出现；浮现">emerging</span> – one that celebrates the community under threat, in the hope that the act of celebration can inspire citizens to mobilise to protect the right to a decent home.
+                </p>
+
+                <p>
+                    This is exactly what myself and fellow documentary film-maker Elisa González have been involved in for two years in our own neighbourhood of Lavapiés in central Madrid. From that first day of living-room concerts, we realised we weren't simply documenting Spain's housing crisis, but witnessing the emergence of a new social movement.
+                </p>
+
+                <p>
+                    The tenants of Tribulete 7 are a typical <span class="word-highlight" data-word="cross-section" data-phonetic="/ˈkrɒs sekʃn/" data-pos="n." data-meaning="横截面；典型代表">cross-section</span> of Lavapiés society: young families, <span class="word-highlight" data-word="pensioner" data-phonetic="/ˈpenʃənə(r)/" data-pos="n." data-meaning="养老金领取者；退休老人">pensioners</span>, single women, migrants, teachers, healthcare workers, writers, actors, musicians. They are all deeply <span class="word-highlight" data-word="weave" data-phonetic="/wiːv/" data-pos="v." data-meaning="编织；迂回行进">woven</span> into the cultural <span class="word-highlight" data-word="fabric" data-phonetic="/ˈfæbrɪk/" data-pos="n." data-meaning="结构；织物；组织">fabric</span> of Lavapiés – a neighbourhood <span class="word-highlight" data-word="renowned" data-phonetic="/rɪˈnaʊnd/" data-pos="adj." data-meaning="闻名的；著名的">renowned</span> for its creativity and historical <span class="word-highlight" data-word="resistance" data-phonetic="/rɪˈzɪstəns/" data-pos="n." data-meaning="抵抗；反抗">resistance</span>. So when their homes came under threat, they <span class="word-highlight" data-word="instinctively" data-phonetic="/ɪnˈstɪŋktɪvli/" data-pos="adv." data-meaning="本能地；直觉地">instinctively</span> reached for the tools they had to hand: their social and cultural <span class="word-highlight" data-word="capital" data-phonetic="/ˈkæpɪtl/" data-pos="n." data-meaning="资本；资金；社会资本">capital</span>. That's how an apartment block in Madrid became a stage, broadcast on every news channel.
+                </p>
+
+                <p>
+                    Nani, who lives on the second floor of Tribulete 7, runs El Elemento, a DJ <span class="word-highlight" data-word="collective" data-phonetic="/kəˈlektɪv/" data-pos="n." data-meaning="集体；团体">collective</span> for people with disabilities. One of her star performers, DJ Jessy, played at the residents' first musical protest, inside the now-closed shoe shop in the building. DJ Jessy's popularity also brought her to the biggest stage of the Madrid neighbourhood fiestas, organised by Madrid city council. But Nani is fearful for the group's future if they are forced out of the neighbourhood. The council is happy to <span class="word-highlight" data-word="champion" data-phonetic="/ˈtʃæmpiən/" data-pos="v." data-meaning="支持；捍卫；拥护">champion</span> local culture, but takes little interest in <span class="word-highlight" data-word="address" data-phonetic="/əˈdres/" data-pos="v." data-meaning="处理；解决；致辞">addressing</span> the housing crisis that will ultimately destroy that very cultural fabric.
+                </p>
+
+                <p>
+                    Worse still, critics say Madrid's recent planning <span class="word-highlight" data-word="reform" data-phonetic="/rɪˈfɔːm/" data-pos="n." data-meaning="改革；改良">reforms</span>, presented as a way of <span class="word-highlight" data-word="regulate" data-phonetic="/ˈreɡjuleɪt/" data-pos="v." data-meaning="规范；管理；调节">regulating</span> tourist <span class="word-highlight" data-word="accommodation" data-phonetic="/əˌkɒməˈdeɪʃn/" data-pos="n." data-meaning="住宿；膳宿；住处">accommodation</span>, have also made it easier for entire residential buildings to be <span class="word-highlight" data-word="convert" data-phonetic="/kənˈvɜːt/" data-pos="v." data-meaning="转换；改造；皈依">converted</span> into tourist accommodation, with a simple change of licence. With its position right next to the city centre and its attractions, Lavapiés already has one of the highest <span class="word-highlight" data-word="concentration" data-phonetic="/ˌkɒnsnˈtreɪʃn/" data-pos="n." data-meaning="集中；浓度；专注">concentrations</span> of <span class="word-highlight" data-word="unlicensed" data-phonetic="/ʌnˈlaɪsnst/" data-pos="adj." data-meaning="无许可证的；未经许可的">unlicensed</span> tourist rentals in Madrid – and this situation looks likely to <span class="word-highlight" data-word="worsen" data-phonetic="/ˈwɜːsn/" data-pos="v." data-meaning="恶化；变得更糟">worsen</span>. Among the first buildings in Madrid to <span class="word-highlight" data-word="fall victim to" data-phonetic="/fɔːl ˈvɪktɪm tu/" data-pos="phr." data-meaning="成为……的牺牲品">fall victim to</span> this conversion scheme is, unsurprisingly, just around the corner from Tribulete 7.
+                </p>
+
+                <p>
+                    For the residents of Tribulete 7, the battle rages on. After years of <span class="word-highlight" data-word="campaign" data-phonetic="/kæmˈpeɪn/" data-pos="n." data-meaning="运动；活动">campaigning</span> against their new landlord, the residents and their <span class="word-highlight" data-word="prolific" data-phonetic="/prəˈlɪfɪk/" data-pos="adj." data-meaning="多产的；丰富的">prolific</span> lawyer, Alejandra Jacinto Uranga, <span class="word-highlight" data-word="file" data-phonetic="/faɪl/" data-pos="v." data-meaning="提起（诉讼）；提交">filed</span> what could become Spain's first successful <span class="word-highlight" data-word="lawsuit" data-phonetic="/ˈlɔːsuːt/" data-pos="n." data-meaning="诉讼；官司">lawsuit</span> against an investment fund for <span class="word-highlight" data-word="alleged" data-phonetic="/əˈledʒd/" data-pos="adj." data-meaning="所谓的；被指控的（未证实的）">alleged</span> real estate <span class="word-highlight" data-word="harassment" data-phonetic="/ˈhærəsmənt/" data-pos="n." data-meaning="骚扰；烦扰">harassment</span> – the building's owners reject this and are fighting the case. Beyond the <span class="word-highlight" data-word="groundbreaking" data-phonetic="/ˈɡraʊndbreɪkɪŋ/" data-pos="adj." data-meaning="开创性的；突破性的">groundbreaking</span> legal fight, the protests and the viral concerts, the tenants of Tribulete 7 are <span class="word-highlight" data-word="tap into" data-phonetic="/tæp ˈɪntu/" data-pos="phr." data-meaning="利用；挖掘">tapping into</span> something even more important: community care.
+                </p>
+
+                <p>
+                    I've watched with <span class="word-highlight" data-word="admiration" data-phonetic="/ˌædməˈreɪʃn/" data-pos="n." data-meaning="钦佩；赞赏">admiration</span> how the tenants have brought the entire neighbourhood together, giving people purpose and a shared sense of joy <span class="word-highlight" data-word="in the midst of" data-phonetic="/ɪn ðə mɪdst ɒv/" data-pos="phr." data-meaning="在……之中">in the midst of</span> one of the most aggressive housing crises in Europe. We have sought to <span class="word-highlight" data-word="replicate" data-phonetic="/ˈreplɪkeɪt/" data-pos="v." data-meaning="复制；重现">replicate</span> this same spirit when organising free local community screenings of our documentary Soy Tribulete 7.
+                </p>
+
+                <p>
+                    One of my favourite screenings so far was with DJ Jessy in local nightclub Club 33. After the film, DJ Jessy and her crew <span class="word-highlight" data-word="ascend" data-phonetic="/əˈsend/" data-pos="v." data-meaning="上升；升高；攀登">ascended</span> to the DJ booth, and the neighbourhood tore up the dancefloor. It was a moment that made me realise that culture is not merely a <span class="word-highlight" data-word="reflection" data-phonetic="/rɪˈflekʃn/" data-pos="n." data-meaning="反映；反射；深思">reflection</span> of resistance – it is resistance, and it is part of Spain's new fightback, for the right to good, <span class="word-highlight" data-word="affordable" data-phonetic="/əˈfɔːdəbl/" data-pos="adj." data-meaning="负担得起的">affordable</span>, <span class="word-highlight" data-word="secure" data-phonetic="/sɪˈkjʊə(r)/" data-pos="adj." data-meaning="稳定的；安全的；可靠的">secure</span> housing for all.
+                </p>
+            </div>
+        </div>
+
+        <h2 class="section-title">核心词汇表</h2>
+        <table class="vocab-table">
+            <thead>
+                <tr>
+                    <th>单词</th>
+                    <th>音标</th>
+                    <th>词性</th>
+                    <th>中文释义</th>
+                    <th>例句</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="word-cell">tenant</td>
+                    <td class="phonetic">/ˈtenənt/</td>
+                    <td class="pos">n.</td>
+                    <td>租户；房客</td>
+                    <td>The <strong>tenant</strong> refused to leave despite the eviction notice.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">investment fund</td>
+                    <td class="phonetic">/ɪnˈvestmənt fʌnd/</td>
+                    <td class="pos">n.</td>
+                    <td>投资基金</td>
+                    <td>The building was sold to an <strong>investment fund</strong> last year.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">aggressive</td>
+                    <td class="phonetic">/əˈɡresɪv/</td>
+                    <td class="pos">adj.</td>
+                    <td>激进的；咄咄逼人的</td>
+                    <td>The company's <strong>aggressive</strong> tactics forced many residents out.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">flood</td>
+                    <td class="phonetic">/flʌd/</td>
+                    <td class="pos">v.</td>
+                    <td>淹没；使水淹</td>
+                    <td>Construction works <strong>flooded</strong> several apartments in the block.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">spectacular</td>
+                    <td class="phonetic">/spekˈtækjʊlə(r)/</td>
+                    <td class="pos">adj.</td>
+                    <td>壮观的；引人注目的</td>
+                    <td>The protest was a <strong>spectacular</strong> theatrical performance.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">theatrical</td>
+                    <td class="phonetic">/θiˈætrɪkl/</td>
+                    <td class="pos">adj.</td>
+                    <td>戏剧性的；剧场的</td>
+                    <td>Her <strong>theatrical</strong> gestures captured everyone's attention.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">financial crisis</td>
+                    <td class="phonetic">/faɪˈnænʃl ˈkraɪsɪs/</td>
+                    <td class="pos">n.</td>
+                    <td>金融危机</td>
+                    <td>The 2008 <strong>financial crisis</strong> hit Spain's housing market hard.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">campaigner</td>
+                    <td class="phonetic">/kæmˈpeɪnə(r)/</td>
+                    <td class="pos">n.</td>
+                    <td>活动家；运动参加者</td>
+                    <td>Housing <strong>campaigners</strong> have changed their strategy in recent years.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">tack</td>
+                    <td class="phonetic">/tæk/</td>
+                    <td class="pos">n.</td>
+                    <td>方法；策略；方针</td>
+                    <td>The group decided to change <strong>tack</strong> after the election defeat.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">reckless</td>
+                    <td class="phonetic">/ˈrekləs/</td>
+                    <td class="pos">adj.</td>
+                    <td>鲁莽的；不顾后果的</td>
+                    <td>Banks issued <strong>reckless</strong> mortgage loans before the crisis.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">mortgage</td>
+                    <td class="phonetic">/ˈmɔːɡɪdʒ/</td>
+                    <td class="pos">n.</td>
+                    <td>抵押贷款；按揭</td>
+                    <td>Many families struggled to pay their <strong>mortgages</strong>.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">eviction</td>
+                    <td class="phonetic">/ɪˈvɪkʃn/</td>
+                    <td class="pos">n.</td>
+                    <td>驱逐；赶出</td>
+                    <td>The organisation helped stop countless <strong>evictions</strong>.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">residential</td>
+                    <td class="phonetic">/ˌrezɪˈdenʃl/</td>
+                    <td class="pos">adj.</td>
+                    <td>住宅的；居住的</td>
+                    <td>Entire <strong>residential</strong> buildings were bought by foreign funds.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">framing</td>
+                    <td class="phonetic">/ˈfreɪmɪŋ/</td>
+                    <td class="pos">n.</td>
+                    <td>框架；构建；呈现方式</td>
+                    <td>The media <strong>framing</strong> of the issue has shifted dramatically.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">evolve</td>
+                    <td class="phonetic">/iˈvɒlv/</td>
+                    <td class="pos">v.</td>
+                    <td>演变；发展；进化</td>
+                    <td>Public opinion on the issue has <strong>evolved</strong> over time.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">document</td>
+                    <td class="phonetic">/ˈdɒkjument/</td>
+                    <td class="pos">v.</td>
+                    <td>记录；记载</td>
+                    <td>Photographers <strong>documented</strong> the most brutal cases of eviction.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">brutal</td>
+                    <td class="phonetic">/ˈbruːtl/</td>
+                    <td class="pos">adj.</td>
+                    <td>残酷的；野蛮的</td>
+                    <td>The police used <strong>brutal</strong> force to clear the building.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">shield</td>
+                    <td class="phonetic">/ʃiːld/</td>
+                    <td class="pos">v.</td>
+                    <td>保护；庇护</td>
+                    <td>Parents tried to <strong>shield</strong> their children from the violence.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">traumatise</td>
+                    <td class="phonetic">/ˈtrɔːmətaɪz/</td>
+                    <td class="pos">v.</td>
+                    <td>使受精神创伤</td>
+                    <td>The experience left many residents deeply <strong>traumatised</strong>.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">emerge</td>
+                    <td class="phonetic">/iˈmɜːdʒ/</td>
+                    <td class="pos">v.</td>
+                    <td>出现；浮现</td>
+                    <td>A new style of protest is <strong>emerging</strong> across Spain.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">cross-section</td>
+                    <td class="phonetic">/ˈkrɒs sekʃn/</td>
+                    <td class="pos">n.</td>
+                    <td>横截面；典型代表</td>
+                    <td>The tenants form a typical <strong>cross-section</strong> of local society.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">pensioner</td>
+                    <td class="phonetic">/ˈpenʃənə(r)/</td>
+                    <td class="pos">n.</td>
+                    <td>养老金领取者；退休老人</td>
+                    <td>The group includes students, migrants and <strong>pensioners</strong>.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">weave</td>
+                    <td class="phonetic">/wiːv/</td>
+                    <td class="pos">v.</td>
+                    <td>编织；迂回行进</td>
+                    <td>They are deeply <strong>woven</strong> into the cultural fabric of the neighbourhood.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">fabric</td>
+                    <td class="phonetic">/ˈfæbrɪk/</td>
+                    <td class="pos">n.</td>
+                    <td>结构；织物；组织</td>
+                    <td>Small businesses are part of the social <strong>fabric</strong>.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">renowned</td>
+                    <td class="phonetic">/rɪˈnaʊnd/</td>
+                    <td class="pos">adj.</td>
+                    <td>闻名的；著名的</td>
+                    <td>The city is <strong>renowned</strong> for its vibrant arts scene.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">resistance</td>
+                    <td class="phonetic">/rɪˈzɪstəns/</td>
+                    <td class="pos">n.</td>
+                    <td>抵抗；反抗</td>
+                    <td>The tenants organised a campaign of creative <strong>resistance</strong>.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">instinctively</td>
+                    <td class="phonetic">/ɪnˈstɪŋktɪvli/</td>
+                    <td class="pos">adv.</td>
+                    <td>本能地；直觉地</td>
+                    <td>She <strong>instinctively</strong> reached for her phone to call for help.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">capital</td>
+                    <td class="phonetic">/ˈkæpɪtl/</td>
+                    <td class="pos">n.</td>
+                    <td>资本；资金；社会资本</td>
+                    <td>The community used its cultural <strong>capital</strong> to fight back.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">collective</td>
+                    <td class="phonetic">/kəˈlektɪv/</td>
+                    <td class="pos">n.</td>
+                    <td>集体；团体</td>
+                    <td>She runs a DJ <strong>collective</strong> for people with disabilities.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">champion</td>
+                    <td class="phonetic">/ˈtʃæmpiən/</td>
+                    <td class="pos">v.</td>
+                    <td>支持；捍卫；拥护</td>
+                    <td>The council claims to <strong>champion</strong> local culture.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">address</td>
+                    <td class="phonetic">/əˈdres/</td>
+                    <td class="pos">v.</td>
+                    <td>处理；解决；致辞</td>
+                    <td>Local leaders have failed to <strong>address</strong> the housing crisis.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">reform</td>
+                    <td class="phonetic">/rɪˈfɔːm/</td>
+                    <td class="pos">n.</td>
+                    <td>改革；改良</td>
+                    <td>Recent planning <strong>reforms</strong> have worsened the situation.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">regulate</td>
+                    <td class="phonetic">/ˈreɡjuleɪt/</td>
+                    <td class="pos">v.</td>
+                    <td>规范；管理；调节</td>
+                    <td>The law aims to <strong>regulate</strong> short-term tourist rentals.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">accommodation</td>
+                    <td class="phonetic">/əˌkɒməˈdeɪʃn/</td>
+                    <td class="pos">n.</td>
+                    <td>住宿；膳宿；住处</td>
+                    <td>Tourist <strong>accommodation</strong> is replacing long-term housing.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">convert</td>
+                    <td class="phonetic">/kənˈvɜːt/</td>
+                    <td class="pos">v.</td>
+                    <td>转换；改造；皈依</td>
+                    <td>Residential buildings are being <strong>converted</strong> into hotels.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">concentration</td>
+                    <td class="phonetic">/ˌkɒnsnˈtreɪʃn/</td>
+                    <td class="pos">n.</td>
+                    <td>集中；浓度；专注</td>
+                    <td>The area has a high <strong>concentration</strong> of tourist rentals.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">unlicensed</td>
+                    <td class="phonetic">/ʌnˈlaɪsnst/</td>
+                    <td class="pos">adj.</td>
+                    <td>无许可证的；未经许可的</td>
+                    <td><strong>Unlicensed</strong> rentals have flooded the neighbourhood.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">worsen</td>
+                    <td class="phonetic">/ˈwɜːsn/</td>
+                    <td class="pos">v.</td>
+                    <td>恶化；变得更糟</td>
+                    <td>Housing conditions are expected to <strong>worsen</strong> next year.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">campaign</td>
+                    <td class="phonetic">/kæmˈpeɪn/</td>
+                    <td class="pos">n.</td>
+                    <td>运动；活动</td>
+                    <td>After years of <strong>campaigning</strong>, the tenants filed a lawsuit.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">prolific</td>
+                    <td class="phonetic">/prəˈlɪfɪk/</td>
+                    <td class="pos">adj.</td>
+                    <td>多产的；丰富的</td>
+                    <td>Their <strong>prolific</strong> lawyer has handled many housing cases.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">file</td>
+                    <td class="phonetic">/faɪl/</td>
+                    <td class="pos">v.</td>
+                    <td>提起（诉讼）；提交</td>
+                    <td>The residents <strong>filed</strong> a lawsuit against the investment fund.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">lawsuit</td>
+                    <td class="phonetic">/ˈlɔːsuːt/</td>
+                    <td class="pos">n.</td>
+                    <td>诉讼；官司</td>
+                    <td>This could become Spain's first successful <strong>lawsuit</strong> of its kind.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">alleged</td>
+                    <td class="phonetic">/əˈledʒd/</td>
+                    <td class="pos">adj.</td>
+                    <td>所谓的；被指控的（未证实的）</td>
+                    <td>He was arrested for <strong>alleged</strong> fraud.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">harassment</td>
+                    <td class="phonetic">/ˈhærəsmənt/</td>
+                    <td class="pos">n.</td>
+                    <td>骚扰；烦扰</td>
+                    <td>The tenants reported <strong>harassment</strong> by their new landlord.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">groundbreaking</td>
+                    <td class="phonetic">/ˈɡraʊndbreɪkɪŋ/</td>
+                    <td class="pos">adj.</td>
+                    <td>开创性的；突破性的</td>
+                    <td>The case is considered <strong>groundbreaking</strong> for tenant rights.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">admiration</td>
+                    <td class="phonetic">/ˌædməˈreɪʃn/</td>
+                    <td class="pos">n.</td>
+                    <td>钦佩；赞赏</td>
+                    <td>I watched their protest with deep <strong>admiration</strong>.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">replicate</td>
+                    <td class="phonetic">/ˈreplɪkeɪt/</td>
+                    <td class="pos">v.</td>
+                    <td>复制；重现</td>
+                    <td>Other neighbourhoods hope to <strong>replicate</strong> this model.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">ascend</td>
+                    <td class="phonetic">/əˈsend/</td>
+                    <td class="pos">v.</td>
+                    <td>上升；升高；攀登</td>
+                    <td>The performers <strong>ascended</strong> to the stage.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">reflection</td>
+                    <td class="phonetic">/rɪˈflekʃn/</td>
+                    <td class="pos">n.</td>
+                    <td>反映；反射；深思</td>
+                    <td>The film is a <strong>reflection</strong> of social inequality.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">affordable</td>
+                    <td class="phonetic">/əˈfɔːdəbl/</td>
+                    <td class="pos">adj.</td>
+                    <td>负担得起的</td>
+                    <td>Everyone deserves <strong>affordable</strong> housing.</td>
+                </tr>
+                <tr>
+                    <td class="word-cell">secure</td>
+                    <td class="phonetic">/sɪˈkjʊə(r)/</td>
+                    <td class="pos">adj.</td>
+                    <td>稳定的；安全的；可靠的</td>
+                    <td>Tenants are fighting for <strong>secure</strong> housing rights.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">短语搭配</h2>
+
+        <div class="phrase-card">
+            <div class="phrase">1. come for</div>
+            <div class="meaning">找上门来；波及到；对……下手</div>
+            <div class="example">原句：Spain's housing crisis finally <strong>came for</strong> the tenants of Madrid's Calle Tribulete 7.</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">2. spread the word</div>
+            <div class="meaning">传播消息；广而告之</div>
+            <div class="example">原句：They also protested, spoke to journalists and created an Instagram account to <strong>spread the word</strong>.</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">3. flip ... on its head</div>
+            <div class="meaning">把……完全颠倒；彻底改变</div>
+            <div class="example">原句：A month later they <strong>flipped this concept on its head</strong> and took their furniture out on to the street.</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">4. change tack</div>
+            <div class="meaning">改变策略；改弦更张</div>
+            <div class="example">原句：In the years after the 2008 global financial crisis... the country's campaigners have slowly <strong>changed tack</strong>.</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">5. launch ... to fame</div>
+            <div class="meaning">使……成名；使……一举成名</div>
+            <div class="example">原句：...the organisation that <strong>launched Ada Colau to fame</strong> and the Barcelona mayoralty.</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">6. woven into the fabric</div>
+            <div class="meaning">融入……的结构/肌理；是……不可或缺的一部分</div>
+            <div class="example">原句：They are all deeply <strong>woven into the cultural fabric</strong> of Lavapiés.</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">7. fall victim to</div>
+            <div class="meaning">成为……的牺牲品；遭受……的损害</div>
+            <div class="example">原句：Among the first buildings in Madrid to <strong>fall victim to</strong> this conversion scheme is... just around the corner from Tribulete 7.</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">8. tap into</div>
+            <div class="meaning">利用；挖掘；接通</div>
+            <div class="example">原句：...the tenants of Tribulete 7 are <strong>tapping into</strong> something even more important: community care.</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase">9. in the midst of</div>
+            <div class="meaning">在……之中；在……的困难时期</div>
+            <div class="example">原句：...giving people purpose and a shared sense of joy <strong>in the midst of</strong> one of the most aggressive housing crises in Europe.</div>
+        </div>
+
+        <h2 class="section-title">长难句解析</h2>
+
+        <div class="sentence-analysis">
+            <div class="original">Spain's housing crisis finally came for the tenants of Madrid's Calle Tribulete 7 when their block was sold to an investment fund.</div>
+            <div class="analysis">
+                <strong>结构分析：</strong>主句为 "Spain's housing crisis finally came for the tenants..."，其中 "came for" 表示"找上门来/波及到"；后面 "when" 引导时间状语从句，说明住房危机如何降临到这些租户身上。"of Madrid's Calle Tribulete 7" 为介词短语作后置定语，修饰 tenants。<br>
+                <strong>参考译文：</strong>当马德里特里布勒特街7号的整栋楼被卖给一家投资基金时，西班牙的住房危机终于波及到了这些租户。
+            </div>
+        </div>
+
+        <div class="sentence-analysis">
+            <div class="original">Back then, banks and their reckless mortgage loans were the main problem, and defining the frontline was the Plataforma de Afectados por la Hipoteca (PAH), the organisation that launched Ada Colau to fame and the Barcelona mayoralty, and helped stop countless evictions.</div>
+            <div class="analysis">
+                <strong>结构分析：</strong>本句由 and 连接两个并列分句。第二个分句为倒装句，主语是 "the Plataforma de Afectados por la Hipoteca (PAH)"，谓语是 "was defining the frontline"，倒装是为了强调表语。"the organisation that..." 是同位语，其中 that 引导定语从句，包含三个并列谓语：launched、helped stop。<br>
+                <strong>参考译文：</strong>当时，银行及其 reckless 的抵押贷款是主要问题；而站在抗争第一线的是"受抵押贷款影响者平台"（PAH）——这个组织让 Ada Colau 名声大噪并登上巴塞罗那市长之位，还帮助阻止了无数起驱逐事件。
+            </div>
+        </div>
+
+        <div class="sentence-analysis">
+            <div class="original">Worse still, critics say Madrid's recent planning reforms, presented as a way of regulating tourist accommodation, have also made it easier for entire residential buildings to be converted into tourist accommodation, with a simple change of licence.</div>
+            <div class="analysis">
+                <strong>结构分析：</strong>"critics say" 后接宾语从句。从句主语为 "Madrid's recent planning reforms"，"presented as a way of regulating tourist accommodation" 是过去分词短语作后置定语，相当于 which are presented as...；谓语为 "have made"，"it" 为形式宾语，真正宾语是 "for entire residential buildings to be converted into tourist accommodation"，"with a simple change of licence" 为方式状语。<br>
+                <strong>参考译文：</strong>更糟糕的是，批评者指出，马德里最近的规划改革表面上是为了规范旅游住宿，但实际上只需简单变更许可证，就能让整栋住宅楼更容易被改造成旅游住宿设施。
+            </div>
+        </div>
+
+        <div class="sentence-analysis">
+            <div class="original">It was a moment that made me realise that culture is not merely a reflection of resistance – it is resistance, and it is part of Spain's new fightback, for the right to good, affordable, secure housing for all.</div>
+            <div class="analysis">
+                <strong>结构分析：</strong>主句为 "It was a moment"，后接 that 引导的定语从句。定语从句中 "made me realise that..." 为 make + 宾语 + 宾补结构；realise 后接 that 引导的宾语从句。破折号后为对宾语从句的进一步解释，"and" 连接两个并列分句，"for the right to..." 为目的状语，其中 "good, affordable, secure" 为三个并列形容词修饰 housing。<br>
+                <strong>参考译文：</strong>那一刻让我意识到，文化不仅仅是抵抗的反映——它就是抵抗本身，是西班牙新一轮抗争的一部分，为的是人人享有良好、可负担、稳定住房的权利。
+            </div>
+        </div>
+
+        <h2 class="section-title">阅读理解练习</h2>
+
+        <div class="question-card">
+            <div>
+                <span class="question-number">1</span>
+                <span class="question-type">主旨大意题</span>
+            </div>
+            <div class="question-text">
+                What is the main idea of the passage?
+            </div>
+            <ul class="options">
+                <li>A. Madrid's housing crisis is mainly caused by the rapid growth of tourism.</li>
+                <li class="correct">B. The tenants of Tribulete 7 use art and community culture as a form of resistance against eviction.</li>
+                <li>C. The Spanish government has successfully solved the problem of housing speculation.</li>
+                <li>D. DJ Jessy is the most influential musician in the Lavapiés neighbourhood.</li>
+            </ul>
+            <div class="answer-section">
+                <div class="answer">正确答案：B</div>
+                <div class="explanation">
+                    解析：文章以特里布勒特街7号租户的经历为主线，描述他们如何通过音乐会、街头"生活剧场"等艺术形式抵抗驱逐、唤起公众关注，并强调"culture is resistance"。A 只涉及局部细节（旅游住宿），C 与文意相反，D 过于片面。
+                </div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div>
+                <span class="question-number">2</span>
+                <span class="question-type">细节理解题</span>
+            </div>
+            <div class="question-text">
+                What did the tenants of Tribulete 7 do to protest against their new landlord?
+            </div>
+            <ul class="options">
+                <li>A. They immediately moved out and found new apartments in other districts.</li>
+                <li class="correct">B. They invited musicians to perform in their homes and later took their furniture onto the street.</li>
+                <li>C. They asked the city council to buy the building from the investment fund.</li>
+                <li>D. They stopped paying rent and organised violent demonstrations.</li>
+            </ul>
+            <div class="answer-section">
+                <div class="answer">正确答案：B</div>
+                <div class="explanation">
+                    解析：第二段明确提到，租户们先"opened up their homes to the public and invited musicians to play inside"，一个月后又"took their furniture out on to the street"，在街头做饭、织毛衣、下棋、听乐队演奏，形成一场戏剧性的公共生活表演。A、C、D 均与原文不符。
+                </div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <div>
+                <span class="question-number">3</span>
+                <span class="question-type">词义猜测题</span>
+            </div>
+            <div class="question-text">
+                What does the phrase "change tack" in Paragraph 3 most probably mean?
+            </div>
+            <ul class="options">
+                <li>A. To give up completely.</li>
+                <li class="correct">B. To change one's approach or strategy.</li>
+                <li>C. To move to a different city.</li>
+                <li>D. To increase the speed of action.</li>
+            </ul>
+            <div class="answer-section">
+                <div class="answer">正确答案：B</div>
+                <div class="explanation">
+                    解析：第三段对比了2008年金融危机后和2020年代的抗争方式：过去主要针对银行的鲁莽抵押贷款，由 PAH 阻止驱逐；如今则是投资基金会整栋购买住宅楼。由此可知 "campaigners have slowly changed tack" 指活动家们"改变了策略/方法"。tack 原指帆船的航向，change tack 为固定搭配，意为"改变策略"。
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-link">← 返回阅读列表</a>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        const tooltip = document.getElementById('tooltip');
+        const highlights = document.querySelectorAll('.word-highlight');
+
+        highlights.forEach(highlight => {
+            highlight.addEventListener('click', function(e) {
+                const word = this.getAttribute('data-word');
+                const phonetic = this.getAttribute('data-phonetic');
+                const pos = this.getAttribute('data-pos');
+                const meaning = this.getAttribute('data-meaning');
+
+                tooltip.innerHTML = `
+                    <div class="word">${word}</div>
+                    <div class="phonetic">${phonetic}</div>
+                    <span class="pos">${pos}</span>
+                    <div class="meaning">${meaning}</div>
+                `;
+
+                tooltip.style.display = 'block';
+
+                const rect = this.getBoundingClientRect();
+                const tooltipRect = tooltip.getBoundingClientRect();
+
+                let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+                let top = rect.top - tooltipRect.height - 10;
+
+                if (left < 10) left = 10;
+                if (left + tooltipRect.width > window.innerWidth - 10) {
+                    left = window.innerWidth - tooltipRect.width - 10;
+                }
+                if (top < 10) {
+                    top = rect.bottom + 10;
+                }
+
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('word-highlight')) {
+                tooltip.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
