@@ -1,960 +1,196 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>考研英语外刊精读 | 每日阅读</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #1a365d;
-      --primary-light: #2c5282;
-      --accent: #c53030;
-      --bg: #f7fafc;
-      --card-bg: #ffffff;
-      --text: #2d3748;
-      --text-light: #4a5568;
-      --text-muted: #718096;
-      --border: #e2e8f0;
-      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.8;
-    }
-    .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
-    header {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      color: white;
-      padding: 60px 0 40px;
-      margin-bottom: 40px;
-      position: relative;
-      overflow: hidden;
-    }
-    header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 600px;
-      height: 600px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 50%;
-    }
-    h1 { font-size: 2rem; margin-bottom: 10px; }
-    .subtitle { opacity: 0.9; font-size: 1.05rem; }
-    .article-list { display: grid; gap: 20px; }
-    .article-card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: var(--shadow);
-      transition: all 0.2s;
-      border: 1px solid var(--border);
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-    .article-card:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-2px);
-      border-color: #90cdf4;
-    }
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .card-source {
-      background: #ebf8ff;
-      color: var(--primary);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-    .card-date {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 8px;
-    }
-    .card-desc {
-      color: var(--text-light);
-      font-size: 0.95rem;
-      line-height: 1.7;
-      margin-bottom: 16px;
-    }
-    .card-tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .card-tag {
-      background: var(--bg);
-      color: var(--text-muted);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-    }
-    .new-badge {
-      display: inline-block;
-      background: #fed7d7;
-      color: #c53030;
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      margin-left: 10px;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
-    footer {
-      text-align: center;
-      padding: 40px 0;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | SinAndZsh</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --light-text: #666666;
+            --border: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #34495e 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 12px;
+        }
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .article-list {
+            margin-top: 20px;
+        }
+        .article-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        .article-date {
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 70px;
+        }
+        .article-date .day {
+            font-size: 1.6em;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .article-date .month {
+            font-size: 0.8em;
+            opacity: 0.9;
+        }
+        .article-info {
+            flex: 1;
+        }
+        .article-info h3 {
+            font-size: 1.2em;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        .article-info h3 a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .article-info h3 a:hover {
+            color: var(--accent);
+        }
+        .article-meta {
+            color: var(--light-text);
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .article-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            background: #e8f4fd;
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--light-text);
+            font-size: 0.9em;
+        }
+        @media (max-width: 600px) {
+            .article-card {
+                flex-direction: column;
+            }
+            .article-date {
+                display: flex;
+                gap: 8px;
+                align-items: baseline;
+                width: fit-content;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
     <div class="container">
-      <h1>&#128218; 考研英语外刊精读</h1>
-      <p class="subtitle">每日精选《经济学人》《纽约时报》《卫报》等权威外刊，助力考研英语备考</p>
+        <header>
+            <h1>考研英语外刊精读</h1>
+            <p>精选《纽约时报》《经济学人》《卫报》等外刊文章，助力考研英语阅读提升</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">精读文章</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">核心词汇</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">短语搭配</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="article-list">
+            <div class="article-card">
+                <div class="article-date">
+                    <div class="day">17</div>
+                    <div class="month">Jul</div>
+                </div>
+                <div class="article-info">
+                    <h3><a href="20260717_NYT_Post-Literate.html">Is This What a Post-Literate Era Looks Like?</a></h3>
+                    <div class="article-meta">来源：The New York Times | 难度：考研/六级 | 词数：约1350词</div>
+                    <p style="color: var(--light-text); font-size: 0.95em; margin-bottom: 10px;">文章质疑了"智能手机摧毁阅读"的流行观点，援引多组调查数据指出：阅读时间下降主要发生在老年群体，年轻人反而读得更多；图书销量接近历史高位，独立书店数量增长70%。</p>
+                    <div class="article-tags">
+                        <span class="tag">文化</span>
+                        <span class="tag">科技</span>
+                        <span class="tag">教育</span>
+                        <span class="tag">数据论证</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>SinAndZsh 考研英语外刊精读</p>
+            <p>每日精选 · 词汇标注 · 长难句解析 · 阅读练习</p>
+        </footer>
     </div>
-  </header>
-
-  <main class="container">
-    <div class="article-list">
-      <a href="20260722_guardian_ai_homework_harm.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-07-22</span>
-        </div>
-        <div class="card-title">AI Homework 'Help' Is Harming Student Learning, Major Study Finds<span class="new-badge">NEW</span></div>
-        <div class="card-desc">本文选自《卫报》教育科技版块，报道了一项追踪26,811名中国中学生30个月的大规模研究：使用AI完成作业虽使分数提高18%、用时减少30%，但月考成绩在六个月内下降20%，高考成绩下跌18%至24%。文章揭示了百年"迁移问题"的历史重现，并探讨了84%美国高中生使用AI背后的经济焦虑与依赖风险。包含约1,150词、25个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约1,150词</span>
-          <span class="card-tag">考研英语一/二难度</span>
-          <span class="card-tag">教育/科技</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">25个核心词汇</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260721_atlantic_end_of_reading.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-21</span>
-        </div>
-        <div class="card-title">The End of Reading Is Here</div>
-        <div class="card-desc">本文出自《大西洋月刊》2026年7月封面故事，作者Rose Horowitch深入探讨美国社会正经历的"阅读终结"现象：2022年不到一半成年人读过任何书籍，高中生阅读理解能力降至三十年来最低，社交媒体短视频和生成式AI正在加速这一趋势。包含约1,200词、23个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约1,200词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">社会文化/教育</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">23个核心词汇</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260720_nyt_chromebook_remorse.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The New York Times</span>
-          <span class="card-date">2026-07-20</span>
-        </div>
-        <div class="card-title">Chromebook Remorse: Tech Backlash at Schools Extends Beyond Phones<span class="new-badge">NEW</span></div>
-        <div class="card-desc">本文选自《纽约时报》2026年3月科技/教育版块，聚焦美国中小学校对课堂科技设备的反思。文章以堪萨斯州 McPherson 中学回收学生 Chromebook 为案例，揭示在科技公司多年推广“一人一机”后，数字设备并未显著提升学业成绩，反而成为游戏、网络霸凌和课堂分心的源头。包含约1,101词、33个考研核心词汇、8个短语搭配、5道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约1,101词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">教育/科技</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">33个核心词汇</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260718_atlantic_silicon-valley-lost-advantage.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-18</span>
-        </div>
-        <div class="card-title">Silicon Valley Has Lost Its Biggest Advantage</div>
-        <div class="card-desc">本文选自《大西洋月刊》2026年7月18日科技版块，聚焦人工智能产业正从软件驱动的数字产业转型为依赖实体基础设施的重工业。文章以 Caterpillar 因数据中心建设而股价大涨为切入点，分析科技巨头在电力、芯片、铜、硅、冷却系统和劳动力等方面的巨额投入，揭示硅谷“低成本、高回报”的传统优势正在消失。包含约1,118词、38个考研核心词汇/短语、8个短语搭配、4道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约1,118词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">科技/商业</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">38个核心词汇/短语</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260719_nyt_ai_cheating_universities.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The New York Times</span>
-          <span class="card-date">2026-07-19</span>
-        </div>
-        <div class="card-title">AI Has Created a Cheating Crisis. Universities Must Change.</div>
-        <div class="card-desc">本文选自《纽约时报》2026年7月14日评论版，作者为纽约大学副校长克莱·舍基（Clay Shirky）。文章指出，ChatGPT 等生成式 AI 已在大学生中造成普遍性作弊危机，简单的 AI 使用规范或检测工具无法奏效；高校必须重新设计评估方式，从课后论文转向课堂写作、口头答辩、苏格拉底式对话与真实评估。作者以中世纪大学 oral examination 的历史说明，当前变革只是回归更古老、更人际化的高等教育模式。包含约1,650词、31个考研核心词汇、8个短语搭配、4道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约1,650词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">教育/科技</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">31个核心词汇</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260718_nyt_internet_archive_knowledge_fiasco.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The New York Times</span>
-          <span class="card-date">2026-07-18</span>
-        </div>
-        <div class="card-title">The dream was universal access to knowledge. The result was a fiasco.</div>
-        <div class="card-desc">本文选自《纽约时报》2026年7月18日科技/文化版块，聚焦互联网档案馆（Internet Archive）与四大出版商之间的版权诉讼。文章回顾了“国家应急图书馆”在新冠疫情期间推出的初衷、出版商的侵权指控、法院判决及和解协议，并呈现作家群体内部对版权保护与数字公共文化利益的严重分歧。包含约2,000词、30个考研核心词汇、8个短语搭配、4道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约2,000词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">科技/社会/文化</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">30个核心词汇</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260717_guardian_adversarial_clothing.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-07-17</span>
-        </div>
-        <div class="card-title">Adversarial Clothing: When Fashion Fights Facial Recognition</div>
-        <div class="card-desc">本文选自《卫报》2026年7月17日时尚与科技版块，聚焦人脸识别技术在英国公共空间普及背景下兴起的"对抗性服装"潮流。文章介绍设计师如何通过对抗性图案、不对称剪裁与红外光技术干扰计算机视觉系统，并讨论隐私保护从亚文化走向主流的可能性、技术局限以及政治化风险。包含约1,200词、30个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约1,200词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">科技/社会/文化</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">30个核心词汇</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260717_atlantic_ai_jobs_panic.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-17</span>
-        </div>
-        <div class="card-title">A New Phase of the AI-Jobs Panic</div>
-        <div class="card-desc">本文选自《大西洋月刊》2026年7月科技/社会版块，聚焦人工智能对就业市场的冲击与美国各界的应对。作者亲历政府 AI 素养课程，批评其建议流于表面；随后分析桑德斯参议员的 AI 主权财富基金提案、OpenAI 对公共所有制的支持，以及科技巨头资助的政策实验机构 Raise Us。文章揭示硅谷在推动自动化的同时，又借“拯救就业”之名加深社会对 AI 工具的依赖。包含约 1,460 词、32 个考研核心词汇、8 个短语搭配、3 道长难句解析及 3 道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约1,460词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">科技/社会/就业</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">32个核心词汇</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260717_guardian_chatbot_critical_thinking.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-07-17</span>
-        </div>
-        <div class="card-title">Chatbot Dependence Can Erode Critical Thinking</div>
-        <div class="card-desc">本文选自《卫报》对麻省理工学院最新研究的报道，聚焦聊天机器人依赖与批判性思维退化之间的关系。研究指出，AI 虽能在短期内将虚假信息识别准确率提升 21%，但连续使用四周后，用户独立判断能力反而下降 15.3%。文章进一步探讨“即时准确”与“长期独立”之间的权衡，并延伸至教育、医疗与公共媒体素养领域。包含约 1,350 词、30 个考研核心词汇、8 个短语搭配、3 道长难句解析及 3 道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约1,350词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">科技/教育/社会</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">30个核心词汇</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260716_atlantic_reading_crisis.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-16</span>
-        </div>
-        <div class="card-title">The End of Reading Is Here</div>
-        <div class="card-desc">本文精选自《大西洋月刊》2026年8月封面长文，作者以亚历山大图书馆的兴衰为历史隐喻，系统论证美国社会正从识字文化滑向“后识字（postliterate）时代”：阅读量骤降、阅读能力退化、短视频与数字碎片进一步侵蚀深度思考。精选版约1,450词，横跨历史、教育与文明史维度。包含30个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约1,450词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">文化/教育/科技</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">30个核心词汇</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260716_guardian_madrid_tenants_art_resistance.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-07-16</span>
-        </div>
-        <div class="card-title">The most beautiful act of resistance I've seen: Madrid tenants fighting landlords with art</div>
-        <div class="card-desc">本文选自《卫报》2026年7月16日评论版块，聚焦马德里拉瓦皮耶斯社区特里布勒特街7号居民如何以艺术和文化抵抗投资基金会引发的住房危机。文章回顾西班牙住房运动从早期反银行抵押贷款到如今对抗整栋楼宇资本收购的演变，展现租户通过家庭音乐会、街头"生活剧场"、社区放映等创造性方式捍卫居住权，并指出文化本身就是抵抗。包含约50个考研核心词汇、9个短语搭配、4道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约909词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">文化/社会/住房</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">约50个核心词汇</span>
-          <span class="card-tag">9个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260715_guardian_social_media_ban.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-07-15</span>
-        </div>
-        <div class="card-title">Britain to Ban Social Media for Under-16s<span class="new-badge">NEW</span></div>
-        <div class="card-desc">本文选自《卫报》2026年7月社会/科技版块，聚焦英国政府计划禁止16岁以下儿童使用主流社交媒体这一重磅政策。文章介绍禁令覆盖范围、豁免对象、支持者与批评者的主要论点，以及年龄验证、隐私保护和数字排斥等执行挑战，最后探讨该政策对全球青少年网络监管的示范意义。包含25个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约1,200词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">社会/科技/教育</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">25个核心词汇</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260715_atlantic_ai_engineering_disaster.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-15</span>
-        </div>
-        <div class="card-title">Generative AI Is an Engineering Disaster</div>
-        <div class="card-desc">本文选自《大西洋月刊》2026年7月科技版块，聚焦生成式 AI 的工程效率危机。作者指出，大语言模型资源消耗惊人，正引发高端内存短缺、硬件价格上涨和数据中心电力需求激增；更关键的是，生成式 AI 呈二次方扩展而非传统软件的对数级扩展，模型越大边际收益越低，行业却在万亿估值和“规模定律”迷信下继续蛮力投入。文章警示这种低效 AI 正被集成进操作系统与日常软件，让普通消费者也付出代价。包含52个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约1,650词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">科技/社会</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">52个核心词汇</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260714_atlantic_postliterate_age.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-14</span>
-        </div>
-        <div class="card-title">The Age of Reading Is Over</div>
-        <div class="card-desc">本文精选自《大西洋月刊》2026年8月封面长文，以亚历山大图书馆的兴衰为隐喻，聚焦美国社会从识字文化滑向“后识字（postliterate）时代”：阅读量骤降、阅读能力退化、短视频与生成式AI进一步侵蚀深度思考。精选版约3,100词，避开过于政治化的段落，突出教育、文化与科技维度。包含36个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">约3,100词</span>
-          <span class="card-tag">考研英语一难度</span>
-          <span class="card-tag">文化/教育/科技</span>
-          <span class="card-tag">含3道阅读练习题</span>
-          <span class="card-tag">36个核心词汇</span>
-          <span class="card-tag">8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260714_guardian_smartphone_bans.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-07-14</span>
-        </div>
-        <div class="card-title">School Smartphone Bans Seen as 'Punitive' by Young People</div>
-        <div class="card-desc">本文基于《卫报》报道的伦敦大学学院（UCL）最新研究，探讨英国学校智能手机禁令引发的代际分歧：87%教师与88%家长支持全面禁令，但75%学生反对。学生认为手机是日常生活、学习支持和安全感的重要工具，而一刀切禁令容易被视为"惩罚性"措施。文章呼吁采取更细致的政策，让学生参与制定，区分课堂干扰性使用与合理用途。包含30个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,400词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 教育/科技/社会</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 30个核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260713_atlantic_end_of_reading.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-13</span>
-        </div>
-        <div class="card-title">The End of Reading Is Here<span class="new-badge">NEW</span></div>
-        <div class="card-desc">本文出自《大西洋月刊》2026年8月封面长文，作者以亚历山大大图书馆的兴衰为隐喻，系统论证美国社会正从识字文化滑向“后识字（postliterate）”时代：阅读量骤降、阅读能力退化、短视频与AI进一步侵蚀深度思考。文章横跨历史、神经科学、教育与政治传播，警示阅读衰落将重塑现代心智与民主文化。包含60个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约8,600词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 文化/教育/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 60个核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260712_guardian_tech_reporting_physical_world.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-07-12</span>
-        </div>
-        <div class="card-title">How Tech Reporting Moved Into the Physical World<span class="new-badge">NEW</span></div>
-        <div class="card-desc">本文出自《卫报》，聚焦科技报道如何从屏幕虚拟世界转向 AI 数据中心、能源基础设施等实体现场。记者通过大量实地走访，揭示科技巨头在数据中心规划、能源承诺、就业创造等方面的现实约束，以及这些巨型设施对周边社区、环境和普通人生活的真实影响。包含38个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,200词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/社会/媒体</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 38个核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260712_guardian_ai_copyright_australia.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-07-12</span>
-        </div>
-        <div class="card-title">AI Companies Want to Water Down Australia's Copyright Laws</div>
-        <div class="card-desc">本文出自《卫报》，报道澳大利亚阿尔巴尼斯政府正面临人工智能与版权法的激烈拉锯战。科技巨头持续游说，希望获得“文本与数据挖掘”豁免权以抓取内容训练大语言模型；作家、艺术家及媒体机构则强烈反对，担忧这会摧毁创意产业的生计。文章揭示了工党内部在吸引数据中心投资与保护创作者权益之间的分歧。包含45个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,400词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/文化/社会</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 45个核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260711_atlantic_newest_way_analog.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-11</span>
-        </div>
-        <div class="card-title">The Newest Way to Go Analog</div>
-        <div class="card-desc">本文出自《大西洋月刊》，报道了Z世代年轻人为逃离智能手机带来的无限选择与注意力分散，重新拥抱iPod、CD机、DVD播放器和老式数码相机等旧式设备的“回归模拟”潮流。文章通过多个采访对象的故事，揭示了这一复古现象背后的心理动机与数字时代人们对专注力和真实拥有感的追求。包含35个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,200词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 文化/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 35个核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260710_atlantic_what_if_not_phones.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-10</span>
-        </div>
-        <div class="card-title">What if It's Not the Phones?</div>
-        <div class="card-desc">青少年心理健康问题是否应归咎于智能手机？本文围绕《大西洋月刊》最新长文展开精读，梳理社会科学家乔纳森·海特（Jonathan Haidt）关于“手机摧毁一代人”的论断及其批评者的反驳，剖析相关研究的证据强度与因果推断难题，并呼吁在公共政策与育儿建议中保持审慎与同理心。包含47个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约3,400词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 社会/科技/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 47个核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260710_NYT_AI_Schools_Forgetting.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The New York Times</span>
-          <span class="card-date">2026-07-10</span>
-        </div>
-        <div class="card-title">What Schools Are Forgetting in Their Race to Embrace A.I.</div>
-        <div class="card-desc">当美国学校纷纷禁止手机的同时，人工智能却以惊人速度进入课堂——从幼儿园的游戏化阅读机器人到各年级的AI课程。本文回顾了过去几十年教育技术令人失望的效果，分析了学校急于拥抱AI的多重原因，并呼吁在证据不足、民主讨论缺失的情况下对教育AI保持审慎。包含35个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约2,100词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 教育/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 35个核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260708_guardian_inside_mind_lee_scratch_perry.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-07-08</span>
-        </div>
-        <div class="card-title">Inside the Mind of Lee 'Scratch' Perry</div>
-        <div class="card-desc">本文出自《观察家报》/《卫报》，介绍牙买加传奇音乐制作人 Lee “Scratch” Perry 及其 Black Ark 工作室的新摄影集。文章回顾佩里从 1968 年开创性单曲到 1973–1978 年巅峰时期的音乐实验，探讨他如何将录音室当作乐器、把视觉艺术与杜比音乐融为一体，以及古怪形象背后被掩盖的天才。包含40个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,200词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 文化/音乐</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 40个核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260709_atlantic_prizewinning_writer_ai.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-09</span>
-        </div>
-        <div class="card-title">Thoughts on AI, From a Prizewinning Writer Accused of Using AI</div>
-        <div class="card-desc">当获奖作家被指控使用AI——特立尼达作家贾米尔·纳齐尔凭借短篇小说《林间之蛇》斩获英联邦短篇小说奖，却因文风奇特被AI检测工具标记为“100%人工智能生成”。本文梳理争议始末、基金会调查过程及纳齐尔对创作方式的自述，探讨AI检测工具的可靠性及其对边缘作家的不公。包含38个考研核心词汇、9个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,200词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 文化/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 38个核心词汇</span>
-          <span class="card-tag">&#128172; 9个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260709_atlantic_schoolwork_optional.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-09</span>
-        </div>
-        <div class="card-title">Is Schoolwork Optional Now?</div>
-        <div class="card-desc">当AI代理工具Einstein能在一小时内完成一门统计学课程并取得满分，学校作业是否正在变成“可选项”？本文通过作者亲测、学生访谈与专家观点，呈现AI如何渗透课堂作业、考试与师生互动，揭示“学生用AI代劳、教师用AI批改”的全自动循环风险。包含40个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,400词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 教育/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 40个核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260708_atlantic_teacher_ditched_screens.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-08</span>
-        </div>
-        <div class="card-title">What Happened After a Teacher Ditched Screens</div>
-        <div class="card-desc">一位七年级数学教师在使用Chromebook十多年后，决定进行移除屏幕的实验。结果显示学生注意力更集中、作业完成率显著上升。本文深入探讨了教育技术的局限性与教育本质的社会属性，质疑"技术对所有学生都有益"的普遍假设。包含37个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,150词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 教育/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 37个核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260707_atlantic_ai_demolishing_education.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-07</span>
-        </div>
-        <div class="card-title">I'm a High Schooler. AI Is Demolishing My Education</div>
-        <div class="card-desc">一名纽约公立高中学生从自身视角出发，指出ChatGPT等人工智能工具正在渗透并削弱美国中学教育：课堂讨论沦为复制粘贴的批注，作业截止日失去约束力，辩论队也被千篇一律的AI论据掏空。作者承认AI可作为学习辅助，但更担忧其滥用正在造就"永恒的初学者"——一代缺乏批判性思维、毅力和抗压能力的学生。文章呼吁学校尽快改革评估方式，增加口头答辩、个性化写作和作品集评价等难以被技术代劳的任务。包含30个考研核心词汇、6个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,100词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 30个核心词汇</span>
-          <span class="card-tag">&#128172; 6个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260707_guardian_artless_country.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-07-07</span>
-        </div>
-        <div class="card-title">Australia in Danger of Becoming an 'Artless Country'</div>
-        <div class="card-desc">澳大利亚创意艺术教育正经历前所未有的危机——过去八年间，高中和大学创意课程注册人数持续下滑，戏剧下降39%、舞蹈下降38%，48个创意艺术学位被停办。研究者将首要原因归咎于2021年"就业准备毕业生"计划：该政策将STEM学费削减的同时，将创意艺术学费上涨19%、人文传媒学费暴涨116%，使艺术专业沦为"富人专属"。文章警告澳大利亚将在五年内面临严重的文化创意人才短缺，最终沦为失去艺术灵魂的"无艺术之国"。包含32个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,200词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 文化/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 32+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260706_atlantic_ai_hiring.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-06</span>
-        </div>
-        <div class="card-title">AI Has Ruined the Job Market</div>
-        <div class="card-desc">AI已将招聘流程Tinder化和Amazon化——求职者投递数百份简历却石沉大海，AI生成的简历千篇一律导致"信号崩溃"。本文深入探讨了AI如何适得其反地扰乱招聘市场：企业被迫回归面对面面试、延长试用期、依赖校友推荐等传统方式，整个劳动力市场可能因此变得更加僵化。包含37个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,200词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/社会</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 37+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260706_NYT_AI_Literacy_Class.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The New York Times</span>
-          <span class="card-date">2026-07-06</span>
-        </div>
-        <div class="card-title">Don't Let the Chatbot Think for You</div>
-        <div class="card-desc">AI素养课的启示——别让聊天机器人替你思考。本文报道了美国新泽西州高中开设AI素养选修课的实践，探讨学校如何在AI时代培养学生的批判性思维与负责任地使用技术的能力，同时呈现了教育研究者对AI可能削弱独立思考的担忧。包含30个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,100词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 30+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260704_NYT_AI_Writing.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The New York Times</span>
-          <span class="card-date">2026-07-04</span>
-        </div>
-        <div class="card-title">How AI Killed Student Writing (and Revived It)</div>
-        <div class="card-desc">人工智能如何扼杀（并复兴）了学生写作。本文探讨了生成式AI对美国高中和大学写作教学的深刻影响：教育工作者纷纷将写作任务搬回课堂，从手写作文到锁定浏览器，教育界正在经历一场快速而深刻的转变。包含26个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,200词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 26+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260704_TheAtlantic_AI_Security.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-07-04</span>
-        </div>
-        <div class="card-title">Assume You Will Be Hacked</div>
-        <div class="card-desc">人工智能正在从根本上颠覆网络安全的格局。本文指出，由于AI能以远超人类的速度编写代码和利用漏洞，网络攻击频率激增四倍，而漏洞被利用的时间从700天骤降至44天。文章呼吁个人和组织必须转变思维：从"假设不会被黑"转向"假设一定会被黑"。包含24个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,100词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/安全</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 24+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260703_csmonitor_ai_mastery.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Christian Science Monitor</span>
-          <span class="card-date">2026-07-03</span>
-        </div>
-        <div class="card-title">Students and AI: Mastery, Not Misuse</div>
-        <div class="card-desc">随着人工智能工具在课堂和工作场所日益普及，关于AI将改善还是毁灭教育的激烈辩论正在升温。本文指出，完全禁止AI既不可行也不可取，真正的挑战在于如何引导学生掌握这些强大工具，而非成为技术的附庸。文章提出"AI素养教育"的解决方案，呼吁将人类判断力和知识自主性置于教育的核心。包含30个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,200词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 30+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260703_guardian_screens_in_schools.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-07-03</span>
-        </div>
-        <div class="card-title">Big Tech Is Finally Under the Microscope</div>
-        <div class="card-desc">英国校园手机禁令的通过标志着公众对科技巨头的不信任日益加深。本文以挪威、瑞典、英国和美国加州等地限制学生屏幕时间的趋势为证据，探讨大型科技公司在教育领域面临的严格审查，呼吁对儿童心智采取更为谨慎的预防性监管。包含30个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,200词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 30+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260702_guardian_wage_scar_ai.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-07-02</span>
-        </div>
-        <div class="card-title">The Wage Scar of AI: What Society Owes Workers Left Behind</div>
-        <div class="card-desc">本文通过急诊医生Rebecca Kimble从年薪数十万到成为时薪20美元"AI训练师"的真实案例，深度剖析人工智能对劳动力市场造成的"工资疤痕"现象。结合高盛研究与芝加哥大学实证数据，揭示技术失业者面临的多重打击，并批判当前再培训政策的严重局限。包含37个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,200词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 社会/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 37+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260702_economist_edtech_useless.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Economist</span>
-          <span class="card-date">2026-07-02</span>
-        </div>
-        <div class="card-title">Ed Tech Is Profitable. It Is Also Mostly Useless</div>
-        <div class="card-desc">教育科技产业价值1650亿美元，但独立研究表明其很少能真正提升学习效果，甚至往往有害。本文以美国堪萨斯州麦克弗森中学弃用IXL软件的真实案例为切入点，结合斯坦福大学元分析数据，深度剖析了教育技术的悖论，揭示注意力分散、游戏化过度等深层问题。包含35个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1,100词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 教育/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 35+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260406_atlantic_ditched_screens.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-04-06</span>
-        </div>
-        <div class="card-title">What Happened After a Teacher Ditched Screens</div>
-        <div class="card-desc">一位七年级数学教师在使用Chromebook十多年后，决定进行移除屏幕的实验。结果显示学生注意力更集中、作业完成率显著上升。本文深入探讨了教育技术的局限性与教育本质的社会属性，质疑"技术对所有学生都有益"的普遍假设。包含30个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1150词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 教育/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 30+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260701_nyt_csu_ai_education.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The New York Times</span>
-          <span class="card-date">2026-07-01</span>
-        </div>
-        <div class="card-title">A University System Spent Millions on AI. Now It's Arguing About What Education Is For</div>
-        <div class="card-desc">加州州立大学系统斥资1690万美元引入ChatGPT，却在校园内引发激烈争论。本文以这一事件为切入点，深入探讨AI时代高等教育的根本问题：大学的使命是职业培训还是人格塑造？支持者认为应让学生为AI驱动的经济做好准备，批评者则担忧学生在掌握基础前就对技术产生依赖。包含34个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1350词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 教育/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 34+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260630_nyt_ocean_assessment.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The New York Times</span>
-          <span class="card-date">2026-06-30</span>
-        </div>
-        <div class="card-title">Oceans Under 'Severe and Accelerating' Pressure, UN Assessment Finds</div>
-        <div class="card-desc">联合国发布第三次世界海洋评估报告，由86国600名科学家历时五年编撰。文章揭示全球海洋面临变暖、酸化、塑料污染（每年5210万吨入海）及过度捕捞等叠加威胁，同时探讨海洋治理缺口与人类社会的出路。包含35个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1280词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 环境/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 35+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260630_guardian_estonia_ai_education.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Guardian</span>
-          <span class="card-date">2026-06-30</span>
-        </div>
-        <div class="card-title">Estonia's Bold Experiment: Free ChatGPT for Every High School Student</div>
-        <div class="card-desc">爱沙尼亚向近两万名高中生免费提供定制版ChatGPT，将生成式AI深度整合进国家教育体系。本文报道了这一开创性实验的教育理念、"苏格拉底式"AI设计、课堂实践以及全球影响，探讨AI时代教育本质的深层问题。包含28个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1250词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 28+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260629_economist_ai_jobs.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Economist</span>
-          <span class="card-date">2026-06-29</span>
-        </div>
-        <div class="card-title">Prepare for an AI Jobs Apocalypse</div>
-        <div class="card-desc">尚未到来，但各国政府应事先构建安全网。本文探讨人工智能对就业市场的潜在冲击，分析AI可能带来的经济后果与政治反弹，并提出税收改革、劳动力市场政策乃至AI企业部分国有化等应对策略。包含32个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1019词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/社会</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 32+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260629_nyt_ai_cs_education.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The New York Times</span>
-          <span class="card-date">2026-06-29</span>
-        </div>
-        <div class="card-title">How Do You Teach Computer Science in the Age of AI?</div>
-        <div class="card-desc">探讨AI时代计算机科学教育的转型：从编程技能到计算思维与AI素养的转变。文章涵盖斯坦福、MIT等顶尖高校的 curriculum 改革，以及学生和雇主的困惑与适应。包含22个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题（含答案解析）。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1150词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 22+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260628_atlantic_ai_education.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-06-28</span>
-        </div>
-        <div class="card-title">Is Schoolwork Optional Now?</div>
-        <div class="card-desc">教育正濒临全面自动化。本文深入报道了AI工具（如Einstein、Claude Code）如何帮助学生完成从作业到考试的各种任务，探讨了教育界面临的根本困境：当AI能完成大部分学校工作时，师生关系和深度学习正受到技术自动化的威胁。包含35+核心词汇、7个短语搭配、3道长难句解析及3道考研风格阅读题。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1300词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 35+核心词汇</span>
-          <span class="card-tag">&#128172; 7个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260628_atlantic_ai_jobs.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-06-28</span>
-        </div>
-        <div class="card-title">America Isn't Ready for What AI Will Do to Jobs</div>
-        <div class="card-desc">人工智能对就业的冲击：从历史类比到现实警示，探讨AI时代劳动力市场的未来走向。包含30个考研核心词汇、8个短语搭配、3道长难句解析及3道考研风格阅读题。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1500词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/社会</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 30+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260627_nyt_big_tech_classroom.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The New York Times</span>
-          <span class="card-date">2026-06-27</span>
-        </div>
-        <div class="card-title">How Big Tech Broke Into the Classroom</div>
-        <div class="card-desc">科技巨头如何打入课堂——基于内部文件与法庭记录的深度调查。文章揭示了YouTube、Snapchat、Instagram和TikTok等平台在课堂时间内吸引学生注意力的策略，以及超过1400个学区提起的诉讼。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1200词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 教育/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-          <span class="card-tag">&#128218; 25+核心词汇</span>
-          <span class="card-tag">&#128172; 8个短语搭配</span>
-        </div>
-      </a>
-
-      <a href="20260627_atlantic_ai_study_tools.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-06-27</span>
-        </div>
-        <div class="card-title">AI Study Tools Are Everywhere—But Are Students Learning More?</div>
-        <div class="card-desc">AI学习工具无处不在——但学生真的学到了更多吗？本文从个性化学习的优势、基础技能流失的风险、学术诚信的重新定义等维度，深入探讨了AI在教育中的复杂角色，呼吁学生将AI视为学习伙伴而非捷径。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1100词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-        </div>
-      </a>
-
-      <a href="20260626_atlantic_ai_literacy.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Atlantic</span>
-          <span class="card-date">2026-06-26</span>
-        </div>
-        <div class="card-title">The New Literacy: Why Schools Are Scrambling to Teach AI Skills</div>
-        <div class="card-desc">随着生成式AI在学生群体中普及，美国各州正紧急将AI素养纳入K-12教育体系。本文深入报道了这一全球性教育变革：从爱达荷州首个AI法律框架到芬兰的审慎模式，探讨AI素养究竟意味着什么——不是培养程序员，而是培养批判性思维与数字公民意识。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1200词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-        </div>
-      </a>
-
-      <a href="20260626_nyt_ai_student_writing.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The New York Times</span>
-          <span class="card-date">2026-06-26</span>
-        </div>
-        <div class="card-title">How A.I. Killed Student Writing (and Revived It)</div>
-        <div class="card-desc">AI如何"杀死"学生写作，又如何让它"复活"？本文深入报道了人工智能对美国高中和大学写作教学的颠覆性影响：62%的学生使用AI完成作业，传统论文模式瓦解，教育工作者纷纷回归课堂纸笔写作，展现了教育界应对AI挑战的多元策略。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1800词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 科技/教育</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-        </div>
-      </a>
-
-      <a href="20250625_economist_jobs_apocalypse.html" class="article-card">
-        <div class="card-header">
-          <span class="card-source">The Economist</span>
-          <span class="card-date">2026-06-25</span>
-        </div>
-        <div class="card-title">The Jobs Apocalypse: A Short History</div>
-        <div class="card-desc">人工智能会导致大规模失业吗？本文通过回顾农业革命、20世纪技术变革和英国工业革命等历史案例，论证技术变革虽会改变就业结构，但从未造成灾难性失业，为理解AI时代的就业前景提供历史视角。</div>
-        <div class="card-tags">
-          <span class="card-tag">&#9201; 约1500词</span>
-          <span class="card-tag">&#127919; 考研英语一难度</span>
-          <span class="card-tag">&#128200; 经济/科技</span>
-          <span class="card-tag">&#9997; 含3道阅读练习题</span>
-        </div>
-      </a>
-    </div>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>外刊精读 · 每日更新 · 考研备考</p>
-    </div>
-  </footer>
 </body>
 </html>

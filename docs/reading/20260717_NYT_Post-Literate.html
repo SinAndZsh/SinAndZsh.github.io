@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | Is This What a Post-Literate Era Looks Like?</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --light-text: #666666;
+            --border: #e0e0e0;
+            --highlight: #fff3cd;
+            --vocab-color: #2980b9;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #34495e 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 12px;
+        }
+        header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .tag {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .tips-box {
+            background: #e8f4fd;
+            border-left: 4px solid var(--vocab-color);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        .tips-box h3 {
+            color: var(--vocab-color);
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .tips-box ul {
+            margin-left: 20px;
+        }
+        .tips-box li {
+            margin-bottom: 6px;
+        }
+        .article-section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 1.4em;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+        .article-content p {
+            margin-bottom: 18px;
+            text-align: justify;
+            font-size: 1.05em;
+            line-height: 2;
+        }
+        .vocab {
+            color: var(--vocab-color);
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 1px dashed var(--vocab-color);
+            position: relative;
+        }
+        .vocab:hover {
+            background: var(--highlight);
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        .vocab:hover .tooltip {
+            display: block;
+        }
+        .summary-box {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .summary-box h3 {
+            color: #f57c00;
+            margin-bottom: 10px;
+        }
+        .sentence-analysis {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .sentence-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .sentence-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .sentence-en {
+            font-style: italic;
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            line-height: 1.8;
+        }
+        .sentence-cn {
+            color: var(--light-text);
+            font-size: 0.95em;
+            margin-bottom: 8px;
+        }
+        .sentence-parse {
+            color: var(--accent);
+            font-size: 0.9em;
+        }
+        .phrase-section, .vocab-section, .quiz-section {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .phrase-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+        .phrase-en {
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .phrase-cn {
+            color: var(--light-text);
+            margin-bottom: 8px;
+        }
+        .phrase-example {
+            font-style: italic;
+            color: var(--primary);
+            font-size: 0.95em;
+        }
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .vocab-table th, .vocab-table td {
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: left;
+        }
+        .vocab-table th {
+            background: var(--primary);
+            color: white;
+        }
+        .vocab-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .quiz-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .quiz-question {
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+        .quiz-options {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+        .quiz-options li {
+            margin-bottom: 8px;
+            list-style-type: upper-alpha;
+        }
+        .quiz-answer {
+            background: #e8f5e9;
+            border-left: 3px solid #4caf50;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .quiz-answer .label {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--light-text);
+            font-size: 0.9em;
+        }
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.4em; }
+            .article-section, .sentence-analysis, .phrase-section, .vocab-section, .quiz-section {
+                padding: 20px 15px;
+            }
+            .vocab-table { font-size: 0.9em; }
+            .vocab-table th, .vocab-table td { padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Is This What a Post-Literate Era Looks Like?</h1>
+            <p style="margin-top:8px; opacity:0.85;">这就是后读写时代的样子吗？</p>
+            <div class="meta">
+                <span class="tag">来源：The New York Times</span>
+                <span class="tag">日期：July 17, 2026</span>
+                <span class="tag">难度：考研 / 六级</span>
+                <span class="tag">词数：约 1350 词</span>
+            </div>
+        </header>
+
+        <div class="tips-box">
+            <h3>阅读技巧提示</h3>
+            <ul>
+                <li><strong>把握文章结构：</strong>本文是典型的"驳论"结构——先提出普遍观点，再用数据反驳。注意作者如何通过多组调查数据构建论证。</li>
+                <li><strong>关注转折信号：</strong>"But"、"However"、"In fact"等词后往往是作者真正想表达的观点，是出题高频区域。</li>
+                <li><strong>数据类文章阅读策略：</strong>遇到大量数字和调查名称时，不必记住具体数值，重点关注数据支持的核心观点即可。</li>
+                <li><strong>词汇标注说明：</strong>下文中<span class="vocab" style="border-bottom:1px dashed var(--vocab-color); color: var(--vocab-color);">蓝色词汇</span>为考研核心词汇，点击或悬停可查看中文释义。</li>
+            </ul>
+        </div>
+
+        <div class="article-section">
+            <h2 class="section-title">正文精读</h2>
+            <div class="article-content">
+                <p>Few things are more <span class="vocab">intuitive<span class="tooltip">intuitive /ɪnˈtuːɪtɪv/ adj. 直觉的，直观的</span></span> about the smartphone era than the fact that devices have <span class="vocab">torpedoed<span class="tooltip">torpedo /tɔːrˈpiːdoʊ/ v. 破坏，摧毁（原意：用鱼雷攻击）</span></span> our interest in reading and dragged down the status that books and their authors once seemed to enjoy.</p>
+
+                <p>You can <span class="vocab">tally<span class="tooltip">tally /ˈtæli/ v. 计算，记录，清点</span></span> the signs. Reading scores among both students and adults have fallen from where they were a decade ago, and it's hard to find a college professor who thinks freshmen are arriving in class as prepared as ever for the reading. On the subway, people are always on their phones, and nobody appears to be reading anything on them. You probably have a hard time concentrating on books yourself, with so many <span class="vocab">distractions<span class="tooltip">distraction /dɪˈstrækʃn/ n. 干扰，分心的事物</span></span> around.</p>
+
+                <p>Public <span class="vocab">discourse<span class="tooltip">discourse /ˈdɪskɔːrs/ n.  discourse，交流，对话</span></span> seems shaped by podcast clips and short-form video, and if you happen to find yourself reading something longer than an Instagram caption it might well be an essay, like "The End of Reading Is Here" by Rose Horowitch in The Atlantic last week, studded with <span class="vocab">incisive<span class="tooltip">incisive /ɪnˈsaɪsɪv/ adj. 深刻的，敏锐的，一针见血的</span></span> observations about the shift from a culture of <span class="vocab">literacy<span class="tooltip">literacy /ˈlɪtərəsi/ n. 读写能力，识字</span></span> to one defined by what's been called a digital culture of <span class="vocab">orality<span class="tooltip">orality /ɔːˈrælɪti/ n. 口语性，口述传统</span></span>, in which <span class="vocab">charismatic<span class="tooltip">charismatic /ˌkærɪzˈmætɪk/ adj. 有魅力的，有感召力的</span></span> narrators make sweeping emotional appeals to their audiences rather than through logical argumentation and careful citation. In a forthcoming book, the essayist James Marriott calls it "the new dark ages."</p>
+
+                <p>I've written about these changes, too, and have spent plenty of time <span class="vocab">lamenting<span class="tooltip">lament /ləˈment/ v. 哀悼，悲叹，痛惜</span></span> them. But I've also found myself growing more <span class="vocab">skeptical<span class="tooltip">skeptical /ˈskeptɪkl/ adj. 怀疑的</span></span> of the simplistic story that reading is going <span class="vocab">extinct<span class="tooltip">extinct /ɪkˈstɪŋkt/ adj. 灭绝的，消亡的</span></span>. That's because the story of literacy decline echoes so many similar <span class="vocab">narratives<span class="tooltip">narrative /ˈnærətɪv/ n. 叙述，说法，故事</span></span> that have blossomed into <span class="vocab">conventional wisdom<span class="tooltip">conventional wisdom 传统观点，普遍看法</span></span> over the past few years, and which look to me now, upon closer inspection, a wee bit more complicated.</p>
+
+                <p>We tell ourselves that the smartphone has brought about fertility decline, for instance, though those declines have been going on for three-quarters of a century. We tell ourselves phones have produced a teen mental health crisis, though in global surveys there is no obvious pattern to observe. We tell ourselves social media is the reason we have such intensely <span class="vocab">polarized<span class="tooltip">polarized /ˈpoʊləraɪzd/ adj. 极化的，两极分化的</span></span> politics, while failing to look at the historical patterns around the arrival of cable TV. That's not to say that smartphones aren't affecting any of these things. It's to say that no matter how <span class="vocab">ubiquitous<span class="tooltip">ubiquitous /juːˈbɪkwɪtəs/ adj. 无处不在的，普遍存在的</span></span>, phones are just one piece of a very messy social landscape, which rarely shifts uniformly in one direction thanks to one <span class="vocab">discrete<span class="tooltip">discrete /dɪˈskriːt/ adj. 离散的，独立的，单独的</span></span> variable, let alone inevitably toward <span class="vocab">disarray<span class="tooltip">disarray /ˌdɪsəˈreɪ/ n. 混乱，无序</span></span> and decline.</p>
+
+                <p>And then there's reading. In The Atlantic, Horowitch cites an analysis of data from the Bureau of Labor Statistics' American Time Use Survey — often described as the gold standard measure of how the country spends its days — which shows that fewer Americans report reading for pleasure on a given day, but those who do are spending more time doing so. Overall, the underlying survey tells us, average Americans over the age of 15 read 21.9 minutes on a given day in 2003. They read 18.3 minutes a day in 2010. In 2025, the number was 16.2 minutes a day.</p>
+
+                <p>The first thing to note about these numbers is that they are very small: Americans don't read very much now and haven't for at least a few decades, making the intuition that reading has been <span class="vocab">cannibalized<span class="tooltip">cannibalize /ˈkænɪbəlaɪz/ v. 蚕食，削弱（原意：吃人肉）</span></span> by smartphones a bit of a mismatch with the data. But the second thing is that the decline is relatively small, too — a few minutes shaved off the national average over more than 20 years. Look a bit closer, and even that change appears to be driven overwhelmingly by a particular <span class="vocab">cohort<span class="tooltip">cohort /ˈkoʊhɔːrt/ n. 一群人，同辈群体，（统计）队列</span></span>: older Americans.</p>
+
+                <p>You might assume, especially given social <span class="vocab">stereotypes<span class="tooltip">stereotype /ˈsteriətaɪp/ n. 刻板印象</span></span> and <span class="vocab">caricatures<span class="tooltip">caricature /ˈkærɪkətʃʊr/ n. 漫画，夸张描述</span></span>, that the reading decline would be concentrated among the young, with that turn away from books and toward phones therefore spelling doom for future literacy. You might think the problem would be <span class="vocab">exacerbated<span class="tooltip">exacerbate /ɪɡˈzæsərbeɪt/ v. 加剧，使恶化</span></span> by schools and universities turning away from demanding reading <span class="vocab">curriculums<span class="tooltip">curriculum /kəˈrɪkjələm/ n. 课程（复数：curriculums/curricula）</span></span> and the arrival of artificial intelligence to do our reading for us. But in fact, young Americans are — according to this survey, at least — reading more than they did a couple of decades ago.</p>
+
+                <p>In 2003, for instance, Americans ages 15 to 24 read 8.4 minutes a day; in 2016 they read 7.8 minutes a day; and in 2022 they read 11.7 minutes a day. Also in 2003, those between the ages of 25 and 34 were reading 9.6 minutes a day; in 2016 that group read nine minutes a day; in 2025 they read 10.2 minutes a day. If these numbers represent a crisis, it doesn't appear to be a new one.</p>
+
+                <p>Among Americans 65 and up, the base line is higher and the decline in time spent is larger, too: For decades, at least, the bulk of the country's reading has been done by Americans in their golden years. In 2003, older Americans read on average just under an hour each day — 58.5 minutes. By last year, that had fallen nearly by half, to roughly 32.4 minutes each day, a drop that represents the <span class="vocab">lion's share<span class="tooltip">lion's share 最大份额，最好/最大部分</span></span> of overall reading declines. To the extent that we can talk about the decline of reading as a mass phenomenon, it seems concentrated not among the next generation but among the previous ones.</p>
+
+                <p>The pattern may seem <span class="vocab">counterintuitive<span class="tooltip">counterintuitive /ˌkaʊntərɪnˈtuːɪtɪv/ adj. 反直觉的，与预期相反的</span></span>, but it echoes some other findings about social media use and disinformation: For all the <span class="vocab">hand-wringing<span class="tooltip">hand-wringing n. 焦虑不安，忧心忡忡（字面：搓手）</span></span> about the effects of new technology on kids, the impacts may be just as <span class="vocab">corrosive<span class="tooltip">corrosive /kəˈroʊsɪv/ adj. 腐蚀性的，有害的，逐渐起破坏作用的</span></span>, if not more so, on their grandparents. (Perhaps this is one reason The Wall Street Journal recently declared that "Dad Books Are a Dying Breed.")</p>
+
+                <p>Of course, the Time Use survey is just one research project, with its own limitations; it's compiled out of data from single interviews in which people are asked to recount what they did the day before the call. But even in other data sets, the decline of reading isn't that obvious, either. In The Atlantic, Horowitch cites a large survey conducted by the National Endowment for the Arts, which measures participation in various activities from seeing plays to taking <span class="vocab">pottery<span class="tooltip">pottery /ˈpɑːtəri/ n. 陶艺，陶器</span></span> classes, listening to music and reading books. You can slice that data in different ways if you're focused on the popularity of fiction, say, or poetry, and certain slices do show declines of, say, eight percentage points over 20 years.</p>
+
+                <p>But in 2022 the N.E.A. survey found that 55.6 percent of American adults had read or listened to a book in the previous year. In 2008 the number was 54.3 percent. In 2002 the figure was 56.6 percent, prompting the N.E.A. to publish a hand-wringing report called "Reading at Risk." Pew asks a similar question, separating print books from audiobooks and e-books but also <span class="vocab">tabulating<span class="tooltip">tabulate /ˈtæbjuleɪt/ v. 制表，汇总，列表显示</span></span> them together to produce a running measure of American reading habits. In 2011 78 percent of Americans reported reading a book in some form in the previous year; in 2013 it was 76 percent; in 2021 it was 75 percent; and in 2025 it was 75 percent again.</p>
+
+                <p>One survey reports that roughly half of Americans are reading and another reports that roughly three-quarters are, suggesting something about the limitations of this kind of data and the lessons we try to extract from it. But it probably tells us something that neither one so clearly illustrates the intuitive story of significant decline — and neither do other measures. Gallup has been asking Americans how many books they read in the previous year since 1990, when the answer was 15.3 — a number skewed by <span class="vocab">voracious<span class="tooltip">voracious /vəˈreɪʃəs/ adj. 贪婪的，求知欲强的，胃口大的</span></span> readers, as surveys like this always are. In 2001 the average was 14.5. In 2025 it appears to have been 14.6.</p>
+
+                <p>And then there are indicators that don't rely on <span class="vocab">self-reporting<span class="tooltip">self-reporting n. 自我报告</span></span> at all. Book sales are not in <span class="vocab">free-fall<span class="tooltip">free-fall n. 自由落体，急剧下降</span></span> but near record highs, with more books sold annually these days than a decade ago (if a bit lower than the pandemic record set in 2021). One might look at best-seller lists and <span class="vocab">lament<span class="tooltip">lament /ləˈment/ v. 哀叹，痛惜</span></span> what kinds of books are thriving, but those lamentations are as old as those lists. The book industry as a whole is in a period of recovery rather than decline. The number of independent bookstores in the country has grown by 70 percent since 2020, as the website Literary Hub noted last month. Barnes & Noble opened 50 new locations in 2024.</p>
+
+                <p>Reading comprehension is indeed falling, but when you <span class="vocab">zoom out<span class="tooltip">zoom out 拉远视角，纵观全局</span></span> to take in decades of data, some recent declines are almost invisibly modest and others are higher than they were 50 years ago. Periodically, you'll hear lamentations that Americans don't spend enough time reading to their children, though the amount of time spent doing so hasn't declined over decades but actually <span class="vocab">crept up<span class="tooltip">creep up 逐渐上升，慢慢增加</span></span> in recent years instead. And if you are imagining an <span class="vocab">idyllic<span class="tooltip">idyllic /aɪˈdɪlɪk/ adj. 田园诗般的，宁静美好的</span></span> earlier period in which parents devoted hours reading books to their children each day, you might want to know that in 1968 Nielsen reported that children under 6 were watching, on average, over four hours of television a day.</p>
+
+                <p>The point is not that everything is fine or that smartphones and AI pose no challenges to attention and literacy. They clearly do. But the popular narrative of a civilization abandoning reading <span class="vocab">en masse<span class="tooltip">en masse /ɑ̃ː ˈmæs/ adv. 全体地，大规模地，一起</span></span> obscures more than it reveals. It directs our anxiety toward the wrong targets and generations, while ignoring the genuine complexities of how culture evolves in the digital age. If we want to address the real problems facing readers today, we need to start with an accurate diagnosis — and that means looking beyond the easy <span class="vocab">morality tale<span class="tooltip">morality tale 道德寓言，简单的善恶故事</span></span> of screens versus books.</p>
+            </div>
+        </div>
+
+        <div class="summary-box">
+            <h3>文章大意总结</h3>
+            <p>本文是一篇评论性文章，作者对"智能手机正在摧毁阅读"这一流行观点提出了质疑。文章首先摆出普遍看法：从阅读成绩下降到地铁里人人低头看手机，似乎都在证明阅读正在消亡。然而，作者援引美国劳工统计局、国家艺术基金会、皮尤研究中心等多家机构的调查数据指出，事实远比简单叙事复杂：</p>
+            <p style="margin-top:10px;">首先，过去20年美国人均日阅读时间仅从21.9分钟降至16.2分钟，降幅有限；其次，阅读时间下降主要集中在美国老年人群体（65岁以上），而非年轻人——事实上，15-24岁年轻人的日均阅读时间从2003年的8.4分钟上升到了2022年的11.7分钟。此外，图书销量接近历史高位，独立书店数量自2020年以来增长70%，均表明阅读文化并未如想象中那般衰落。作者最后指出，虽然智能手机和人工智能确实对注意力与读写能力构成挑战，但将问题过度简化为"屏幕vs书籍"的道德寓言，只会让我们忽视真正需要关注的问题。</p>
+        </div>
+
+        <div class="sentence-analysis">
+            <h2 class="section-title">长难句解析</h2>
+            
+            <div class="sentence-item">
+                <div class="sentence-en">Public discourse seems shaped by podcast clips and short-form video, and if you happen to find yourself reading something longer than an Instagram caption it might well be an essay, like "The End of Reading Is Here" by Rose Horowitch in The Atlantic last week, studded with incisive observations about the shift from a culture of literacy to one defined by what's been called a digital culture of orality, in which charismatic narrators make sweeping emotional appeals to their audiences rather than through logical argumentation and careful citation.</div>
+                <div class="sentence-cn">公共话语似乎受到播客片段和短视频的影响，如果你碰巧发现自己在读比Instagram文案更长的内容，那很可能是一篇文章——比如罗斯·霍罗维奇上周在《大西洋月刊》发表的《阅读时代的终结》，文中满是关于从读写文化向所谓"数字口语文化"转变的敏锐观察；在这种文化中，有魅力的讲述者对听众进行全面的情感呼吁，而非通过逻辑论证和严谨引用。</div>
+                <div class="sentence-parse"><strong>结构分析：</strong>这是一个超长复合句，由and连接两个并列分句。后半句包含if引导的条件状语从句，主句中的essay后有like引导的同位语，而"studded with..."为过去分词短语作后置定语修饰essay；其中"about the shift from...to..."修饰observations；"defined by..."为过去分词短语修饰one；"what's been called..."为宾语从句；"in which..."引导定语从句修饰orality。全句层层嵌套，信息密度极高。</div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="sentence-en">It's to say that no matter how ubiquitous, phones are just one piece of a very messy social landscape, which rarely shifts uniformly in one direction thanks to one discrete variable, let alone inevitably toward disarray and decline.</div>
+                <div class="sentence-cn">这是想说，无论手机多么无处不在，它们只是复杂社会图景中的一部分；社会很少会因为一个独立变量就朝着一个方向整齐划一地转变，更不用说不可避免地走向混乱和衰落了。</div>
+                <div class="sentence-parse"><strong>结构分析：</strong>主句为"It's to say that..."，that引导表语从句；从句中"no matter how ubiquitous"为让步状语；主语phones，系动词are，表语one piece of...；which引导非限制性定语从句修饰landscape；"thanks to one discrete variable"为原因状语；"let alone..."（更不用说）连接并列的介词短语toward disarray and decline。注意rarely...uniformly... 双重否定变肯定的逻辑转换。</div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="sentence-en">You might assume, especially given social stereotypes and caricatures, that the reading decline would be concentrated among the young, with that turn away from books and toward phones therefore spelling doom for future literacy.</div>
+                <div class="sentence-cn">你可能会认为，尤其是考虑到社会刻板印象和夸张描述，阅读量的下降会集中在年轻人身上，这种从书籍转向手机的趋势因此预示着未来读写能力的堪忧。</div>
+                <div class="sentence-parse"><strong>结构分析：</strong>主句为"You might assume that..."；"especially given..."为插入的状语成分；that引导宾语从句；从句中"with + 名词 + doing"构成独立主格结构，表伴随结果，其中"spelling doom for..."（预示着...的厄运）是独立主格的核心动作。注意given此处为介词，意为"考虑到"。</div>
+            </div>
+        </div>
+
+        <div class="phrase-section">
+            <h2 class="section-title">短语搭配精选</h2>
+            
+            <div class="phrase-item">
+                <div class="phrase-en">1. torpedo one's interest in...</div>
+                <div class="phrase-cn">摧毁某人对……的兴趣</div>
+                <div class="phrase-example">原句：devices have torpedoed our interest in reading</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">2. tally the signs</div>
+                <div class="phrase-cn">细数迹象，清点征兆</div>
+                <div class="phrase-example">原句：You can tally the signs.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">3. shift from... to...</div>
+                <div class="phrase-cn">从……转向……</div>
+                <div class="phrase-example">原句：the shift from a culture of literacy to one defined by... orality</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">4. conventional wisdom</div>
+                <div class="phrase-cn">传统观点，普遍看法</div>
+                <div class="phrase-example">原句：narratives that have blossomed into conventional wisdom</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">5. spell doom for...</div>
+                <div class="phrase-cn">预示着……的厄运/终结</div>
+                <div class="phrase-example">原句：that turn away from books... spelling doom for future literacy</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">6. turn away from...</div>
+                <div class="phrase-cn">远离，摒弃，背弃</div>
+                <div class="phrase-example">原句：schools and universities turning away from demanding reading curriculums</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">7. the lion's share</div>
+                <div class="phrase-cn">最大份额，（某物的）大部分</div>
+                <div class="phrase-example">原句：a drop that represents the lion's share of overall reading declines</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">8. zoom out</div>
+                <div class="phrase-cn">拉远视角，纵览全局（与zoom in相对）</div>
+                <div class="phrase-example">原句：when you zoom out to take in decades of data</div>
+            </div>
+        </div>
+
+        <div class="vocab-section">
+            <h2 class="section-title">考研核心词汇表（30个）</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>单词</th>
+                        <th>音标</th>
+                        <th>词性</th>
+                        <th>中文释义</th>
+                        <th>文中例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>intuitive</td><td>/ɪnˈtuːɪtɪv/</td><td>adj.</td><td>直觉的，直观的</td><td>Few things are more intuitive about...</td></tr>
+                    <tr><td>torpedo</td><td>/tɔːrˈpiːdoʊ/</td><td>v.</td><td>破坏，摧毁</td><td>devices have torpedoed our interest...</td></tr>
+                    <tr><td>tally</td><td>/ˈtæli/</td><td>v.</td><td>计算，记录</td><td>You can tally the signs.</td></tr>
+                    <tr><td>distraction</td><td>/dɪˈstrækʃn/</td><td>n.</td><td>干扰，分心</td><td>with so many distractions around</td></tr>
+                    <tr><td>discourse</td><td>/ˈdɪskɔːrs/</td><td>n.</td><td> discourse，交流</td><td>Public discourse seems shaped by...</td></tr>
+                    <tr><td>incisive</td><td>/ɪnˈsaɪsɪv/</td><td>adj.</td><td>深刻的，敏锐的</td><td>studded with incisive observations</td></tr>
+                    <tr><td>literacy</td><td>/ˈlɪtərəsi/</td><td>n.</td><td>读写能力</td><td>a culture of literacy</td></tr>
+                    <tr><td>orality</td><td>/ɔːˈrælɪti/</td><td>n.</td><td>口语性</td><td>a digital culture of orality</td></tr>
+                    <tr><td>charismatic</td><td>/ˌkærɪzˈmætɪk/</td><td>adj.</td><td>有魅力的</td><td>charismatic narrators</td></tr>
+                    <tr><td>lament</td><td>/ləˈment/</td><td>v.</td><td>哀悼，悲叹</td><td>have spent plenty of time lamenting</td></tr>
+                    <tr><td>skeptical</td><td>/ˈskeptɪkl/</td><td>adj.</td><td>怀疑的</td><td>growing more skeptical of...</td></tr>
+                    <tr><td>extinct</td><td>/ɪkˈstɪŋkt/</td><td>adj.</td><td>灭绝的，消亡的</td><td>reading is going extinct</td></tr>
+                    <tr><td>narrative</td><td>/ˈnærətɪv/</td><td>n.</td><td>叙述，说法</td><td>so many similar narratives</td></tr>
+                    <tr><td>ubiquitous</td><td>/juːˈbɪkwɪtəs/</td><td>adj.</td><td>无处不在的</td><td>no matter how ubiquitous</td></tr>
+                    <tr><td>discrete</td><td>/dɪˈskriːt/</td><td>adj.</td><td>独立的，离散的</td><td>one discrete variable</td></tr>
+                    <tr><td>disarray</td><td>/ˌdɪsəˈreɪ/</td><td>n.</td><td>混乱，无序</td><td>toward disarray and decline</td></tr>
+                    <tr><td>cohort</td><td>/ˈkoʊhɔːrt/</td><td>n.</td><td>同辈群体，队列</td><td>a particular cohort: older Americans</td></tr>
+                    <tr><td>stereotype</td><td>/ˈsteriətaɪp/</td><td>n.</td><td>刻板印象</td><td>social stereotypes and caricatures</td></tr>
+                    <tr><td>caricature</td><td>/ˈkærɪkətʃʊr/</td><td>n.</td><td>夸张描述，漫画</td><td>social stereotypes and caricatures</td></tr>
+                    <tr><td>exacerbate</td><td>/ɪɡˈzæsərbeɪt/</td><td>v.</td><td>加剧，使恶化</td><td>the problem would be exacerbated</td></tr>
+                    <tr><td>curriculum</td><td>/kəˈrɪkjələm/</td><td>n.</td><td>课程</td><td>demanding reading curriculums</td></tr>
+                    <tr><td>cannibalize</td><td>/ˈkænɪbəlaɪz/</td><td>v.</td><td>蚕食，削弱</td><td>reading has been cannibalized by...</td></tr>
+                    <tr><td>counterintuitive</td><td>/ˌkaʊntərɪnˈtuːɪtɪv/</td><td>adj.</td><td>反直觉的</td><td>The pattern may seem counterintuitive</td></tr>
+                    <tr><td>corrosive</td><td>/kəˈroʊsɪv/</td><td>adj.</td><td>有害的，腐蚀性的</td><td>the impacts may be just as corrosive</td></tr>
+                    <tr><td>pottery</td><td>/ˈpɑːtəri/</td><td>n.</td><td>陶艺，陶器</td><td>taking pottery classes</td></tr>
+                    <tr><td>tabulate</td><td>/ˈtæbjuleɪt/</td><td>v.</td><td>制表，汇总</td><td>tabulating them together</td></tr>
+                    <tr><td>voracious</td><td>/vəˈreɪʃəs/</td><td>adj.</td><td>贪婪的，求知欲强的</td><td>skewed by voracious readers</td></tr>
+                    <tr><td>idyllic</td><td>/aɪˈdɪlɪk/</td><td>adj.</td><td>田园诗般的，美好的</td><td>an idyllic earlier period</td></tr>
+                    <tr><td>en masse</td><td>/ɑ̃ː ˈmæs/</td><td>adv.</td><td>全体地，大规模地</td><td>abandoning reading en masse</td></tr>
+                    <tr><td>polarized</td><td>/ˈpoʊləraɪzd/</td><td>adj.</td><td>极化的，两极分化的</td><td>intensely polarized politics</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="quiz-section">
+            <h2 class="section-title">阅读理解练习</h2>
+            
+            <div class="quiz-item">
+                <div class="quiz-question">1. 主旨大意题：What is the main argument of the passage?</div>
+                <ol class="quiz-options">
+                    <li>Smartphones have completely destroyed Americans' reading habits and the publishing industry.</li>
+                    <li>The decline in reading is mainly caused by young people's addiction to digital screens and social media.</li>
+                    <li>The popular narrative of a widespread reading decline is oversimplified and largely contradicted by multiple data sources.</li>
+                    <li>American colleges and universities have failed to maintain rigorous reading requirements for students.</li>
+                </ol>
+                <div class="quiz-answer">
+                    <span class="label">正确答案：C</span><br>
+                    答案解析：文章开篇虽然摆出"阅读正在消亡"的普遍观点，但从第三段起作者连续引用美国劳工统计局、国家艺术基金会、皮尤研究中心、盖洛普等多家机构的数据进行反驳，核心论点是"简单化的阅读消亡叙事与数据不符"。A项与文章主旨相反；B项是作者明确反驳的观点（数据显示老年人而非年轻人阅读下降最多）；D项仅为文中提及的一个细节，非主旨。
+                </div>
+            </div>
+
+            <div class="quiz-item">
+                <div class="quiz-question">2. 细节理解题：According to the Bureau of Labor Statistics' American Time Use Survey, which group contributed most to the overall decline in American daily reading time?</div>
+                <ol class="quiz-options">
+                    <li>Americans aged 15 to 24, whose reading time fluctuated over the years.</li>
+                    <li>Americans aged 25 to 34, who showed a modest increase in recent years.</li>
+                    <li>Americans aged 65 and up, whose daily reading time fell by nearly half.</li>
+                    <li>College freshmen, who professors believe are less prepared for academic reading.</li>
+                </ol>
+                <div class="quiz-answer">
+                    <span class="label">正确答案：C</span><br>
+                    答案解析：根据文章第七段，65岁以上美国人的日均阅读时间从2003年的58.5分钟降至去年的约32.4分钟，"a drop that represents the lion's share of overall reading declines"（这一降幅占了整体阅读下降的最大份额）。A、B项中的年轻人群体实际上阅读时间有所上升；D项是文章开头提到的现象，但与Time Use Survey的数据无关。
+                </div>
+            </div>
+
+            <div class="quiz-item">
+                <div class="quiz-question">3. 推理判断题：What can be inferred from the passage about the author's attitude toward technology's impact on reading?</div>
+                <ol class="quiz-options">
+                    <li>He believes smartphones and AI have absolutely no negative effect on reading habits.</li>
+                    <li>He is fundamentally optimistic that reading culture will naturally thrive in the digital age.</li>
+                    <li>He argues that technology is merely one factor among many complex social changes and warns against oversimplification.</li>
+                    <li>He advocates for restricting the use of digital devices to preserve traditional reading practices.</li>
+                </ol>
+                <div class="quiz-answer">
+                    <span class="label">正确答案：C</span><br>
+                    答案解析：作者在文章结尾明确承认"smartphones and AI pose no challenges to attention and literacy. They clearly do"（智能手机和人工智能确实对注意力和读写能力构成挑战），但同时强调"the popular narrative... obscures more than it reveals"（流行叙事遮蔽了更多真相），呼吁"looking beyond the easy morality tale of screens versus books"（超越屏幕与书籍对立的简单道德寓言）。这体现了他反对简单化、主张复杂分析的态度。A项与原文矛盾；B项"fundamentally optimistic"过度推断；D项文中未提及。
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>考研英语外刊精读 | 文章来源：The New York Times</p>
+            <p>本材料仅供学习交流使用</p>
+        </footer>
+    </div>
+</body>
+</html>
