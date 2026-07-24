@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | Silicon Valley Has Lost Its Biggest Advantage</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --light-text: #666666;
+            --border: #e0e0e0;
+            --highlight: #fff3cd;
+            --vocab-color: #2980b9;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #34495e 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 12px;
+        }
+        header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .tag {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .tips-box {
+            background: #e8f4fd;
+            border-left: 4px solid var(--vocab-color);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        .tips-box h3 {
+            color: var(--vocab-color);
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .tips-box ul {
+            margin-left: 20px;
+        }
+        .tips-box li {
+            margin-bottom: 6px;
+        }
+        .article-section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 1.4em;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+        .article-content p {
+            margin-bottom: 18px;
+            text-align: justify;
+            font-size: 1.05em;
+            line-height: 2;
+        }
+        .vocab {
+            color: var(--vocab-color);
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 1px dashed var(--vocab-color);
+            position: relative;
+        }
+        .vocab:hover {
+            background: var(--highlight);
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        .vocab:hover .tooltip {
+            display: block;
+        }
+        .summary-box {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .summary-box h3 {
+            color: #f57c00;
+            margin-bottom: 10px;
+        }
+        .sentence-analysis {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .sentence-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .sentence-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .sentence-en {
+            font-style: italic;
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            line-height: 1.8;
+        }
+        .sentence-cn {
+            color: var(--light-text);
+            font-size: 0.95em;
+            margin-bottom: 8px;
+        }
+        .sentence-parse {
+            color: var(--accent);
+            font-size: 0.9em;
+        }
+        .phrase-section, .vocab-section, .quiz-section {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .phrase-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+        .phrase-en {
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .phrase-cn {
+            color: var(--light-text);
+            margin-bottom: 8px;
+        }
+        .phrase-example {
+            font-style: italic;
+            color: var(--primary);
+            font-size: 0.95em;
+        }
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .vocab-table th, .vocab-table td {
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: left;
+        }
+        .vocab-table th {
+            background: var(--primary);
+            color: white;
+        }
+        .vocab-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .quiz-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .quiz-question {
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+        .quiz-options {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+        .quiz-options li {
+            margin-bottom: 8px;
+            list-style-type: upper-alpha;
+        }
+        .quiz-answer {
+            background: #e8f5e9;
+            border-left: 3px solid #4caf50;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .quiz-answer .label {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--light-text);
+            font-size: 0.9em;
+        }
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.4em; }
+            .article-section, .sentence-analysis, .phrase-section, .vocab-section, .quiz-section {
+                padding: 20px 15px;
+            }
+            .vocab-table { font-size: 0.9em; }
+            .vocab-table th, .vocab-table td { padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Silicon Valley Has Lost Its Biggest Advantage</h1>
+            <p style="margin-top:8px; opacity:0.85;">硅谷已失去其最大优势</p>
+            <div class="meta">
+                <span class="tag">来源：The Atlantic</span>
+                <span class="tag">作者：Matteo Wong</span>
+                <span class="tag">日期：July 18, 2026</span>
+                <span class="tag">难度：考研 / 六级</span>
+                <span class="tag">词数：约 1300 词</span>
+            </div>
+        </header>
+
+        <div class="tips-box">
+            <h3>阅读技巧提示</h3>
+            <ul>
+                <li><strong>把握文章结构：</strong>本文采用"现象引入—数据论证—深层分析—类比升华—结论"的论述结构。注意作者如何通过多个维度（电力、散热、供应链、金融）展开论点。</li>
+                <li><strong>关注核心类比：</strong>作者反复将数据中心类比为钢铁厂、油井等传统重工业，理解这一类比对把握文章主旨至关重要。</li>
+                <li><strong>数据阅读策略：</strong>文中包含大量具体数字（兆瓦、吉瓦、万亿美元），阅读时应关注数据之间的比较关系和变化趋势。</li>
+                <li><strong>长难句突破：</strong>本文存在大量嵌套从句和复杂修饰成分，建议先找主干再分析修饰成分。</li>
+                <li><strong>词汇标注说明：</strong>下文中<span class="vocab" style="border-bottom:1px dashed var(--vocab-color); color: var(--vocab-color);">蓝色词汇</span>为考研核心词汇，点击或悬停可查看中文释义。</li>
+            </ul>
+        </div>
+
+        <div class="article-section">
+            <h2 class="section-title">正文精读</h2>
+            <div class="article-content">
+                <p>The AI boom has <span class="vocab">showered<span class="tooltip">shower /ˈʃaʊər/ v. 大量给予，洒满，倾注</span></span> some of the nation's most <span class="vocab">prominent<span class="tooltip">prominent /ˈprɑːmɪnənt/ adj. 杰出的，著名的，显著的</span></span> companies in market value. OpenAI and Anthropic are now the two most valuable private companies in the world. Google, Microsoft, and Nvidia have become larger than ever. But among the biggest winners has been Caterpillar, a <span class="vocab">purveyor<span class="tooltip">purveyor /pərˈveɪər/ n. 供应商，提供者，承办商</span></span> of yellow trucks and cranes. Caterpillar's stock has more than doubled in value over the past year, making the company worth six times as much as Nike. Its <span class="vocab">ascent<span class="tooltip">ascent /əˈsent/ n. 上升，攀升，崛起</span></span> has little to do with the construction vehicles (both real and toy) that it is known for. Instead, Caterpillar's success comes from its giant gas-powered engines that are helping power the nation's data-center <span class="vocab">build-out<span class="tooltip">build-out n. 扩建，全面建设，开发</span></span>.</p>
+
+                <p>For all the attention given to improving model <span class="vocab">capabilities<span class="tooltip">capability /ˌkeɪpəˈbɪləti/ n. 能力，性能，功能</span></span>, the most important inputs to AI are not bits but atoms and electrons. To train and run its models, the AI industry needs to build. Data centers are <span class="vocab">incredibly<span class="tooltip">incredibly /ɪnˈkredəbli/ adv. 极其，难以置信地</span></span> complex technological and industrial operations—they require tech companies to <span class="vocab">erect<span class="tooltip">erect /ɪˈrekt/ v. 建造，竖立，架设</span></span> power plants, build wastewater facilities, and set up all manner of electrical equipment, power lines, and advanced-cooling equipment. That calls for concrete, steel, silicon, glass, copper, and <span class="vocab">liquefied<span class="tooltip">liquefy /ˈlɪkwɪfaɪ/ v. 液化，使溶解</span></span> natural gas.</p>
+
+                <p>This data-center construction has long been <span class="vocab">frenzied<span class="tooltip">frenzied /ˈfrenzid/ adj. 狂热的，疯狂的，忙碌混乱的</span></span>, but now it is fast <span class="vocab">approaching<span class="tooltip">approach /əˈproʊtʃ/ v. 接近，临近，趋向</span></span> an <span class="vocab">inflection<span class="tooltip">inflection /ɪnˈflekʃn/ n. 拐点，转折，变化</span></span> point that is both awesome and <span class="vocab">alarming<span class="tooltip">alarming /əˈlɑːrmɪŋ/ adj. 令人担忧的，引起恐慌的</span></span>. The major players—Amazon, Google, Microsoft, Meta, and Oracle—are on track to spend more on data centers by the end of the year than they bring in from their operations. That means tech giants whose non-chatbot businesses bring in tens of billions of dollars every year will likely need to take on debt to keep paying for their AI <span class="vocab">ambitions<span class="tooltip">ambition /æmˈbɪʃn/ n. 雄心，野心，抱负</span></span>. From the launch of ChatGPT, in late 2022, through the end of last year, these firms' <span class="vocab">capital expenditures<span class="tooltip">capital expenditure n. 资本支出，资本开支</span></span>—most of which go toward data centers—well <span class="vocab">exceeded<span class="tooltip">exceed /ɪkˈsiːd/ v. 超过，超越，超出</span></span> half a <span class="vocab">trillion<span class="tooltip">trillion /ˈtrɪljən/ n. 万亿（10的12次方）</span></span> dollars. The companies <span class="vocab">intend<span class="tooltip">intend /ɪnˈtend/ v. 计划，打算，意欲</span></span> to spend a similar amount in 2026 alone. And next year, their AI investments will likely exceed $1.1 trillion, according to a recent report from J.P. Morgan.</p>
+
+                <p>Silicon Valley has long enjoyed a <span class="vocab">straightforward<span class="tooltip">straightforward /ˌstreɪtfɔːrwərd/ adj. 简单的，直接的，明了的</span></span> advantage: Its products and services cost relatively little to make but generate <span class="vocab">tremendous<span class="tooltip">tremendous /trəˈmendəs/ adj. 巨大的，惊人的，极好的</span></span> <span class="vocab">revenues<span class="tooltip">revenue /ˈrevənuː/ n. 收入，收益，税收</span></span>. But operating a data center is in many ways more like running a steel mill than a smartphone app. In particular, data centers require <span class="vocab">stunning<span class="tooltip">stunning /ˈstʌnɪŋ/ adj. 惊人的，令人震惊的</span></span> amounts of electricity, especially as AI models have gotten more powerful. Five years ago, a standard data center might require 10 or 50 <span class="vocab">megawatts<span class="tooltip">megawatt /ˈmeɡəwɑːt/ n. 兆瓦（百万瓦特）</span></span> of power, enough for tens of thousands of homes. A year ago, data centers <span class="vocab">demanding<span class="tooltip">demand /dɪˈmænd/ v. 需要，需求，要求</span></span> a <span class="vocab">gigawatt<span class="tooltip">gigawatt /ˈɡɪɡəwɑːt/ n. 吉瓦（十亿瓦特）</span></span> or two of power were considered <span class="vocab">gargantuan<span class="tooltip">gargantuan /ɡɑːrˈɡæntʃuən/ adj. 巨大的，庞大的</span></span>. This week, Meta announced that it is more than doubling the size of its <span class="vocab">flagship<span class="tooltip">flagship /ˈflæɡʃɪp/ n. 旗舰，王牌，代表作</span></span> AI data center, which will increase its peak power needs to five gigawatts. A data center <span class="vocab">proposed<span class="tooltip">propose /prəˈpoʊz/ v. 提议，计划，建议</span></span> in Utah, if completed, will demand nine gigawatts of power. That's several large cities' worth of energy <span class="vocab">pulsing<span class="tooltip">pulse /pʌls/ v. 搏动，脉动，涌动</span></span> through a few big warehouses, all <span class="vocab">dedicated<span class="tooltip">dedicate /ˈdedɪkeɪt/ v. 致力于，专门用于</span></span> to bots.</p>
+
+                <p>Electrical grids <span class="vocab">typically<span class="tooltip">typically /ˈtɪpɪkli/ adv. 通常，一般地，典型地</span></span> don't have enough energy to supply these <span class="vocab">megaprojects<span class="tooltip">megaproject n. 大型工程，超级项目</span></span>, and so the fastest way to bring a data center online is to build your own power plant. That's where Caterpillar comes in: The company has an <span class="vocab">enormous<span class="tooltip">enormous /ɪˈnɔːrməs/ adj. 巨大的，庞大的</span></span> number of back orders for its power equipment, as does every major natural-gas-<span class="vocab">turbine<span class="tooltip">turbine /ˈtɜːrbaɪn/ n. 涡轮机，汽轮机</span></span> manufacturer in the world. In May, Elon Musk reportedly spent at least $1 billion to buy an energy company with a fleet of <span class="vocab">combustion<span class="tooltip">combustion /kəmˈbʌstʃən/ n. 燃烧</span></span> turbines, likely to power his AI model, Grok.</p>
+
+                <p>Power is only one part of the challenge. A data center requires <span class="vocab">wiring<span class="tooltip">wire /waɪər/ v. 连接线路，布线</span></span> together dozens of <span class="vocab">cutting-edge<span class="tooltip">cutting-edge adj. 尖端的，最先进的</span></span> AI chips onto a refrigerator-size rack, then linking thousands of those racks in a building. Those chips run hot, up to 200 degrees Fahrenheit, and are <span class="vocab">typically<span class="tooltip">typically /ˈtɪpɪkli/ adv. 通常，一般地</span></span> cooled by some <span class="vocab">combination<span class="tooltip">combination /ˌkɑːmbɪˈneɪʃn/ n. 组合，结合，搭配</span></span> of water and industrial fans; get too close to one of the racks, and you may break a sweat.</p>
+
+                <p>OpenAI's self-proclaimed goal of making "intelligence cheaper, better, and more <span class="vocab">abundant<span class="tooltip">abundant /əˈbʌndənt/ adj. 丰富的，充裕的</span></span> over time" really <span class="vocab">amounts to<span class="tooltip">amount to 相当于，意味着，等于</span></span> powering and cooling data centers as <span class="vocab">efficiently<span class="tooltip">efficiently /ɪˈfɪʃntli/ adv. 高效地，有效率地</span></span> as possible—in other words, getting really good at HVAC. And then there's the complex global supply chain of mirrors and lasers and <span class="vocab">rare-earth<span class="tooltip">rare-earth adj. 稀土的</span></span> minerals that go into the chips used to train and run AI models.</p>
+
+                <p>As the AI industry <span class="vocab">pours<span class="tooltip">pour /pɔːr/ v. 倾注，投入，涌出</span></span> more money than ever before into data centers, executives have begun sounding like they are in the construction business. OpenAI CEO Sam Altman has said that the biggest <span class="vocab">constraint<span class="tooltip">constraint /kənˈstreɪnt/ n. 限制，约束，制约因素</span></span> on his company is "electrons"—that is, power. Musk, Microsoft CEO Satya Nadella, former Google CEO Eric Schmidt, and others have said the same. Meanwhile, Nvidia CEO Jensen Huang recently said that a lack of skilled "plumbers and <span class="vocab">electricians<span class="tooltip">electrician /ɪˌlekˈtrɪʃn/ n. 电工</span></span>" will be the AI boom's "hardest" <span class="vocab">bottleneck<span class="tooltip">bottleneck /ˈbɑːtlnek/ n. 瓶颈，障碍</span></span> to overcome.</p>
+
+                <p>Still, Silicon Valley seems to have only just begun <span class="vocab">reckoning with<span class="tooltip">reckon with 应对，面对，处理</span></span> what it means for its primary business operations to be in the material <span class="vocab">realm<span class="tooltip">realm /relm/ n. 领域，范围，王国</span></span>. You cannot vibe-code a data center. In perhaps the clearest sign of the AI industry's <span class="vocab">desperation<span class="tooltip">desperation /ˌdespəˈreɪʃn/ n. 绝望，拼命，不顾一切</span></span> to keep building, Anthropic, the most safety-<span class="vocab">conscious<span class="tooltip">conscious /ˈkɑːnʃəs/ adj. 有意识的，关注……的</span></span> firm, is spending $1 billion a month to rent a data center from Musk, who just a few months ago <span class="vocab">deemed<span class="tooltip">deem /diːm/ v. 认为，视为，判定</span></span> Anthropic "evil." Anthropic CEO Dario Amodei, for his part, has accused Musk of "disturbing <span class="vocab">negligence<span class="tooltip">negligence /ˈneɡlɪdʒəns/ n. 疏忽，粗心大意</span></span>." Meanwhile, the tech industry is struggling to <span class="vocab">quell<span class="tooltip">quell /kwel/ v. 平息，压制，制止</span></span> a <span class="vocab">mounting<span class="tooltip">mounting /ˈmaʊntɪŋ/ adj. 不断增加的，上升的</span></span> AI backlash, which has largely taken the form of opposition to data centers. A few days ago, New York became the first state to <span class="vocab">institute<span class="tooltip">institute /ˈɪnstɪtuːt/ v. 实行，建立，制定</span></span> a <span class="vocab">moratorium<span class="tooltip">moratorium /ˌmɔːrəˈtɔːriəm/ n. 暂停令，延期偿付</span></span> on new "hyperscale" data-center construction.</p>
+
+                <p>If anything, AI is <span class="vocab">poised<span class="tooltip">poise /pɔɪz/ v. 准备就绪，蓄势待发</span></span> to become even more like drilling an oil well. All the copper, silicon, electricity, and labor that go into building and running a data center are <span class="vocab">mustered<span class="tooltip">muster /ˈmʌstər/ v. 召集，聚集，调动</span></span> to process and spit out "tokens"—in <span class="vocab">essence<span class="tooltip">essence /ˈesns/ n. 本质，实质，精髓</span></span>, words—that are the basic unit of AI. The State Department recently announced an international pact to <span class="vocab">bolster<span class="tooltip">bolster /ˈboʊlstər/ v. 加强，支撑，提升</span></span> the AI supply chain, called Pax Silica. "If the 20th century ran on oil and steel, the 21st century runs on compute and the minerals that feed it," Jacob Helberg, the <span class="vocab">undersecretary<span class="tooltip">undersecretary /ˌʌndərˈsekrəteri/ n. 副部长，次长</span></span> for economic affairs, said in the announcement. Financial markets and investors are already beginning to treat tokens as the raw inputs to modern civilization: Various firms are launching such markets for compute, <span class="vocab">akin to<span class="tooltip">akin to 类似于，类似于</span></span> how you can trade oil, steel, and corn on a stock exchange.</p>
+
+                <p>By <span class="vocab">dominating<span class="tooltip">dominate /ˈdɑːmɪneɪt/ v. 主导，支配，控制</span></span> the digital world, Silicon Valley has already <span class="vocab">exerted<span class="tooltip">exert /ɪɡˈzɜːrt/ v. 施加，运用，发挥</span></span> indirect control over the physical one. Today's data-center build-out is a whole new beast. From the most concrete aspects—cooling, power, land—to the most abstract financial instruments, AI has <span class="vocab">morphed<span class="tooltip">morph /mɔːrf/ v. 变形，转化为，演变</span></span> into a heavy industry.</p>
+            </div>
+        </div>
+
+        <div class="summary-box">
+            <h3>文章大意总结</h3>
+            <p>本文发表于《大西洋月刊》2026年7月18日，作者Matteo Wong深入分析了AI热潮如何将硅谷从轻资产的软件产业转变为重工业模式。文章开篇以一个出人意料的赢家——重型机械制造商Caterpillar——引出核心论点：AI产业最重要的投入不再是代码和比特，而是原子、电力、钢铁和铜。</p>
+            <p style="margin-top:10px;">文章列举了令人震惊的数据：五大科技巨头的数据中心支出即将超过运营收入，2027年AI投资预计超过1.1万亿美元；Meta旗舰数据中心的电力需求达5吉瓦，犹他州拟建项目需9吉瓦——相当于几座大城市的全部能源。作者进一步揭示了数据中心运营面临的散热挑战、劳动力短缺瓶颈，以及日益增长的公众反对浪潮（纽约州已实施超大规模数据中心建设暂停令）。文章最后以"AI已蜕变为重工业"作结，暗示硅谷赖以生存的"低成本、高收益"优势正在消失。</p>
+            <p style="margin-top:10px;">本文适合考研阅读，涉及科技、经济、社会等多个交叉领域，包含大量考研高频词汇，句式复杂且逻辑严密，是训练考研英语阅读能力的优质材料。</p>
+        </div>
+
+        <div class="sentence-analysis">
+            <h2 class="section-title">长难句解析</h2>
+
+            <div class="sentence-item">
+                <div class="sentence-en">But among the biggest winners has been Caterpillar, a purveyor of yellow trucks and cranes.</div>
+                <div class="sentence-cn">但在最大的赢家之中，有黄色卡车和起重机的供应商卡特彼勒公司。</div>
+                <div class="sentence-parse"><strong>结构分析：</strong>此句采用了完全倒装结构。正常语序为"Caterpillar has been among the biggest winners"。作者将介词短语"But among the biggest winners"提前至句首，强调 Caterpillar 作为AI热潮中意外赢家的反差感。a purveyor of yellow trucks and cranes 是 Caterpillar 的同位语，补充说明其传统业务，与后文"gas-powered engines"形成对比。考研英语中倒装句是高频考点，需特别注意识别。</div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="sentence-en">That means tech giants whose non-chatbot businesses bring in tens of billions of dollars every year will likely need to take on debt to keep paying for their AI ambitions.</div>
+                <div class="sentence-cn">这意味着，那些非聊天机器人业务每年带来数百亿美元收入的科技巨头，很可能需要举债来继续为他们的AI雄心买单。</div>
+                <div class="sentence-parse"><strong>结构分析：</strong>主句为"That means + 宾语从句"。宾语从句中，主语 tech giants 由"whose non-chatbot businesses bring in tens of billions of dollars every year"这一非限制性定语从句修饰；谓语为"will likely need to take on debt"；不定式"to keep paying for their AI ambitions"作目的状语。句中嵌套层次多，需逐步拆解：①找出主句主谓 ②识别定语从句 ③分析不定式结构。这是考研长难句的典型代表。</div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="sentence-en">From the launch of ChatGPT, in late 2022, through the end of last year, these firms' capital expenditures—most of which go toward data centers—well exceeded half a trillion dollars.</div>
+                <div class="sentence-cn">从2022年底ChatGPT上线到去年年底，这些公司的资本支出——其中大部分流向数据中心——远超5000亿美元。</div>
+                <div class="sentence-parse"><strong>结构分析：</strong>主语为"these firms' capital expenditures"，谓语为"well exceeded"，宾语为"half a trillion dollars"。"From...through..."为时间状语，"most of which go toward data centers"是非限制性定语从句（由which引导）修饰capital expenditures，破折号起到强调和补充说明的作用。注意"well exceeded"中副词well修饰exceeded，表示"远远超过"，这是考研常见搭配。</div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="sentence-en">"If the 20th century ran on oil and steel, the 21st century runs on compute and the minerals that feed it," Jacob Helberg, the undersecretary for economic affairs, said in the announcement.</div>
+                <div class="sentence-cn">"如果说20世纪靠石油和钢铁运转，那么21世纪靠的是算力和喂养它的矿物，"经济事务副国务卿雅各布·赫尔伯格在公告中表示。</div>
+                <div class="sentence-parse"><strong>结构分析：</strong>直接引语中使用了虚拟语气"If..., ...runs on..."，构成一个类比结构。"the minerals that feed it"中that引导定语从句修饰minerals。注意"ran on"和"runs on"的时态对比：20世纪用过去时ran，21世纪用现在时runs，暗示这一转变正在进行中。引述结构"Jacob Helberg..., said in the announcement"是标准的间接引语格式，其中"the undersecretary for economic affairs"是Jacob Helberg的同位语。</div>
+            </div>
+        </div>
+
+        <div class="phrase-section">
+            <h2 class="section-title">短语搭配精选</h2>
+
+            <div class="phrase-item">
+                <div class="phrase-en">1. on track to</div>
+                <div class="phrase-cn">有望……，正步入……的轨道</div>
+                <div class="phrase-example">原句：The major players are on track to spend more on data centers by the end of the year than they bring in from their operations.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">2. take on debt</div>
+                <div class="phrase-cn">举债，承担债务</div>
+                <div class="phrase-example">原句：Tech giants...will likely need to take on debt to keep paying for their AI ambitions.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">3. amount to</div>
+                <div class="phrase-cn">相当于，意味着，等于</div>
+                <div class="phrase-example">原句：OpenAI's self-proclaimed goal...really amounts to powering and cooling data centers as efficiently as possible.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">4. reckon with</div>
+                <div class="phrase-cn">应对，面对，认真处理</div>
+                <div class="phrase-example">原句：Silicon Valley seems to have only just begun reckoning with what it means for its primary business operations to be in the material realm.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">5. akin to</div>
+                <div class="phrase-cn">类似于，类似于……的</div>
+                <div class="phrase-example">原句：Various firms are launching such markets for compute, akin to how you can trade oil, steel, and corn on a stock exchange.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">6. bring in</div>
+                <div class="phrase-cn">带来（收入），赚取，引入</div>
+                <div class="phrase-example">原句：Tech giants whose non-chatbot businesses bring in tens of billions of dollars every year...</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">7. in the form of</div>
+                <div class="phrase-cn">以……的形式</div>
+                <div class="phrase-example">原句：A mounting AI backlash, which has largely taken the form of opposition to data centers.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">8. well exceeded</div>
+                <div class="phrase-cn">远超，远远超过（well作副词加强语气）</div>
+                <div class="phrase-example">原句：These firms' capital expenditures...well exceeded half a trillion dollars.</div>
+            </div>
+        </div>
+
+        <div class="vocab-section">
+            <h2 class="section-title">考研核心词汇表（30个）</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>单词</th>
+                        <th>音标</th>
+                        <th>词性</th>
+                        <th>中文释义</th>
+                        <th>文中例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>prominent</td><td>/ˈprɑːmɪnənt/</td><td>adj.</td><td>杰出的，显著的</td><td>the nation's most prominent companies</td></tr>
+                    <tr><td>purveyor</td><td>/pərˈveɪər/</td><td>n.</td><td>供应商，提供者</td><td>a purveyor of yellow trucks and cranes</td></tr>
+                    <tr><td>ascent</td><td>/əˈsent/</td><td>n.</td><td>上升，崛起</td><td>Its ascent has little to do with...</td></tr>
+                    <tr><td>capability</td><td>/ˌkeɪpəˈbɪləti/</td><td>n.</td><td>能力，性能</td><td>improving model capabilities</td></tr>
+                    <tr><td>erect</td><td>/ɪˈrekt/</td><td>v.</td><td>建造，竖立</td><td>erect power plants</td></tr>
+                    <tr><td>liquefied</td><td>/ˈlɪkwɪfaɪd/</td><td>adj.</td><td>液化的</td><td>liquefied natural gas</td></tr>
+                    <tr><td>frenzied</td><td>/ˈfrenzid/</td><td>adj.</td><td>狂热的，疯狂的</td><td>construction has long been frenzied</td></tr>
+                    <tr><td>alarming</td><td>/əˈlɑːrmɪŋ/</td><td>adj.</td><td>令人担忧的</td><td>both awesome and alarming</td></tr>
+                    <tr><td>ambition</td><td>/æmˈbɪʃn/</td><td>n.</td><td>雄心，抱负</td><td>their AI ambitions</td></tr>
+                    <tr><td>exceed</td><td>/ɪkˈsiːd/</td><td>v.</td><td>超过，超越</td><td>well exceeded half a trillion dollars</td></tr>
+                    <tr><td>trillion</td><td>/ˈtrɪljən/</td><td>n.</td><td>万亿</td><td>half a trillion dollars</td></tr>
+                    <tr><td>straightforward</td><td>/ˌstreɪtfɔːrwərd/</td><td>adj.</td><td>简单的，直接的</td><td>a straightforward advantage</td></tr>
+                    <tr><td>tremendous</td><td>/trəˈmendəs/</td><td>adj.</td><td>巨大的，惊人的</td><td>generate tremendous revenues</td></tr>
+                    <tr><td>revenue</td><td>/ˈrevənuː/</td><td>n.</td><td>收入，收益</td><td>generate tremendous revenues</td></tr>
+                    <tr><td>stunning</td><td>/ˈstʌnɪŋ/</td><td>adj.</td><td>惊人的，令人震惊的</td><td>stunning amounts of electricity</td></tr>
+                    <tr><td>gargantuan</td><td>/ɡɑːrˈɡæntʃuən/</td><td>adj.</td><td>巨大的，庞大的</td><td>were considered gargantuan</td></tr>
+                    <tr><td>flagship</td><td>/ˈflæɡʃɪp/</td><td>n./adj.</td><td>旗舰，王牌</td><td>its flagship AI data center</td></tr>
+                    <tr><td>dedicate</td><td>/ˈdedɪkeɪt/</td><td>v.</td><td>致力于，专门用于</td><td>all dedicated to bots</td></tr>
+                    <tr><td>turbine</td><td>/ˈtɜːrbaɪn/</td><td>n.</td><td>涡轮机</td><td>natural-gas-turbine manufacturer</td></tr>
+                    <tr><td>combination</td><td>/ˌkɑːmbɪˈneɪʃn/</td><td>n.</td><td>组合，结合</td><td>some combination of water and industrial fans</td></tr>
+                    <tr><td>abundant</td><td>/əˈbʌndənt/</td><td>adj.</td><td>丰富的，充裕的</td><td>more abundant over time</td></tr>
+                    <tr><td>constraint</td><td>/kənˈstreɪnt/</td><td>n.</td><td>限制，制约因素</td><td>the biggest constraint on his company</td></tr>
+                    <tr><td>bottleneck</td><td>/ˈbɑːtlnek/</td><td>n.</td><td>瓶颈，障碍</td><td>the AI boom's "hardest" bottleneck</td></tr>
+                    <tr><td>desperation</td><td>/ˌdespəˈreɪʃn/</td><td>n.</td><td>拼命，绝望</td><td>the AI industry's desperation to keep building</td></tr>
+                    <tr><td>negligence</td><td>/ˈneɡlɪdʒəns/</td><td>n.</td><td>疏忽，粗心大意</td><td>"disturbing negligence"</td></tr>
+                    <tr><td>moratorium</td><td>/ˌmɔːrəˈtɔːriəm/</td><td>n.</td><td>暂停令，延期偿付</td><td>institute a moratorium on new construction</td></tr>
+                    <tr><td>bolster</td><td>/ˈboʊlstər/</td><td>v.</td><td>加强，支撑</td><td>bolster the AI supply chain</td></tr>
+                    <tr><td>dominate</td><td>/ˈdɑːmɪneɪt/</td><td>v.</td><td>主导，支配</td><td>dominating the digital world</td></tr>
+                    <tr><td>exert</td><td>/ɪɡˈzɜːrt/</td><td>v.</td><td>施加，运用</td><td>exerted indirect control over</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="quiz-section">
+            <h2 class="section-title">阅读理解练习</h2>
+
+            <div class="quiz-item">
+                <div class="quiz-question">1. 主旨大意题：What is the central argument of the passage?</div>
+                <ol class="quiz-options">
+                    <li>AI companies like OpenAI and Anthropic are the most valuable private companies in the world due to their software innovations.</li>
+                    <li>The AI boom has transformed Silicon Valley from a lightweight software industry into a heavy industry requiring massive physical infrastructure.</li>
+                    <li>Caterpillar has become the most valuable company in America because of its dominance in the construction-vehicle market.</li>
+                    <li>The U.S. government should implement stricter regulations on data-center construction to protect the environment.</li>
+                </ol>
+                <div class="quiz-answer">
+                    <span class="label">正确答案：B</span><br>
+                    答案解析：文章核心论点是AI产业已从轻资产的软件行业蜕变为需要大量物理基础设施的重工业。作者以Caterpillar意外成为最大赢家开篇，随后详细论述数据中心对电力、钢铁、冷却系统等的巨大需求，并在结尾明确指出"AI has morphed into a heavy industry"。A项仅涉及文章开头事实，非主旨；C项与原文"Caterpillar's success comes from its giant gas-powered engines"矛盾；D项虽提到纽约暂停令，但 regulation 并非文章核心论点。
+                </div>
+            </div>
+
+            <div class="quiz-item">
+                <div class="quiz-question">2. 细节理解题：According to the passage, why might major tech companies need to "take on debt"?</div>
+                <ol class="quiz-options">
+                    <li>Because their chatbot products are not generating enough revenue to cover their daily expenses.</li>
+                    <li>Because their data-center capital expenditures are projected to exceed the revenues from their existing operations.</li>
+                    <li>Because they are losing market share to traditional industrial companies like Caterpillar.</li>
+                    <li>Because government regulations have forced them to invest in cleaner energy sources.</li>
+                </ol>
+                <div class="quiz-answer">
+                    <span class="label">正确答案：B</span><br>
+                    答案解析：文章第三段明确指出"The major players...are on track to spend more on data centers by the end of the year than they bring in from their operations. That means tech giants whose non-chatbot businesses bring in tens of billions of dollars every year will likely need to take on debt to keep paying for their AI ambitions." 即科技巨头的数据中心支出预计将超过运营收入，因此可能需要举债。A项与原文强调的是"数据中心支出"而非"chatbot收入不足"不符；C项文中未提及市场占比变化；D项文中提到纽约暂停令但未涉及清洁能源投资要求。
+                </div>
+            </div>
+
+            <div class="quiz-item">
+                <div class="quiz-question">3. 词义猜测题：In the context of the passage, the phrase "vibe-code a data center" (paragraph 9) most likely means:</div>
+                <ol class="quiz-options">
+                    <li>Use artificial intelligence to automatically design and optimize data-center architecture.</li>
+                    <li>Build a data center casually or informally, without rigorous physical engineering and construction.</li>
+                    <li>Write software code that simulates the operations of a physical data center.</li>
+                    <li>Apply the aesthetic principles of Silicon Valley tech culture to data-center interior design.</li>
+                </ol>
+                <div class="quiz-answer">
+                    <span class="label">正确答案：B</span><br>
+                    答案解析："vibe-code"是一个由"vibe"（氛围/感觉）和"code"（编程）组合而成的流行词汇，指仅凭直觉和感觉快速编写代码，缺乏严谨的工程方法。作者用"You cannot vibe-code a data center"表达的核心意思是：数据中心不同于软件——它需要真实的物理建设（电力、冷却、钢铁、混凝土），不能像写软件那样凭感觉快速搞定。结合上下文"reckoning with what it means for its primary business operations to be in the material realm"，可以判断作者强调的是数据中心建设的物理性和不可随意性。A项将意思反转为正面用途，偏离了原文的否定语气；C项缩小了含义；D项完全脱离语境。
+                </div>
+            </div>
+
+            <div class="quiz-item">
+                <div class="quiz-question">4. 推理判断题：What can be inferred about the author's attitude toward the AI industry's transformation into heavy industry?</div>
+                <ol class="quiz-options">
+                    <li>The author is entirely enthusiastic about this transformation and believes it will benefit the U.S. economy.</li>
+                    <li>The author is deeply skeptical of AI technology and believes the industry should return to its software roots.</li>
+                    <li>The author presents the transformation with a mixture of awe and concern, highlighting both its scale and its risks.</li>
+                    <li>The author is largely indifferent to the transformation, treating it as a routine business cycle.</li>
+                </ol>
+                <div class="quiz-answer">
+                    <span class="label">正确答案：C</span><br>
+                    答案解析：作者的语气体现了复杂的态度。一方面，文中使用了"awesome""tremendous"等带有赞叹意味的词语描述AI产业的规模；另一方面，又反复使用"alarming""desperation""disturbing negligence""backlash"等带有忧虑色彩的词汇。文章将数据中心比作钢铁厂和油井，暗示这种转变的沉重性。结尾"AI has morphed into a heavy industry"既是对事实的陈述，也暗含对硅谷失去传统优势的感慨。A项"entirely enthusiastic"过于片面；B项"skeptical of AI technology"不准确，作者质疑的是产业模式转变而非AI技术本身；D项"indifferent"与全文丰富的情感表达明显不符。
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>考研英语外刊精读 | 文章来源：The Atlantic</p>
+            <p>本材料仅供学习交流使用</p>
+        </footer>
+    </div>
+</body>
+</html>
