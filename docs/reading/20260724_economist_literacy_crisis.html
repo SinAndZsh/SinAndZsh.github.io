@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考研英语外刊精读 | The Literacy Crisis on Campus</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --light-text: #666666;
+            --border: #e0e0e0;
+            --highlight: #fff3cd;
+            --vocab-color: #2980b9;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #34495e 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 12px;
+        }
+        header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .tag {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .tips-box {
+            background: #e8f4fd;
+            border-left: 4px solid var(--vocab-color);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        .tips-box h3 {
+            color: var(--vocab-color);
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .tips-box ul {
+            margin-left: 20px;
+        }
+        .tips-box li {
+            margin-bottom: 6px;
+        }
+        .article-section {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 1.4em;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+        .article-content p {
+            margin-bottom: 18px;
+            text-align: justify;
+            font-size: 1.05em;
+            line-height: 2;
+        }
+        .vocab {
+            color: var(--vocab-color);
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 1px dashed var(--vocab-color);
+            position: relative;
+        }
+        .vocab:hover {
+            background: var(--highlight);
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--primary);
+        }
+        .vocab:hover .tooltip {
+            display: block;
+        }
+        .summary-box {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .summary-box h3 {
+            color: #f57c00;
+            margin-bottom: 10px;
+        }
+        .sentence-analysis {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .sentence-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .sentence-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .sentence-en {
+            font-style: italic;
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            line-height: 1.8;
+        }
+        .sentence-cn {
+            color: var(--light-text);
+            font-size: 0.95em;
+            margin-bottom: 8px;
+        }
+        .sentence-parse {
+            color: var(--accent);
+            font-size: 0.9em;
+        }
+        .phrase-section, .vocab-section, .quiz-section {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .phrase-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+        .phrase-en {
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .phrase-cn {
+            color: var(--light-text);
+            margin-bottom: 8px;
+        }
+        .phrase-example {
+            font-style: italic;
+            color: var(--primary);
+            font-size: 0.95em;
+        }
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .vocab-table th, .vocab-table td {
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: left;
+        }
+        .vocab-table th {
+            background: var(--primary);
+            color: white;
+        }
+        .vocab-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .quiz-item {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .quiz-question {
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+        .quiz-options {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+        .quiz-options li {
+            margin-bottom: 8px;
+            list-style-type: upper-alpha;
+        }
+        .quiz-answer {
+            background: #e8f5e9;
+            border-left: 3px solid #4caf50;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .quiz-answer .label {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--light-text);
+            font-size: 0.9em;
+        }
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.4em; }
+            .article-section, .sentence-analysis, .phrase-section, .vocab-section, .quiz-section {
+                padding: 20px 15px;
+            }
+            .vocab-table { font-size: 0.9em; }
+            .vocab-table th, .vocab-table td { padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Literacy Crisis on Campus</h1>
+            <p style="margin-top:8px; opacity:0.85">大学校园里的读写危机</p>
+            <div class="meta">
+                <span class="tag">来源：The Economist</span>
+                <span class="tag">日期：July 2026</span>
+                <span class="tag">难度：考研 / 六级</span>
+                <span class="tag">词数：约 1350 词</span>
+            </div>
+        </header>
+
+        <div class="tips-box">
+            <h3>阅读技巧提示</h3>
+            <ul>
+                <li><strong>把握文章结构：</strong>本文采用"现象揭示—数据论证—深层分析—影响探讨—改革呼吁"的结构。注意每个段落如何服务于中心论点。</li>
+                <li><strong>数据阅读策略：</strong>文中包含大量OECD调查数据，阅读时应关注数据之间的对比关系（如10年前vs现在）和隐含趋势。</li>
+                <li><strong>例证功能识别：</strong>文中使用了加州大学公开信、圣地亚哥校区报告等具体案例，注意这些例证如何支撑作者的核心观点。</li>
+                <li><strong>因果关系梳理：</strong>文章分析了 literacy crisis 的多重原因（疫情、AI作弊、K-12教育问题），注意区分直接原因与深层原因。</li>
+                <li><strong>词汇标注说明：</strong>下文中<span class="vocab" style="border-bottom:1px dashed var(--vocab-color); color: var(--vocab-color);">蓝色词汇</span>为考研核心词汇，点击或悬停可查看中文释义。</li>
+            </ul>
+        </div>
+
+        <div class="article-section">
+            <h2 class="section-title">正文精读</h2>
+            <div class="article-content">
+                <p>When professors at the University of California system gathered to discuss the state of undergraduate education last autumn, few expected the <span class="vocab">consensus<span class="tooltip">consensus /kənˈsensəs/ n. 共识，一致意见</span></span> that emerged. In an open letter signed by hundreds of faculty members, they warned that a growing share of students were arriving on campus without the basic academic skills necessary to <span class="vocab">succeed<span class="tooltip">succeed /səkˈsiːd/ v. 成功，完成</span></span> in higher education. "We find ourselves teaching material that should have been <span class="vocab">mastered<span class="tooltip">master /ˈmæstər/ v. 掌握，精通</span></span> in secondary school," the letter stated. "This is not a problem of <span class="vocab">motivation<span class="tooltip">motivation /ˌmoʊtɪˈveɪʃn/ n. 动机，积极性</span></span>; these students are genuinely struggling with foundational reading, writing, and mathematics."</p>
+
+                <p>The concerns raised by these academics are far from <span class="vocab">anecdotal<span class="tooltip">anecdotal /ˌænɪkˈdoʊtl/ adj. 轶事的，传闻的</span></span>. New data from the Organisation for Economic Co-operation and Development (OECD) paint a <span class="vocab">stark<span class="tooltip">stark /stɑːrk/ adj. 鲜明的，严峻的，完全的</span></span> picture of declining literacy and numeracy among university students across the developed world. According to the organisation's most recent survey, conducted across 38 member countries, approximately 8% of university students under the age of 35 now demonstrate reading skills no better than those expected of a typical ten-year-old child. A similar proportion struggle with basic mathematical reasoning. These figures represent a near-doubling over the past decade.</p>
+
+                <p>The situation is particularly <span class="vocab">acute<span class="tooltip">acute /əˈkjuːt/ adj. 严重的，急性的，敏锐的</span></span> in the United States. Nearly one in seven American university or college students reads at a level <span class="vocab">equivalent<span class="tooltip">equivalent /ɪˈkwɪvələnt/ adj. 相当的，等同的</span></span> to primary school, up from roughly one in twenty just ten years ago. Mathematics scores tell an equally <span class="vocab">alarming<span class="tooltip">alarming /əˈlɑːrmɪŋ/ adj. 令人担忧的，引起恐慌的</span></span> story: at the University of California's San Diego campus, a report shows that the number of first-year students with maths skills below secondary-school level has increased nearly thirty-fold over the past five years, now accounting for almost 12% of the student body.</p>
+
+                <p>What makes these statistics especially troubling is that they are not confined to <span class="vocab">obscure<span class="tooltip">obscure /əbˈskjʊr/ adj. 不知名的，晦涩的，鲜为人知的</span></span> institutions or students from disadvantaged backgrounds. Faculty at elite universities including Harvard and Stanford report that even their <span class="vocab">admitted<span class="tooltip">admit /ədˈmɪt/ v. 录取，承认（admitted为过去分词作形容词）</span></span> undergraduates increasingly struggle to construct coherent arguments, analyse complex texts, or perform calculations that would once have been <span class="vocab">routine<span class="tooltip">routine /ruːˈtiːn/ adj. 常规的，例行公事的</span></span> for any secondary-school leaver.</p>
+
+                <p>The causes of this <span class="vocab">deterioration<span class="tooltip">deterioration /dɪˌtɪriəˈreɪʃn/ n. 恶化，退化</span></span> are manifold. The disruption to schooling caused by the COVID-19 pandemic undoubtedly played a significant role. For months, students were asked to learn through screens, often with <span class="vocab">minimal<span class="tooltip">minimal /ˈmɪnɪml/ adj. 最小的，极少的</span></span> supervision and <span class="vocab">erratic<span class="tooltip">erratic /ɪˈrætɪk/ adj. 不稳定的，飘忽不定的</span></span> internet connections. Research conducted by the World Bank estimates that the pandemic has set global education back by a full decade. But the roots of the crisis run deeper. Many education experts argue that long before the virus emerged, primary and secondary schools in the West had begun <span class="vocab">neglecting<span class="tooltip">neglect /nɪˈɡlekt/ v. 忽视，疏忽</span></span> the building blocks of academic literacy in favour of more <span class="vocab">nebulous<span class="tooltip">nebulous /ˈnebjələs/ adj. 模糊的，含糊不清的</span></span> skills such as "critical thinking" and "creativity"—qualities that are difficult to teach to students who cannot yet read with fluency or handle basic algebra.</p>
+
+                <p>Another <span class="vocab">culprit<span class="tooltip">culprit /ˈkʌlprɪt/ n. 罪魁祸首，起因</span></span>, increasingly, is artificial intelligence. A study published earlier this year found that 94% of British university students now use AI tools such as ChatGPT for their coursework. While these technologies offer genuine educational benefits when used responsibly, their <span class="vocab">pervasive<span class="tooltip">pervasive /pərˈveɪsɪv/ adj. 普遍的，无处不在的</span></span> availability has made it easier than ever for students to <span class="vocab">circumvent<span class="tooltip">circumvent /ˌsɜːrkəmˈvent/ v. 规避，绕过</span></span> the difficult, <span class="vocab">iterative<span class="tooltip">iterative /ˈɪtəreɪtɪv/ adj. 迭代的，重复的</span></span> process of learning. When an essay or problem set can be completed by a chatbot in seconds, the incentive to grapple with challenging material <span class="vocab">diminishes<span class="tooltip">diminish /dɪˈmɪnɪʃ/ v. 减少，削弱</span></span> accordingly. Faculty report that many students now arrive at university having never written a long-form essay without AI assistance.</p>
+
+                <p>The <span class="vocab">implications<span class="tooltip">implication /ˌɪmplɪˈkeɪʃn/ n. 影响，含义，暗示</span></span> extend far beyond the classroom. Employers have long complained that graduates lack the communication and analytical skills required in the modern workplace. A survey conducted by the American Association of Colleges and Universities found that fewer than half of employers believe recent graduates are well-prepared in written communication. As the OECD data suggest, this skills gap is not merely <span class="vocab">perceived<span class="tooltip">perceive /pərˈsiːv/ v. 感知，认为，察觉</span></span> but measurable—and growing.</p>
+
+                <p>There is also a broader democratic dimension to consider. The ability to read critically, evaluate evidence, and follow complex arguments has long been considered <span class="vocab">essential<span class="tooltip">essential /ɪˈsenʃl/ adj. 必要的，本质的</span></span> to informed citizenship. A society in which a significant minority of university-educated adults cannot reliably <span class="vocab">interpret<span class="tooltip">interpret /ɪnˈtɜːrprɪt/ v. 理解，解释，口译</span></span> a newspaper article or <span class="vocab">discern<span class="tooltip">discern /dɪˈsɜːrn/ v. 识别，辨别，看出</span></span> logical flaws in political rhetoric is one vulnerable to <span class="vocab">misinformation<span class="tooltip">misinformation /ˌmɪsɪnfərˈmeɪʃn/ n. 错误信息，虚假信息</span></span> and <span class="vocab">demagoguery<span class="tooltip">demagoguery /ˈdeməɡɑːɡəri/ n. 煽动，蛊惑民心的言论</span></span>. The post-pandemic rise in online conspiracy theories and political <span class="vocab">polarisation<span class="tooltip">polarisation /ˌpoʊlərəˈzeɪʃn/ n. 两极分化，极化</span></span> may not be entirely unrelated to the erosion of basic literacy.</p>
+
+                <p>So what can be done? The most urgent need is for schools to return to <span class="vocab">rigorous<span class="tooltip">rigorous /ˈrɪɡərəs/ adj. 严格的，严谨的，严密的</span></span> instruction in the fundamentals. This does not mean abandoning creativity or critical thinking, but recognising that such higher-order skills rest on a solid foundation of knowledge and technique. Several American states have recently passed legislation requiring schools to adopt evidence-based reading curricula—a move that research suggests could significantly improve <span class="vocab">outcomes<span class="tooltip">outcome /ˈaʊtkʌm/ n. 结果，成果</span></span>. Universities, too, must adapt. Rather than <span class="vocab">dumbing down<span class="tooltip">dumb down 降低难度，使通俗化</span></span> courses to accommodate underprepared students, institutions should invest in intensive remedial programmes that address <span class="vocab">deficiencies<span class="tooltip">deficiency /dɪˈfɪʃnsi/ n. 缺陷，不足，缺乏</span></span> in literacy and numeracy before students progress to degree-level work.</p>
+
+                <p>The technology industry also bears some responsibility. AI companies have marketed their products as educational tools while doing little to prevent their misuse. <span class="vocab">Safeguards<span class="tooltip">safeguard /ˈseɪfɡɑːrd/ n. 保护措施，保障条款</span></span> designed to prevent students from submitting AI-generated work as their own remain <span class="vocab">feeble<span class="tooltip">feeble /ˈfiːbl/ adj. 虚弱的，无力的，无效的</span></span> and easily bypassed. A more <span class="vocab">conscientious<span class="tooltip">conscientious /ˌkɑːnʃiˈenʃəs/ adj. 认真的，尽责的，小心谨慎的</span></span> approach to product design—one that prioritises genuine learning over engagement and convenience—would help.</p>
+
+                <p>None of these changes will yield results overnight. Literacy, like any complex skill, takes years to build. But the cost of inaction is <span class="vocab">prohibitive<span class="tooltip">prohibitive /prəˈhɪbɪtɪv/ adj. 过高的，令人望而却步的，禁止性的</span></span>. The OECD projects that if current trends continue, the share of university graduates in the rich world lacking basic skills will exceed 15% by 2035, with severe consequences for economic productivity, social cohesion, and the health of democratic institutions. The warning signs are already visible in classrooms from California to Copenhagen. Whether policymakers and educators have the will to act before the crisis deepens remains to be seen.</p>
+            </div>
+        </div>
+
+        <div class="summary-box">
+            <h3>文章大意总结</h3>
+            <p>本文是《经济学人》2026年7月的深度报道，揭示了发达国家大学校园中日益严重的读写与计算能力危机。文章开篇以加州大学数百名教授联名公开信引入问题：越来越多学生进入大学时缺乏基础的阅读、写作和数学能力。</p>
+            <p style="margin-top:10px;">OECD最新调查数据令人震惊：发达国家约8%的35岁以下大学生阅读水平不超过10岁儿童，这一比例在过去十年几乎翻倍。美国情况尤为严峻，近1/7的大学生阅读水平仅相当于小学程度。圣地亚哥校区报告显示，过去五年数学低于中学水平的新生增加了近30倍。</p>
+            <p style="margin-top:10px;">文章深入分析了危机的三重根源：疫情对教育的冲击、K-12教育对基础技能的长期忽视、以及AI工具的泛滥使学生绕过艰难的学习过程。最后，文章警示这一危机不仅影响就业市场，更威胁民主社会的健康运转——缺乏基本读写能力的公民难以抵御错误信息和煽动性言论。作者呼吁学校回归严格的基础教学，大学加强补习课程，科技公司承担更多产品责任。</p>
+        </div>
+
+        <div class="sentence-analysis">
+            <h2 class="section-title">长难句解析</h2>
+
+            <div class="sentence-item">
+                <div class="sentence-en">Research conducted by the World Bank estimates that the pandemic has set global education back by a full decade.</div>
+                <div class="sentence-cn">世界银行开展的研究估计，这场疫情使全球教育倒退了整整十年。</div>
+                <div class="sentence-parse"><strong>结构分析：</strong>主句为"Research...estimates that..."；"conducted by the World Bank"为过去分词短语作后置定语，修饰Research；that引导宾语从句，从句中"set global education back by a full decade"为核心谓语结构。注意"set back"为短语动词，意为"使倒退"；"by a full decade"表示程度，"整整十年"。</div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="sentence-en">A society in which a significant minority of university-educated adults cannot reliably interpret a newspaper article or discern logical flaws in political rhetoric is one vulnerable to misinformation and demagoguery.</div>
+                <div class="sentence-cn">一个社会中，若有相当一部分受过大学教育的成年人无法可靠地理解报纸文章，或识别政治言论中的逻辑缺陷，那么这个社会就容易受到错误信息和蛊惑民心言论的影响。</div>
+                <div class="sentence-parse"><strong>结构分析：</strong>主句主干为"A society...is one..."；"in which a significant minority...cannot reliably interpret...or discern..."为定语从句修饰society，其中"interpret a newspaper article"和"discern logical flaws"为并列谓语；"vulnerable to misinformation and demagoguery"为形容词短语作后置定语修饰one（即society）。本句层层嵌套，是典型的考研长难句。</div>
+            </div>
+
+            <div class="sentence-item">
+                <div class="sentence-en">This does not mean abandoning creativity or critical thinking, but recognising that such higher-order skills rest on a solid foundation of knowledge and technique.</div>
+                <div class="sentence-cn">这并不意味着放弃创造力或批判性思维，而是要认识到，这种高阶技能建立在扎实的知识和技法基础之上。</div>
+                <div class="sentence-parse"><strong>结构分析：</strong>主句为"This does not mean A, but B"的平行结构，其中A为"abandoning creativity or critical thinking"，B为"recognising that..."；that引导宾语从句，从句中"rest on"为固定搭配，意为"依赖于，建立在……基础上"。注意"not...but..."（不是……而是……）的转折结构是考研阅读高频考点。</div>
+            </div>
+        </div>
+
+        <div class="phrase-section">
+            <h2 class="section-title">短语搭配精选</h2>
+
+            <div class="phrase-item">
+                <div class="phrase-en">1. far from</div>
+                <div class="phrase-cn">远非，完全不，根本没有</div>
+                <div class="phrase-example">原句：The concerns raised by these academics are far from anecdotal.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">2. play a role</div>
+                <div class="phrase-cn">发挥作用，扮演角色</div>
+                <div class="phrase-example">原句：The disruption to schooling caused by the COVID-19 pandemic undoubtedly played a significant role.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">3. in favour of</div>
+                <div class="phrase-cn">支持，赞成，以……取代</div>
+                <div class="phrase-example">原句：schools had begun neglecting the building blocks of academic literacy in favour of more nebulous skills.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">4. grapple with</div>
+                <div class="phrase-cn">努力解决，尽力对付</div>
+                <div class="phrase-example">原句：the incentive to grapple with challenging material diminishes accordingly.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">5. rest on</div>
+                <div class="phrase-cn">依赖于，建立在……基础上</div>
+                <div class="phrase-example">原句：such higher-order skills rest on a solid foundation of knowledge and technique.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">6. dumb down</div>
+                <div class="phrase-cn">降低难度，使通俗化</div>
+                <div class="phrase-example">原句：Rather than dumbing down courses to accommodate underprepared students...</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">7. bear responsibility</div>
+                <div class="phrase-cn">承担责任</div>
+                <div class="phrase-example">原句：The technology industry also bears some responsibility.</div>
+            </div>
+
+            <div class="phrase-item">
+                <div class="phrase-en">8. remains to be seen</div>
+                <div class="phrase-cn">尚待观察，有待证实</div>
+                <div class="phrase-example">原句：Whether policymakers and educators have the will to act before the crisis deepens remains to be seen.</div>
+            </div>
+        </div>
+
+        <div class="vocab-section">
+            <h2 class="section-title">考研核心词汇表（30个）</h2>
+            <table class="vocab-table">
+                <thead>
+                    <tr>
+                        <th>单词</th>
+                        <th>音标</th>
+                        <th>词性</th>
+                        <th>中文释义</th>
+                        <th>文中例句</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>consensus</td><td>/kənˈsensəs/</td><td>n.</td><td>共识，一致意见</td><td>few expected the consensus that emerged</td></tr>
+                    <tr><td>succeed</td><td>/səkˈsiːd/</td><td>v.</td><td>成功，完成</td><td>necessary to succeed in higher education</td></tr>
+                    <tr><td>master</td><td>/ˈmæstər/</td><td>v.</td><td>掌握，精通</td><td>material that should have been mastered</td></tr>
+                    <tr><td>motivation</td><td>/ˌmoʊtɪˈveɪʃn/</td><td>n.</td><td>动机，积极性</td><td>not a problem of motivation</td></tr>
+                    <tr><td>anecdotal</td><td>/ˌænɪkˈdoʊtl/</td><td>adj.</td><td>轶事的，传闻的</td><td>far from anecdotal</td></tr>
+                    <tr><td>stark</td><td>/stɑːrk/</td><td>adj.</td><td>鲜明的，严峻的</td><td>paint a stark picture</td></tr>
+                    <tr><td>acute</td><td>/əˈkjuːt/</td><td>adj.</td><td>严重的，急性的</td><td>particularly acute in the United States</td></tr>
+                    <tr><td>equivalent</td><td>/ɪˈkwɪvələnt/</td><td>adj.</td><td>相当的，等同的</td><td>reads at a level equivalent to primary school</td></tr>
+                    <tr><td>alarming</td><td>/əˈlɑːrmɪŋ/</td><td>adj.</td><td>令人担忧的</td><td>an equally alarming story</td></tr>
+                    <tr><td>obscure</td><td>/əbˈskjʊr/</td><td>adj.</td><td>不知名的，晦涩的</td><td>not confined to obscure institutions</td></tr>
+                    <tr><td>admitted</td><td>/ədˈmɪtɪd/</td><td>adj.</td><td>被录取的，公认的</td><td>even their admitted undergraduates</td></tr>
+                    <tr><td>routine</td><td>/ruːˈtiːn/</td><td>adj.</td><td>常规的，例行的</td><td>would once have been routine</td></tr>
+                    <tr><td>deterioration</td><td>/dɪˌtɪriəˈreɪʃn/</td><td>n.</td><td>恶化，退化</td><td>The causes of this deterioration</td></tr>
+                    <tr><td>minimal</td><td>/ˈmɪnɪml/</td><td>adj.</td><td>最小的，极少的</td><td>with minimal supervision</td></tr>
+                    <tr><td>erratic</td><td>/ɪˈrætɪk/</td><td>adj.</td><td>不稳定的，飘忽的</td><td>erratic internet connections</td></tr>
+                    <tr><td>neglect</td><td>/nɪˈɡlekt/</td><td>v.</td><td>忽视，疏忽</td><td>had begun neglecting the building blocks</td></tr>
+                    <tr><td>nebulous</td><td>/ˈnebjələs/</td><td>adj.</td><td>模糊的，含糊的</td><td>more nebulous skills</td></tr>
+                    <tr><td>culprit</td><td>/ˈkʌlprɪt/</td><td>n.</td><td>罪魁祸首，起因</td><td>Another culprit is artificial intelligence</td></tr>
+                    <tr><td>pervasive</td><td>/pərˈveɪsɪv/</td><td>adj.</td><td>普遍的，无处不在的</td><td>their pervasive availability</td></tr>
+                    <tr><td>circumvent</td><td>/ˌsɜːrkəmˈvent/</td><td>v.</td><td>规避，绕过</td><td>circumvent the difficult process of learning</td></tr>
+                    <tr><td>iterative</td><td>/ˈɪtəreɪtɪv/</td><td>adj.</td><td>迭代的，重复的</td><td>the iterative process of learning</td></tr>
+                    <tr><td>diminish</td><td>/dɪˈmɪnɪʃ/</td><td>v.</td><td>减少，削弱</td><td>the incentive diminishes accordingly</td></tr>
+                    <tr><td>implication</td><td>/ˌɪmplɪˈkeɪʃn/</td><td>n.</td><td>影响，含义</td><td>The implications extend far beyond</td></tr>
+                    <tr><td>perceive</td><td>/pərˈsiːv/</td><td>v.</td><td>感知，认为</td><td>not merely perceived but measurable</td></tr>
+                    <tr><td>essential</td><td>/ɪˈsenʃl/</td><td>adj.</td><td>必要的，本质的</td><td>considered essential to informed citizenship</td></tr>
+                    <tr><td>interpret</td><td>/ɪnˈtɜːrprɪt/</td><td>v.</td><td>理解，解释</td><td>cannot reliably interpret a newspaper article</td></tr>
+                    <tr><td>discern</td><td>/dɪˈsɜːrn/</td><td>v.</td><td>识别，辨别</td><td>discern logical flaws in political rhetoric</td></tr>
+                    <tr><td>misinformation</td><td>/ˌmɪsɪnfərˈmeɪʃn/</td><td>n.</td><td>错误信息</td><td>vulnerable to misinformation</td></tr>
+                    <tr><td>demagoguery</td><td>/ˈdeməɡɑːɡəri/</td><td>n.</td><td>煽动，蛊惑民心</td><td>vulnerable to demagoguery</td></tr>
+                    <tr><td>polarisation</td><td>/ˌpoʊlərəˈzeɪʃn/</td><td>n.</td><td>两极分化</td><td>political polarisation</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="quiz-section">
+            <h2 class="section-title">阅读理解练习</h2>
+
+            <div class="quiz-item">
+                <div class="quiz-question">1. 主旨大意题：What is the main purpose of the passage?</div>
+                <ol class="quiz-options">
+                    <li>To criticise the University of California for lowering its admission standards.</li>
+                    <li>To highlight a growing literacy and numeracy crisis among university students in developed countries and call for urgent educational reform.</li>
+                    <li>To argue that artificial intelligence should be banned from university campuses.</li>
+                    <li>To compare the education systems of the United States and European countries.</li>
+                </ol>
+                <div class="quiz-answer">
+                    <span class="label">正确答案：B</span><br>
+                    答案解析：文章以加州大学公开信引入，用OECD数据展示大学生读写和计算能力严重下滑的普遍性，分析了疫情、基础教育和AI滥用等多重原因，并讨论了其对就业市场和民主社会的深远影响，最后呼吁学校回归基础教学、大学加强补习课程、科技公司承担责任。A项过于狭隘，UC仅为引子；C项"ban AI"过于极端，文中主张的是"responsible use"；D项比较教育体系并非文章重点。
+                </div>
+            </div>
+
+            <div class="quiz-item">
+                <div class="quiz-question">2. 细节理解题：According to the OECD data mentioned in the passage, what is the current situation regarding university students' reading skills?</div>
+                <ol class="quiz-options">
+                    <li>About 8% of university students in developing countries read at the level of a ten-year-old.</li>
+                    <li>Approximately 8% of university students under 35 in OECD countries demonstrate reading skills no better than those of a typical ten-year-old.</li>
+                    <li>Only 8% of American university students struggle with basic mathematical reasoning.</li>
+                    <li>The reading skills of university students have improved slightly over the past decade.</li>
+                </ol>
+                <div class="quiz-answer">
+                    <span class="label">正确答案：B</span><br>
+                    答案解析：文章第二段明确指出"According to the organisation's most recent survey, conducted across 38 member countries, approximately 8% of university students under the age of 35 now demonstrate reading skills no better than those expected of a typical ten-year-old child." A项"developing countries"错误，应为OECD发达国家；C项将8%阅读数据错误替换为美国数学数据；D项"improved"与原文"near-doubling over the past decade"（近十年几乎翻倍）完全相反。
+                </div>
+            </div>
+
+            <div class="quiz-item">
+                <div class="quiz-question">3. 推理判断题：What can be inferred from the passage about the author's attitude towards AI in education?</div>
+                <ol class="quiz-options">
+                    <li>The author believes AI is the sole cause of the literacy crisis and should be completely removed from educational settings.</li>
+                    <li>The author thinks AI is entirely beneficial to education and poses no real threat to students' learning.</li>
+                    <li>The author acknowledges AI's potential educational benefits but is concerned about its misuse and the lack of safeguards against abuse.</li>
+                    <li>The author is indifferent to the role of AI in education and focuses solely on traditional teaching methods.</li>
+                </ol>
+                <div class="quiz-answer">
+                    <span class="label">正确答案：C</span><br>
+                    答案解析：第六段中作者指出"While these technologies offer genuine educational benefits when used responsibly, their pervasive availability has made it easier than ever for students to circumvent the difficult...process of learning"（虽然这些技术在负责任使用时能提供真正的教育益处，但其普遍可得性使学生比以往任何时候都更容易规避艰难的学习过程），并在倒数第二段批评AI公司"doing little to prevent their misuse"（几乎没有防止滥用）， safeguards "feeble and easily bypassed"（脆弱且容易被绕过）。A项"sole cause"和"completely removed"过于极端；B项"entirely beneficial"与作者担忧矛盾；D项"indifferent"与文中明确讨论AI责任完全不符。
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>考研英语外刊精读 | 文章来源：The Economist</p>
+            <p>本材料仅供学习交流使用</p>
+        </footer>
+    </div>
+</body>
+</html>
